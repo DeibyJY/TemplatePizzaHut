@@ -1625,6 +1625,7 @@
           style="
             padding-bottom: 3px !important;
             font-weight: 400 !important;
+            font-size: 22px !important;
           "
         >
           PERSONALIZAR EL ÍTEM
@@ -1694,7 +1695,7 @@
               class="opcion-principal-detalle-oferta"
               style="
                 width: 100%;
-                padding: 8px 2px;
+                padding: 8px 3.5px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -1782,6 +1783,10 @@
             .opcion-principal-detalle-oferta input[type='radio'] {
               opacity: 1 !important;
               visibility: visible !important;
+            }
+
+            .opcion-principal-detalle-oferta input[type='radio']:checked {
+              border-width: 3px !important; /* Borde más grueso cuando está seleccionado */
             }
 
             .opcion-principal-detalle-oferta input[type='radio']:hover {
