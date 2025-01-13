@@ -1358,40 +1358,42 @@
             </div>
           </div>
         </noscript>
-        {%- if show_quick_view_qty -%}
-          <div class="quantity_selector">
-            <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--2 quantity__style--1 clearfix">
-              <label class="form-label quantity__label" for="quantity-{{ product.id }}-2">
-                {{- 'products.product.quantity.label__2' | t -}}
-              </label>
-              <div class="quantity__container">
-                <button type="button" name="minus" class="minus btn-quantity">
-                  <span class="visually-hidden">
-                    {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
-                  </span>
-                </button>
-                <input
-                  class="form-input quantity__input quantity"
-                  type="number"
-                  name="quantity"
-                  min="1"
-                  value="1"
-                  inputmode="numeric"
-                  pattern="[0-9]*"
-                  id="quantity-{{ product.id }}-2"
-                  data-product="{{ product.id }}"
-                  data-price="{{ current_variant.price }}"
-                  data-inventory-quantity="{{ current_variant.inventory_quantity }}"
-                >
-                <button type="button" name="plus" class="plus btn-quantity">
-                  <span class="visually-hidden">
-                    {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
-                  </span>
-                </button>
-              </div>
-            </quantity-quick-view-input>
-          </div>
-        {%- endif -%}
+        {% comment %}
+          {%- if show_quick_view_qty -%}
+            <div class="quantity_selector">
+              <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--2 quantity__style--1 clearfix">
+                <label class="form-label quantity__label" for="quantity-{{ product.id }}-2">
+                  {{- 'products.product.quantity.label__2' | t -}}
+                </label>
+                <div class="quantity__container">
+                  <button type="button" name="minus" class="minus btn-quantity">
+                    <span class="visually-hidden">
+                      {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                    </span>
+                  </button>
+                  <input
+                    class="form-input quantity__input quantity"
+                    type="number"
+                    name="quantity"
+                    min="1"
+                    value="1"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    id="quantity-{{ product.id }}-2"
+                    data-product="{{ product.id }}"
+                    data-price="{{ current_variant.price }}"
+                    data-inventory-quantity="{{ current_variant.inventory_quantity }}"
+                  >
+                  <button type="button" name="plus" class="plus btn-quantity">
+                    <span class="visually-hidden">
+                      {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                    </span>
+                  </button>
+                </div>
+              </quantity-quick-view-input>
+            </div>
+          {%- endif -%}
+        {% endcomment %}
       </div>
 
       {% comment %} READ : DETALLE DE PRODUCTO FIN {% endcomment %}
@@ -1965,18 +1967,20 @@
             novalidate: 'novalidate',
             data-type: 'add-to-cart-form'
           -%}
-            {% comment %} {%- if show_customization_option and has_customization_option -%}
-              {%- if customization_option_1 != blank or customization_option_2 != blank -%}
-                <div class="productView-group">
-                  {% render 'product-customization',
-                    product: product,
-                    customization_option_hidden: customization_option_hidden,
-                    customization_option_1: customization_option_1,
-                    customization_option_2: customization_option_2
-                  %}
-                </div>
+            {% comment %}
+              {%- if show_customization_option and has_customization_option -%}
+                {%- if customization_option_1 != blank or customization_option_2 != blank -%}
+                  <div class="productView-group">
+                    {% render 'product-customization',
+                      product: product,
+                      customization_option_hidden: customization_option_hidden,
+                      customization_option_1: customization_option_1,
+                      customization_option_2: customization_option_2
+                    %}
+                  </div>
+                {%- endif -%}
               {%- endif -%}
-            {%- endif -%} {% endcomment %}
+            {% endcomment %}
             <div class="productView-message" style="display: none;"></div>
             <div class="productView-group">
               {% comment %}
