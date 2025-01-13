@@ -1979,38 +1979,40 @@
             {%- endif -%}
             <div class="productView-message" style="display: none;"></div>
             <div class="productView-group">
-              {%- if show_quick_view_qty -%}
-                <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--1 quantity__style--1 clearfix hidden">
-                  <label class="form-label quantity__label" for="quantity-{{ product.id }}">
-                    {{- 'products.product.quantity.label__2' | t -}}
-                  </label>
-                  <div class="quantity__container">
-                    <button type="button" name="minus" class="minus btn-quantity">
-                      <span class="visually-hidden">
-                        {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
-                      </span>
-                    </button>
-                    <input
-                      class="form-input quantity__input quantity"
-                      type="number"
-                      name="quantity"
-                      min="1"
-                      value="1"
-                      inputmode="numeric"
-                      pattern="[0-9]*"
-                      id="quantity-{{ product.id }}"
-                      data-product="{{ product.id }}"
-                      data-price="{{ current_variant.price }}"
-                      data-inventory-quantity="{{ current_variant.inventory_quantity }}"
-                    >
-                    <button type="button" name="plus" class="plus btn-quantity">
-                      <span class="visually-hidden">
-                        {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
-                      </span>
-                    </button>
-                  </div>
-                </quantity-quick-view-input>
-              {%- endif -%}
+              {% comment %}
+                {%- if show_quick_view_qty -%}
+                  <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--1 quantity__style--1 clearfix hidden">
+                    <label class="form-label quantity__label" for="quantity-{{ product.id }}">
+                      {{- 'products.product.quantity.label__2' | t -}}
+                    </label>
+                    <div class="quantity__container">
+                      <button type="button" name="minus" class="minus btn-quantity">
+                        <span class="visually-hidden">
+                          {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                        </span>
+                      </button>
+                      <input
+                        class="form-input quantity__input quantity"
+                        type="number"
+                        name="quantity"
+                        min="1"
+                        value="1"
+                        inputmode="numeric"
+                        pattern="[0-9]*"
+                        id="quantity-{{ product.id }}"
+                        data-product="{{ product.id }}"
+                        data-price="{{ current_variant.price }}"
+                        data-inventory-quantity="{{ current_variant.inventory_quantity }}"
+                      >
+                      <button type="button" name="plus" class="plus btn-quantity">
+                        <span class="visually-hidden">
+                          {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                        </span>
+                      </button>
+                    </div>
+                  </quantity-quick-view-input>
+                {%- endif -%}
+              {% endcomment %}
               <div class="productView-groupTop">
                 <div
                   class="productView-action{% unless settings.show_wishlist %} productView-action-2{% endunless %}"
