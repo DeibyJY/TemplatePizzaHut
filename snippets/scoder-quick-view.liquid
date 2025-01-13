@@ -2123,14 +2123,11 @@
                   <div class="productView-groupItem">
                     <div
                       class="productView-payment"
-                      {% if settings.show_global_checkbox %}
-                        disabled="enabled"
-                        enabled="enabled"
-                      {% endif %}
                       id="product-checkout-{{ product.id }}"
                       style="--bin-color: #232323;--bin-bg-color: #ffffff;--bin-border-color: #acacac;--bin-color-hover: #ffffff;--bin-bg-color-hover: #232323;--bin-border-color-hover: #232323"
-                    ></div>
-                    {{ form | payment_button }}
+                    >
+                      {{ form | payment_button }}
+                    </div>
                   </div>
                 </div>
               {%- endif -%}
