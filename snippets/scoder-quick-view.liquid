@@ -703,10 +703,12 @@
                                 {%- when 'image' -%}
                                     <div class="productView-image productView-image-{{ media_size }}{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}">
                                         <div class="productView-img-container product-single__media" data-media-id="{{ media.id }}"{% if product.featured_media %}{% if media_size == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"{% elsif media_size == 'square' %} style="padding-bottom: 100%;"{% elsif media_size == 'portrait' %}{% if portrait_aspect_ratio != blank %} style="padding-bottom: {{ portrait_aspect_ratio }};"{% endif %}{% endif %}{% endif %}>
-                                            <div class="media" {% if quick_view_zoomed_image %} data-zoom-image="{{ media.preview_image | img_url: 'master' }}"{% endif %}>
+                                            <div class="media" style="width: 455px; height: 455px; display: flex; align-items: center; justify-content: center;" {% if quick_view_zoomed_image %} data-zoom-image="{{ media.preview_image | img_url: 'master' }}"{% endif %}>
                                                 <img id="product-featured-image-{{ media.id }}" 
+                                                    style="max-width: 455px; max-height: 455px; width: auto; height: auto; object-fit: contain;"
                                                     {% render 'lazyload', preview_img: media.preview_image, class: true  %}
-                                                    title="{{ media.preview_image.alt | escape }}" data-main-image >
+                                                    title="{{ media.preview_image.alt | escape }}" 
+                                                    data-main-image >
                                                 {% if settings.enable_lazyload %}<span class="data-lazy-loading"></span>{% endif %}
                                             </div>
                                         </div>
