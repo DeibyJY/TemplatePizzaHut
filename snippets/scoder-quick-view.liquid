@@ -1399,21 +1399,21 @@
                 </button>
               </div>
             </quantity-quick-view-input>
+            {%- if settings.show_wishlist -%}
+              <div class="productView-wishlist clearfix">
+                <a
+                  data-wishlist
+                  href="#"
+                  data-wishlist-handle="{{ product.handle }}"
+                  data-product-id="{{ product.id }}"
+                  ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
+                </a>
+              </div>
+            {%- endif -%}
+            {%- if show_quick_view_share -%}
+              {% render 'scoder-share', product: product, share_layout: '2' %}
+            {%- endif -%}
           </div>
-          {%- if settings.show_wishlist -%}
-            <div class="productView-wishlist clearfix">
-              <a
-                data-wishlist
-                href="#"
-                data-wishlist-handle="{{ product.handle }}"
-                data-product-id="{{ product.id }}"
-                ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
-              </a>
-            </div>
-          {%- endif -%}
-          {%- if show_quick_view_share -%}
-            {% render 'scoder-share', product: product, share_layout: '2' %}
-          {%- endif -%}
         {%- endif -%}
       </div>
 
