@@ -1709,57 +1709,72 @@
               >
                 <span
                   style="
-                    font-weight: 500;
+                    font-weight: 400;
                     color: #1d1d1d;
-                    font-weight: 400 !important;
                   "
                 >
                   Super personal para 2 a 3 personas
                 </span>
                 <span
                   style="
-                    color: #999999
+                    color: #999999;
                     font-weight: 500;
                   "
                 >
                   +Bs18.00
                 </span>
               </div>
-        <!-- Contenedor con posicionamiento relativo -->
-        <div style="position: relative;
-            width: 24px;
-            height: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center">
 
-        <!-- Área de hover que puede exceder el contenedor -->
-        <div style="position: absolute;
-            width: 48px;
-            height: 48px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            transition: background-color 0.2s ease;
-            pointer-events: none"
-        id="hoverArea">
-        </div>
+              <!-- Contenedor del radio con área de hover -->
+              <div
+                style="
+                  position: relative;
+                  width: 24px;
+                  height: 24px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center
+                "
+              >
+                <!-- Área de hover -->
+                <div
+                  style="
+                    position: absolute;
+                    width: 44px;
+                    height: 44px;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    border-radius: 50%;
+                    transition: background-color 0.2s ease;
+                    pointer-events: none
+                  "
+                  id="hoverArea"
+                ></div>
 
-        <input type="radio" 
-        name="opcion-pizza"
-        style="appearance: auto !important;
-                -webkit-appearance: radio !important;
-                opacity: 1 !important;
-                width: 24px !important;
-                height: 24px !important;
-                margin: 0 !important;
-                cursor: pointer !important;
-                accent-color: #232323 !important;
-                position: relative;
-                z-index: 1"
-        onmouseover="document.getElementById('hoverArea').style.backgroundColor='rgba(0,0,0,0.1)'"
-        onmouseout="document.getElementById('hoverArea').style.backgroundColor='transparent'">
+                <input
+                  type="radio"
+                  name="opcion-pizza"
+                  style="
+                    appearance: auto !important;
+                    -webkit-appearance: radio !important;
+                    opacity: 1 !important;
+                    display: block !important;
+                    width: 24px !important;
+                    height: 24px !important;
+                    margin: 0 !important;
+                    cursor: pointer !important;
+                    position: relative !important;
+                    z-index: 1 !important;
+                    visibility: visible !important;
+                    accent-color: #232323 !important;
+                    border: 2px solid #232323 !important;
+                    border-radius: 50% !important;
+                  "
+                  onmouseover="document.getElementById('hoverArea').style.backgroundColor='rgba(0,0,0,0.08)'"
+                  onmouseout="document.getElementById('hoverArea').style.backgroundColor='transparent'"
+                >
+              </div>
             </div>
           </div>
 
