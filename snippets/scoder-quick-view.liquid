@@ -699,22 +699,25 @@
             {%- for media in product.media -%}
               {%- case media.media_type -%}
                 {%- when 'image' -%}
-                  <div class="productView-image productView-image-{{ media_size }}{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}">
+                  <div
+                    class="productView-image productView-image-{{ media_size }}{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}"
+                    style="width: 350px !important; height: 350px !important; margin: 0 auto !important;"
+                  >
                     <div
                       class="productView-img-container product-single__media"
                       data-media-id="{{ media.id }}"
-                      style="display: flex !important; justify-content: center !important; align-items: center !important; width: 100% !important;"
+                      style="width: 100% !important; height: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important;"
                     >
                       <div
                         class="media"
-                        style="width: 350px !important; height: 350px !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important;"
+                        style="width: 100% !important; height: 100% !important; position: relative !important;"
                         {% if quick_view_zoomed_image %}
                           data-zoom-image="{{ media.preview_image | img_url: 'master' }}"
                         {% endif %}
                       >
                         <img
                           id="product-featured-image-{{ media.id }}"
-                          style="width: 100% !important; height: 100% !important; object-fit: contain !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important;"
+                          style="width: 100% !important; height: 100% !important; object-fit: contain !important;"
                           {% render 'lazyload', preview_img: media.preview_image, class: true %}
                           title="{{ media.preview_image.alt | escape }}"
                           data-main-image
