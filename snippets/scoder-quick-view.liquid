@@ -1,5 +1,4 @@
 {%- liquid
-
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
   assign current_variant = product.selected_or_first_available_variant
@@ -1691,12 +1690,15 @@
           </div>
           {% comment %} FIN SECCION TITULO {% endcomment %}
           {% comment %} AQUI SE EMPIEZA A ITERAR {% endcomment %}
-          {%- assign pizza_sizes = '{"title": "ELIGE TAMAÑO", "required": true, "options": [{"name": "Personal para 1 persona", "extra": 0}, {"name": "Super personal para 2 a 3 personas", "extra": 18}, {"name": "Mediano para 3 a 4 personas", "extra": 61}, {"name": "Familiar para 4 o 5 personas", "extra": 87}]}' | parse_json -%}
-          <div
-            class="productView-groupItem"
-            style="display: flex; flex-wrap: wrap; justify-content:flex-start;"
-          >
-            {%- for option in pizza_sizes.options -%}
+          {%- assign pizza_names = 'Personal para 1 persona,Super personal para 2 a 3 personas,Mediano para 3 a 4 personas,Familiar para 4 o 5 personas'
+            | split: ','
+          -%}
+          {%- assign pizza_extras = '0,18,61,87' | split: ',' -%}
+
+          <div class="productView-groupItem" style="display: flex; flex-wrap: wrap; justify-content:flex-start;">
+            {%- for name in pizza_names -%}
+              {%- assign index = forloop.index0 -%}
+              {%- assign extra = pizza_extras[index] -%}
               <div
                 class="opcion-principal-detalle-oferta"
                 style="
@@ -1720,7 +1722,7 @@
                       color: #1d1d1d;
                     "
                   >
-                    {{ option.name }}
+                    {{ name }}
                   </span>
                   <span
                     style="
@@ -1728,7 +1730,7 @@
                       font-weight: 500;
                     "
                   >
-                    +Bs{{ option.extra }}.00
+                    +Bs{{ extra }}.00
                   </span>
                 </div>
 
