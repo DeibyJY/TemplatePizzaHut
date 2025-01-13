@@ -1731,50 +1731,40 @@
                 style="
                   position: relative;
                   padding: 15px;
-                  border-radius: 50%;
-                  transition: all 0.3s ease;
                 "
               >
                 <input
                   type="radio"
+                  class="product-form__radio"
                   name="opcion-pizza"
                   style="
-                    appearance: auto;
-                    -webkit-appearance: radio;
-                    width: 24px;
-                    height: 24px;
-                    accent-color: #333333;
-                    cursor: pointer;
-                    position: relative;
-                    z-index: 1;
+                    appearance: auto !important;
+                    -webkit-appearance: radio !important;
+                    opacity: 1 !important;
+                    display: block !important;
+                    width: 24px !important;
+                    height: 24px !important;
+                    margin: 0 !important;
+                    cursor: pointer !important;
+                    position: relative !important;
+                    visibility: visible !important;
+                    accent-color: #232323 !important;
+                    border: 2px solid #232323 !important;
+                    border-radius: 50% !important;
                   "
                 >
-                <div
-                  class="radio-hover"
-                  style="
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    width: 44px;
-                    height: 44px;
-                    border-radius: 50%;
-                    transition: background-color 0.3s ease;
-                    pointer-events: none;
-                  "
-                ></div>
               </div>
             </div>
           </div>
 
           <style>
-            .opcion-principal-detalle-oferta input[type='radio']:hover + .radio-hover {
-              background-color: rgba(0, 0, 0, 0.08);
+            .opcion-principal-detalle-oferta input[type='radio'] {
+              opacity: 1 !important;
+              visibility: visible !important;
             }
 
-            .opcion-principal-detalle-oferta input[type='radio'] {
-              margin: 0;
-              vertical-align: middle;
+            .opcion-principal-detalle-oferta input[type='radio']:hover {
+              background-color: rgba(0, 0, 0, 0.05);
             }
           </style>
 
