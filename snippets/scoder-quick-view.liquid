@@ -1359,7 +1359,16 @@
           </div>
         </noscript>
         {%- if show_quick_view_qty -%}
-          <div class="quantity_selector">
+          <div
+            class="quantity_selector"
+            style="
+              display: flex !important;
+              flex-direction: row !important;
+              flex-wrap: wrap !important;
+              gap: 10px !important;
+              justify-content: space-between !important;
+            "
+          >
             <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--2 quantity__style--1 clearfix">
               <label class="form-label quantity__label" for="quantity-{{ product.id }}-2">
                 {{- 'products.product.quantity.label__2' | t -}}
