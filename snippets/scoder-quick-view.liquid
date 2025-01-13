@@ -2013,87 +2013,89 @@
                   </quantity-quick-view-input>
                 {%- endif -%}
               {% endcomment %}
-              <div class="productView-groupTop">
-                <div
-                  class="productView-action{% unless settings.show_wishlist %} productView-action-2{% endunless %}"
-                  style="--atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323"
-                >
-                  <input type="hidden" name="id" value="{{ current_variant.id }}">
-                  <div class="product-form__buttons">
-                    {%- if current_variant.available -%}
-                      {%- if current_variant.inventory_management -%}
-                        {%- assign first_inventory = current_variant.inventory_quantity -%}
-                        {%- liquid
-                          if current_variant.available and first_inventory == 0
-                            assign allowOutStockSale = true
-                          else
-                            assign allowOutStockSale = false
-                          endif
-                        -%}
-                        <button
-                          type="submit"
-                          name="add"
-                          data-btn-addToCart
-                          data-available="{{ allowOutStockSale }}"
-                          class="product-form__submit button button--primary{% if first_inventory == 0 %} button-text-change{% else %}{% if show_subtotal_text %} button-text-change{% endif %}{% endif %}"
-                          id="product-add-to-cart"
-                        >
-                          {%- if first_inventory > 0 -%}
+              {% comment %}
+                <div class="productView-groupTop">
+                  <div
+                    class="productView-action{% unless settings.show_wishlist %} productView-action-2{% endunless %}"
+                    style="--atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323"
+                  >
+                    <input type="hidden" name="id" value="{{ current_variant.id }}">
+                    <div class="product-form__buttons">
+                      {%- if current_variant.available -%}
+                        {%- if current_variant.inventory_management -%}
+                          {%- assign first_inventory = current_variant.inventory_quantity -%}
+                          {%- liquid
+                            if current_variant.available and first_inventory == 0
+                              assign allowOutStockSale = true
+                            else
+                              assign allowOutStockSale = false
+                            endif
+                          -%}
+                          <button
+                            type="submit"
+                            name="add"
+                            data-btn-addToCart
+                            data-available="{{ allowOutStockSale }}"
+                            class="product-form__submit button button--primary{% if first_inventory == 0 %} button-text-change{% else %}{% if show_subtotal_text %} button-text-change{% endif %}{% endif %}"
+                            id="product-add-to-cart"
+                          >
+                            {%- if first_inventory > 0 -%}
+                              {%- if show_subtotal_text and subtotal_style == '2' -%}
+                                {%- assign subtotal = subtotal | strip_html -%}
+                                {{ 'products.product.sub_total' | t: value: subtotal }}
+                              {%- else -%}
+                                {{ 'products.product.add_to_cart' | t }}
+                              {%- endif -%}
+                            {%- else -%}
+                              {{ 'products.product.pre_order' | t }}
+                            {%- endif -%}
+                          </button>
+                        {%- else -%}
+                          <button
+                            type="submit"
+                            name="add"
+                            data-btn-addToCart
+                            class="product-form__submit button button--secondary{% if show_subtotal_text %} button-text-change{% endif %}"
+                            id="product-add-to-cart"
+                          >
                             {%- if show_subtotal_text and subtotal_style == '2' -%}
                               {%- assign subtotal = subtotal | strip_html -%}
                               {{ 'products.product.sub_total' | t: value: subtotal }}
                             {%- else -%}
                               {{ 'products.product.add_to_cart' | t }}
                             {%- endif -%}
-                          {%- else -%}
-                            {{ 'products.product.pre_order' | t }}
-                          {%- endif -%}
-                        </button>
+                          </button>
+                        {%- endif -%}
                       {%- else -%}
                         <button
                           type="submit"
                           name="add"
                           data-btn-addToCart
-                          class="product-form__submit button button--secondary{% if show_subtotal_text %} button-text-change{% endif %}"
+                          class="product-form__submit button"
                           id="product-add-to-cart"
+                          disabled
                         >
-                          {%- if show_subtotal_text and subtotal_style == '2' -%}
-                            {%- assign subtotal = subtotal | strip_html -%}
-                            {{ 'products.product.sub_total' | t: value: subtotal }}
-                          {%- else -%}
-                            {{ 'products.product.add_to_cart' | t }}
-                          {%- endif -%}
+                          {{ 'products.product.sold_out' | t }}
                         </button>
                       {%- endif -%}
-                    {%- else -%}
-                      <button
-                        type="submit"
-                        name="add"
-                        data-btn-addToCart
-                        class="product-form__submit button"
-                        id="product-add-to-cart"
-                        disabled
-                      >
-                        {{ 'products.product.sold_out' | t }}
-                      </button>
-                    {%- endif -%}
+                    </div>
                   </div>
+                  {%- if settings.show_wishlist -%}
+                    <div class="productView-wishlist clearfix">
+                      <a
+                        data-wishlist
+                        href="#"
+                        data-wishlist-handle="{{ product.handle }}"
+                        data-product-id="{{ product.id }}"
+                        ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
+                      </a>
+                    </div>
+                  {%- endif -%}
+                  {%- if show_quick_view_share -%}
+                    {% render 'scoder-share', product: product, share_layout: '2' %}
+                  {%- endif -%}
                 </div>
-                {%- if settings.show_wishlist -%}
-                  <div class="productView-wishlist clearfix">
-                    <a
-                      data-wishlist
-                      href="#"
-                      data-wishlist-handle="{{ product.handle }}"
-                      data-product-id="{{ product.id }}"
-                      ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
-                    </a>
-                  </div>
-                {%- endif -%}
-                {%- if show_quick_view_share -%}
-                  {% render 'scoder-share', product: product, share_layout: '2' %}
-                {%- endif -%}
-              </div>
+              {% endcomment %}
               {%- if show_dynamic_checkout -%}
                 <div class="productView-groupBottom">
                   {% comment %}
