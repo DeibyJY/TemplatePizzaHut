@@ -703,37 +703,26 @@
                     <div
                       class="productView-img-container product-single__media"
                       data-media-id="{{ media.id }}"
-                      {% if product.featured_media %}
-                        {%- if media_size == 'adapt' %}
-                          style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
-                        {%- elsif media_size == 'square' %}
-                          style="padding-bottom: 100%;"
-                        {%- elsif media_size == 'portrait' -%}
-                          {%- if portrait_aspect_ratio != blank %}
-                            style="padding-bottom: {{ portrait_aspect_ratio }};"
-                          {%- endif -%}
-                        {%- endif -%}
-                      {% endif %}
+                      style="display: flex; justify-content: center; align-items: center; width: 100%;"
                     >
-                        {% comment %} READ : AQUI HICE CAMBIOS LA PARTE DEL {% endcomment %}
-                        {% comment %} style="width: 350px; height: 350px; display: flex; align-items: center; justify-content: center;" {% endcomment %}
                       <div
                         class="media"
-                        style="width: 350px; height: 350px; display: flex; align-items: center; justify-content: center;"
+                        style="width: 350px; height: 350px; display: flex; align-items: center; justify-content: center; position: relative;"
                         {% if quick_view_zoomed_image %}
                           data-zoom-image="{{ media.preview_image | img_url: 'master' }}"
                         {% endif %}
                       >
-                        {% comment %} READ : AQUI HICE CAMBIOS LA PARTE DEL {% endcomment %}
-                        {% comment %} style="width: 100%; height: 100%; object-fit: contain;" {% endcomment %}
                         <img
                           id="product-featured-image-{{ media.id }}"
-                          style="width: 100%; height: 100%; object-fit: contain;"
+                          style="max-width: 350px; max-height: 350px; width: auto; height: auto; object-fit: contain; position: absolute;"
                           {% render 'lazyload', preview_img: media.preview_image, class: true %}
                           title="{{ media.preview_image.alt | escape }}"
                           data-main-image
                         >
-                        {% if settings.enable_lazyload %}<span class="data-lazy-loading"></span>{% endif %}
+
+                        {% if settings.enable_lazyload %}
+                          <span class="data-lazy-loading"></span>
+                        {% endif %}
                       </div>
                     </div>
                   </div>
@@ -868,21 +857,25 @@
                   {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
                   {% comment %} style="width: 141px; height: 150px; display: flex; align-items: center; justify-content: center;"> {% endcomment %}
                   <div
-                    style="width: 141px; height: 150px; display: flex; align-items: center; justify-content: center;"
+                    style="width: 120px; height: 127px; display: flex; align-items: center; justify-content: center;"
                     class="productView-thumbnail{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}"
                     data-media-id="{{ product.id }}-{{ media.id }}"
                   >
+                    {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
+                    {% comment %} style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;" {% endcomment %}
                     <a
-                        style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
-
+                      style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
                       class="productView-thumbnail-link"
                       href="javascript:void(0)"
                       data-image="{{ media | img_url: 'original' }}"
-                      ><img
+                    >
+                      {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
+                      {% comment %} style="width: 100%; height: 100%; object-fit: contain;" {% endcomment %}
+                      <img
+                        style="width: 100%; height: 100%; object-fit: contain;"
                         src="{{ media | img_url: 'compact' }}"
                         alt="{{ media.alt | escape }}"
                         title="{{ media.alt | escape }}"
-                        style="width: 100%; height: 100%; object-fit: contain;"
                     ></a>
                   </div>
                 {%- when 'external_video' -%}
