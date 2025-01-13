@@ -1694,13 +1694,10 @@
               class="opcion-principal-detalle-oferta"
               style="
                 width: 100%;
-                padding: 12px 20px;
+                padding: 5px 2px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                cursor: pointer;
-                border-radius: 4px;
-                transition: background-color 0.3s ease
                 border-bottom: 1px solid #999999;
               "
             >
@@ -1730,24 +1727,36 @@
                 </span>
               </div>
 
-              <input
-                type="radio"
-                name="opcion-pizza"
+              <div
                 style="
-                  appearance: auto !important;
-                  -webkit-appearance: radio !important;
-                  opacity: 1 !important;
-                  position: static !important;
-                  accent-color: #333333 !important;
-                  width: 18px !important;
-                  height: 18px !important;
-                  margin: 0 !important;
-                  pointer-events: auto !important;
-                  cursor: pointer !important;
-                  visibility: visible !important;
-                  display: block !important;
+                  position: relative;
+                  padding: 10px;
+                  border-radius: 50%;
+                  transition: background-color 0.3s ease;
                 "
+                onmouseover="this.style.backgroundColor='rgba(0,0,0,0.05)'"
+                onmouseout="this.style.backgroundColor='transparent'"
               >
+                <input
+                  type="radio"
+                  name="opcion-pizza"
+                  onclick="this.checked = !this.checked"
+                  style="
+                    appearance: auto !important;
+                    -webkit-appearance: radio !important;
+                    opacity: 1 !important;
+                    position: static !important;
+                    accent-color: #333333 !important;
+                    width: 18px !important;
+                    height: 18px !important;
+                    margin: 0 !important;
+                    pointer-events: auto !important;
+                    cursor: pointer !important;
+                    visibility: visible !important;
+                    display: block !important;
+                  "
+                >
+              </div>
             </div>
           </div>
 
