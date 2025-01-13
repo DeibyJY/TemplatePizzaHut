@@ -1628,10 +1628,28 @@
         </h2>
         <div
           class="detalle-oferta-producto"
-         style="width: 100% !important; background-color: #000000 !important;"
+          style="
+            width: 100% !important;
+            background-color: #000000 !important;
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+          "
         >
-          <div class="titulo-detalle-oferta-producto">
-            <h2 class="titulo-base1">ELIGE TAMAÑO</h2>
+          <div
+            class="titulo-detalle-oferta-producto"
+            style="
+              background-color: orange !important;
+              display: flex !important;
+              flex-direction: column !important;
+            "
+          >
+            <h2
+              class="titulo-base1"
+              style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
+            >
+              ELIGE TAMAÑO
+            </h2>
             <h2 class="titulo-base2">ELIGE TAMAÑO</h2>
             <div class="titulo-detalle-seleccion">REQUERIDO</div>
           </div>
