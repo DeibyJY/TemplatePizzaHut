@@ -1622,7 +1622,10 @@
         {% endcomment %}
         <h2
           class="productView-title"
-          style="padding-bottom: 0px !important;  font-weight: 400 !important;"
+          style="
+            padding-bottom: 0px !important;
+            font-weight: 400 !important;
+          "
         >
           PERSONALIZAR EL ÍTEM
         </h2>
@@ -1646,6 +1649,7 @@
               width: 100% !important;
             "
           >
+            {% comment %} INICIO SECCION TITULO {% endcomment %}
             <div
               style="
                 display: flex !important;
@@ -1666,14 +1670,12 @@
                 style="
                   color: #1d1d1d !important;
                   font-weight: 400 !important;
-                  text-transform: uppercase !important;
                   margin-bottom: 0px !important;
                 "
               >
                 Selecciona un articulo
               </span>
             </div>
-
             <span
               class="titulo-detalle-seleccion text"
               style="
@@ -1687,8 +1689,41 @@
               REQUERIDO
             </span>
           </div>
+          {% comment %} FIN SECCION TITULO {% endcomment %}
 
-          <div class="opciones-principales-detalle-oferta-producto"></div>
+          <div class="opciones-principales-detalle-oferta-producto">
+            <div class="opcion-principal-detalle-oferta"
+                style="width: 100% !important;
+                       padding: 1rem 3rem !important;
+                       display: flex !important;
+                       justify-content: space-between !important;
+                       align-items: center !important;
+                       cursor: pointer !important;
+                       transition: background-color 0.3s ease !important;"
+                onmouseover="this.style.backgroundColor='rgba(0,0,0,0.05)'"
+                onmouseout="this.style.backgroundColor='transparent'">
+             
+             <div style="display: flex !important;
+                         flex-direction: column !important;">
+               <span style="font-weight: bold !important;
+                            font-size: 16px !important;">
+                 Super personal para 2 o 3 personas
+               </span>
+               <span style="color: #666 !important;">
+                 + Bs58.00
+               </span>
+             </div>
+           
+             <input type="radio" 
+                    name="opcion-pizza"
+                    style="accent-color: black !important;
+                           width: 20px !important;
+                           height: 20px !important;
+                           cursor: pointer !important;">
+           </div>
+
+            </div>
+          </div>
           <div class="opciones-secundarias-detalle-oferta-producto"></div>
         </div>
 
