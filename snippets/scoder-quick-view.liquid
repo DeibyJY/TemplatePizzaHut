@@ -715,13 +715,17 @@
                         {%- endif -%}
                       {% endif %}
                     >
+                        {% comment %} READ : AQUI HICE CAMBIOS LA PARTE DEL {% endcomment %}
+                        {% comment %} style="width: 350px; height: 350px; display: flex; align-items: center; justify-content: center;" {% endcomment %}
                       <div
                         class="media"
-                        style="width: 455px; height: 455px; display: flex; align-items: center; justify-content: center;"
+                        style="width: 350px; height: 350px; display: flex; align-items: center; justify-content: center;"
                         {% if quick_view_zoomed_image %}
                           data-zoom-image="{{ media.preview_image | img_url: 'master' }}"
                         {% endif %}
                       >
+                        {% comment %} READ : AQUI HICE CAMBIOS LA PARTE DEL {% endcomment %}
+                        {% comment %} style="width: 100%; height: 100%; object-fit: contain;" {% endcomment %}
                         <img
                           id="product-featured-image-{{ media.id }}"
                           style="width: 100%; height: 100%; object-fit: contain;"
@@ -861,11 +865,16 @@
             {%- for media in product.media -%}
               {%- case media.media_type -%}
                 {%- when 'image' -%}
+                  {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
+                  {% comment %} style="width: 141px; height: 150px; display: flex; align-items: center; justify-content: center;"> {% endcomment %}
                   <div
+                    style="width: 141px; height: 150px; display: flex; align-items: center; justify-content: center;"
                     class="productView-thumbnail{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}"
                     data-media-id="{{ product.id }}-{{ media.id }}"
                   >
                     <a
+                        style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
+
                       class="productView-thumbnail-link"
                       href="javascript:void(0)"
                       data-image="{{ media | img_url: 'original' }}"
@@ -873,6 +882,7 @@
                         src="{{ media | img_url: 'compact' }}"
                         alt="{{ media.alt | escape }}"
                         title="{{ media.alt | escape }}"
+                        style="width: 100%; height: 100%; object-fit: contain;"
                     ></a>
                   </div>
                 {%- when 'external_video' -%}
