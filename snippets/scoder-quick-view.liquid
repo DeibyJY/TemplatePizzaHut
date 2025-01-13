@@ -1689,7 +1689,7 @@
             </span>
           </div>
           {% comment %} FIN SECCION TITULO {% endcomment %}
-          <div class="opciones-principales-detalle-oferta-producto">
+          <div class="productView-groupItem">
             <div
               class="opcion-principal-detalle-oferta"
               style="
@@ -1730,35 +1730,53 @@
               <div
                 style="
                   position: relative;
-                  padding: 10px;
+                  padding: 15px;
                   border-radius: 50%;
-                  transition: background-color 0.3s ease;
+                  transition: all 0.3s ease;
                 "
-                onmouseover="this.style.backgroundColor='rgba(0,0,0,0.05)'"
-                onmouseout="this.style.backgroundColor='transparent'"
               >
                 <input
                   type="radio"
                   name="opcion-pizza"
-                  onclick="this.checked = !this.checked"
                   style="
-                    appearance: auto !important;
-                    -webkit-appearance: radio !important;
-                    opacity: 1 !important;
-                    position: static !important;
-                    accent-color: #333333 !important;
-                    width: 18px !important;
-                    height: 18px !important;
-                    margin: 0 !important;
-                    pointer-events: auto !important;
-                    cursor: pointer !important;
-                    visibility: visible !important;
-                    display: block !important;
+                    appearance: auto;
+                    -webkit-appearance: radio;
+                    width: 24px;
+                    height: 24px;
+                    accent-color: #333333;
+                    cursor: pointer;
+                    position: relative;
+                    z-index: 1;
                   "
                 >
+                <div
+                  class="radio-hover"
+                  style="
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 50%;
+                    transition: background-color 0.3s ease;
+                    pointer-events: none;
+                  "
+                ></div>
               </div>
             </div>
           </div>
+
+          <style>
+            .opcion-principal-detalle-oferta input[type='radio']:hover + .radio-hover {
+              background-color: rgba(0, 0, 0, 0.08);
+            }
+
+            .opcion-principal-detalle-oferta input[type='radio'] {
+              margin: 0;
+              vertical-align: middle;
+            }
+          </style>
 
           <div class="opciones-secundarias-detalle-oferta-producto"></div>
         </div>
