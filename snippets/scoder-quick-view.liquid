@@ -1620,6 +1620,25 @@
             {%- endif -%}
           {%- endif -%}
         {% endcomment %}
+        <h2
+          class="productView-title"
+          style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
+        >
+          PERSONALIZAR EL ÍTEM
+        </h2>
+        <div
+          class="detalle-oferta-producto"
+         style="width: 100% !important; background-color: #000000 !important;"
+        >
+          <div class="titulo-detalle-oferta-producto">
+            <h2 class="titulo-base1">ELIGE TAMAÑO</h2>
+            <h2 class="titulo-base2">ELIGE TAMAÑO</h2>
+            <div class="titulo-detalle-seleccion">REQUERIDO</div>
+          </div>
+          <div class="opciones-principales-detalle-oferta-producto"></div>
+          <div class="opciones-secundarias-detalle-oferta-producto"></div>
+        </div>
+
         <div class="productView-options">
           {%- assign product_form_installment_id = 'product-quick-view-form-installment-' | append: product.id -%}
           {%- form 'product', product, id: product_form_installment_id, class: 'installment caption-large' -%}
