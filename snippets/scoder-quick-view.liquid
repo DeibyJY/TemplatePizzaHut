@@ -1,5 +1,4 @@
 {%- liquid
-  assign pizza_sizes = '{"title": "ELIGE TAMAÑO", "required": true, "options": [{"name": "Personal para 1 persona", "extra": 0}, {"name": "Super personal para 2 a 3 personas", "extra": 18}, {"name": "Mediano para 3 a 4 personas", "extra": 61}, {"name": "Familiar para 4 o 5 personas", "extra": 87}]}' | parse_json ;
 
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
@@ -1692,7 +1691,7 @@
           </div>
           {% comment %} FIN SECCION TITULO {% endcomment %}
           {% comment %} AQUI SE EMPIEZA A ITERAR {% endcomment %}
-
+          {%- assign pizza_sizes = '{"title": "ELIGE TAMAÑO", "required": true, "options": [{"name": "Personal para 1 persona", "extra": 0}, {"name": "Super personal para 2 a 3 personas", "extra": 18}, {"name": "Mediano para 3 a 4 personas", "extra": 61}, {"name": "Familiar para 4 o 5 personas", "extra": 87}]}' | parse_json -%}
           <div
             class="productView-groupItem"
             style="display: flex; flex-wrap: wrap; justify-content:flex-start;"
