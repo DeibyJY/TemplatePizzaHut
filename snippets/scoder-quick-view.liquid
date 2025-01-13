@@ -1728,13 +1728,16 @@
 
               <div
                 style="
-                  position: relative;
-                  padding: 15px;
+                  padding: 8px;
+                  border-radius: 50%;
+                  transition: background-color 0.2s ease;
+                  cursor: pointer
                 "
+                onmouseover="this.style.backgroundColor='rgba(0,0,0,0.08)'"
+                onmouseout="this.style.backgroundColor='transparent'"
               >
                 <input
                   type="radio"
-
                   name="opcion-pizza"
                   style="
                     appearance: auto !important;
