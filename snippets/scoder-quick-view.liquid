@@ -1986,7 +1986,7 @@
               background-color: rgba(0, 0, 0, 0.05);
             }
 
-            /* Eliminar flechas del input number */
+            /* Eliminar flechas y centrar input number */
             input[type="number"]::-webkit-outer-spin-button,
             input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none !important;
@@ -1994,8 +1994,23 @@
             margin: 0 !important;
             }
 
+            /* Estilos universales para centrado */
             input[type="number"] {
             -moz-appearance: textfield !important;
+            text-align: center !important;
+            -webkit-text-align: center !important;
+            -moz-text-align: center !important;
+            padding: 0 !important;
+            }
+
+            /* Webkit/Chrome específico */
+            input[type="number"]::-webkit-input-placeholder {
+            text-align: center !important;
+            }
+
+            /* Firefox específico */
+            input[type="number"]:-moz-placeholder {
+            text-align: center !important;
             }
           </style>
         </div>
