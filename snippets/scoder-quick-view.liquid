@@ -1725,37 +1725,41 @@
                   +Bs18.00
                 </span>
               </div>
+        <!-- Contenedor con posicionamiento relativo -->
+        <div style="position: relative;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center">
 
-              <div
-                style="
-                  padding: 8px;
-                  border-radius: 50%;
-                  transition: background-color 0.2s ease;
-                  cursor: pointer
-                "
-                onmouseover="this.style.backgroundColor='rgba(0,0,0,0.08)'"
-                onmouseout="this.style.backgroundColor='transparent'"
-              >
-                <input
-                  type="radio"
-                  name="opcion-pizza"
-                  style="
-                    appearance: auto !important;
-                    -webkit-appearance: radio !important;
-                    opacity: 1 !important;
-                    display: block !important;
-                    width: 24px !important;
-                    height: 24px !important;
-                    margin: 0 !important;
-                    cursor: pointer !important;
-                    position: relative !important;
-                    visibility: visible !important;
-                    accent-color: #232323 !important;
-                    border: 2px solid #232323 !important;
-                    border-radius: 50% !important;
-                  "
-                >
-              </div>
+        <!-- Área de hover que puede exceder el contenedor -->
+        <div style="position: absolute;
+            width: 48px;
+            height: 48px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+            pointer-events: none"
+        id="hoverArea">
+        </div>
+
+        <input type="radio" 
+        name="opcion-pizza"
+        style="appearance: auto !important;
+                -webkit-appearance: radio !important;
+                opacity: 1 !important;
+                width: 24px !important;
+                height: 24px !important;
+                margin: 0 !important;
+                cursor: pointer !important;
+                accent-color: #232323 !important;
+                position: relative;
+                z-index: 1"
+        onmouseover="document.getElementById('hoverArea').style.backgroundColor='rgba(0,0,0,0.1)'"
+        onmouseout="document.getElementById('hoverArea').style.backgroundColor='transparent'">
             </div>
           </div>
 
