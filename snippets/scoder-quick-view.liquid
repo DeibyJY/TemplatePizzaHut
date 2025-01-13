@@ -1622,7 +1622,6 @@
         {% endcomment %}
         <h2
           class="productView-title"
-          style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
         >
           PERSONALIZAR EL ÍTEM
         </h2>
@@ -1644,18 +1643,19 @@
               flex-direction: column !important;
             "
           >
-            <h2
-              class="titulo-base1"
-              style="
-                --color-title: {{ color_title }};
-                --fontsize-text: {{ fontsize_text | append: 'px' }};
-                display: inline-block !important;
-                margin: 0 !important;
-              "
-            >
-              ELIGE TAMAÑO
-            </h2>
-            <h2 class="titulo-base2" style="display: inline-block !important; margin: 0 !important;">ELIGE TAMAÑO</h2>
+            <div>
+              <h2
+                class="titulo-base1"
+                style="
+                  --color-title: {{ color_title }};
+                  --fontsize-text: {{ fontsize_text | append: 'px' }};
+                "
+              >
+                ELIGE TAMAÑO
+              </h2>
+              <p class="titulo-base2 block-description" style=" margin: 0 !important;">Selecciona un articulo</p>
+            </div>
+
             <div class="titulo-detalle-seleccion">REQUERIDO</div>
           </div>
           <div class="opciones-principales-detalle-oferta-producto"></div>
