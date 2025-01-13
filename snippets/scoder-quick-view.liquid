@@ -1862,96 +1862,100 @@
             </div>
           {%- endif -%}
 
-          {%- liquid
-            assign show_size_chart = settings.show_size_chart
-            if show_size_chart
-              assign has_size_chart = false
-              assign size_chart_type = settings.size_chart_type
-              if size_chart_type == 'product_type' or size_chart_type == 'product_vendor'
-                assign size_chart_image_type = settings.size_chart_image_type
-              elsif size_chart_type == 'custom_image'
-                assign size_chart_image = settings.size_chart_image
-              endif
-              if size_chart_type == 'product_type'
-                if size_chart_image_type == 'jpg'
-                  assign size_chart_image = product.type | handle | append: '-sizechart.jpg'
-                else
-                  assign size_chart_image = product.type | handle | append: '-sizechart.png'
+          {% comment %}
+            {%- liquid
+              assign show_size_chart = settings.show_size_chart
+              if show_size_chart
+                assign has_size_chart = false
+                assign size_chart_type = settings.size_chart_type
+                if size_chart_type == 'product_type' or size_chart_type == 'product_vendor'
+                  assign size_chart_image_type = settings.size_chart_image_type
+                elsif size_chart_type == 'custom_image'
+                  assign size_chart_image = settings.size_chart_image
                 endif
-                if images[size_chart_image] != blank
-                  assign has_size_chart = true
-                endif
-              elsif size_chart_type == 'product_vendor'
-                if size_chart_image_type == 'jpg'
-                  assign size_chart_image = product.vendor | handle | append: '-sizechart.jpg'
-                else
-                  assign size_chart_image = product.vendor | handle | append: '-sizechart.jpg'
-                endif
-                if images[size_chart_image] != blank
-                  assign has_size_chart = true
-                endif
-              elsif size_chart_type == 'metafield'
-                if product.metafields.c_f.size_chart
-                  assign has_size_chart = true
-                endif
-              elsif size_chart_type == 'custom_image'
-                if size_chart_image != blank
-                  assign has_size_chart = true
-                endif
-              endif
-            endif
-
-            assign show_compare_color = settings.show_compare_color
-            if show_compare_color
-              assign show_compare_color_drop_drap = settings.show_compare_color_drop_drap
-              assign product_swatch_option = settings.swatch | downcase
-              assign isColor = false
-              for option in product.options_with_values
-                assign option_name = option.name | downcase
-                if product_swatch_option contains option_name
-                  assign isColor = true
-                  assign index = forloop.index0
-                  if option.values.size > 1
-                    assign show_compare_color = true
+                if size_chart_type == 'product_type'
+                  if size_chart_image_type == 'jpg'
+                    assign size_chart_image = product.type | handle | append: '-sizechart.jpg'
+                  else
+                    assign size_chart_image = product.type | handle | append: '-sizechart.png'
+                  endif
+                  if images[size_chart_image] != blank
+                    assign has_size_chart = true
+                  endif
+                elsif size_chart_type == 'product_vendor'
+                  if size_chart_image_type == 'jpg'
+                    assign size_chart_image = product.vendor | handle | append: '-sizechart.jpg'
+                  else
+                    assign size_chart_image = product.vendor | handle | append: '-sizechart.jpg'
+                  endif
+                  if images[size_chart_image] != blank
+                    assign has_size_chart = true
+                  endif
+                elsif size_chart_type == 'metafield'
+                  if product.metafields.c_f.size_chart
+                    assign has_size_chart = true
+                  endif
+                elsif size_chart_type == 'custom_image'
+                  if size_chart_image != blank
+                    assign has_size_chart = true
                   endif
                 endif
-              endfor
-            endif
-          -%}
+              endif
 
-          <div class="productView-perks">
-            {%- if show_size_chart and has_size_chart -%}
-              <div class="productView-sizeChart">
-                <a class="link link-underline" href="javascript:void(0)" data-open-size-chart-popup>
-                  {% render 'icon-size-chart-2' %}
-                  <span class="text">{{ 'size_chart.general.text' | t }}</span>
-                </a>
-              </div>
-            {%- endif -%}
-            {%- if show_compare_color and isColor -%}
-              <div class="productView-compareColor style-1">
-                <button
-                  type="button"
-                  class="link link-underline"
-                  aria-label="{{ 'compare_color.general.title' | t }}"
-                  data-open-compare-color-popup
-                >
-                  {% render 'icon-compare-color-2' %}
-                  <span class="text">{{ 'compare_color.general.title' | t }}</span>
-                </button>
-              </div>
-            {%- endif -%}
-            {%- if settings.show_ask_an_expert -%}
-              <div class="productView-askAnExpert">
-                <a class="link link-underline" href="javascript:void(0)" data-open-ask-an-expert>
-                  {%- if settings.ask_an_expert_icon != blank -%}
-                    {{ settings.ask_an_expert_icon }}
-                  {%- endif -%}
-                  <span class="text">{{ 'ask_an_expert.general.text' | t }}</span>
-                </a>
-              </div>
-            {%- endif -%}
-          </div>
+              assign show_compare_color = settings.show_compare_color
+              if show_compare_color
+                assign show_compare_color_drop_drap = settings.show_compare_color_drop_drap
+                assign product_swatch_option = settings.swatch | downcase
+                assign isColor = false
+                for option in product.options_with_values
+                  assign option_name = option.name | downcase
+                  if product_swatch_option contains option_name
+                    assign isColor = true
+                    assign index = forloop.index0
+                    if option.values.size > 1
+                      assign show_compare_color = true
+                    endif
+                  endif
+                endfor
+              endif
+            -%}
+          {% endcomment %}
+
+          {% comment %}
+            <div class="productView-perks">
+              {%- if show_size_chart and has_size_chart -%}
+                <div class="productView-sizeChart">
+                  <a class="link link-underline" href="javascript:void(0)" data-open-size-chart-popup>
+                    {% render 'icon-size-chart-2' %}
+                    <span class="text">{{ 'size_chart.general.text' | t }}</span>
+                  </a>
+                </div>
+              {%- endif -%}
+              {%- if show_compare_color and isColor -%}
+                <div class="productView-compareColor style-1">
+                  <button
+                    type="button"
+                    class="link link-underline"
+                    aria-label="{{ 'compare_color.general.title' | t }}"
+                    data-open-compare-color-popup
+                  >
+                    {% render 'icon-compare-color-2' %}
+                    <span class="text">{{ 'compare_color.general.title' | t }}</span>
+                  </button>
+                </div>
+              {%- endif -%}
+              {%- if settings.show_ask_an_expert -%}
+                <div class="productView-askAnExpert">
+                  <a class="link link-underline" href="javascript:void(0)" data-open-ask-an-expert>
+                    {%- if settings.ask_an_expert_icon != blank -%}
+                      {{ settings.ask_an_expert_icon }}
+                    {%- endif -%}
+                    <span class="text">{{ 'ask_an_expert.general.text' | t }}</span>
+                  </a>
+                </div>
+              {%- endif -%}
+            </div>
+          {% endcomment %}
 
           {%- assign product_form_id = 'product-quick-view-form-' | append: product.id -%}
           {%- form 'product',
