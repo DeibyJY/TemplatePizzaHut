@@ -1646,11 +1646,16 @@
           >
             <h2
               class="titulo-base1"
-              style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
+              style="
+                --color-title: {{ color_title }};
+                --fontsize-text: {{ fontsize_text | append: 'px' }};
+                display: inline-block !important;
+                margin: 0 !important;
+              "
             >
               ELIGE TAMAÑO
             </h2>
-            <h2 class="titulo-base2">ELIGE TAMAÑO</h2>
+            <h2 class="titulo-base2" style="display: inline-block !important; margin: 0 !important;">ELIGE TAMAÑO</h2>
             <div class="titulo-detalle-seleccion">REQUERIDO</div>
           </div>
           <div class="opciones-principales-detalle-oferta-producto"></div>
