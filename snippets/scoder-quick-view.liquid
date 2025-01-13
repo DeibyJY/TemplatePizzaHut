@@ -2094,32 +2094,34 @@
               </div>
               {%- if show_dynamic_checkout -%}
                 <div class="productView-groupBottom">
-                  {%- if settings.show_global_checkbox -%}
-                    <div class="productView-groupItem">
-                      {%- if settings.show_global_checkbox -%}
-                        <div class="productView-checkbox global-checkbox">
-                          <input
-                            class="global-checkbox--input"
-                            type="checkbox"
-                            name="conditions"
-                            id="product_conditions_{{ product.id }}"
-                            data-target="#product-checkout-{{ product.id }}"
-                          >
-                          <label
-                            class="global-checkbox--label form-label--checkbox"
-                            for="product_conditions_{{ product.id }}"
-                          >
-                            {{- settings.global_checkbox_text -}}
-                          </label>
-                          {%- if settings.global_checkbox_link_text != blank -%}
-                            <a href="javascript:void(0)" data-term-condition>
-                              {{- settings.global_checkbox_link_text | escape -}}
-                            </a>
-                          {%- endif -%}
-                        </div>
-                      {%- endif -%}
-                    </div>
-                  {%- endif -%}
+                  {% comment %}
+                    {%- if settings.show_global_checkbox -%}
+                      <div class="productView-groupItem">
+                        {%- if settings.show_global_checkbox -%}
+                          <div class="productView-checkbox global-checkbox">
+                            <input
+                              class="global-checkbox--input"
+                              type="checkbox"
+                              name="conditions"
+                              id="product_conditions_{{ product.id }}"
+                              data-target="#product-checkout-{{ product.id }}"
+                            >
+                            <label
+                              class="global-checkbox--label form-label--checkbox"
+                              for="product_conditions_{{ product.id }}"
+                            >
+                              {{- settings.global_checkbox_text -}}
+                            </label>
+                            {%- if settings.global_checkbox_link_text != blank -%}
+                              <a href="javascript:void(0)" data-term-condition>
+                                {{- settings.global_checkbox_link_text | escape -}}
+                              </a>
+                            {%- endif -%}
+                          </div>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                  {% endcomment %}
                   <div class="productView-groupItem">
                     <div
                       class="productView-payment"
