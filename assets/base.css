@@ -1413,16 +1413,16 @@ body.term-condition-show .scoder-term-condition-popup {
 /* Para móviles */
 @media screen and (max-width: 480px) {
   .scoder-popup-scroll {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 }
 
 /* Para tablets e iPads */
 @media screen and (min-width: 481px) and (max-width: 1024px) {
   .scoder-popup-scroll {
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 }
 
