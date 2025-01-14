@@ -1402,7 +1402,7 @@ body.term-condition-show .scoder-term-condition-popup {
   /* READ : HICE CAMBIOS AQUI */
   height: auto;
   position: relative;
-  overflow-y: hidden;
+  overflow-y: auto;
   overflow-x: hidden;
   /* max-height: 80vh; */
   /* overflow-x: hidden;
