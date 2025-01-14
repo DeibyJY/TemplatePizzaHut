@@ -1357,7 +1357,7 @@ body.term-condition-show .scoder-term-condition-popup {
 }
 .scoder-popup-wrapper {
   position: relative;
-  padding: 5px 10px;
+  padding: 0px 10px;
   /* READ : HICE CAMBIOS AQUI */
   /* padding: 5px 10px; */
 }
