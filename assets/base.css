@@ -1399,11 +1399,15 @@ body.term-condition-show .scoder-term-condition-popup {
   padding: 0;
 }
 .scoder-popup-scroll {
+  /* READ : HICE CAMBIOS AQUI */
+  height: auto;
   position: relative;
+  overflow-y: hidden;
   overflow-x: hidden;
+  /* max-height: 80vh; */
+  /* overflow-x: hidden;
   overflow-y: auto;
-  max-height: 80vh;
-  webkit-overflow-scrolling: touch;
+  webkit-overflow-scrolling: touch; */
 }
 body.notify-me-show .scoder-notify-popup {
   opacity: 1;

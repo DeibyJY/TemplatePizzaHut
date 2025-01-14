@@ -74,7 +74,7 @@ body.quick-view-show .scoder-quick-view-popup .scoder-popup-content {
   /* display: flex; */
   /* flex-wrap: wrap; */
   /* align-items: center; */
-  padding-bottom: 15px;
+  /* padding-bottom: 15px; */
 }
 .productView.quickView .productView-checkbox {
   display: flex;
