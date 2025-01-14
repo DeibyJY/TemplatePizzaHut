@@ -167,8 +167,11 @@ body.layout_rtl .productView.quickView .productView-action .button {
   margin-bottom: 15px;
 }
 .scoder-quick-view-popup .share-button__fallback {
-  top: 0;
-  right: 100%;
+  /* READ : HIC CAMBIO AQUI */
+  /* top: 0;
+  right: 100%; */
+  top: -295%;
+  right: -180%;
 }
 .productView.quickView .productView-meta {
   line-height: 0;
@@ -178,10 +181,8 @@ body.layout_rtl .productView.quickView .productView-action .button {
 }
 body.layout_rtl .scoder-quick-view-popup .share-button__fallback {
   /* READ : HICE CAMBIO AQUI */
-  /* right: unset;
-  left: 100%; */
-  top: -295%;
-  right: -180%;
+  right: unset;
+  left: 100%;
 }
 body.layout_rtl
   .scoder-quick-view-popup
