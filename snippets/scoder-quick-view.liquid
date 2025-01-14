@@ -939,7 +939,6 @@
         </div>
       </div>
       {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
-
       <h2
         class="productView-title"
         style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -1970,6 +1969,9 @@
           </div>
         </div>
 
+        </div>
+    </div>
+
         <script>
             function incrementQuantity(button) {
               const input = button.parentElement.querySelector('input');
@@ -1982,8 +1984,8 @@
                 input.value = parseInt(input.value) - 1;
               }
             }
-          </script>
-          <style>
+        </script>
+        <style>
             .opcion-principal-detalle-oferta input[type='radio'] {
               opacity: 1 !important;
               visibility: visible !important;
@@ -2008,8 +2010,7 @@
                 -webkit-appearance: none !important;
                 margin: 0 !important;
               }
-          </style>
-        </div>
+        </style>
 
         <div class="productView-options">
           {%- assign product_form_installment_id = 'product-quick-view-form-installment-' | append: product.id -%}
@@ -2611,113 +2612,3 @@
     index: index
   %}
 {%- endif -%}
-
-{% comment %}
-  READ : ESTE CONTENIDO SERA LLENADO MEDIANTE JS
-  <div id="pizza-options" class="productView-groupItem" style="display: flex; flex-wrap: wrap; justify-content:flex-start;">
-      <!-- El JavaScript llenará este contenido -->
-    </div>
-
-    <style>
-      .opcion-principal-detalle-oferta input[type='radio'] {
-        opacity: 1 !important;
-        visibility: visible !important;
-      }
-
-      .opcion-principal-detalle-oferta input[type='radio']:checked {
-        border-width: 5px !important;
-      }
-
-      .opcion-principal-detalle-oferta input[type='radio']:hover {
-        background-color: rgba(0, 0, 0, 0.05);
-      }
-    </style>
-
-    <script>
-      const pizzaData = {
-        title: "ELIGE TAMAÑO",
-        required: true,
-        options: [
-          {name: "Personal para 1 persona", extra: 0},
-          {name: "Super personal para 2 a 3 personas", extra: 18},
-          {name: "Mediano para 3 a 4 personas", extra: 61},
-          {name: "Familiar para 4 o 5 personas", extra: 87}
-        ]
-      };
-
-      function createPizzaOptions() {
-        const container = document.getElementById('pizza-options');
-
-        pizzaData.options.forEach((option, index) => {
-          const div = document.createElement('div');
-          div.className = 'opcion-principal-detalle-oferta';
-          div.style.cssText = `
-            width: 100%;
-            padding: 8px 5.5px 8px 3.5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgb(212, 208, 208);
-          `;
-
-          div.innerHTML = `
-            <div style="display: flex; gap: 4px">
-              <span style="font-weight: 400; color: #1d1d1d;">
-                ${option.name}
-              </span>
-              <span style="color: #999999; font-weight: 500;">
-                +Bs${option.extra}.00
-              </span>
-            </div>
-
-            <div style="position: relative; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center">
-              <div
-                id="hoverArea-${index + 1}"
-                style="
-                  position: absolute;
-                  width: 44px;
-                  height: 44px;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%);
-                  border-radius: 50%;
-                  transition: background-color 0.2s ease;
-                  pointer-events: none;
-                "
-              ></div>
-
-              <input
-                type="radio"
-                id="pizza-size-${index + 1}"
-                name="opcion-pizza"
-                style="
-                  appearance: auto !important;
-                  -webkit-appearance: radio !important;
-                  opacity: 1 !important;
-                  display: block !important;
-                  width: 24px !important;
-                  height: 24px !important;
-                  margin: 0 !important;
-                  cursor: pointer !important;
-                  position: relative !important;
-                  z-index: 1 !important;
-                  visibility: visible !important;
-                  accent-color: #232323 !important;
-                  border: 3px solid #232323 !important;
-                  border-radius: 50% !important;
-                "
-                onmouseover="this.previousElementSibling.style.backgroundColor='rgba(0,0,0,0.08)'"
-                onmouseout="this.previousElementSibling.style.backgroundColor='transparent'"
-                ${index === 0 ? 'checked' : ''}
-              >
-            </div>
-          `;
-
-          container.appendChild(div);
-        });
-      }
-
-      // Ejecutar cuando el DOM esté listo
-      document.addEventListener('DOMContentLoaded', createPizzaOptions);
-    </script>
-{% endcomment %}
