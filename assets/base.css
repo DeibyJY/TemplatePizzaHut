@@ -1400,7 +1400,7 @@ body.term-condition-show .scoder-term-condition-popup {
 }
 .scoder-popup-scroll {
   /* READ : HICE CAMBIOS AQUI */
-  height: auto;
+  height: 80vh;
   position: relative;
   overflow-y: hidden;
   overflow-x: hidden;
