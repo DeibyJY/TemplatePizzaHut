@@ -1134,11 +1134,11 @@ body.layout_rtl .productView-groupTop {
   .productView.layout-2
     .productView-thumbnail-wrapper
     .productView-thumbnail-link
-    img {
+    im {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-    justify-content: center;
+    justify-content: flex;
   }
   .productView.layout-1
     .productView-images-wrapper
