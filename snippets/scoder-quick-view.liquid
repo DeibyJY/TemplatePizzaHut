@@ -690,7 +690,11 @@
   data-product-quickview-handle="{{ product.handle }}"
 >
   <div class="productView-top">
-    <div class="scoder-productView-left scoder-quickView-left productView-images clearfix" data-image-gallery>
+    <div
+      style="background-color: yellow; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+      class="scoder-productView-left scoder-quickView-left productView-images clearfix"
+      data-image-gallery
+    >
       <div class="productView-images-wrapper">
         <div class="productView-image-wrapper">
           {%- if show_quick_view_badge -%}
@@ -1443,7 +1447,10 @@
         {% comment %} READ : DETALLE DE PRODUCTO FIN {% endcomment %}
       </div>
     </div>
-    <div class="scoder-productView-right scoder-quickView-right productView-details clearfix">
+    <div
+      style="background-color: orange; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+      class="scoder-productView-right scoder-quickView-right productView-details clearfix"
+    >
       <div class="productView-product clearfix">
         <h2
           class="productView-title"
