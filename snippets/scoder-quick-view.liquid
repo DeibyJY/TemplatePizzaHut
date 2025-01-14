@@ -699,7 +699,6 @@
             {%- for media in product.media -%}
               {%- case media.media_type -%}
                 {%- when 'image' -%}
-                {%- when 'image' -%}
                   <div
                     class="productView-image productView-image-{{ media_size }}{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}"
                     style="
