@@ -741,11 +741,6 @@
             {%- liquid
               assign desc = product.description
             -%}
-            {%- if product.metafields.c_f.short_description -%}
-              {%- liquid
-                assign desc = product.metafields.c_f.short_description
-              -%}
-            {%- endif -%}
             {%- if desc != blank -%}
               <div
                 class="productView-desc scoder-text-format"
