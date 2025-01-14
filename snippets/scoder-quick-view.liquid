@@ -939,6 +939,16 @@
         </div>
       </div>
       {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
+       <div class="detalle-producto"
+        style="
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      "
+      >
+
       <h2
         class="productView-title"
         style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -1418,6 +1428,8 @@
 
       {% comment %} READ : DETALLE DE PRODUCTO FIN {% endcomment %}
     </div>
+  </div>
+
     <div class="scoder-productView-right scoder-quickView-right productView-details clearfix">
       <div class="productView-product clearfix">
         <h2
