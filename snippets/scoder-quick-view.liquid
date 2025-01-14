@@ -826,13 +826,10 @@
     </div>
 
     <div
-      style="
-        display: flex !important;
-        flex-direction: column !important;
-        height: 100% !important;
-        gap: 10px !important;
-      "
+      style="flex: 1 1 60% !important; height: 100% !important; overflow-y: auto !important; background-color: red !important; padding: 15px 10px !important;"
+      class="detalle-producto-right"
     >
+      {% comment %} OPCIONES DIFERENCIA DEL PRODUCTO INICIO {% endcomment %}
       <div
         style="
           flex: 0 0 80% !important;
@@ -840,10 +837,8 @@
           min-height: 0 !important;
           overflow-y: auto !important;
         "
-      >
-        Contenedor 80%
-      </div>
-
+        class="opciontes-seleccion-cliente"
+      ></div>
       <div
         style="
           flex: 0 0 90% !important;
@@ -851,9 +846,9 @@
           min-height: 0 !important;
           overflow-y: auto !important;
         "
-      >
-        Contenedor 90%
-      </div>
+        class="acciones-cliente"
+      ></div>
+      {% comment %} OPCIONES DIFERENCIA DEL PRODUCTO FIN {% endcomment %}
     </div>
   </div>
 </div>
