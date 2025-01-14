@@ -1430,10 +1430,339 @@
         >
           PERSONALIZAR EL ÍTEM
         </h2>
+        {% comment %} OPCIONES DE PRODUCTOS INICIO {% endcomment %}
         <div
           class="sector-general-opciones-producto"
           style="display: flex !important;flex-direction: column  !important;align-items: center !important;justify-content: space-between !important;width: 100% !important;"
-        ></div>
+        >
+          <div
+            class="menu-item-producto"
+            style="
+              width: 100% !important;
+              display: flex !important;
+              flex-direction: column !important;
+            "
+          >
+            {% comment %} TITULO PRINCIPAL MENU ITEM INICIO {% endcomment %}
+            <div
+              class="titulo-detalle-oferta-producto"
+              style="
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                width: 100% !important;
+              "
+            >
+              <div
+                style="
+                  display: flex !important;
+                  flex-direction: column !important;
+                "
+              >
+                <h2
+                  class="titulo-base1 productView-title"
+                  style="
+                    padding-bottom: 2px !important;
+                    font-weight: bold !important;
+                    font-size: 18px !important;
+                  "
+                >
+                  ELIGE TAMAÑO
+                </h2>
+                <span
+                  class="titulo-base2"
+                  style="
+                    color: #B5B6BD !important;
+                    font-size: 14px !important;
+                    margin-bottom: 0px !important;
+                  "
+                >
+                  Selecciona un articulo
+                </span>
+              </div>
+              <span
+                class="titulo-detalle-seleccion text"
+                style="
+                  font-size: 16px !important;
+                  color: #69d975 !important;
+                  margin-bottom: 0px !important;
+                "
+              >
+                REQUERIDO
+              </span>
+            </div>
+            {% comment %} TITULO PRINCIPAL MENU ITEM FIN {% endcomment %}
+            {% comment %} OPCIONES MENU ITEM INICIO {% endcomment %}
+            <div class="productView-groupItem" style="display: flex; flex-wrap: wrap; justify-content:flex-start;">
+              <div
+                class="opcion-principal-detalle-oferta"
+                style="
+                  width: 100%;
+                  padding: 8px 5.5px 8px 3.5px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  border-bottom: 1px solid rgb(212, 208, 208);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    gap: 4px
+                  "
+                >
+                  <span
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                    "
+                  >
+                    Hola Mundo
+                  </span>
+                  <span
+                    style="
+                      color: #999999;
+                      font-weight: 500;
+                    "
+                  >
+                    +Bs18.00
+                  </span>
+                </div>
+          
+                <div
+                  style="
+                    position: relative;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center
+                  "
+                >
+                  <div
+                    style="
+                      position: absolute;
+                      width: 44px;
+                      height: 44px;
+                      top: 50%;
+                      left: 50%;
+                      transform: translate(-50%, -50%);
+                      border-radius: 50%;
+                      transition: background-color 0.2s ease;
+                      pointer-events: none
+                    "
+                    id="hoverArea"
+                  ></div>
+          
+                  <input
+                    type="radio"
+                    id="pizza-size"
+                    name="opcion-pizza"
+                    style="
+                      appearance: auto !important;
+                      -webkit-appearance: radio !important;
+                      opacity: 1 !important;
+                      display: block !important;
+                      width: 24px !important;
+                      height: 24px !important;
+                      margin: 0 !important;
+                      cursor: pointer !important;
+                      position: relative !important;
+                      z-index: 1 !important;
+                      visibility: visible !important;
+                      accent-color: #232323 !important;
+                      border: 3px solid #232323 !important;
+                      border-radius: 50% !important;
+                    "
+                    onmouseover="document.getElementById('hoverArea').style.backgroundColor='rgba(0,0,0,0.08)'"
+                    onmouseout="document.getElementById('hoverArea').style.backgroundColor='transparent'"
+                    {% if forloop.first %}
+                      checked
+                    {% endif %}
+                  >
+                </div>
+              </div>
+            </div>
+            {% comment %} OPCIONES MENU ITEM FIN {% endcomment %}
+          </div>
+          <div
+            class="sub-item-producto"
+            style="
+              width: 100%;
+              height: 200px;
+              padding: 10px 0px 10px 20px;
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              margin-top: 10px;
+              background-color: #f3f3f3;
+            "
+          >
+            {% comment %} TITULO PRINCIPAL SUB MENU ITEM INICIO {% endcomment %}
+            <div
+              class="titulo-detalle-oferta-producto"
+              style="
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                width: 100% !important;
+              "
+            >
+              <div
+                style="
+                  display: flex !important;
+                  flex-direction: column !important;
+                "
+              >
+                <h2
+                  class="titulo-base1 productView-title"
+                  style="
+                    padding-bottom: 2px !important;
+                    font-weight: bold !important;
+                    font-size: 18px !important;
+                  "
+                >
+                  ELIGE TAMAÑO
+                </h2>
+                <span
+                  class="titulo-base2"
+                  style="
+                    color: #B5B6BD !important;
+                    font-size: 14px !important;
+                    margin-bottom: 0px !important;
+                  "
+                >
+                  Selecciona un articulo
+                </span>
+              </div>
+              <span
+                class="titulo-detalle-seleccion text"
+                style="
+                  font-size: 16px !important;
+                  color: #69d975 !important;
+                  margin-bottom: 0px !important;
+                "
+              >
+                REQUERIDO
+              </span>
+            </div>
+            {% comment %} TITULO PRINCIPAL SUB MENU ITEM FIN {% endcomment %}
+            {% comment %} OPCIONES SUB MENU ITEM INICIO {% endcomment %}
+            <div 
+              class="opcion-principal-detalle-oferta" 
+              style="
+                width: 100%;
+                padding: 8px 0px 8px 3.5px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid rgb(212, 208, 208);
+              "
+            >
+              <div 
+                style="
+                  display: flex;
+                  gap: 4px;
+                "
+              >
+                <span 
+                  style="
+                    font-weight: 400;
+                    color: #1d1d1d;
+                  "
+                >
+                  Extra Pepperoni
+                </span>
+                <span 
+                  style="
+                    color: #999999;
+                    font-weight: 500;
+                  "
+                >
+                  +Bs9.00
+                </span>
+              </div>
+            
+              <div 
+                style="
+                  display: flex;
+                  align-items: center;
+                  gap: 3px;
+                "
+              >
+                <button
+                  type="button"
+                  onclick="decrementQuantity(this)"
+                  style="
+                    width: 32px !important;
+                    height: 32px !important;
+                    border: none !important;
+                    background: transparent !important;
+                    cursor: pointer !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    padding: 0 !important;
+                  "
+                >
+                  <svg 
+                    class="MuiSvgIcon-root"  
+                    focusable="false" 
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
+            
+                <p
+                  style="
+                    font-weight: 400;
+                    color: #1d1d1d;
+                    width: 26px;
+                    height: 32px;
+                    text-align: center;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    margin: 0;
+                  "
+                >
+                  1
+                </p>
+            
+                <button
+                  type="button"
+                  onclick="incrementQuantity(this)"
+                  style="
+                    width: 32px !important;
+                    height: 32px !important;
+                    border: none !important;
+                    background: transparent !important;
+                    cursor: pointer !important;
+                    display: flex !important;
+                    align-items: center !important;
+                    justify-content: center !important;
+                    padding: 0 !important;
+                  "
+                >
+                  <svg 
+                    class="MuiSvgIcon-root" 
+                    focusable="false" 
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            {% comment %} OPCIONES SUB MENU ITEM FIN {% endcomment %}
+          </div>
+        </div>
+        {% comment %} OPCIONES DE PRODUCTOS FIN {% endcomment %}
       </div>
       <div class="productView-options">
         {%- assign product_form_installment_id = 'product-quick-view-form-installment-' | append: product.id -%}
@@ -1491,7 +1820,7 @@
                           assign values = values | append: ';' | append: value
                           assign values = values | split: ';'
                           assign option_stock = 'soldout'
-  
+
                           for option1_name in variants_option1_arr
                             case option.position
                               when 1
@@ -1537,10 +1866,10 @@
                               when 'metafields'
                                 assign variant_color = variant.metafields.custom.variant_color
                                 assign color_codes = false
-  
+
                                 if variant_color
                                   assign enable_variant_image = true
-  
+
                                   if variant_color contains '#' or variant_color contains 'rgb' or variant_color contains 'hsl'
                                     assign color_codes = true
                                     assign background_color = variant_color
@@ -1694,7 +2023,7 @@
             </div>
           {%- endif -%}
         {% endcomment %}
-  
+
         {% comment %}
           {%- if show_subtotal -%}
             <div class="productView-subtotal">
@@ -1703,7 +2032,7 @@
             </div>
           {%- endif -%}
         {% endcomment %}
-  
+
         {% comment %}
           {%- liquid
             assign show_size_chart = settings.show_size_chart
@@ -1743,7 +2072,7 @@
                 endif
               endif
             endif
-  
+
             assign show_compare_color = settings.show_compare_color
             if show_compare_color
               assign show_compare_color_drop_drap = settings.show_compare_color_drop_drap
@@ -1762,7 +2091,7 @@
             endif
           -%}
         {% endcomment %}
-  
+
         {% comment %}
           <div class="productView-perks">
             {%- if show_size_chart and has_size_chart -%}
@@ -1798,7 +2127,7 @@
             {%- endif -%}
           </div>
         {% endcomment %}
-  
+
         {%- assign product_form_id = 'product-quick-view-form-' | append: product.id -%}
         {%- form 'product',
           product,
