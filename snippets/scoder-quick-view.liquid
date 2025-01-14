@@ -762,201 +762,201 @@
                       </div>
                     </div>
                   </div>
-                  {% comment %}
-                    {%- when 'external_video' -%}
-                      <div class="productView-image productView-image-{{ media_size }}">
-                        <div
-                          class="productView-img-container product-single__media"
-                          data-media-id="{{ media.id }}"
-                          {% if media_size == 'adapt' %}
-                            style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
-                          {% elsif media_size == 'square' %}
-                            style="padding-bottom: 100%;"
-                          {% elsif media_size == 'portrait' %}
-                            {% if portrait_aspect_ratio != blank %}
-                              style="padding-bottom: {{ portrait_aspect_ratio }};"
-                            {% endif %}
-                          {% endif %}
-                        >
-                          {%- if media.host == 'youtube' -%}
-                            <div class="media has-video">
-                              <img
-                                srcset="https://i.ytimg.com/vi/{{ media.external_id }}/maxresdefault.jpg"
-                                src="https://i.ytimg.com/vi/{{ media.external_id }}/maxresdefault.jpg"
-                                alt="{{ media.alt | escape }}"
-                                title="{{ media.alt | escape }}"
-                                sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
-                                loading="lazy"
-                                data-sizes="auto"
-                              >
-                            </div>
-                            <div class="productView-video youtube"><div data-youtube="{{ media.external_id }}"></div></div>
-                          {%- else -%}
-                            <div class="media has-video">
-                              <img
-                                srcset="{{ media | img_url: 'master' }}"
-                                src="{{ media | img_url: 'master' }}"
-                                alt="{{ media.alt | escape }}"
-                                title="{{ media.alt | escape }}"
-                                sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
-                                loading="lazy"
-                                data-sizes="auto"
-                              >
-                            </div>
-                            <div class="productView-video vimeo" data-vimeo>{{ media | external_video_tag }}</div>
-                          {%- endif -%}
-                        </div>
-                      </div>
-                    {%- when 'video' -%}
-                      <div class="productView-image productView-image-{{ media_size }}">
-                        <div
-                          class="productView-img-container product-single__media"
-                          data-media-id="{{ media.id }}"
-                          {% if media_size == 'adapt' %}
-                            style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
-                          {% elsif media_size == 'square' %}
-                            style="padding-bottom: 100%;"
-                          {% elsif media_size == 'portrait' %}
-                            {% if portrait_aspect_ratio != blank %}
-                              style="padding-bottom: {{ portrait_aspect_ratio }};"
-                            {% endif %}
-                          {% endif %}
-                        >
-                          <div class="media has-video">
-                            <img
-                              srcset="{{ media | img_url: 'master' }}"
-                              src="{{ media | img_url: 'master' }}"
-                              alt="{{ media.alt | escape }}"
-                              title="{{ media.alt | escape }}"
-                              sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
-                              loading="lazy"
-                              data-sizes="auto"
-                            >
-                          </div>
-                          <div class="productView-video mp4" data-mp4>
-                            {{ media | video_tag: controls: true, image_size: 'master' }}
-                          </div>
-                        </div>
-                      </div>
-                    {%- when 'model' -%}
-                      <div class="productView-image productView-image-{{ media_size }}">
-                        <div
-                          class="model-viewer-click productView-img-container product-single__media"
-                          {% if media_size == 'adapt' %}
-                            style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
-                          {% elsif media_size == 'square' %}
-                            style="padding-bottom: 100%;"
-                          {% elsif media_size == 'portrait' %}
-                            {% if portrait_aspect_ratio != blank %}
-                              style="padding-bottom: {{ portrait_aspect_ratio }};"
-                            {% endif %}
-                          {% endif %}
-                        >
-                          {{
-                            media
-                            | model_viewer_tag:
-                              image_size: '500x',
-                              reveal: 'interaction',
-                              toggleable: true,
-                              data-model-id: media.id,
-                              auto-rotate: true,
-                              id: 'paused-change-demo'
-                          }}
-                        </div>
-                      </div>
-                    {%- else -%}
-                      <div class="productView-image productView-image-{{ media_size }}">
-                        <div
-                          class="productView-img-container product-single__media"
-                          data-media-id="{{ media.id }}"
-                          {% if media_size == 'adapt' %}
-                            style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
-                          {% elsif media_size == 'square' %}
-                            style="padding-bottom: 100%;"
-                          {% elsif media_size == 'portrait' %}
-                            {% if portrait_aspect_ratio != blank %}
-                              style="padding-bottom: {{ portrait_aspect_ratio }};"
-                            {% endif %}
-                          {% endif %}
-                        >
-                          {{ media | media_tag }}
-                        </div>
-                      </div>
-                  {% endcomment %}
-              {%- endcase -%}
-            {%- endfor -%}
-          </div>
-        </div>
-        <div class="productView-thumbnail-wrapper">
-          <div class="productView-for clearfix" data-max-thumbnail-to-show="{{ max_thumbnail_to_show }}">
-            {%- for media in product.media -%}
-              {%- case media.media_type -%}
-                {%- when 'image' -%}
-                  {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
-                  {% comment %} style="width: 141px; height: 150px; display: flex; align-items: center; justify-content: center;"> {% endcomment %}
-                  <div
-                    style="width: 120px; height: 127px; display: flex; align-items: center; justify-content: center;"
-                    class="productView-thumbnail{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}"
-                    data-media-id="{{ product.id }}-{{ media.id }}"
-                  >
-                    {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
-                    {% comment %} style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;" {% endcomment %}
-                    <a
-                      style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
-                      class="productView-thumbnail-link"
-                      href="javascript:void(0)"
-                      data-image="{{ media | img_url: 'original' }}"
-                    >
-                      {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
-                      {% comment %} style="width: 100%; height: 100%; object-fit: contain;" {% endcomment %}
-                      <img
-                        style="width: 100%; height: 100%; object-fit: contain;"
-                        src="{{ media | img_url: 'compact' }}"
-                        alt="{{ media.alt | escape }}"
-                        title="{{ media.alt | escape }}"
-                    ></a>
-                  </div>
                 {%- when 'external_video' -%}
-                  <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
-                    <div class="productView-thumbnail-link">
-                      <img
-                        src="{{ media | img_url: 'compact' }}"
-                        alt="{{ media.alt | escape }}"
-                        title="{{ media.alt | escape }}"
-                      >
+                  <div class="productView-image productView-image-{{ media_size }}">
+                    <div
+                      class="productView-img-container product-single__media"
+                      data-media-id="{{ media.id }}"
+                      {% if media_size == 'adapt' %}
+                        style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
+                      {% elsif media_size == 'square' %}
+                        style="padding-bottom: 100%;"
+                      {% elsif media_size == 'portrait' %}
+                        {% if portrait_aspect_ratio != blank %}
+                          style="padding-bottom: {{ portrait_aspect_ratio }};"
+                        {% endif %}
+                      {% endif %}
+                    >
+                      {%- if media.host == 'youtube' -%}
+                        <div class="media has-video">
+                          <img
+                            srcset="https://i.ytimg.com/vi/{{ media.external_id }}/maxresdefault.jpg"
+                            src="https://i.ytimg.com/vi/{{ media.external_id }}/maxresdefault.jpg"
+                            alt="{{ media.alt | escape }}"
+                            title="{{ media.alt | escape }}"
+                            sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                            loading="lazy"
+                            data-sizes="auto"
+                          >
+                        </div>
+                        <div class="productView-video youtube"><div data-youtube="{{ media.external_id }}"></div></div>
+                      {%- else -%}
+                        <div class="media has-video">
+                          <img
+                            srcset="{{ media | img_url: 'master' }}"
+                            src="{{ media | img_url: 'master' }}"
+                            alt="{{ media.alt | escape }}"
+                            title="{{ media.alt | escape }}"
+                            sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                            loading="lazy"
+                            data-sizes="auto"
+                          >
+                        </div>
+                        <div class="productView-video vimeo" data-vimeo>{{ media | external_video_tag }}</div>
+                      {%- endif -%}
                     </div>
-                    <div class="productView-thumbnail-icon">{% render 'icon-video' %}</div>
                   </div>
                 {%- when 'video' -%}
-                  <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
-                    <div class="productView-thumbnail-link">
-                      <img
-                        src="{{ media | media_tag | split: 'src="' | last | split: '">' | first }}"
-                        alt="{{ media.alt | escape }}"
-                        title="{{ media.alt | escape }}"
-                      >
+                  <div class="productView-image productView-image-{{ media_size }}">
+                    <div
+                      class="productView-img-container product-single__media"
+                      data-media-id="{{ media.id }}"
+                      {% if media_size == 'adapt' %}
+                        style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
+                      {% elsif media_size == 'square' %}
+                        style="padding-bottom: 100%;"
+                      {% elsif media_size == 'portrait' %}
+                        {% if portrait_aspect_ratio != blank %}
+                          style="padding-bottom: {{ portrait_aspect_ratio }};"
+                        {% endif %}
+                      {% endif %}
+                    >
+                      <div class="media has-video">
+                        <img
+                          srcset="{{ media | img_url: 'master' }}"
+                          src="{{ media | img_url: 'master' }}"
+                          alt="{{ media.alt | escape }}"
+                          title="{{ media.alt | escape }}"
+                          sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
+                          loading="lazy"
+                          data-sizes="auto"
+                        >
+                      </div>
+                      <div class="productView-video mp4" data-mp4>
+                        {{ media | video_tag: controls: true, image_size: 'master' }}
+                      </div>
                     </div>
-                    <div class="productView-thumbnail-icon">{% render 'icon-video' %}</div>
                   </div>
                 {%- when 'model' -%}
-                  <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
-                    <div class="productView-thumbnail-link">
-                      <img
-                        src="{{ media | media_tag | split: 'poster="' | last | split: '">' | first }}"
-                        alt="{{ media.alt | escape }}"
-                        title="{{ media.alt | escape }}"
-                      >
+                  <div class="productView-image productView-image-{{ media_size }}">
+                    <div
+                      class="model-viewer-click productView-img-container product-single__media"
+                      {% if media_size == 'adapt' %}
+                        style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
+                      {% elsif media_size == 'square' %}
+                        style="padding-bottom: 100%;"
+                      {% elsif media_size == 'portrait' %}
+                        {% if portrait_aspect_ratio != blank %}
+                          style="padding-bottom: {{ portrait_aspect_ratio }};"
+                        {% endif %}
+                      {% endif %}
+                    >
+                      {{
+                        media
+                        | model_viewer_tag:
+                          image_size: '500x',
+                          reveal: 'interaction',
+                          toggleable: true,
+                          data-model-id: media.id,
+                          auto-rotate: true,
+                          id: 'paused-change-demo'
+                      }}
                     </div>
-                    <div class="productView-thumbnail-icon">{%- render 'icon-3d-model' -%}</div>
                   </div>
                 {%- else -%}
-                  <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
-                    <div class="productView-thumbnail-link">{{ media | media_tag }}</div>
+                  <div class="productView-image productView-image-{{ media_size }}">
+                    <div
+                      class="productView-img-container product-single__media"
+                      data-media-id="{{ media.id }}"
+                      {% if media_size == 'adapt' %}
+                        style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"
+                      {% elsif media_size == 'square' %}
+                        style="padding-bottom: 100%;"
+                      {% elsif media_size == 'portrait' %}
+                        {% if portrait_aspect_ratio != blank %}
+                          style="padding-bottom: {{ portrait_aspect_ratio }};"
+                        {% endif %}
+                      {% endif %}
+                    >
+                      {{ media | media_tag }}
+                    </div>
                   </div>
               {%- endcase -%}
             {%- endfor -%}
           </div>
         </div>
+        {% comment %}
+          <div class="productView-thumbnail-wrapper">
+            <div class="productView-for clearfix" data-max-thumbnail-to-show="{{ max_thumbnail_to_show }}">
+              {%- for media in product.media -%}
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
+                    {% comment %} style="width: 141px; height: 150px; display: flex; align-items: center; justify-content: center;"> {% endcomment %}
+                    <div
+                      style="width: 120px; height: 127px; display: flex; align-items: center; justify-content: center;"
+                      class="productView-thumbnail{% if settings.show_quick_view_variant_image_group %} filter-{{ media.alt | handle }}{% endif %}"
+                      data-media-id="{{ product.id }}-{{ media.id }}"
+                    >
+                      {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
+                      {% comment %} style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;" {% endcomment %}
+                      <a
+                        style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"
+                        class="productView-thumbnail-link"
+                        href="javascript:void(0)"
+                        data-image="{{ media | img_url: 'original' }}"
+                      >
+                        {% comment %} READ : SE AGREGO ESTO  {% endcomment %}
+                        {% comment %} style="width: 100%; height: 100%; object-fit: contain;" {% endcomment %}
+                        <img
+                          style="width: 100%; height: 100%; object-fit: contain;"
+                          src="{{ media | img_url: 'compact' }}"
+                          alt="{{ media.alt | escape }}"
+                          title="{{ media.alt | escape }}"
+                      ></a>
+                    </div>
+                  {%- when 'external_video' -%}
+                    <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
+                      <div class="productView-thumbnail-link">
+                        <img
+                          src="{{ media | img_url: 'compact' }}"
+                          alt="{{ media.alt | escape }}"
+                          title="{{ media.alt | escape }}"
+                        >
+                      </div>
+                      <div class="productView-thumbnail-icon">{% render 'icon-video' %}</div>
+                    </div>
+                  {%- when 'video' -%}
+                    <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
+                      <div class="productView-thumbnail-link">
+                        <img
+                          src="{{ media | media_tag | split: 'src="' | last | split: '">' | first }}"
+                          alt="{{ media.alt | escape }}"
+                          title="{{ media.alt | escape }}"
+                        >
+                      </div>
+                      <div class="productView-thumbnail-icon">{% render 'icon-video' %}</div>
+                    </div>
+                  {%- when 'model' -%}
+                    <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
+                      <div class="productView-thumbnail-link">
+                        <img
+                          src="{{ media | media_tag | split: 'poster="' | last | split: '">' | first }}"
+                          alt="{{ media.alt | escape }}"
+                          title="{{ media.alt | escape }}"
+                        >
+                      </div>
+                      <div class="productView-thumbnail-icon">{%- render 'icon-3d-model' -%}</div>
+                    </div>
+                  {%- else -%}
+                    <div class="productView-thumbnail" data-media-id="{{ product.id }}-{{ media.id }}">
+                      <div class="productView-thumbnail-link">{{ media | media_tag }}</div>
+                    </div>
+                {%- endcase -%}
+              {%- endfor -%}
+            </div>
+          </div>
+        {% endcomment %}
       </div>
       {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
       <div
