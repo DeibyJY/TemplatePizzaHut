@@ -699,7 +699,7 @@
     >
       {% comment %} IMAGEN 40% {% endcomment %}
       <div
-        style="width: 100% !important; min-height: 40% !important; flex-shrink: 0 !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; margin-bottom: 10px !important;"
+        style="width: 100% !important; height: 40% !important; flex: 0 0 40% !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; overflow: hidden !important;"
         class="image-producto"
       >
         {%- for media in product.media limit: 1 -%}
@@ -707,7 +707,7 @@
             {%- when 'image' -%}
               <img
                 id="product-featured-image-{{ media.id }}"
-                style="max-width: 100% !important; max-height: 100% !important; width: auto !important; height: auto !important; object-fit: contain !important; display: block !important; margin: auto !important;"
+                style="width: 100% !important; height: 100% !important; object-fit: contain !important; display: block !important; margin: auto !important;"
                 {% render 'lazyload', preview_img: media.preview_image, class: true %}
                 title="{{ media.preview_image.alt | escape }}"
                 data-main-image
@@ -717,7 +717,7 @@
       </div>
       {% comment %} CONTENIDO INFORMACION PRODUCTO 60% {% endcomment %}
       <div
-        style="width: 100% !important; height: 50% !important; display: flex !important; flex-direction: column !important; gap: 5px !important;"
+        style="width: 100% !important; height: 60% !important; flex: 0 0 60% !important; overflow-y: auto !important; display: flex !important; flex-direction: column !important; gap: 5px !important;"
         class="informacion-producto-opciones"
       >
         {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
@@ -729,7 +729,6 @@
             gap: 2px !important;
             padding: 0 !important;
             margin: 0 !important;
-            min-height: min-content !important;
           "
         >
           <h2
