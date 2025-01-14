@@ -1402,13 +1402,21 @@ body.term-condition-show .scoder-term-condition-popup {
   /* READ : HICE CAMBIOS AQUI */
   height: auto;
   position: relative;
-  overflow-y: auto;
+  overflow-y: hidden;
   overflow-x: hidden;
   /* max-height: 80vh; */
   /* overflow-x: hidden;
   overflow-y: auto;
   webkit-overflow-scrolling: touch; */
 }
+
+@media screen and (max-width: 768px) {
+  .scoder-popup-scroll {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 body.notify-me-show .scoder-notify-popup {
   opacity: 1;
   visibility: visible;
