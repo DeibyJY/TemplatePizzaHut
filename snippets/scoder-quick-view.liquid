@@ -772,9 +772,6 @@
                 display: flex !important;
                 flex-direction: row !important;
                 flex-wrap: wrap !important;
-                gap: 10px !important;
-                justify-content: space-between !important;
-                --atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323
               "
             >
               <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--2 quantity__style--1 clearfix">
@@ -1666,20 +1663,6 @@
                   {%- endif -%}
                 </div>
               </div>
-              {%- if settings.show_wishlist -%}
-                <div class="productView-wishlist clearfix">
-                  <a
-                    data-wishlist
-                    href="#"
-                    data-wishlist-handle="{{ product.handle }}"
-                    data-product-id="{{ product.id }}"
-                    ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
-                  </a>
-                </div>
-              {%- endif -%}
-              {%- if show_quick_view_share -%}
-                {% render 'scoder-share', product: product, share_layout: '2' %}
-              {%- endif -%}
             </div>
             {%- if show_dynamic_checkout -%}
               <div class="productView-groupBottom">

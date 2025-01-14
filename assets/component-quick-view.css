@@ -177,8 +177,11 @@ body.layout_rtl .productView.quickView .productView-action .button {
   max-width: 200px;
 }
 body.layout_rtl .scoder-quick-view-popup .share-button__fallback {
-  right: unset;
-  left: 100%;
+  /* READ : HICE CAMBIO AQUI */
+  /* right: unset;
+  left: 100%; */
+  top: -295%;
+  right: -180%;
 }
 body.layout_rtl
   .scoder-quick-view-popup
