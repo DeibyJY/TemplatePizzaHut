@@ -356,7 +356,8 @@
         right: {{ section.settings.position_horizontal_slick_arrow }};
     }
     .category-slider-main .brand-blocks .slick-track {
-        align-items: flex-start;
+        {% comment %} align-items: flex-start; {% endcomment %}
+         align-items: center;
     }
     .section-id-{{section.id}} .category-box{
         background-color:{{ section.settings.box_background_color }};
