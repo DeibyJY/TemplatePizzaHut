@@ -1723,18 +1723,6 @@
             {%- endif -%}
           </div>
         {%- endform -%}
-        {%- if settings.show_notify_form -%}
-          <div
-            class="productView-notifyMe scoder-notifyMe"
-            {% if product.variants.size > 1 %}
-              style="display: none;"
-            {% else %}
-              {%- if product.available %}style="display: none;"{% endif -%}
-            {% endif %}
-          >
-            {% render 'scoder-notify-sold-out', id: product.id, current_variant: current_variant %}
-          </div>
-        {%- endif -%}
         {%- if show_quick_view_customer_viewing or show_quick_view_trust_image -%}
           <div class="productView-more">
             {%- if show_quick_view_customer_viewing -%}
