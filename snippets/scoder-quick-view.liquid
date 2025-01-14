@@ -684,79 +684,7 @@
       {% endfor %}
    };
 </script>
-<style>
-  /* Contenedor principal */
-  .productView.quickView {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow: hidden !important;
-  }
-  /* Contenedor superior */
-  .productView-top {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
-  
-  /* Panel izquierdo */
-  .scoder-productView-left {
-    flex: 0 0 50% !important;
-    max-width: 50% !important;
-    padding: 15px !important
-    box-sizing: border-box !important;
-  }
-  
-  /* Panel derecho */
-  .scoder-productView-right {
-    flex: 0 0 50% !important;
-    max-width: 50% !important;
-    padding: 15px !important;
-    box-sizing: border-box !important;
-    overflow-y: auto !important;
-    max-height: 100vh !important;
-  }
-  
-  /* Contenedor de imágenes */
-  .productView-images-wrapper {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  
-  /* Contenedor de detalles */
-  .productView-product {
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-  
 
-  
-  /* Ajustes adicionales para el contenido interno */
-  .productView-images img {
-    max-width: 100% !important;
-    height: auto !important;
-  }
-  
-  .sector-general-opciones-producto {
-    width: 100% !important;
-    max-width: 100% !important;
-    overflow-x: hidden !important;
-  }
-  
-  /* Asegurarse que las imágenes en miniatura no causen desbordamiento */
-  .productView-thumbnail-wrapper {
-    width: 100% !important;
-    overflow: hidden !important;
-  }
-  
-  .productView-for {
-    display: flex !important;
-    flex-wrap: wrap !important;
-    gap: 10px !important;
-    justify-content: flex-start !important;
-  }
-  </style>
 <div
   class="productView quickView scoder-quickView layout-{{ layout }}{% if product.media.size == 0 %} productView-no-media{% endif %}"
   data-product-quickview-handle="{{ product.handle }}"
