@@ -687,86 +687,74 @@
 <style>
   /* Contenedor principal */
   .productView.quickView {
-    width: 100%;
-    max-width: 100%;
-    overflow: hidden;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
   }
-  
   /* Contenedor superior */
   .productView-top {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    margin: 0;
-    padding: 0;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
   }
   
   /* Panel izquierdo */
   .scoder-productView-left {
-    flex: 0 0 50%;
-    max-width: 50%;
-    padding: 15px;
-    box-sizing: border-box;
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding: 15px !important
+    box-sizing: border-box !important;
   }
   
   /* Panel derecho */
   .scoder-productView-right {
-    flex: 0 0 50%;
-    max-width: 50%;
-    padding: 15px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    max-height: 100vh;
+    flex: 0 0 50% !important;
+    max-width: 50% !important;
+    padding: 15px !important;
+    box-sizing: border-box !important;
+    overflow-y: auto !important;
+    max-height: 100vh !important;
   }
   
   /* Contenedor de imágenes */
   .productView-images-wrapper {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   
   /* Contenedor de detalles */
   .productView-product {
-    width: 100%;
-    max-width: 100%;
+    width: 100% !important;
+    max-width: 100% !important;
   }
   
-  /* Media queries para dispositivos móviles */
-  @media screen and (max-width: 767px) {
-    .scoder-productView-left,
-    .scoder-productView-right {
-      flex: 0 0 100%;
-      max-width: 100%;
-    }
-    
-    .productView-top {
-      flex-direction: column;
-    }
-  }
+
   
   /* Ajustes adicionales para el contenido interno */
   .productView-images img {
-    max-width: 100%;
-    height: auto;
+    max-width: 100% !important;
+    height: auto !important;
   }
   
   .sector-general-opciones-producto {
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: hidden !important;
   }
   
   /* Asegurarse que las imágenes en miniatura no causen desbordamiento */
   .productView-thumbnail-wrapper {
-    width: 100%;
-    overflow: hidden;
+    width: 100% !important;
+    overflow: hidden !important;
   }
   
   .productView-for {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: flex-start;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 10px !important;
+    justify-content: flex-start !important;
   }
   </style>
 <div
