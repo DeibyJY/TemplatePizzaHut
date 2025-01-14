@@ -684,18 +684,92 @@
       {% endfor %}
    };
 </script>
+<style>
+  /* Contenedor principal */
+  .productView.quickView {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  /* Contenedor superior */
+  .productView-top {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Panel izquierdo */
+  .scoder-productView-left {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+  
+  /* Panel derecho */
+  .scoder-productView-right {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+  
+  /* Contenedor de imágenes */
+  .productView-images-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Contenedor de detalles */
+  .productView-product {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Media queries para dispositivos móviles */
+  @media screen and (max-width: 767px) {
+    .scoder-productView-left,
+    .scoder-productView-right {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    
+    .productView-top {
+      flex-direction: column;
+    }
+  }
+  
+  /* Ajustes adicionales para el contenido interno */
+  .productView-images img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .sector-general-opciones-producto {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  /* Asegurarse que las imágenes en miniatura no causen desbordamiento */
+  .productView-thumbnail-wrapper {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .productView-for {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-start;
+  }
+  </style>
 <div
-  style="
-  position: relative;
-  height: 100%;
-  width: 100%;
-  max-height: 100%;
-  max-width: 100%;
-  overflow: auto;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  "
   class="productView quickView scoder-quickView layout-{{ layout }}{% if product.media.size == 0 %} productView-no-media{% endif %}"
   data-product-quickview-handle="{{ product.handle }}"
 >
@@ -1453,7 +1527,6 @@
         {% comment %} READ : DETALLE DE PRODUCTO FIN {% endcomment %}
       </div>
     </div>
-
     <div class="scoder-productView-right scoder-quickView-right productView-details clearfix">
       <div class="productView-product clearfix">
         <h2
