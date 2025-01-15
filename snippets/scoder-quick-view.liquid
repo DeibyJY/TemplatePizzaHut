@@ -834,53 +834,12 @@
           <div class="sector-general-opciones-producto">
             <div class="menu-item-producto">
               {% comment %} TITULO PRINCIPAL MENU ITEM INICIO {% endcomment %}
-              <div
-                class="titulo-detalle-oferta-producto"
-                style="
-                  display: flex !important;
-                  flex-direction: row !important;
-                  align-items: center !important;
-                  justify-content: space-between !important;
-                  width: 100% !important;
-                "
-              >
-                <div
-                  style="
-                    display: flex !important;
-                    flex-direction: column !important;
-                  "
-                >
-                  <h2
-                    class="titulo-base1 productView-title"
-                    style="
-                      padding-bottom: 2px !important;
-                      font-weight: bold !important;
-                      font-size: 18px !important;
-                    "
-                  >
-                    ELIGE TAMAÑO
-                  </h2>
-                  <span
-                    class="titulo-base2"
-                    style="
-                      color: #B5B6BD !important;
-                      font-size: 14px !important;
-                      margin-bottom: 0px !important;
-                    "
-                  >
-                    Selecciona un articulo
-                  </span>
+              <div class="titulo-detalle-oferta-producto">
+                <div id="titulo-detalle__comp1">
+                  <h2 class="titulo-base1">ELIGE TAMAÑO</h2>
+                  <span class="titulo-base2"> Selecciona un articulo </span>
                 </div>
-                <span
-                  class="titulo-detalle-seleccion text"
-                  style="
-                    font-size: 16px !important;
-                    color: #69d975 !important;
-                    margin-bottom: 0px !important;
-                  "
-                >
-                  REQUERIDO
-                </span>
+                <span class="titulo-detalle-seleccion text"> REQUERIDO </span>
               </div>
               {% comment %} TITULO PRINCIPAL MENU ITEM FIN {% endcomment %}
               {% comment %} OPCIONES MENU ITEM INICIO {% endcomment %}
@@ -1340,6 +1299,37 @@
     display: flex !important;
     flex-direction: column !important;
     min-width: 0 !important;
+  }
+
+  .menu-item-producto .titulo-detalle-oferta-producto{
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  #titulo-detalle__comp1 {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .titulo-base1 {
+    padding-bottom: 2px !important;
+    font-weight: bold !important;
+    font-size: 18px !important;
+  }
+
+  .titulo-base2 {
+    color: #B5B6BD !important;
+    font-size: 14px !important;
+    margin-bottom: 0px !important;
+  }
+
+  .titulo-detalle-seleccion.text {
+    font-size: 16px !important;
+    color: #69d975 !important;
+    margin-bottom: 0px !important;
   }
   {% comment %} FIN DE ESTILOS div class="detalle-producto-right" {% endcomment %}
 </style>
