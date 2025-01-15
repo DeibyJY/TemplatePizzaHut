@@ -1205,18 +1205,20 @@
     console.log('Iniciando creación de elementos');
 
     menuItems.forEach((item, index) => {
-      // Crear contenedor principal
+      const textoSeleccion = item.limite === 1 ? 'Selecciona un artículo' : `Selecciona hasta ${item.limite} artículos`;
+
+      const colorSolicitud = item.solicitud === 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
+
       const menuItemProducto = document.createElement('div');
       menuItemProducto.className = 'menu-item-producto';
 
-      // Crear estructura interna
       menuItemProducto.innerHTML = `
         <div class="titulo-detalle-oferta-producto">
-          <div id="titulo-detalle__comp${index + 1}">
+          <div id="titulo-detalle__comp1">
             <h2 class="titulo-base1">${item.titulo}</h2>
-            <span class="titulo-base2">Selecciona un articulo</span>
+            <span class="titulo-base2">${textoSeleccion}</span>
           </div>
-          <span class="titulo-detalle-seleccion text">${item.solicitud}</span>
+          <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud}</span>
         </div>
       `;
 
