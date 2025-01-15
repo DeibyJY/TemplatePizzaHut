@@ -1217,11 +1217,11 @@
           </div>
           <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud.toUpperCase()}</span>
         </div>
-        <div class="item-menuItem">
+        <div class="item-menuItem" id="menuItem-${index}" data-limite="${item.limite}">
       `;
 
       item.mainItems.forEach((mainItem, mainIndex) => {
-        if (item.typeSelect == 'radio') {
+        if (item.typeSelect === 'radio') {
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
@@ -1233,15 +1233,18 @@
                 <input
                   type="radio"
                   id="item-${index}-${mainIndex}"
-                  name="opcion-${index}"
+                  name="opcion-grupo-${index}"
                   class="radio-input"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
+                  onchange="validarLimiteRadio(this)"
                 >
               </div>
             </div>
           `;
         }
 
-        if (item.typeSelect == 'numberCount') {
+        if (item.typeSelect === 'numberCount') {
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta2">
               <div class="producto-info2">
@@ -1249,13 +1252,25 @@
                 <span class="producto-precio2">+Bs${mainItem.precio}</span>
               </div>
               <div class="controles-cantidad2">
-                <button type="button" class="btn-cantidad2" onclick="decrementCantidad('cantidad-${index}-${mainIndex}', ${item.limite})">
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="decrementCantidad('${index}-${mainIndex}', '${index}')"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
+                >
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
                 </button>
-                <p class="cantidad-display2" id="cantidad-${index}-${mainIndex}">0</p>
-                <button type="button" class="btn-cantidad2" onclick="incrementCantidad('cantidad-${index}-${mainIndex}', ${item.limite})">
+                <p class="cantidad-display2" id="cantidad-${index}-${mainIndex}" data-group="${index}">0</p>
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="incrementCantidad('${index}-${mainIndex}', '${index}')"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
+                >
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
@@ -1265,7 +1280,7 @@
           `;
         }
 
-        if (item.typeSelect == 'checkbox') {
+        if (item.typeSelect === 'checkbox') {
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
@@ -1279,8 +1294,9 @@
                     id="item-${index}-${mainIndex}"
                     name="properties[${mainItem.titulo}]"
                     class="input-checkbox3"
-                    onchange="validarCheckbox(this, '${index}', ${item.limite})"
                     data-group="${index}"
+                    data-limite="${item.limite}"
+                    onchange="validarLimiteCheckbox(this)"
                   >
                 </div>
               </div>
@@ -1294,33 +1310,61 @@
       contendorPrincipal.appendChild(menuItemProducto);
     });
 
-    // Funciones auxiliares para manejar los contadores y límites
-    function incrementCantidad(id, limite) {
-      const elemento = document.getElementById(id);
-      let valor = parseInt(elemento.textContent);
-      if (valor < limite) {
-        elemento.textContent = valor + 1;
+    // Funciones de validación para cada tipo
+    function validarLimiteCheckbox(checkbox) {
+      const grupo = checkbox.dataset.group;
+      const limite = parseInt(checkbox.dataset.limite);
+      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+      const checkboxesGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
+
+      let seleccionados = 0;
+      checkboxesGrupo.forEach((cb) => {
+        if (cb.checked) seleccionados++;
+      });
+
+      if (seleccionados > limite) {
+        checkbox.checked = false;
+      }
+    }
+
+    function validarLimiteRadio(radio) {
+      const grupo = radio.dataset.group;
+      const limite = parseInt(radio.dataset.limite);
+      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+      const radiosGrupo = contenedorGrupo.querySelectorAll('input[type="radio"]:checked');
+
+      if (radiosGrupo.length > limite) {
+        radio.checked = false;
+      }
+    }
+
+    function obtenerSumaGrupo(grupo) {
+      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+      const displays = contenedorGrupo.querySelectorAll('.cantidad-display2');
+      let suma = 0;
+      displays.forEach((display) => {
+        suma += parseInt(display.textContent || '0');
+      });
+      return suma;
+    }
+
+    function incrementCantidad(id, grupo) {
+      const display = document.getElementById(`cantidad-${id}`);
+      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+      const limite = parseInt(contenedorGrupo.dataset.limite);
+      const sumaActual = obtenerSumaGrupo(grupo);
+
+      if (sumaActual < limite) {
+        const valorActual = parseInt(display.textContent || '0');
+        display.textContent = valorActual + 1;
       }
     }
 
     function decrementCantidad(id) {
-      const elemento = document.getElementById(id);
-      let valor = parseInt(elemento.textContent);
-      if (valor > 0) {
-        elemento.textContent = valor - 1;
-      }
-    }
-
-    function validarCheckbox(checkbox, grupo, limite) {
-      const checkboxesGrupo = document.querySelectorAll(`input[type="checkbox"][data-group="${grupo}"]`);
-      let cantidadSeleccionada = 0;
-
-      checkboxesGrupo.forEach((cb) => {
-        if (cb.checked) cantidadSeleccionada++;
-      });
-
-      if (cantidadSeleccionada > limite) {
-        checkbox.checked = false;
+      const display = document.getElementById(`cantidad-${id}`);
+      const valorActual = parseInt(display.textContent || '0');
+      if (valorActual > 0) {
+        display.textContent = valorActual - 1;
       }
     }
   }
