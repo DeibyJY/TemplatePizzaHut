@@ -1311,10 +1311,11 @@
     });
   }
 
-  // Funciones de validación para cada tipo
   function validarLimiteCheckbox(checkbox) {
+    console.log(checkbox);
     const grupo = checkbox.dataset.group;
-    const limite = parseInt(checkbox.dataset.limite);
+    console.log(grupo);
+    const limitePermitido = parseInt(checkbox.dataset.limite);
     const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
     const checkboxesGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
 
