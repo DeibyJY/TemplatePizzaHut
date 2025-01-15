@@ -1201,19 +1201,36 @@
   ];
 
   function agregarMenuItems() {
+    console.log('Función agregarMenuItems ejecutándose');
+
     const container = document.querySelector('.sector-general-opciones-producto');
-    console.log('Container encontrado:', container);
+    console.log('Buscando container:', container);
+
+    if (!container) {
+      console.error('No se encontró el contenedor');
+      return;
+    }
 
     menuItems.forEach((item, index) => {
       console.log(`Procesando item ${index}:`, item);
       const menuItemDiv = document.createElement('div');
       menuItemDiv.className = 'menu-item-producto';
       container.appendChild(menuItemDiv);
+      console.log('Elemento agregado:', menuItemDiv);
     });
   }
 
-  // Ejecutar cuando el documento esté listo
-  document.addEventListener('DOMContentLoaded', agregarMenuItems);
+  // Agregar ambos eventos para asegurar la ejecución
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOMContentLoaded disparado');
+    agregarMenuItems();
+  });
+
+  // Ejecutar inmediatamente si el DOM ya está listo
+  if (document.readyState === 'complete') {
+    console.log('DOM ya estaba cargado');
+    agregarMenuItems();
+  }
 </script>
 <style>
   .opcion-principal-detalle-oferta1 input[type='radio'] {
