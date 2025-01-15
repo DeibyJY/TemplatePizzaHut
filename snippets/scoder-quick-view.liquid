@@ -1312,12 +1312,13 @@
   }
 
   function validarLimiteCheckbox(checkbox) {
-    console.log(checkbox);
     const grupo = checkbox.dataset.group;
-    console.log(grupo);
     const limitePermitido = parseInt(checkbox.dataset.limite);
     const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
     const checkboxesGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
+    console.log(checkbox);
+    console.log(grupo);
+    console.log(limitePermitido);
 
     let seleccionados = 0;
     checkboxesGrupo.forEach((cb) => {
