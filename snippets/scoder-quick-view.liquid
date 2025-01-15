@@ -1201,34 +1201,36 @@
   ];
 
   function agregarMenuItems() {
-    console.log('Función agregarMenuItems ejecutándose');
-
-    const container = document.querySelector('.sector-general-opciones-producto');
-    console.log('Buscando container:', container);
-
-    if (!container) {
-      console.error('No se encontró el contenedor');
-      return;
-    }
+    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    console.log('Iniciando creación de elementos');
 
     menuItems.forEach((item, index) => {
-      console.log(`Procesando item ${index}:`, item);
-      const menuItemDiv = document.createElement('div');
-      menuItemDiv.className = 'menu-item-producto';
-      container.appendChild(menuItemDiv);
-      console.log('Elemento agregado:', menuItemDiv);
+      // Crear contenedor principal
+      const menuItemProducto = document.createElement('div');
+      menuItemProducto.className = 'menu-item-producto';
+
+      // Crear estructura interna
+      menuItemProducto.innerHTML = `
+        <div class="titulo-detalle-oferta-producto">
+          <div id="titulo-detalle__comp${index + 1}">
+            <h2 class="titulo-base1">${item.titulo}</h2>
+            <span class="titulo-base2">Selecciona un articulo</span>
+          </div>
+          <span class="titulo-detalle-seleccion text">${item.solicitud}</span>
+        </div>
+      `;
+
+      contendorPrincipal.appendChild(menuItemProducto);
+      console.log(`Elemento ${index + 1} creado:`, item.titulo);
     });
   }
 
   // Agregar ambos eventos para asegurar la ejecución
   document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOMContentLoaded disparado');
     agregarMenuItems();
   });
 
-  // Ejecutar inmediatamente si el DOM ya está listo
   if (document.readyState === 'complete') {
-    console.log('DOM ya estaba cargado');
     agregarMenuItems();
   }
 </script>
