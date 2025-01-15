@@ -825,51 +825,11 @@
       </div>
     </div>
 
-    <div
-      style="
-        flex: 1 1 60% !important;
-        height: 100% !important;
-        overflow: hidden !important;
-        background-color: red !important;
-        padding: 15px 0px 0px 0px !important;
-        display: flex !important;
-        flex-direction: column !important;
-      "
-      class="detalle-producto-right"
-    >
+    <div class="detalle-producto-right">
       {% comment %} OPCIONES DIFERENCIA DEL PRODUCTO INICIO {% endcomment %}
-      <div
-        style="
-          flex: 1 1 89.7% !important;
-          width: 100% !important;
-          background-color: #4CAF50 !important;
-          overflow-y: auto !important;
-          overflow-x: hidden !important;
-          display: flex !important;
-          flex-direction: column !important;
-        "
-        class="opciontes-seleccion-cliente"
-      >
-        <div
-          style="
-            width: 100% !important;
-            min-width: 0 !important;
-            flex: 1 !important;
-          "
-          class="productView-product "
-        >
-          <h2
-            class="productView-title"
-            style="
-              padding-bottom: 5px !important;
-              font-weight: bold !important;
-              font-size: 22px !important;
-              white-space: normal !important;
-              padding-bottom: 13px !important;
-            "
-          >
-            PERSONALIZAR EL ÍTEM
-          </h2>
+      <div class="opciontes-seleccion-cliente">
+        <div class="productView-product">
+          <h2 class="productView-title">PERSONALIZAR EL ÍTEM</h2>
           {% comment %} OPCIONES DE PRODUCTOS INICIO {% endcomment %}
           <div
             class="sector-general-opciones-producto"
@@ -1036,7 +996,7 @@
             <div
               class="sub-item-producto"
               style="
-                    width: 100% !important;
+                width: 100% !important;
                 min-width: 0 !important;
                 padding: 10px 15px !important;
                 display: flex !important;
@@ -1249,7 +1209,7 @@
                   <div
                     class="checkbox-container"
                     style="
-                      padding: 5px;
+                      padding: 0px 5px 0px 0px;
                       border-radius: 4px;
                       transition: background-color 0.2s ease;
                       cursor: pointer;
@@ -1348,5 +1308,39 @@
 
   .checkbox-container:hover {
     background-color: rgba(0, 0, 0, 0.2) !important;
+  }
+
+  .detalle-producto-right {
+    flex: 1 1 60% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    background-color: red !important;
+    padding: 15px 0px 0px 0px !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .detalle-producto-right .productView-product {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 !important;
+  }
+
+  .detalle-producto-right .productView-title {
+    padding-bottom: 5px !important;
+    font-weight: bold !important;
+    font-size: 22px !important;
+    white-space: normal !important;
+    padding-bottom: 13px !important;
+  }
+
+  .detalle-producto-right .opciontes-seleccion-cliente {
+    flex: 1 1 89.7% !important;
+    width: 100% !important;
+    background-color: #4caf50 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 </style>
