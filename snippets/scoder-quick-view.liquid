@@ -860,6 +860,7 @@
                   </div>
                 </div>
               </div>
+
               {% comment %} OPCIONES MENU ITEM FIN {% endcomment %}
             </div>
             <div class="sub-item-producto">
@@ -947,16 +948,270 @@
   %}
 {%- endif -%}
 <script>
-  function incrementQuantity(button) {
-    const input = button.parentElement.querySelector('input');
-    input.value = parseInt(input.value) + 1;
+  const menuItems = [
+    {
+      id: '1',
+      titulo: 'Elige tamaño',
+      solicitud: 'Requerido',
+      limite: 1,
+      typeSelect: 'radio',
+      mainItems: [
+        {
+          id: '1a',
+          titulo: 'Personal para 1 persona',
+          precio: 10,
+          sideItems: [],
+        },
+        {
+          id: '1b',
+          titulo: 'Super personal para 2 a 3 personas',
+          precio: 18,
+          sideItems: [
+            {
+              id: '1a1',
+              titulo: 'Elige Extra',
+              solicitud: 'Opcional',
+              limite: 9,
+              typeSelect: 'numberCount',
+              opciones: [
+                {
+                  id: '1a1a',
+                  titulo: 'Extra Queso',
+                  precio: 12,
+                },
+                {
+                  id: '1a1b',
+                  titulo: 'Extra Pepeeroni',
+                  precio: 5,
+                },
+                {
+                  id: '1a1c',
+                  titulo: 'Extra Choclo',
+                  precio: 5,
+                },
+                {
+                  id: '1a1d',
+                  titulo: 'Extra Tocino',
+                  precio: 5,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '1c',
+          titulo: 'Mediana para 3 a 4 personas',
+          precio: 61,
+          sideItems: [
+            {
+              id: '1c1',
+              titulo: 'Elige Masa - Borde',
+              solicitud: 'Requerido',
+              limite: 1,
+              typeSelect: 'radio',
+              opciones: [
+                {
+                  id: '1c1a',
+                  titulo: 'Pan Pizza',
+                  precio: 0,
+                },
+                {
+                  id: '1c1b',
+                  titulo: 'Crispy (delgada y crujiente)',
+                  precio: 0,
+                },
+                {
+                  id: '1c1c',
+                  titulo: 'Pan pizza + borde catupiry',
+                  precio: 15,
+                },
+                {
+                  id: '1c1d',
+                  titulo: 'Pan pizza + border hot chesse',
+                  precio: 12,
+                },
+              ],
+            },
+            {
+              id: '1c2',
+              titulo: 'Elige Extra',
+              solicitud: 'Opcional',
+              limite: 9,
+              typeSelect: 'numberCount',
+              opciones: [
+                {
+                  id: '1c2a',
+                  titulo: 'Extra Queso',
+                  precio: 12,
+                },
+                {
+                  id: '1c2b',
+                  titulo: 'Extra Pepeeroni',
+                  precio: 5,
+                },
+                {
+                  id: '1c2c',
+                  titulo: 'Extra Choclo',
+                  precio: 5,
+                },
+                {
+                  id: '1c2d',
+                  titulo: 'Extra Tocino',
+                  precio: 5,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: '1d',
+          titulo: 'Familiar para 4 a 5 personas',
+          precio: 87,
+          sideItems: [
+            {
+              id: '1d1',
+              titulo: 'Elige Masa - Borde',
+              solicitud: 'Requerido',
+              limite: 1,
+              typeSelect: 'radio',
+              opciones: [
+                {
+                  id: '1d1a',
+                  titulo: 'Pan Pizza',
+                  precio: 0,
+                },
+                {
+                  id: '1d1b',
+                  titulo: 'Crispy (delgada y crujiente)',
+                  precio: 0,
+                },
+                {
+                  id: '1d1c',
+                  titulo: 'Pan pizza + borde catupiry',
+                  precio: 15,
+                },
+                {
+                  id: '1d1d',
+                  titulo: 'Pan pizza + border hot chesse',
+                  precio: 12,
+                },
+              ],
+            },
+            {
+              id: '1d2',
+              titulo: 'Postres',
+              solicitud: 'Opcional',
+              limite: 9,
+              typeSelect: 'checkbox',
+              opciones: [
+                {
+                  id: '1d2a',
+                  titulo: '3 Leches',
+                  precio: 17,
+                },
+                {
+                  id: '1d2b',
+                  titulo: 'Lemon Hut',
+                  precio: 22,
+                },
+                {
+                  id: '1d2c',
+                  titulo: 'Choco Hut Doblon',
+                  precio: 22,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: '2',
+      titulo: 'GASEOSAS',
+      solicitud: 'Opcional',
+      limite: 6,
+      typeSelect: 'checkbox',
+      mainItems: [
+        {
+          id: '2a',
+          titulo: 'Coca Cola x 2lt',
+          precio: 22,
+          sideItems: [],
+        },
+        {
+          id: '2b',
+          titulo: 'Coca Cola sin azucar x 2lt',
+          precio: 22,
+          sideItems: [],
+        },
+        {
+          id: '2c',
+          titulo: 'Fanta naranja x 2lt',
+          precio: 22,
+          sideItems: [],
+        },
+        {
+          id: '2d',
+          titulo: 'Fanta guarana x 2lt',
+          precio: 22,
+          sideItems: [],
+        },
+        {
+          id: '2e',
+          titulo: 'Fanta papaya x 2lt',
+          precio: 22,
+          sideItems: [],
+        },
+        {
+          id: '2f',
+          titulo: 'Sprite lima limon x 2lt',
+          precio: 22,
+          sideItems: [],
+        },
+      ],
+    },
+    {
+      id: '3',
+      titulo: 'Postres',
+      solicitud: 'Opcional',
+      limite: 3,
+      typeSelect: 'checkbox',
+      mainItems: [
+        {
+          id: '3a',
+          titulo: 'Mousse de Maracuya',
+          precio: 17,
+          sideItems: [],
+        },
+        {
+          id: '3b',
+          titulo: '10 Unidades Cinammon Sticks',
+          precio: 22,
+          sideItems: [],
+        },
+        {
+          id: '3c',
+          titulo: 'Brownie Chocolate Personal',
+          precio: 17,
+          sideItems: [],
+        },
+      ],
+    },
+  ];
+
+  function agregarMenuItems() {
+    const container = document.querySelector('.sector-general-opciones-producto');
+    console.log('Container encontrado:', container); // Debug container
+
+    menuItems.forEach((item, index) => {
+      const menuItemDiv = document.createElement('div');
+      menuItemDiv.className = 'menu-item-producto';
+      container.appendChild(menuItemDiv);
+    });
   }
 
-  function decrementQuantity(button) {
-    const input = button.parentElement.querySelector('input');
-    if (parseInt(input.value) > 0) {
-      input.value = parseInt(input.value) - 1;
-    }
+  // Ejecutar cuando el documento esté listo
+  document.addEventListener('DOMContentLoaded', agregarMenuItems);
   }
 </script>
 <style>
