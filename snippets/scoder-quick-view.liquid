@@ -840,14 +840,13 @@
       {% comment %} OPCIONES DIFERENCIA DEL PRODUCTO INICIO {% endcomment %}
       <div
         style="
-          flex: 1 1 87% !important;
+          flex: 1 1 89.7% !important;
           width: 100% !important;
           background-color: #4CAF50 !important;
           overflow-y: auto !important;
           overflow-x: hidden !important;
           display: flex !important;
           flex-direction: column !important;
-          padding: 0 15px !important;
         "
         class="opciontes-seleccion-cliente"
       >
@@ -866,6 +865,7 @@
               font-weight: bold !important;
               font-size: 22px !important;
               white-space: normal !important;
+              padding-bottom: 13px !important;
             "
           >
             PERSONALIZAR EL ÍTEM
@@ -1205,6 +1205,59 @@
                   </button>
                 </div>
               </div>
+              <div
+                class="opcion-principal-detalle-oferta"
+                style="
+                  width: 100%;
+                  padding: 8px 0px 8px 3.5px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  border-bottom: 1px solid rgb(212, 208, 208);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    gap: 4px;
+                  "
+                >
+                  <span
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                    "
+                  >
+                    Extra Pepperoni
+                  </span>
+                  <span
+                    style="
+                      color: #999999;
+                      font-weight: 500;
+                    "
+                  >
+                    +Bs9.00
+                  </span>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    name="properties[Extra Pepperoni]"
+                    style="
+                      width: 20px;
+                      height: 20px;
+                      cursor: pointer;
+                    "
+                  >
+                </div>
+              </div>
               {% comment %} OPCIONES SUB MENU ITEM FIN {% endcomment %}
             </div>
           </div>
@@ -1215,7 +1268,7 @@
       {% comment %} ACCION PARA EL CLIENTE INICIO {% endcomment %}
       <div
         style="
-          height: 10.5% !important;
+          height: 10.3% !important;
           width: 100% !important;
           background-color: #2196F3 !important;
           overflow-y: auto !important;
@@ -1260,22 +1313,10 @@
   }
 
   .opcion-principal-detalle-oferta input[type='radio']:checked {
-    border-width: 5px !important; /* Borde más grueso cuando está seleccionado */
+    border-width: 5px !important;
   }
 
   .opcion-principal-detalle-oferta input[type='radio']:hover {
     background-color: rgba(0, 0, 0, 0.05);
-  }
-
-  input[type='number'] {
-    -webkit-user-select: none !important;
-    text-align: center !important;
-    pointer-events: none !important;
-  }
-
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number']::-webkit-outer-spin-button {
-    -webkit-appearance: none !important;
-    margin: 0 !important;
   }
 </style>
