@@ -843,89 +843,20 @@
               </div>
               {% comment %} TITULO PRINCIPAL MENU ITEM FIN {% endcomment %}
               {% comment %} OPCIONES MENU ITEM INICIO {% endcomment %}
-              <div class="productView-groupItem" style="display: flex; flex-wrap: wrap; justify-content:flex-start;">
-                <div
-                  class="opcion-principal-detalle-oferta"
-                  style="
-                    width: 100%;
-                    padding: 8px 5.5px 8px 3.5px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid rgb(212, 208, 208);
-                  "
-                >
-                  <div
-                    style="
-                      display: flex;
-                      gap: 4px
-                    "
-                  >
-                    <span
-                      style="
-                        font-weight: 400;
-                        color: #1d1d1d;
-                      "
-                    >
-                      Hola Mundo
-                    </span>
-                    <span
-                      style="
-                        color: #999999;
-                        font-weight: 500;
-                      "
-                    >
-                      +Bs18.00
-                    </span>
+              <div class="item-menuItem">
+                <div class="opcion-principal-detalle-oferta_imi">
+                  <div class="opcion-texto_imi">
+                    <span class="opcion-nombre_imi">Hola Mundo</span>
+                    <span class="opcion-precio_imi">+Bs18.00</span>
                   </div>
 
-                  <div
-                    style="
-                      position: relative;
-                      width: 24px;
-                      height: 24px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center
-                    "
-                  >
-                    <div
-                      style="
-                        position: absolute;
-                        width: 44px;
-                        height: 44px;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        border-radius: 50%;
-                        transition: background-color 0.2s ease;
-                        pointer-events: none
-                      "
-                      id="hoverArea"
-                    ></div>
-
+                  <div class="radio-container_imi">
+                    <div class="hover-area_imi" id="hoverArea"></div>
                     <input
                       type="radio"
                       id="pizza-size"
                       name="opcion-pizza"
-                      style="
-                        appearance: auto !important;
-                        -webkit-appearance: radio !important;
-                        opacity: 1 !important;
-                        display: block !important;
-                        width: 24px !important;
-                        height: 24px !important;
-                        margin: 0 !important;
-                        cursor: pointer !important;
-                        position: relative !important;
-                        z-index: 1 !important;
-                        visibility: visible !important;
-                        accent-color: #232323 !important;
-                        border: 3px solid #232323 !important;
-                        border-radius: 50% !important;
-                      "
-                      onmouseover="document.getElementById('hoverArea').style.backgroundColor='rgba(0,0,0,0.08)'"
-                      onmouseout="document.getElementById('hoverArea').style.backgroundColor='transparent'"
+                      class="radio-input"
                       {% if forloop.first %}
                         checked
                       {% endif %}
@@ -999,7 +930,7 @@
               {% comment %} TITULO PRINCIPAL SUB MENU ITEM FIN {% endcomment %}
               {% comment %} OPCIONES SUB MENU ITEM INICIO {% endcomment %}
               <div
-                class="opcion-principal-detalle-oferta"
+                class="opcion-principal-detalle-oferta_imi"
                 style="
                   width: 100%;
                   padding: 8px 0px 8px 3.5px;
@@ -1108,7 +1039,7 @@
                 </div>
               </div>
               <div
-                class="opcion-principal-detalle-oferta"
+                class="opcion-principal-detalle-oferta_imi"
                 style="
                   width: 100%;
                   padding: 8px 0px 8px 3.5px;
@@ -1226,25 +1157,25 @@
   }
 </script>
 <style>
-  .opcion-principal-detalle-oferta input[type='radio'] {
+  .opcion-principal-detalle-oferta_imi input[type='radio'] {
     opacity: 1 !important;
     visibility: visible !important;
   }
 
-  .opcion-principal-detalle-oferta input[type='radio']:checked {
+  .opcion-principal-detalle-oferta_imi input[type='radio']:checked {
     border-width: 5px !important;
   }
 
-  .opcion-principal-detalle-oferta input[type='radio']:hover {
+  .opcion-principal-detalle-oferta_imi input[type='radio']:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
 
-  .opcion-principal-detalle-oferta input[type='checkbox'] {
+  .opcion-principal-detalle-oferta_imi input[type='checkbox'] {
     opacity: 1 !important;
     visibility: visible !important;
   }
 
-  .opcion-principal-detalle-oferta input[type='checkbox']:checked {
+  .opcion-principal-detalle-oferta_imi input[type='checkbox']:checked {
     border-width: 5px !important;
   }
 
@@ -1330,6 +1261,79 @@
     font-size: 16px !important;
     color: #69d975 !important;
     margin-bottom: 0px !important;
+  }
+
+
+  .item-menuItem {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+   .opcion-principal-detalle-oferta_imi {
+    width: 100%;
+    padding: 8px 5.5px 8px 3.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(212, 208, 208);
+  }
+
+  .opcion-texto_imi {
+    display: flex;
+    gap: 4px;
+  }
+
+  .opcion-nombre_imi {
+    font-weight: 400;
+    color: #1d1d1d;
+  }
+
+  .opcion-precio_imi {
+    color: #999999;
+    font-weight: 500;
+  }
+
+  .radio-container_imi {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hover-area_imi {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    pointer-events: none;
+  }
+
+  .radio-input {
+    appearance: auto !important;
+    -webkit-appearance: radio !important;
+    opacity: 1 !important;
+    display: block !important;
+    width: 24px !important;
+    height: 24px !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    z-index: 1 !important;
+    visibility: visible !important;
+    accent-color: #232323 !important;
+    border: 3px solid #232323 !important;
+    border-radius: 50% !important;
+  }
+
+  .radio-input:hover + .hover-area_imi {
+    background-color: rgba(0,0,0,0.08);
   }
   {% comment %} FIN DE ESTILOS div class="detalle-producto-right" {% endcomment %}
 </style>
