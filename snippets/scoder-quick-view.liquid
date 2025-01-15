@@ -1309,63 +1309,63 @@
       menuItemProducto.innerHTML = contenidoHTML;
       contendorPrincipal.appendChild(menuItemProducto);
     });
+  }
 
-    // Funciones de validación para cada tipo
-    function validarLimiteCheckbox(checkbox) {
-      const grupo = checkbox.dataset.group;
-      const limite = parseInt(checkbox.dataset.limite);
-      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-      const checkboxesGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
+  // Funciones de validación para cada tipo
+  function validarLimiteCheckbox(checkbox) {
+    const grupo = checkbox.dataset.group;
+    const limite = parseInt(checkbox.dataset.limite);
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const checkboxesGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
 
-      let seleccionados = 0;
-      checkboxesGrupo.forEach((cb) => {
-        if (cb.checked) seleccionados++;
-      });
+    let seleccionados = 0;
+    checkboxesGrupo.forEach((cb) => {
+      if (cb.checked) seleccionados++;
+    });
 
-      if (seleccionados > limite) {
-        checkbox.checked = false;
-      }
+    if (seleccionados > limite) {
+      checkbox.checked = false;
     }
+  }
 
-    function validarLimiteRadio(radio) {
-      const grupo = radio.dataset.group;
-      const limite = parseInt(radio.dataset.limite);
-      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-      const radiosGrupo = contenedorGrupo.querySelectorAll('input[type="radio"]:checked');
+  function validarLimiteRadio(radio) {
+    const grupo = radio.dataset.group;
+    const limite = parseInt(radio.dataset.limite);
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const radiosGrupo = contenedorGrupo.querySelectorAll('input[type="radio"]:checked');
 
-      if (radiosGrupo.length > limite) {
-        radio.checked = false;
-      }
+    if (radiosGrupo.length > limite) {
+      radio.checked = false;
     }
+  }
 
-    function obtenerSumaGrupo(grupo) {
-      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-      const displays = contenedorGrupo.querySelectorAll('.cantidad-display2');
-      let suma = 0;
-      displays.forEach((display) => {
-        suma += parseInt(display.textContent || '0');
-      });
-      return suma;
-    }
+  function obtenerSumaGrupo(grupo) {
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const displays = contenedorGrupo.querySelectorAll('.cantidad-display2');
+    let suma = 0;
+    displays.forEach((display) => {
+      suma += parseInt(display.textContent || '0');
+    });
+    return suma;
+  }
 
-    function incrementCantidad(id, grupo) {
-      const display = document.getElementById(`cantidad-${id}`);
-      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-      const limite = parseInt(contenedorGrupo.dataset.limite);
-      const sumaActual = obtenerSumaGrupo(grupo);
+  function incrementCantidad(id, grupo) {
+    const display = document.getElementById(`cantidad-${id}`);
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const limite = parseInt(contenedorGrupo.dataset.limite);
+    const sumaActual = obtenerSumaGrupo(grupo);
 
-      if (sumaActual < limite) {
-        const valorActual = parseInt(display.textContent || '0');
-        display.textContent = valorActual + 1;
-      }
-    }
-
-    function decrementCantidad(id) {
-      const display = document.getElementById(`cantidad-${id}`);
+    if (sumaActual < limite) {
       const valorActual = parseInt(display.textContent || '0');
-      if (valorActual > 0) {
-        display.textContent = valorActual - 1;
-      }
+      display.textContent = valorActual + 1;
+    }
+  }
+
+  function decrementCantidad(id) {
+    const display = document.getElementById(`cantidad-${id}`);
+    const valorActual = parseInt(display.textContent || '0');
+    if (valorActual > 0) {
+      display.textContent = valorActual - 1;
     }
   }
 
