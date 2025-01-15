@@ -849,7 +849,6 @@
                     <span class="opcion-nombre_imi">Hola Mundo</span>
                     <span class="opcion-precio_imi">+Bs18.00</span>
                   </div>
-
                   <div class="radio-container_imi">
                     <div class="hover-area_imi" id="hoverArea"></div>
                     <input
@@ -857,75 +856,20 @@
                       id="pizza-size"
                       name="opcion-pizza"
                       class="radio-input"
-                      {% if forloop.first %}
-                        checked
-                      {% endif %}
                     >
                   </div>
                 </div>
               </div>
               {% comment %} OPCIONES MENU ITEM FIN {% endcomment %}
             </div>
-            <div
-              class="sub-item-producto"
-              style="
-                width: 100% !important;
-                min-width: 0 !important;
-                padding: 10px 15px !important;
-                display: flex !important;
-                flex-direction: column !important;
-                gap: 10px !important;
-                background-color: #f3f3f3 !important;
-              "
-            >
+            <div class="sub-item-producto">
               {% comment %} TITULO PRINCIPAL SUB MENU ITEM INICIO {% endcomment %}
-              <div
-                class="titulo-detalle-oferta-producto"
-                style="
-                  display: flex !important;
-                  flex-direction: row !important;
-                  align-items: center !important;
-                  justify-content: space-between !important;
-                  width: 100% !important;
-                "
-              >
-                <div
-                  style="
-                    display: flex !important;
-                    flex-direction: column !important;
-                  "
-                >
-                  <h2
-                    class="titulo-base1 productView-title"
-                    style="
-                      padding-bottom: 2px !important;
-                      font-weight: bold !important;
-                      font-size: 18px !important;
-                    "
-                  >
-                    ELIGE TAMAÑO
-                  </h2>
-                  <span
-                    class="titulo-base2"
-                    style="
-                      color: #B5B6BD !important;
-                      font-size: 14px !important;
-                      margin-bottom: 0px !important;
-                    "
-                  >
-                    Selecciona un articulo
-                  </span>
+              <div class="titulo-detalle-oferta-producto">
+                <div id="titulo-detalle__comp1">
+                  <h2 class="titulo-base1">ELIGE TAMAÑO</h2>
+                  <span class="titulo-base2"> Selecciona un articulo </span>
                 </div>
-                <span
-                  class="titulo-detalle-seleccion text"
-                  style="
-                    font-size: 16px !important;
-                    color: #69d975 !important;
-                    margin-bottom: 0px !important;
-                  "
-                >
-                  REQUERIDO
-                </span>
+                <span class="titulo-detalle-seleccion text"> REQUERIDO </span>
               </div>
               {% comment %} TITULO PRINCIPAL SUB MENU ITEM FIN {% endcomment %}
               {% comment %} OPCIONES SUB MENU ITEM INICIO {% endcomment %}
@@ -1212,7 +1156,7 @@
     flex-direction: column !important;
     width: 100% !important;
     min-width: 0 !important;
-    gap: 15px !important;
+    {% comment %} gap: 15px !important; {% endcomment %}
   }
 
   .detalle-producto-right .opciontes-seleccion-cliente {
@@ -1272,7 +1216,7 @@
 
    .opcion-principal-detalle-oferta_imi {
     width: 100%;
-    padding: 8px 5.5px 8px 3.5px;
+    padding: 3px 5.5px 8px 3.5px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1334,6 +1278,16 @@
 
   .radio-input:hover + .hover-area_imi {
     background-color: rgba(0,0,0,0.08);
+  }
+
+  .sub-item-producto{
+    width: 100% !important;
+    min-width: 0 !important;
+    padding: 10px 15px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+    background-color: #f3f3f3 !important;
   }
   {% comment %} FIN DE ESTILOS div class="detalle-producto-right" {% endcomment %}
 </style>
