@@ -1201,31 +1201,53 @@
 
   function agregarMenuItems() {
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
-    console.log('Iniciando creación de elementos');
 
     menuItems.forEach((item, index) => {
       const textoSeleccion = item.limite === 1 ? 'Selecciona un artículo' : `Selecciona hasta ${item.limite} artículos`;
-
       const colorSolicitud = item.solicitud === 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
 
       const menuItemProducto = document.createElement('div');
       menuItemProducto.className = 'menu-item-producto';
 
-      menuItemProducto.innerHTML = `
+      // Título y descripción
+      let contenidoHTML = `
         <div class="titulo-detalle-oferta-producto">
-          <div id="titulo-detalle__comp1">
+          <div id="titulo-detalle__comp${index}">
             <h2 class="titulo-base1">${item.titulo}</h2>
             <span class="titulo-base2">${textoSeleccion}</span>
           </div>
-          <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud}</span>
+          <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud.toUpperCase()}</span>
         </div>
+        <div class="item-menuItem">
       `;
 
+      // Iterar sobre mainItems
+      item.mainItems.forEach((mainItem, mainIndex) => {
+        const inputType = item.typeSelect === 'radio' ? 'radio' : 'checkbox';
+        contenidoHTML += `
+          <div class="opcion-principal-detalle-oferta3">
+            <div class="producto-info3">
+              <span class="producto-nombre3">${mainItem.titulo}</span>
+              <span class="producto-precio3">+Bs${mainItem.precio}</span>
+            </div>
+            <div class="opcion-nombre1">
+              <div class="hover-area1" id="hoverArea-${index}-${mainIndex}"></div>
+              <input
+                type="${inputType}"
+                id="item-${index}-${mainIndex}"
+                name="opcion-${index}"
+                class="radio-input"
+              >
+            </div>
+          </div>
+        `;
+      });
+
+      contenidoHTML += `</div>`;
+      menuItemProducto.innerHTML = contenidoHTML;
       contendorPrincipal.appendChild(menuItemProducto);
-      console.log(`Elemento ${index + 1} creado:`, item.titulo);
     });
   }
-
   // Agregar ambos eventos para asegurar la ejecución
   document.addEventListener('DOMContentLoaded', () => {
     agregarMenuItems();
@@ -1297,11 +1319,12 @@
   .detalle-producto-right .opciontes-seleccion-cliente {
     flex: 1 1 89.7% !important;
     width: 100% !important;
-    background-color: #4caf50 !important;
+    {% comment %} background-color: #4caf50 !important; {% endcomment %}
     overflow-y: auto !important;
     overflow-x: hidden !important;
     display: flex !important;
     flex-direction: column !important;
+    padding-right : 4px;
   }
 
   .sector-general-opciones-producto .menu-item-producto{
@@ -1423,7 +1446,7 @@
   .sub-item-producto{
     width: 100% !important;
     min-width: 0 !important;
-    padding: 10px 15px !important;
+    padding: 10px 0px 10px 15px !important;
     display: flex !important;
     flex-direction: column !important;
     {% comment %} gap: 10px !important; {% endcomment %}
