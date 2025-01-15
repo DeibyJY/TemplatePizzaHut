@@ -844,13 +844,13 @@
               {% comment %} TITULO PRINCIPAL MENU ITEM FIN {% endcomment %}
               {% comment %} OPCIONES MENU ITEM INICIO {% endcomment %}
               <div class="item-menuItem">
-                <div class="opcion-principal-detalle-oferta_imi">
-                  <div class="opcion-texto_imi">
-                    <span class="opcion-nombre_imi">Hola Mundo</span>
-                    <span class="opcion-precio_imi">+Bs18.00</span>
+                <div class="opcion-principal-detalle-oferta1">
+                  <div class="opcion-texto1">
+                    <span class="opcion-nombre1">Hola Mundo</span>
+                    <span class="opcion-nombre1">+Bs18.00</span>
                   </div>
-                  <div class="radio-container_imi">
-                    <div class="hover-area_imi" id="hoverArea"></div>
+                  <div class="opcion-nombre1">
+                    <div class="hover-area1" id="hoverArea"></div>
                     <input
                       type="radio"
                       id="pizza-size"
@@ -873,508 +873,39 @@
               </div>
               {% comment %} TITULO PRINCIPAL SUB MENU ITEM FIN {% endcomment %}
               {% comment %} OPCIONES SUB MENU ITEM INICIO {% endcomment %}
-              <div
-                class="opcion-principal-detalle-oferta_imi"
-                style="
-                  width: 100%;
-                  padding: 8px 0px 8px 3px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  border-bottom: 1px solid rgb(212, 208, 208);
-                "
-              >
-                <div
-                  style="
-                    display: flex;
-                    gap: 4px;
-                  "
-                >
-                  <span
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                    "
-                  >
-                    Extra Pepperoni
-                  </span>
-                  <span
-                    style="
-                      color: #999999;
-                      font-weight: 500;
-                    "
-                  >
-                    +Bs9.00
-                  </span>
+              <div class="opcion-principal-detalle-oferta2">
+                <div class="producto-info2">
+                  <span class="producto-nombre2">Extra Pepperoni</span>
+                  <span class="producto-precio2">+Bs9.00</span>
                 </div>
-
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 3px;
-                  "
-                >
-                  <button
-                    type="button"
-                    onclick="decrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                    >
+                <div class="controles-cantidad2">
+                  <button type="button" onclick="decrementQuantity(this)" class="btn-cantidad2">
+                    <svg class="MuiSvgIcon-root2" focusable="false" aria-hidden="true" viewBox="0 0 24 24">
                       <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                     </svg>
                   </button>
-
-                  <p
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                      width: 26px;
-                      height: 32px;
-                      text-align: center;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      margin: 0;
-                    "
-                  >
-                    1
-                  </p>
-
-                  <button
-                    type="button"
-                    onclick="incrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
+                  <p class="cantidad-display2">1</p>
+                  <button type="button" onclick="incrementQuantity(this)" class="btn-cantidad2">
+                    <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                       <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                     </svg>
                   </button>
                 </div>
               </div>
-              <div
-                class="opcion-principal-detalle-oferta_imi"
-                style="
-                  width: 100%;
-                  padding: 8px 0px 8px 3px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  border-bottom: 1px solid rgb(212, 208, 208);
-                "
-              >
-                <div
-                  style="
-                    display: flex;
-                    gap: 4px;
-                  "
-                >
-                  <span
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                    "
-                  >
-                    Extra Pepperoni
-                  </span>
-                  <span
-                    style="
-                      color: #999999;
-                      font-weight: 500;
-                    "
-                  >
-                    +Bs9.00
-                  </span>
+
+              <div class="opcion-principal-detalle-oferta3">
+                <div class="producto-info3">
+                  <span class="producto-nombre3">Extra Pepperoni</span>
+                  <span class="producto-precio3">+Bs9.00</span>
                 </div>
 
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 3px;
-                  "
-                >
-                  <button
-                    type="button"
-                    onclick="decrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-
-                  <p
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                      width: 26px;
-                      height: 32px;
-                      text-align: center;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      margin: 0;
-                    "
-                  >
-                    1
-                  </p>
-
-                  <button
-                    type="button"
-                    onclick="incrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div
-                class="opcion-principal-detalle-oferta_imi"
-                style="
-                  width: 100%;
-                  padding: 8px 0px 8px 3px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  border-bottom: 1px solid rgb(212, 208, 208);
-                "
-              >
-                <div
-                  style="
-                    display: flex;
-                    gap: 4px;
-                  "
-                >
-                  <span
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                    "
-                  >
-                    Extra Pepperoni
-                  </span>
-                  <span
-                    style="
-                      color: #999999;
-                      font-weight: 500;
-                    "
-                  >
-                    +Bs9.00
-                  </span>
-                </div>
-
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 3px;
-                  "
-                >
-                  <button
-                    type="button"
-                    onclick="decrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-
-                  <p
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                      width: 26px;
-                      height: 32px;
-                      text-align: center;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      margin: 0;
-                    "
-                  >
-                    1
-                  </p>
-
-                  <button
-                    type="button"
-                    onclick="incrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div
-                class="opcion-principal-detalle-oferta_imi"
-                style="
-                  width: 100%;
-                  padding: 8px 0px 8px 3px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  border-bottom: 1px solid rgb(212, 208, 208);
-                "
-              >
-                <div
-                  style="
-                    display: flex;
-                    gap: 4px;
-                  "
-                >
-                  <span
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                    "
-                  >
-                    Extra Pepperoni
-                  </span>
-                  <span
-                    style="
-                      color: #999999;
-                      font-weight: 500;
-                    "
-                  >
-                    +Bs9.00
-                  </span>
-                </div>
-
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 3px;
-                  "
-                >
-                  <button
-                    type="button"
-                    onclick="decrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-
-                  <p
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                      width: 26px;
-                      height: 32px;
-                      text-align: center;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      margin: 0;
-                    "
-                  >
-                    1
-                  </p>
-
-                  <button
-                    type="button"
-                    onclick="incrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div
-                class="opcion-principal-detalle-oferta_imi"
-                style="
-                  width: 100%;
-                  padding: 8px 0px 8px 3.5px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  border-bottom: 1px solid rgb(212, 208, 208);
-                "
-              >
-                <div
-                  style="
-                    display: flex;
-                    gap: 4px;
-                  "
-                >
-                  <span
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                    "
-                  >
-                    Extra Pepperoni
-                  </span>
-                  <span
-                    style="
-                      color: #999999;
-                      font-weight: 500;
-                    "
-                  >
-                    +Bs9.00
-                  </span>
-                </div>
-
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                  "
-                >
-                  <div
-                    class="checkbox-container"
-                    style="
-                      padding: 0px 5px 0px 0px;
-                      border-radius: 4px;
-                      transition: background-color 0.2s ease;
-                      cursor: pointer;
-                    "
-                  >
+                <div class="control-checkbox3">
+                  <div class="checkbox-container3">
                     <input
                       type="checkbox"
                       id="extra-pepperoni"
                       name="properties[Extra Pepperoni]"
-                      style="
-                        -webkit-appearance: checkbox !important;
-                        -moz-appearance: checkbox !important;
-                        width: 20px !important;
-                        height: 20px !important;
-                        margin: 0 !important;
-                        padding: 0 !important;
-                        cursor: pointer !important;
-                        display: block !important;
-                        position: static !important;
-                        accent-color: black !important;
-                      "
+                      class="input-checkbox3"
                     >
                   </div>
                 </div>
@@ -1428,25 +959,25 @@
   }
 </script>
 <style>
-  .opcion-principal-detalle-oferta_imi input[type='radio'] {
+  .opcion-principal-detalle-oferta1 input[type='radio'] {
     opacity: 1 !important;
     visibility: visible !important;
   }
 
-  .opcion-principal-detalle-oferta_imi input[type='radio']:checked {
+  .opcion-principal-detalle-oferta1 input[type='radio']:checked {
     border-width: 5px !important;
   }
 
-  .opcion-principal-detalle-oferta_imi input[type='radio']:hover {
+  .opcion-principal-detalle-oferta1 input[type='radio']:hover {
     background-color: rgba(0, 0, 0, 0.2);
   }
 
-  .opcion-principal-detalle-oferta_imi input[type='checkbox'] {
+  .opcion-principal-detalle-oferta1 input[type='checkbox'] {
     opacity: 1 !important;
     visibility: visible !important;
   }
 
-  .opcion-principal-detalle-oferta_imi input[type='checkbox']:checked {
+  .opcion-principal-detalle-oferta1 input[type='checkbox']:checked {
     border-width: 5px !important;
   }
 
@@ -1541,7 +1072,7 @@
     justify-content: flex-start;
   }
 
-   .opcion-principal-detalle-oferta_imi {
+   .opcion-principal-detalle-oferta1 {
     width: 100%;
     padding: 3px 5.5px 8px 3px;
     display: flex;
@@ -1550,22 +1081,22 @@
     border-bottom: 1px solid rgb(212, 208, 208);
   }
 
-  .opcion-texto_imi {
+  .opcion-texto1 {
     display: flex;
     gap: 4px;
   }
 
-  .opcion-nombre_imi {
+  .opcion-nombre1 {
     font-weight: 400;
     color: #1d1d1d;
   }
 
-  .opcion-precio_imi {
+  .opcion-nombre1 {
     color: #999999;
     font-weight: 500;
   }
 
-  .radio-container_imi {
+  .opcion-nombre1 {
     position: relative;
     width: 24px;
     height: 24px;
@@ -1574,7 +1105,7 @@
     justify-content: center;
   }
 
-  .hover-area_imi {
+  .hover-area1 {
     position: absolute;
     width: 44px;
     height: 44px;
@@ -1603,7 +1134,7 @@
     border-radius: 50% !important;
   }
 
-  .radio-input:hover + .hover-area_imi {
+  .radio-input:hover + .hover-area1 {
     background-color: rgba(0,0,0,0.08);
   }
 
@@ -1615,6 +1146,114 @@
     flex-direction: column !important;
     {% comment %} gap: 10px !important; {% endcomment %}
     background-color: #f3f3f3 !important;
+  }
+
+  .opcion-principal-detalle-oferta2 {
+    width: 100%;
+    padding: 8px 0px 8px 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(212, 208, 208);
+  }
+
+  .producto-info2 {
+    display: flex;
+    gap: 4px;
+  }
+
+  .producto-nombre2 {
+    font-weight: 400;
+    color: #1d1d1d;
+  }
+
+  .producto-precio2 {
+    color: #999999;
+    font-weight: 500;
+  }
+
+  .controles-cantidad2 {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .btn-cantidad2 {
+    width: 32px !important;
+    height: 32px !important;
+    border: none !important;
+    background: transparent !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+  }
+
+  .cantidad-display2 {
+    font-weight: 400;
+    color: #1d1d1d;
+    width: 26px;
+    height: 32px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .MuiSvgIcon-root2 {
+    width: 24px;
+    height: 24px;
+  }
+
+  .opcion-principal-detalle-oferta3 {
+    width: 100%;
+    padding: 8px 0px 8px 3.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(212, 208, 208);
+  }
+
+  .producto-info3 {
+    display: flex;
+    gap: 4px;
+  }
+
+  .producto-nombre3 {
+    font-weight: 400;
+    color: #1d1d1d;
+  }
+
+  .producto-precio3 {
+    color: #999999;
+    font-weight: 500;
+  }
+
+  .control-checkbox3 {
+    display: flex;
+    align-items: center;
+  }
+
+  .checkbox-container3 {
+    padding: 0px 5px 0px 0px;
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
+    cursor: pointer;
+  }
+
+  .input-checkbox3 {
+    -webkit-appearance: checkbox !important;
+    -moz-appearance: checkbox !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    display: block !important;
+    position: static !important;
+    accent-color: black !important;
   }
   {% comment %} FIN DE ESTILOS div class="detalle-producto-right" {% endcomment %}
 </style>
