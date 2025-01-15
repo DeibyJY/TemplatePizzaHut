@@ -877,7 +877,334 @@
                 class="opcion-principal-detalle-oferta_imi"
                 style="
                   width: 100%;
-                  padding: 8px 0px 8px 3.5px;
+                  padding: 8px 0px 8px 3px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  border-bottom: 1px solid rgb(212, 208, 208);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    gap: 4px;
+                  "
+                >
+                  <span
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                    "
+                  >
+                    Extra Pepperoni
+                  </span>
+                  <span
+                    style="
+                      color: #999999;
+                      font-weight: 500;
+                    "
+                  >
+                    +Bs9.00
+                  </span>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <button
+                    type="button"
+                    onclick="decrementQuantity(this)"
+                    style="
+                      width: 32px !important;
+                      height: 32px !important;
+                      border: none !important;
+                      background: transparent !important;
+                      cursor: pointer !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      padding: 0 !important;
+                    "
+                  >
+                    <svg
+                      class="MuiSvgIcon-root"
+                      focusable="false"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                    </svg>
+                  </button>
+
+                  <p
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                      width: 26px;
+                      height: 32px;
+                      text-align: center;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      margin: 0;
+                    "
+                  >
+                    1
+                  </p>
+
+                  <button
+                    type="button"
+                    onclick="incrementQuantity(this)"
+                    style="
+                      width: 32px !important;
+                      height: 32px !important;
+                      border: none !important;
+                      background: transparent !important;
+                      cursor: pointer !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      padding: 0 !important;
+                    "
+                  >
+                    <svg
+                      class="MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="opcion-principal-detalle-oferta_imi"
+                style="
+                  width: 100%;
+                  padding: 8px 0px 8px 3px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  border-bottom: 1px solid rgb(212, 208, 208);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    gap: 4px;
+                  "
+                >
+                  <span
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                    "
+                  >
+                    Extra Pepperoni
+                  </span>
+                  <span
+                    style="
+                      color: #999999;
+                      font-weight: 500;
+                    "
+                  >
+                    +Bs9.00
+                  </span>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <button
+                    type="button"
+                    onclick="decrementQuantity(this)"
+                    style="
+                      width: 32px !important;
+                      height: 32px !important;
+                      border: none !important;
+                      background: transparent !important;
+                      cursor: pointer !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      padding: 0 !important;
+                    "
+                  >
+                    <svg
+                      class="MuiSvgIcon-root"
+                      focusable="false"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                    </svg>
+                  </button>
+
+                  <p
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                      width: 26px;
+                      height: 32px;
+                      text-align: center;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      margin: 0;
+                    "
+                  >
+                    1
+                  </p>
+
+                  <button
+                    type="button"
+                    onclick="incrementQuantity(this)"
+                    style="
+                      width: 32px !important;
+                      height: 32px !important;
+                      border: none !important;
+                      background: transparent !important;
+                      cursor: pointer !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      padding: 0 !important;
+                    "
+                  >
+                    <svg
+                      class="MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="opcion-principal-detalle-oferta_imi"
+                style="
+                  width: 100%;
+                  padding: 8px 0px 8px 3px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  border-bottom: 1px solid rgb(212, 208, 208);
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    gap: 4px;
+                  "
+                >
+                  <span
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                    "
+                  >
+                    Extra Pepperoni
+                  </span>
+                  <span
+                    style="
+                      color: #999999;
+                      font-weight: 500;
+                    "
+                  >
+                    +Bs9.00
+                  </span>
+                </div>
+
+                <div
+                  style="
+                    display: flex;
+                    align-items: center;
+                    gap: 3px;
+                  "
+                >
+                  <button
+                    type="button"
+                    onclick="decrementQuantity(this)"
+                    style="
+                      width: 32px !important;
+                      height: 32px !important;
+                      border: none !important;
+                      background: transparent !important;
+                      cursor: pointer !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      padding: 0 !important;
+                    "
+                  >
+                    <svg
+                      class="MuiSvgIcon-root"
+                      focusable="false"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                    </svg>
+                  </button>
+
+                  <p
+                    style="
+                      font-weight: 400;
+                      color: #1d1d1d;
+                      width: 26px;
+                      height: 32px;
+                      text-align: center;
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                      margin: 0;
+                    "
+                  >
+                    1
+                  </p>
+
+                  <button
+                    type="button"
+                    onclick="incrementQuantity(this)"
+                    style="
+                      width: 32px !important;
+                      height: 32px !important;
+                      border: none !important;
+                      background: transparent !important;
+                      cursor: pointer !important;
+                      display: flex !important;
+                      align-items: center !important;
+                      justify-content: center !important;
+                      padding: 0 !important;
+                    "
+                  >
+                    <svg
+                      class="MuiSvgIcon-root"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="opcion-principal-detalle-oferta_imi"
+                style="
+                  width: 100%;
+                  padding: 8px 0px 8px 3px;
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
@@ -1216,7 +1543,7 @@
 
    .opcion-principal-detalle-oferta_imi {
     width: 100%;
-    padding: 3px 5.5px 8px 3.5px;
+    padding: 3px 5.5px 8px 3px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1286,7 +1613,7 @@
     padding: 10px 15px !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 10px !important;
+    {% comment %} gap: 10px !important; {% endcomment %}
     background-color: #f3f3f3 !important;
   }
   {% comment %} FIN DE ESTILOS div class="detalle-producto-right" {% endcomment %}
