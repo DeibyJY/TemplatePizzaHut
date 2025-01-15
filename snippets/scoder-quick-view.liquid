@@ -1201,9 +1201,10 @@
 
   function agregarMenuItems() {
     const container = document.querySelector('.sector-general-opciones-producto');
-    console.log('Container encontrado:', container); // Debug container
+    console.log('Container encontrado:', container);
 
     menuItems.forEach((item, index) => {
+      console.log(`Procesando item ${index}:`, item);
       const menuItemDiv = document.createElement('div');
       menuItemDiv.className = 'menu-item-producto';
       container.appendChild(menuItemDiv);
@@ -1212,7 +1213,6 @@
 
   // Ejecutar cuando el documento esté listo
   document.addEventListener('DOMContentLoaded', agregarMenuItems);
-  }
 </script>
 <style>
   .opcion-principal-detalle-oferta1 input[type='radio'] {
