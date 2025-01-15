@@ -1212,7 +1212,7 @@
       // Título y descripción
       let contenidoHTML = `
         <div class="titulo-detalle-oferta-producto">
-          <div id="titulo-detalle__comp${index}">
+          <div id="titulo-detalle__comp1">
             <h2 class="titulo-base1">${item.titulo}</h2>
             <span class="titulo-base2">${textoSeleccion}</span>
           </div>
@@ -1233,8 +1233,8 @@
             <div class="opcion-nombre1">
               <div class="hover-area1" id="hoverArea-${index}-${mainIndex}"></div>
               <input
-                type="${inputType}"
-                id="item-${index}-${mainIndex}"
+                type="radio"
+                id="item-${index}-${mainIradiondex}"
                 name="opcion-${index}"
                 class="radio-input"
               >
@@ -1301,11 +1301,11 @@
   }
 
   .productView-product .productView-title {
-    padding-bottom: 5px !important;
+    {% comment %} padding-bottom: 5px !important; {% endcomment %}
     font-weight: bold !important;
     font-size: 22px !important;
     white-space: normal !important;
-    padding-bottom: 13px !important;
+    {% comment %} padding-bottom: 13px !important; {% endcomment %}
   }
 
   .productView-product .sector-general-opciones-producto {
