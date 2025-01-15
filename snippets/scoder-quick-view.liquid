@@ -1205,10 +1205,10 @@
     menuItems.forEach((item, index) => {
       const textoSeleccion = item.limite == 1 ? 'Selecciona un artículo' : `Selecciona hasta ${item.limite} artículos`;
       const colorSolicitud = item.solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-      
+
       const menuItemProducto = document.createElement('div');
       menuItemProducto.className = 'menu-item-producto';
-      
+
       let contenidoHTML = `
         <div class="titulo-detalle-oferta-producto">
           <div id="titulo-detalle__comp1">
@@ -1219,7 +1219,7 @@
         </div>
         <div class="item-menuItem">
       `;
-      
+
       item.mainItems.forEach((mainItem, mainIndex) => {
         if (item.typeSelect == 'radio') {
           contenidoHTML += `
@@ -1240,7 +1240,7 @@
             </div>
           `;
         }
-    
+
         if (item.typeSelect == 'numberCount') {
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta2">
@@ -1264,7 +1264,7 @@
             </div>
           `;
         }
-    
+
         if (item.typeSelect == 'checkbox') {
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta3">
@@ -1288,12 +1288,12 @@
           `;
         }
       });
-    
+
       contenidoHTML += `</div>`;
       menuItemProducto.innerHTML = contenidoHTML;
       contendorPrincipal.appendChild(menuItemProducto);
     });
-    
+
     // Funciones auxiliares para manejar los contadores y límites
     function incrementCantidad(id, limite) {
       const elemento = document.getElementById(id);
@@ -1302,7 +1302,7 @@
         elemento.textContent = valor + 1;
       }
     }
-    
+
     function decrementCantidad(id) {
       const elemento = document.getElementById(id);
       let valor = parseInt(elemento.textContent);
@@ -1310,20 +1310,21 @@
         elemento.textContent = valor - 1;
       }
     }
-    
+
     function validarCheckbox(checkbox, grupo, limite) {
       const checkboxesGrupo = document.querySelectorAll(`input[type="checkbox"][data-group="${grupo}"]`);
       let cantidadSeleccionada = 0;
-      
-      checkboxesGrupo.forEach(cb => {
+
+      checkboxesGrupo.forEach((cb) => {
         if (cb.checked) cantidadSeleccionada++;
       });
-    
+
       if (cantidadSeleccionada > limite) {
         checkbox.checked = false;
       }
     }
-    
+  }
+
   // Agregar ambos eventos para asegurar la ejecución
   document.addEventListener('DOMContentLoaded', () => {
     agregarMenuItems();
