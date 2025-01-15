@@ -1223,8 +1223,8 @@
 
       // Iterar sobre mainItems
       item.mainItems.forEach((mainItem, mainIndex) => {
-        const inputType = item.typeSelect === 'radio' ? 'radio' : 'checkbox';
-        contenidoHTML += `
+        if (item.typeSelect == 'radio') {
+          contenidoHTML += `
           <div class="opcion-principal-detalle-oferta3">
             <div class="producto-info3">
               <span class="producto-nombre3">${mainItem.titulo}</span>
@@ -1241,6 +1241,13 @@
             </div>
           </div>
         `;
+        }
+
+        if (item.typeSelect == 'numberCount') {
+        }
+
+        if (item.typeSelect == 'checkbox') {
+        }
       });
 
       contenidoHTML += `</div>`;
