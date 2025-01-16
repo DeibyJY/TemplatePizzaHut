@@ -1123,7 +1123,7 @@
 
     menuItems.forEach((item, index) => {
       const textoSeleccion =
-        item.solicitud === 'Opcional'
+        item.solicitud == 'Opcional'
           ? item.limite == 1
             ? 'Selecciona hasta un artículo'
             : `Selecciona hasta ${item.limite} artículos`
@@ -1152,7 +1152,7 @@
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
                 <span class="producto-nombre3">${mainItem.titulo}</span>
-                <span class="producto-precio3">+Bs${mainItem.precio}</span>
+                ${mainItem.precio > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
               </div>
               <div class="opcion-nombre1">
                 <div class="hover-area1" id="hoverArea-${index}-${mainIndex}"></div>
@@ -1175,7 +1175,7 @@
             <div class="opcion-principal-detalle-oferta2">
               <div class="producto-info2">
                 <span class="producto-nombre2">${mainItem.titulo}</span>
-                <span class="producto-precio2">+Bs${mainItem.precio}</span>
+                ${mainItem.precio > 0 ? `<span class="producto-precio2">+Bs${mainItem.precio}</span>` : ''}
               </div>
               <div class="controles-cantidad2">
                 <button 
@@ -1211,7 +1211,7 @@
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
                 <span class="producto-nombre3">${mainItem.titulo}</span>
-                <span class="producto-precio3">+Bs${mainItem.precio}</span>
+                ${mainItem.precio > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
               </div>
               <div class="control-checkbox3">
                 <div class="checkbox-container3">
