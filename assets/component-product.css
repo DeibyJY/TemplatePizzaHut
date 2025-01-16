@@ -364,7 +364,14 @@
 }
 .productView-options,
 .productView-buttons {
-  width: auto;
+  /* REA : MODIFIQUE AQUI */
+  /* width: auto; */
+  height: 100% !important;
+  width: 100% !important;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 .product-details .product-option {
   display: inherit;
