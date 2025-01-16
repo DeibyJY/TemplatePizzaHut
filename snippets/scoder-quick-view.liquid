@@ -1348,19 +1348,63 @@
     const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
     const limite = parseInt(contenedorGrupo.dataset.limite);
     const sumaActual = obtenerSumaGrupo(grupo);
-
+  
     if (sumaActual < limite) {
       const valorActual = parseInt(display.textContent || '0');
       display.textContent = valorActual + 1;
+      // Actualizar estado de todos los botones después de incrementar
+      actualizarBotonesNumberCount(grupo);
     }
   }
+  
 
-  function decrementCantidad(id) {
-    const display = document.getElementById(`cantidad-${id}`);
-    const valorActual = parseInt(display.textContent || '0');
-    if (valorActual > 0) {
-      display.textContent = valorActual - 1;
-    }
+function decrementCantidad(id, grupo) {
+  const display = document.getElementById(`cantidad-${id}`);
+  const valorActual = parseInt(display.textContent || '0');
+  
+  if (valorActual > 0) {
+    display.textContent = valorActual - 1;
+    // Actualizar estado de todos los botones después de decrementar
+    actualizarBotonesNumberCount(grupo);
+  }
+}
+
+  function actualizarBotonesNumberCount(grupo) {
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const limite = parseInt(contenedorGrupo.dataset.limite);
+    const sumaTotal = obtenerSumaGrupo(grupo);
+    
+    // Obtener todos los pares de botones y sus displays
+    const elementosGrupo = contenedorGrupo.querySelectorAll('.opcion-principal-detalle-oferta2');
+    
+    elementosGrupo.forEach((elemento, index) => {
+      const botonIncremento = elemento.querySelector('button:last-child');
+      const botonDecremento = elemento.querySelector('button:first-child');
+      const display = elemento.querySelector('.cantidad-display2');
+      const cantidad = parseInt(display.textContent || '0');
+      
+      // Manejar botón de incremento
+      if (sumaTotal >= limite) {
+        // Si llegamos al límite, deshabilitamos incremento
+        botonIncremento.style.fill = 'currentColor';
+        botonIncremento.disabled = true;
+      } else {
+        // Si no llegamos al límite, habilitamos incremento
+        botonIncremento.style.fill = '';
+        botonIncremento.disabled = false;
+      }
+      
+      // Manejar botón de decremento
+      if (cantidad === 0) {
+        // Si el valor es 0, deshabilitamos decremento
+        botonDecremento.style.fill = 'currentColor';
+        botonDecremento.disabled = true;
+      } else {
+        // Si el valor es mayor a 0, habilitamos decremento
+        botonDecremento.style.fill = '';
+        botonDecremento.disabled = false;
+      }
+    });
   }
 
   {% comment %} MARCAR OPCIONES PREDEFINIDAS CUANDO ES REQUERIDO {% endcomment %}
