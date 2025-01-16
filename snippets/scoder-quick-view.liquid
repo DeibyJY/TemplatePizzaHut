@@ -1482,7 +1482,11 @@ function decrementCantidad(id, grupo) {
           // Marcar elementos en rojo si falta selección
           const checkboxes = contenedorGrupo.querySelectorAll('.producto-nombre3');
           checkboxes.forEach(elem => {
-            elem.style.color = faltaSeleccion ? '#FF6565' : '';
+            if (faltaSeleccion) {
+              elem.style.setProperty('color', '#FF6565', 'important');
+            } else {
+              elem.style.removeProperty('color');
+            }
           });
         }
         else if (item.typeSelect === 'numberCount') {
@@ -1492,19 +1496,23 @@ function decrementCantidad(id, grupo) {
           // Marcar elementos en rojo si falta selección
           const elementos = contenedorGrupo.querySelectorAll('.producto-nombre2');
           elementos.forEach(elem => {
-            elem.style.color = faltaSeleccion ? '#FF6565' : '';
+            if (faltaSeleccion) {
+              elem.style.setProperty('color', '#FF6565', 'important');
+            } else {
+              elem.style.removeProperty('color');
+            }
           });
         }
         
         // Actualizar colores de los títulos
         if (faltaSeleccion) {
-          tituloBase1.style.color = '#FF6565';
-          tituloBase2.style.color = '#FF6565';
-          tituloSeleccion.style.color = '#FF6565';
+          tituloBase1.style.setProperty('color', '#FF6565', 'important');
+          tituloBase2.style.setProperty('color', '#FF6565', 'important');
+          tituloSeleccion.style.setProperty('color', '#FF6565', 'important');
         } else {
-          tituloBase1.style.color = '';
-          tituloBase2.style.color = '';
-          tituloSeleccion.style.color = '';
+          tituloBase1.style.removeProperty('color');
+          tituloBase2.style.removeProperty('color');
+          tituloSeleccion.style.removeProperty('color');
         }
       }
     });
