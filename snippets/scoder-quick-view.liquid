@@ -868,8 +868,6 @@
   %}
 {%- endif -%}
 <script>
-  if (typeof window.menuItemsInitialized === 'undefined') {
-    window.menuItemsInitialized = true;
 
   const menuItems = [
     {
@@ -1565,7 +1563,6 @@
       }
     });
   }
-  
 
   // Agregar ambos eventos para asegurar la ejecución
   document.addEventListener('DOMContentLoaded', () => {
@@ -1579,7 +1576,6 @@
     marcarOpcionesRequeridas();
     verificarRequeridos();
   }
-}
 </script>
 <style>
   .opcion-principal-detalle-oferta1 input[type='radio'] {
