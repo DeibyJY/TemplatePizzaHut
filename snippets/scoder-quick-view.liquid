@@ -1072,147 +1072,6 @@
               </div>
             </div>
           </noscript>
-          {% comment %}
-            {%- if show_quick_view_qty -%}
-              <div class="quantity_selector">
-                <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--2 quantity__style--1 clearfix">
-                  <label class="form-label quantity__label" for="quantity-{{ product.id }}-2">
-                    {{- 'products.product.quantity.label__2' | t -}}
-                  </label>
-                  <div class="quantity__container">
-                    <button type="button" name="minus" class="minus btn-quantity">
-                      <span class="visually-hidden">
-                        {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
-                      </span>
-                    </button>
-                    <input
-                      class="form-input quantity__input quantity"
-                      type="number"
-                      name="quantity"
-                      min="1"
-                      value="1"
-                      inputmode="numeric"
-                      pattern="[0-9]*"
-                      id="quantity-{{ product.id }}-2"
-                      data-product="{{ product.id }}"
-                      data-price="{{ current_variant.price }}"
-                      data-inventory-quantity="{{ current_variant.inventory_quantity }}"
-                    >
-                    <button type="button" name="plus" class="plus btn-quantity">
-                      <span class="visually-hidden">
-                        {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
-                      </span>
-                    </button>
-                  </div>
-                </quantity-quick-view-input>
-              </div>
-            {%- endif -%}
-          {% endcomment %}
-
-          {% comment %}
-            {%- if show_subtotal -%}
-              <div class="productView-subtotal">
-                <span class="text">{{ 'sections.cart.subtotal' | t | append: ': ' }}</span>
-                <span class="money-subtotal">{{ subtotal }}</span>
-              </div>
-            {%- endif -%}
-          {% endcomment %}
-
-          {% comment %}
-            {%- liquid
-              assign show_size_chart = settings.show_size_chart
-              if show_size_chart
-                assign has_size_chart = false
-                assign size_chart_type = settings.size_chart_type
-                if size_chart_type == 'product_type' or size_chart_type == 'product_vendor'
-                  assign size_chart_image_type = settings.size_chart_image_type
-                elsif size_chart_type == 'custom_image'
-                  assign size_chart_image = settings.size_chart_image
-                endif
-                if size_chart_type == 'product_type'
-                  if size_chart_image_type == 'jpg'
-                    assign size_chart_image = product.type | handle | append: '-sizechart.jpg'
-                  else
-                    assign size_chart_image = product.type | handle | append: '-sizechart.png'
-                  endif
-                  if images[size_chart_image] != blank
-                    assign has_size_chart = true
-                  endif
-                elsif size_chart_type == 'product_vendor'
-                  if size_chart_image_type == 'jpg'
-                    assign size_chart_image = product.vendor | handle | append: '-sizechart.jpg'
-                  else
-                    assign size_chart_image = product.vendor | handle | append: '-sizechart.jpg'
-                  endif
-                  if images[size_chart_image] != blank
-                    assign has_size_chart = true
-                  endif
-                elsif size_chart_type == 'metafield'
-                  if product.metafields.c_f.size_chart
-                    assign has_size_chart = true
-                  endif
-                elsif size_chart_type == 'custom_image'
-                  if size_chart_image != blank
-                    assign has_size_chart = true
-                  endif
-                endif
-              endif
-
-              assign show_compare_color = settings.show_compare_color
-              if show_compare_color
-                assign show_compare_color_drop_drap = settings.show_compare_color_drop_drap
-                assign product_swatch_option = settings.swatch | downcase
-                assign isColor = false
-                for option in product.options_with_values
-                  assign option_name = option.name | downcase
-                  if product_swatch_option contains option_name
-                    assign isColor = true
-                    assign index = forloop.index0
-                    if option.values.size > 1
-                      assign show_compare_color = true
-                    endif
-                  endif
-                endfor
-              endif
-            -%}
-          {% endcomment %}
-
-          {% comment %}
-            <div class="productView-perks">
-              {%- if show_size_chart and has_size_chart -%}
-                <div class="productView-sizeChart">
-                  <a class="link link-underline" href="javascript:void(0)" data-open-size-chart-popup>
-                    {% render 'icon-size-chart-2' %}
-                    <span class="text">{{ 'size_chart.general.text' | t }}</span>
-                  </a>
-                </div>
-              {%- endif -%}
-              {%- if show_compare_color and isColor -%}
-                <div class="productView-compareColor style-1">
-                  <button
-                    type="button"
-                    class="link link-underline"
-                    aria-label="{{ 'compare_color.general.title' | t }}"
-                    data-open-compare-color-popup
-                  >
-                    {% render 'icon-compare-color-2' %}
-                    <span class="text">{{ 'compare_color.general.title' | t }}</span>
-                  </button>
-                </div>
-              {%- endif -%}
-              {%- if settings.show_ask_an_expert -%}
-                <div class="productView-askAnExpert">
-                  <a class="link link-underline" href="javascript:void(0)" data-open-ask-an-expert>
-                    {%- if settings.ask_an_expert_icon != blank -%}
-                      {{ settings.ask_an_expert_icon }}
-                    {%- endif -%}
-                    <span class="text">{{ 'ask_an_expert.general.text' | t }}</span>
-                  </a>
-                </div>
-              {%- endif -%}
-            </div>
-          {% endcomment %}
-
           {%- assign product_form_id = 'product-quick-view-form-' | append: product.id -%}
           {%- form 'product',
             product,
@@ -1221,60 +1080,12 @@
             novalidate: 'novalidate',
             data-type: 'add-to-cart-form'
           -%}
-            {% comment %}
-              {%- if show_customization_option and has_customization_option -%}
-                {%- if customization_option_1 != blank or customization_option_2 != blank -%}
-                  <div class="productView-group">
-                    {% render 'product-customization',
-                      product: product,
-                      customization_option_hidden: customization_option_hidden,
-                      customization_option_1: customization_option_1,
-                      customization_option_2: customization_option_2
-                    %}
-                  </div>
-                {%- endif -%}
-              {%- endif -%}
-            {% endcomment %}
             <div class="productView-message" style="display: none;"></div>
             <div class="productView-group">
-              {% comment %}
-                {%- if show_quick_view_qty -%}
-                  <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--1 quantity__style--1 clearfix hidden">
-                    <label class="form-label quantity__label" for="quantity-{{ product.id }}">
-                      {{- 'products.product.quantity.label__2' | t -}}
-                    </label>
-                    <div class="quantity__container">
-                      <button type="button" name="minus" class="minus btn-quantity">
-                        <span class="visually-hidden">
-                          {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
-                        </span>
-                      </button>
-                      <input
-                        class="form-input quantity__input quantity"
-                        type="number"
-                        name="quantity"
-                        min="1"
-                        value="1"
-                        inputmode="numeric"
-                        pattern="[0-9]*"
-                        id="quantity-{{ product.id }}"
-                        data-product="{{ product.id }}"
-                        data-price="{{ current_variant.price }}"
-                        data-inventory-quantity="{{ current_variant.inventory_quantity }}"
-                      >
-                      <button type="button" name="plus" class="plus btn-quantity">
-                        <span class="visually-hidden">
-                          {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
-                        </span>
-                      </button>
-                    </div>
-                  </quantity-quick-view-input>
-                {%- endif -%}
-              {% endcomment %}
               <div
                 style="
-                  display: flex;
-                  flex-direction: row;
+                  display: flex !important;
+                  flex-direction: row !important;
                 "
                 class="productView-groupTop"
               >
@@ -1346,34 +1157,6 @@
               </div>
               {%- if show_dynamic_checkout -%}
                 <div class="productView-groupBottom">
-                  {% comment %}
-                    {%- if settings.show_global_checkbox -%}
-                      <div class="productView-groupItem">
-                        {%- if settings.show_global_checkbox -%}
-                          <div class="productView-checkbox global-checkbox">
-                            <input
-                              class="global-checkbox--input"
-                              type="checkbox"
-                              name="conditions"
-                              id="product_conditions_{{ product.id }}"
-                              data-target="#product-checkout-{{ product.id }}"
-                            >
-                            <label
-                              class="global-checkbox--label form-label--checkbox"
-                              for="product_conditions_{{ product.id }}"
-                            >
-                              {{- settings.global_checkbox_text -}}
-                            </label>
-                            {%- if settings.global_checkbox_link_text != blank -%}
-                              <a href="javascript:void(0)" data-term-condition>
-                                {{- settings.global_checkbox_link_text | escape -}}
-                              </a>
-                            {%- endif -%}
-                          </div>
-                        {%- endif -%}
-                      </div>
-                    {%- endif -%}
-                  {% endcomment %}
                   <div class="productView-groupItem">
                     <div
                       class="productView-payment"
