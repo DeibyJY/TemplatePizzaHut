@@ -1569,7 +1569,7 @@ toolbar .toolbar-item.toolbar-sort .label-tab .icon-dropdown {
   .card-action
   .variants
   .product-card-add-to:before {
-  content: "Add to cart Hola Mundo";
+  content: "Add to cart";
   width: auto;
   height: auto;
   font-size: 14px;

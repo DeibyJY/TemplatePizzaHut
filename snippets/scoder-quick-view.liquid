@@ -1120,7 +1120,8 @@
                               {%- assign subtotal = subtotal | strip_html -%}
                               {{ 'products.product.sub_total' | t: value: subtotal }}
                             {%- else -%}
-                              {{ 'products.product.add_to_cart' | t }}
+                              {% comment %} {{ 'products.product.add_to_cart' | t }} {% endcomment %}
+                               Hola Mundo
                             {%- endif -%}
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
