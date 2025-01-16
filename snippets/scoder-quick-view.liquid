@@ -1307,6 +1307,8 @@
     if (totalSeleccionados > limitePermitido) {
       casilla.checked = false;
     }
+
+    verificarRequeridos();
   }
 
   function validarLimiteRadio(radioBoton) {
@@ -1355,6 +1357,8 @@
       // Actualizar estado de todos los botones después de incrementar
       actualizarBotonesNumberCount(grupo);
     }
+
+    verificarRequeridos();
   }
   
 
@@ -1367,6 +1371,7 @@ function decrementCantidad(id, grupo) {
     // Actualizar estado de todos los botones después de decrementar
     actualizarBotonesNumberCount(grupo);
   }
+  verificarRequeridos();
 }
 
   function actualizarBotonesNumberCount(grupo) {
@@ -1409,19 +1414,114 @@ function decrementCantidad(id, grupo) {
 
   {% comment %} MARCAR OPCIONES PREDEFINIDAS CUANDO ES REQUERIDO {% endcomment %}
   function marcarOpcionesRequeridas() {
-
+    menuItems.forEach((item, index) => {
+      if (item.solicitud === 'Requerido') {
+        const contenedorGrupo = document.getElementById(`menuItem-${index}`);
+        
+        // Caso 1: Radio buttons
+        if (item.typeSelect === 'radio') {
+          const primerRadio = contenedorGrupo.querySelector('input[type="radio"]');
+          if (primerRadio) {
+            primerRadio.checked = true;
+          }
+        }
+        
+        // Caso 2: Checkbox
+        else if (item.typeSelect === 'checkbox') {
+          const checkboxes = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
+          const limite = parseInt(item.limite);
+          
+          // Marcar los primeros checkboxes según el límite
+          checkboxes.forEach((checkbox, i) => {
+            if (i < limite) {
+              checkbox.checked = true;
+            }
+          });
+        }
+        
+        // Caso 3: NumberCount
+        else if (item.typeSelect === 'numberCount') {
+          const cantidadElementos = item.mainItems.length;
+          const limite = parseInt(item.limite);
+          const valorPorElemento = Math.floor(limite / cantidadElementos);
+          const residuo = limite % cantidadElementos;
+          
+          item.mainItems.forEach((_, mainIndex) => {
+            const display = document.getElementById(`cantidad-${index}-${mainIndex}`);
+            if (display) {
+              // Distribuir el límite entre todos los elementos
+              let valor = valorPorElemento;
+              if (mainIndex < residuo) {
+                valor += 1; // Distribuir el residuo entre los primeros elementos
+              }
+              display.textContent = valor;
+            }
+          });
+          
+          // Actualizar estado de los botones después de establecer valores
+          actualizarBotonesNumberCount(index);
+        }
+      }
+    });
   }
+
+  function verificarRequeridos() {
+    menuItems.forEach((item, index) => {
+      if (item.solicitud === 'Requerido') {
+        const contenedorGrupo = document.getElementById(`menuItem-${index}`);
+        const tituloBase1 = contenedorGrupo.parentElement.querySelector('.titulo-base1');
+        const tituloBase2 = contenedorGrupo.parentElement.querySelector('.titulo-base2');
+        const tituloSeleccion = contenedorGrupo.parentElement.querySelector('.titulo-detalle-seleccion');
+        
+        let faltaSeleccion = false;
+        
+        if (item.typeSelect === 'checkbox') {
+          const checkboxesSeleccionados = contenedorGrupo.querySelectorAll('input[type="checkbox"]:checked').length;
+          faltaSeleccion = checkboxesSeleccionados < item.limite;
+          
+          // Marcar elementos en rojo si falta selección
+          const checkboxes = contenedorGrupo.querySelectorAll('.producto-nombre3');
+          checkboxes.forEach(elem => {
+            elem.style.color = faltaSeleccion ? '#FF6565' : '';
+          });
+        }
+        else if (item.typeSelect === 'numberCount') {
+          const sumaTotal = obtenerSumaGrupo(index);
+          faltaSeleccion = sumaTotal < item.limite;
+          
+          // Marcar elementos en rojo si falta selección
+          const elementos = contenedorGrupo.querySelectorAll('.producto-nombre2');
+          elementos.forEach(elem => {
+            elem.style.color = faltaSeleccion ? '#FF6565' : '';
+          });
+        }
+        
+        // Actualizar colores de los títulos
+        if (faltaSeleccion) {
+          tituloBase1.style.color = '#FF6565';
+          tituloBase2.style.color = '#FF6565';
+          tituloSeleccion.style.color = '#FF6565';
+        } else {
+          tituloBase1.style.color = '';
+          tituloBase2.style.color = '';
+          tituloSeleccion.style.color = '';
+        }
+      }
+    });
+  }
+  
 
   // Agregar ambos eventos para asegurar la ejecución
   document.addEventListener('DOMContentLoaded', () => {
     agregarMenuItems();
     marcarOpcionesRequeridas();
+    verificarRequeridos();
   });
 
   if (document.readyState === 'complete') {
     agregarMenuItems();
     marcarOpcionesRequeridas();
-    
+    verificarRequeridos();
   }
 </script>
 <style>
