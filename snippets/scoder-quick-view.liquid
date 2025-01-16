@@ -1147,12 +1147,12 @@
       `;
 
       item.mainItems.forEach((mainItem, mainIndex) => {
-        if (item.typeSelect === 'radio') {
+        if (item.typeSelect == 'radio') {
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
                 <span class="producto-nombre3">${mainItem.titulo}</span>
-                ${mainItem.precio > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
+                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
               </div>
               <div class="opcion-nombre1">
                 <div class="hover-area1" id="hoverArea-${index}-${mainIndex}"></div>
@@ -1211,7 +1211,7 @@
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
                 <span class="producto-nombre3">${mainItem.titulo}</span>
-                ${mainItem.precio > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
+                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
               </div>
               <div class="control-checkbox3">
                 <div class="checkbox-container3">
