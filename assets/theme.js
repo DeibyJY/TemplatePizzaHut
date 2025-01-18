@@ -3130,12 +3130,12 @@
             $.ajax({
                 type: 'get',
                 url: window.routes.root + '/products/' + handle,
-                data: {
+                data: new URLSearchParams({
                     view: 'ajax_quick_view',
                     parametro_extra: 'hola',
                     color: 'rojo',
                     tamano: 'grande'
-                },
+                }).toString(),
                 beforeSend: function () {
                     // console.log('Iniciando petición...');
                     popupContent.empty();
