@@ -1132,7 +1132,6 @@
                               {{ 'products.product.sub_total' | t: value: subtotal }}
                             {%- else -%}
                               {{ 'products.product.add_to_cart' | t }}
-                              Hola Mundo
                             {%- endif -%}
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
@@ -1229,12 +1228,14 @@
 {%- endif -%}
 <script>
   console.log('Producto recibido:', {{ product | json }});
+  {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
   
-  console.log('Parámetros recibidos:', {
-    parametroExtra: "{{ parametro_extra }}",
-    color: "{{ color }}",
-    tamano: "{{ tamano }}"
-  });
+  {% comment %} Funcion para ordenar colecciones {% endcomment %}
+  function ordenarColecciones() {
+    const colecciones = {{ product.collections | json }};
+    console.log('Colecciones:', colecciones);
+  }
+  
   const menuItems = [
     {
       id: '1',

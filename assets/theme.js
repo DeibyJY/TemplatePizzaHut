@@ -3129,13 +3129,7 @@
             
             $.ajax({
                 type: 'get',
-                url: window.routes.root + '/products/' + handle,
-                data: new URLSearchParams({
-                    view: 'ajax_quick_view',
-                    parametro_extra: 'hola',
-                    color: 'rojo',
-                    tamano: 'grande'
-                }).toString(),
+                url: window.routes.root + '/products/' + handle + '?view=ajax_quick_view',
                 beforeSend: function () {
                     // console.log('Iniciando petición...');
                     popupContent.empty();
