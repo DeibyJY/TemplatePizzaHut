@@ -1266,8 +1266,8 @@
       if (textA && !textB) return 1;
       if (!textA && !textB) return 0;
 
-      const nivelA = getNivel(textA);
-      const nivelB = getNivel(textB);
+      const nivelA = obtenerNivel(textA);
+      const nivelB = obtenerNivel(textB);
 
       // Ordenar por nivel de forma ascendente
       return nivelA - nivelB;
