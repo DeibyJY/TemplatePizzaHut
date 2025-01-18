@@ -1230,11 +1230,10 @@
 <script>
   console.log('Producto recibido:', {{ product | json }});
   
-  // Usar request.parameters para acceder a los parámetros
   console.log('Parámetros:', {
-    parametroExtra: {{ request.parameters.parametro_extra }},
-    color: {{ request.parameters.color  }},
-    tamano: {{ request.parameters.tamano | json }}
+    parametroExtra: {{ request.parameters.parametro_extra | json | default: 'null' }},
+    color: {{ request.parameters.color | json | default: 'null' }},
+    tamano: {{ request.parameters.tamano | json | default: 'null' }}
   });
   const menuItems = [
     {
