@@ -1232,8 +1232,8 @@
   
   // Usar request.parameters para acceder a los parámetros
   console.log('Parámetros:', {
-    parametroExtra: {{ request.parameters.parametro_extra | json }},
-    color: {{ request.parameters.color | json }},
+    parametroExtra: {{ request.parameters.parametro_extra }},
+    color: {{ request.parameters.color  }},
     tamano: {{ request.parameters.tamano | json }}
   });
   const menuItems = [

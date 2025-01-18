@@ -2,7 +2,7 @@
 
 {% render 'scoder-quick-view',
   product: product,
-  parametro_extra: params.parametro_extra,
-  color: params.color,
-  tamano: params.tamano
+  parametro_extra: request.parameters.parametro_extra,
+  color: request.parameters.color,
+  tamano: request.parameters.tamano
 %}
