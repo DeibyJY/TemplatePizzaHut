@@ -3129,8 +3129,10 @@
             
             $.ajax({
                 type: 'get',
-                url: window.routes.root + '/products/' + handle + '?view=ajax_quick_view&parametro_extra=hola',
+                url: window.routes.root + '/products/' + handle,
                 data: {
+                    view: 'ajax_quick_view',
+                    parametro_extra: 'hola',
                     color: 'rojo',
                     tamano: 'grande'
                 },
