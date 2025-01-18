@@ -1231,10 +1231,53 @@
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
   
   {% comment %} Funcion para ordenar colecciones {% endcomment %}
-  function ordenarColecciones() {
-    const colecciones = {{ product.collections | json }};
-    console.log('Colecciones:', colecciones);
+
+  {% comment %} Función para limpiar el body_html en este caso es descripcion y obtener solo el texto {% endcomment %}
+  function limpiarBodyHtml(html) {
+    if (!html) return '';
+    return html.replace(/<\/?p>/g, '').trim();
   }
+
+   {% comment %} Funcion para extrae el Nivel  {% endcomment %}
+  function obtenerNivel(text) {
+    if(!text) return -1;  // Si no hay texto, devuelve -1
+    
+    // Busca "Nivel: X" donde X es número
+    const nivelMatch = text.match(/Nivel\s*:\s*(\d+)/);  
+    
+    // Devuelve el número o -1 si no encuentra
+    return nivelMatch ? parseInt(nivelMatch[1]) : -1;
+    
+    // Resultado :
+    // obtenerNivel("Nivel: 5")  // → 5
+    // obtenerNivel("")         // → -1
+  }
+
+  {% comment %} Funcion para ordenar coleccion  {% endcomment %}
+  function ordenarColecciones() {
+    const coleccionesAux = {{ product.collections | json }};
+    
+    coleccionesAux.sort((a,b) => {
+      const textA = limpiarBodyHtml(a.body_html);
+      const textB = limpiarBodyHtml(b.body_html);
+
+      // Si el body_html esta vacio, va primero
+      if (!textA && textB) return -1;
+      if (textA && !textB) return 1;
+      if (!textA && !textB) return 0;
+
+      const nivelA = getNivel(textA);
+      const nivelB = getNivel(textB);
+
+      // Ordenar por nivel de forma ascendente
+      return nivelA - nivelB;
+    });
+
+    console.log('Colecciones:', coleccionesAux);
+    return coleccionesAux;
+  }
+
+  
   ordenarColecciones();
 
   const menuItems = [
