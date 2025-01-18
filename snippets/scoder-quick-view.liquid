@@ -1229,7 +1229,9 @@
 {%- endif -%}
 <script>
   console.log('Producto recibido:', {{ product | json }});
-  console.log('Opciones de producto:', {{ parametro_extra }});
+  console.log('Parámetro extra:', {{ parametro_extra | json }});
+  console.log('Color:', {{ color | json }});
+  console.log('Tamaño:', {{ tamano | json }});
   const menuItems = [
     {
       id: '1',
