@@ -3131,12 +3131,14 @@
                 type: 'get',
                 url: window.routes.root + '/products/' + handle + '?view=ajax_quick_view',
                 beforeSend: function () {
+                    console.log('Iniciando petición...');
                     popupContent.empty();
                     $('#scoder-quickshop-popup-option-3').find('.scoder-popup-content').empty()
                 },
                 success: function (data) {
+                    console.log('Respuesta exitosa:', data); // Ver respuesta HTML
+                    console.log('URL final:', this.url); // Ver URL final
                     popupContent.html(data);
-                    console.log(data)
                 },
                 error: function (xhr, text) {
                     alert($.parseJSON(xhr.responseText).description);
