@@ -3124,7 +3124,7 @@
         updateContentQuickView: function(handle){
             var popup = $('[data-quick-view-popup]'),
                 popupContent = popup.find('.scoder-popup-content');
-                console.log('Handle:', handle);
+                // console.log('Handle:', handle);
                 // console.log('URL completa:', window.routes.root + '/products/' + handle + '?view=ajax_quick_view');
             
             $.ajax({
@@ -3136,7 +3136,7 @@
                     $('#scoder-quickshop-popup-option-3').find('.scoder-popup-content').empty()
                 },
                 success: function (data) {
-                     console.log('Respuesta exitosa:', data); // Ver respuesta HTML
+                    //  console.log('Respuesta exitosa:', data); // Ver respuesta HTML
                     // console.log('URL final:', this.url); // Ver URL final
                     popupContent.html(data);
                 },
