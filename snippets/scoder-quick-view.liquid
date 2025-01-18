@@ -744,7 +744,7 @@
             style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
           >
             {% comment %} <a href="{{ product.url }}">{{ product.title | escape }}</a> {% endcomment %}
-            {{ product.category }}
+            {% comment %} {{ product.category }} {% endcomment %}
             {{ product.collections }}
           </h2>
           {% comment %}Método 2: Todas las colecciones de la tienda{% endcomment %}
