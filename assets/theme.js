@@ -3097,6 +3097,7 @@
                 }
 
                 var handle = $(event.currentTarget).data('product-handle');
+                console.log(handle)
 
                 scoder.updateContentQuickView(handle);
             });
