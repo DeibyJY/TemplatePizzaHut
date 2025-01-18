@@ -3097,7 +3097,6 @@
                 }
 
                 var handle = $(event.currentTarget).data('product-handle');
-                console.log(handle)
 
                 scoder.updateContentQuickView(handle);
             });
@@ -3125,7 +3124,9 @@
         updateContentQuickView: function(handle){
             var popup = $('[data-quick-view-popup]'),
                 popupContent = popup.find('.scoder-popup-content');
-
+                console.log('Handle:', handle);
+                console.log('URL completa:', window.routes.root + '/products/' + handle + '?view=ajax_quick_view');
+            
             $.ajax({
                 type: 'get',
                 url: window.routes.root + '/products/' + handle + '?view=ajax_quick_view',
@@ -3135,6 +3136,7 @@
                 },
                 success: function (data) {
                     popupContent.html(data);
+                    console.log(data)
                 },
                 error: function (xhr, text) {
                     alert($.parseJSON(xhr.responseText).description);
