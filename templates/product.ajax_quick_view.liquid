@@ -1,8 +1,7 @@
 {% layout none %}
 
-{% render 'scoder-quick-view',
-  product: product,
-  parametro_extra: request.parameters.parametro_extra,
-  color: request.parameters.color,
-  tamano: request.parameters.tamano
-%}
+{% assign parametro_extra = request.parameters.parametro_extra | default: '' %}
+{% assign color = request.parameters.color | default: '' %}
+{% assign tamano = request.parameters.tamano | default: '' %}
+
+{% render 'scoder-quick-view', product: product, parametro_extra: parametro_extra, color: color, tamano: tamano %}
