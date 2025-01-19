@@ -1226,6 +1226,22 @@
     index: index
   %}
 {%- endif -%}
+
+{% if collections %}
+  {% for collection in collections %}
+    console.group(`Colección: ${{ { collection.title | json }}}`);
+
+    {% if collection.products %}
+      {% for product in collection.products %}
+        console.log(`- ${{ { product.title | json }}}`);
+      {% endfor %}
+    {% else %}
+      console.log('No hay productos en esta colección');
+    {% endif %}
+
+    console.groupEnd();
+  {% endfor %}
+{% endif %}
 <script>
   console.log('Producto recibido:', {{ product | json }});
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
@@ -1277,21 +1293,7 @@
   {% comment %} PASO 2 : TRAER {% endcomment %}
   ordenarColecciones();
 
-  {% if collections %}
-    {% for collection in collections %}
-      console.group(`Colección: ${{{ collection.title | json }}}`);
-      
-      {% if collection.products %}
-        {% for product in collection.products %}
-          console.log(`- ${{{ product.title | json }}}`);
-        {% endfor %}
-      {% else %}
-        console.log('No hay productos en esta colección');
-      {% endif %}
-      
-      console.groupEnd();
-    {% endfor %}
-  {% endif %}
+  
 
   const menuItems = [
     {
