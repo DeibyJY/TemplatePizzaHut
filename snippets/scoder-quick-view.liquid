@@ -1161,6 +1161,7 @@
                         type="submit"
                         name="add"
                         data-btn-addToCart
+
                         class="product-form__submit button"
                         id="product-add-to-cart"
                         disabled
@@ -1231,17 +1232,49 @@
 {%- endif -%}
 
 <script>
-  // Información de la primera colección
-  console.log('Primera colección:', {{ primera_coleccion | json }});
 
-  // Cargar productos de la colección usando el endpoint JSON
-  fetch('/collections/PIZZA/products.json')
-    .then(response => response.json())
-    .then(data => {
-      console.log('Productos de la colección (desde JSON):', data.products);
-    })
-    .catch(error => console.error('Error al cargar productos:', error));
+  
+  const coleccionesOfProduct = () => {{ product.collections | json }}.map(({ handle }) => handle);
+  {% comment %} const queryTrabajo = createQuery(); {% endcomment %}
 
+  function createQuery(){
+    let query = '{\n';
+
+      coleccionesOfProduct.forEach(handle =>{
+      query += `  ${handle}: collectionByHandle(handle: "${handle}") {
+        title
+        description
+        products(first: 250) {
+          edges {
+            node {
+              id
+              title
+              description
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
+                }
+              }
+              collections(first: 250) {
+                edges {
+                  node {
+                    handle
+                    title
+                  }
+                }
+              }
+            }
+          }
+        }
+      }\n`; 
+    });
+
+    query += '}';
+    return query;
+  }
+
+  console.log(createQuery());
 
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
   {% comment %} Función para limpiar el body_html en este caso es descripcion y obtener solo el texto {% endcomment %}
