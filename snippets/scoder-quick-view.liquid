@@ -1234,10 +1234,18 @@
 <script>
 
   const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
-
-
   
-  const coleccionesOfProduct = () => {{ product.collections | json }}.map(({ handle }) => handle);  
+  const coleccionesOfProduct = () => {
+    const collections = {{ product.collections | json }};
+    return collections
+        .filter(collection => {
+            const title = collection.title;
+            const openIndex = title.indexOf('(');
+            const closeIndex = title.indexOf(')');
+            return openIndex !== -1 && closeIndex !== -1 && openIndex < closeIndex;
+        })
+        .map(({ handle }) => handle);
+  };
 
   function createQuery(){
     let query = '{\n';
