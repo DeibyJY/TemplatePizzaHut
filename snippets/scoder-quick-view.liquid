@@ -1229,16 +1229,20 @@
 {% assign primera_coleccion = collections | first %}
 
 <script>
+  // Producto actual
   console.log('Producto recibido:', {{ product | json }});
-  // Ver colección completa
-  console.log('Primera colección:', {{ primera_coleccion | json }});
-  
-  // Ver solo productos de la colección
-  console.log('Productos:', {{ primera_coleccion.products | json }});
-  
-  // Ver cantidad de productos
-  console.log('Total productos:', {{ primera_coleccion.products.size }});
 
+  // Información de la primera colección
+  console.log('Primera colección:', {{ primera_coleccion | json }});
+
+  // Si hay productos en la colección
+  {% if primera_coleccion.products.size > 0 %}
+    var productos = {{ primera_coleccion.products | json }};
+    console.log('Productos de la colección:', productos);
+    console.log('Cantidad de productos:', productos.length);
+  {% else %}
+    console.log('La colección no tiene productos o productos no están cargados.');
+  {% endif %}
 
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
   {% comment %} Función para limpiar el body_html en este caso es descripcion y obtener solo el texto {% endcomment %}
