@@ -1,4 +1,6 @@
 {%- liquid
+  assign primera_coleccion = collections | first
+
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
   assign current_variant = product.selected_or_first_available_variant
@@ -745,9 +747,10 @@
           >
             {% comment %} <a href="{{ product.url }}">{{ product.title | escape }}</a> {% endcomment %}
             {% comment %} {{ product.category }} {% endcomment %}
-            {% for collection in product.collections %}
-              <span class="collection-title">{{ collection.title }}</span>
-              {%- unless forloop.last %}, {% endunless %}
+            {% for product in primera_coleccion.products %}
+              <li>{{ product.title }}</li>
+            {% else %}
+              <li>No hay productos en esta colección.</li>
             {% endfor %}
           </h2>
           {% comment %}Método 2: Todas las colecciones de la tienda{% endcomment %}
@@ -1226,7 +1229,6 @@
     index: index
   %}
 {%- endif -%}
-{% assign primera_coleccion = collections | first %}
 
 <script>
   // Información de la primera colección
