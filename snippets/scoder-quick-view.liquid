@@ -1277,62 +1277,21 @@
   {% comment %} PASO 2 : TRAER {% endcomment %}
   ordenarColecciones();
 
-  // Obtenemos todas las collections
-  const collections = {{ collections | json }};
-  
-  // Iteramos sobre cada collection
-  Object.entries(collections).forEach(([handle, collection]) => {
-    console.group(`Collection: ${collection.title}`);
-    console.log('Handle:', handle);
-    console.log('ID:', collection.id);
-    
-    // Mostramos información de los productos
-    if (collection.products && collection.products.length > 0) {
-      console.log(`Productos (${collection.products.length}):`);
-      collection.products.forEach(product => {
-        console.group(`Producto: ${product.title}`);
-        console.log('ID:', product.id);
-        console.log('Handle:', product.handle);
-        console.log('Precio:', product.price);
-        console.log('SKU:', product.sku);
-        console.log('Disponible:', product.available);
-        
-        // Mostramos las variantes si existen
-        if (product.variants && product.variants.length > 0) {
-          console.group('Variantes:');
-          product.variants.forEach(variant => {
-            console.log(`- ${variant.title}: ${variant.price}`);
-          });
-          console.groupEnd();
-        }
-        
-        console.groupEnd(); // Fin del grupo de producto
-      });
-    } else {
-      console.log('Esta colección no tiene productos');
-    }
-    
-    console.groupEnd(); // Fin del grupo de collection
-  });
-
-  // Función auxiliar para obtener productos de una collection específica
-  function getCollectionProducts(handle) {
-    const collection = collections[handle];
-    if (collection && collection.products) {
-      return collection.products;
-    }
-    return [];
-  }
-  
-  // Ejemplo de uso para una collection específica
-  const pizzasProducts = getCollectionProducts('pizzas');
-  if (pizzasProducts.length > 0) {
-    console.group('Productos de la colección Pizzas:');
-    pizzasProducts.forEach(product => {
-      console.log(`- ${product.title}: ${product.price}`);
-    });
-    console.groupEnd();
-  }
+  {% if collections %}
+    {% for collection in collections %}
+      console.group(`Colección: ${{{ collection.title | json }}}`);
+      
+      {% if collection.products %}
+        {% for product in collection.products %}
+          console.log(`- ${{{ product.title | json }}}`);
+        {% endfor %}
+      {% else %}
+        console.log('No hay productos en esta colección');
+      {% endif %}
+      
+      console.groupEnd();
+    {% endfor %}
+  {% endif %}
 
   const menuItems = [
     {
