@@ -1278,7 +1278,6 @@
     return query;
   }
 
-  console.log(createQuery());
 
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
   {% comment %} Función para limpiar el body_html en este caso es descripcion y obtener solo el texto {% endcomment %}
@@ -1338,26 +1337,7 @@
           'X-Shopify-Access-Token': myTest
         },
         body: JSON.stringify({
-          query: `{
-            tp2: collectionByHandle(handle: "tp2") {
-              title
-              description
-              products(first: 10) {
-                edges {
-                  node {
-                    title
-                    description
-                    priceRange {
-                      minVariantPrice {
-                        amount
-                        currencyCode
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }`,
+          query: createQuery(),
           variables: {}
         })
       });
