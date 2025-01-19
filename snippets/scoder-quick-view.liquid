@@ -1234,13 +1234,13 @@
 <script>
 
   
-  const coleccionesOfProduct = () => {{ product.collections | json }}.map(({ handle }) => handle);
+  const coleccionesOfProduct = () => {{ product.collections | json }}.map(({ handle }) => handle);  
   {% comment %} const queryTrabajo = createQuery(); {% endcomment %}
 
   function createQuery(){
     let query = '{\n';
 
-      coleccionesOfProduct.forEach(handle =>{
+      coleccionesOfProduct().forEach(handle =>{
       query += `  ${handle}: collectionByHandle(handle: "${handle}") {
         title
         description
@@ -1261,6 +1261,7 @@
                   node {
                     handle
                     title
+                    description
                   }
                 }
               }
