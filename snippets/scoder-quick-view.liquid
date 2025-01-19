@@ -1227,21 +1227,6 @@
   %}
 {%- endif -%}
 
-{% if collections %}
-  {% for collection in collections %}
-    console.group(`Colección: ${{ { collection.title | json }}}`);
-
-    {% if collection.products %}
-      {% for product in collection.products %}
-        console.log(`- ${{ { product.title | json }}}`);
-      {% endfor %}
-    {% else %}
-      console.log('No hay productos en esta colección');
-    {% endif %}
-
-    console.groupEnd();
-  {% endfor %}
-{% endif %}
 <script>
   console.log('Producto recibido:', {{ product | json }});
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
@@ -1293,7 +1278,37 @@
   {% comment %} PASO 2 : TRAER {% endcomment %}
   ordenarColecciones();
 
+  // Primero necesitamos convertir las collections a JSON en el template
+const collections = {{ collections | json }};
+
+// Ahora sí, el código JavaScript
+console.log('Todas las colecciones y sus productos:');
+collections.forEach(collection => {
+  console.group(`Colección: ${collection.title}`);
   
+  if (collection.products && collection.products.length > 0) {
+    collection.products.forEach(product => {
+      console.log(`- ${product.title}`);
+    });
+  } else {
+    console.log('No hay productos en esta colección');
+  }
+  
+  console.groupEnd();
+});
+
+// Si quieres una función para obtener los productos de una colección específica:
+function getCollectionProducts(collectionHandle) {
+  const collection = collections.find(c => c.handle === collectionHandle);
+  if (collection && collection.products) {
+    return collection.products.map(product => product.title);
+  }
+  return [];
+}
+
+// Ejemplo de uso:
+const pizzaProducts = getCollectionProducts('pizzas');
+console.log('Productos de pizzas:', pizzaProducts);
 
   const menuItems = [
     {
