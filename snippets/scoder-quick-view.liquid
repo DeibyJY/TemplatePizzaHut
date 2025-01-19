@@ -1238,12 +1238,11 @@
 
   
   const coleccionesOfProduct = () => {{ product.collections | json }}.map(({ handle }) => handle);  
-  {% comment %} const queryTrabajo = createQuery(); {% endcomment %}
 
   function createQuery(){
     let query = '{\n';
 
-    coleccionesOfProduct().forEach((handle, index)) => {
+    coleccionesOfProduct().forEach((handle, index) => {
         query += `  coleccion${index + 1}: collectionByHandle(handle: "${handle}") {
             title
             description
