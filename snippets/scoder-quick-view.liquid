@@ -1233,7 +1233,7 @@
   console.log('Primera colección:', {{ primera_coleccion | json }});
 
   // Cargar productos de la colección usando el endpoint JSON
-  fetch('/collections/{{ primera_coleccion.handle }}/products.json')
+  fetch('/collections/PIZZA/products.json')
     .then(response => response.json())
     .then(data => {
       console.log('Productos de la colección (desde JSON):', data.products);
