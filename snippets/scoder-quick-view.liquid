@@ -1412,34 +1412,38 @@
                           collections: productoColecciones
                         };
 
-                         // Obtener títulos de las colecciones
-                         const titulosProducto = productoColecciones.map(col => col.title);
-                         const titulosNivel2 = coleccionNivel2.map(col => col.title);
-                         const titulosNivel3 = coleccionNivel3.map(col => col.title);
-                         const titulosNivel4 = coleccionNivel4.map(col => col.title);
- 
-                        // Verificar si el producto contiene todas las colecciones de nivel 2 y nivel 3
-                        const tieneTodasNivel2 = titulosNivel2.every(titulo => titulosProducto.includes(titulo));
-                        const tieneTodasNivel3 = titulosNivel3.every(titulo => titulosProducto.includes(titulo));
+                        // Obtener títulos de las colecciones del producto
+                        const titulosProducto = new Set(productoColecciones.map(col => col.title));
+                                                
+                        // Verificar si TODAS las colecciones de nivel 2 y nivel 3 están presentes
+                        const todasNivel2Presentes = coleccionNivel2.every(col => 
+                            titulosProducto.has(col.title)
+                        );
 
-                        // Si tiene todas las colecciones de nivel 2 y nivel 3, añadir a productosNivel2y3
-                        if (tieneTodasNivel2 && tieneTodasNivel3) {
+                        const todasNivel3Presentes = coleccionNivel3.every(col => 
+                            titulosProducto.has(col.title)
+                        );
+
+                        // Si tiene todas las colecciones de nivel 2 y 3
+                        if (todasNivel2Presentes && todasNivel3Presentes) {
                           const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
                           if (!productoExisteNivel2y3) {
                               productosNivel2y3.push(producto);
                           }
-                        } else {
-                          // Si no cumple con nivel 2 y 3, verificar si cumple con nivel 2 y 4
-                          const tieneTodasNivel4 = titulosNivel4.every(titulo => titulosProducto.includes(titulo));
-                          
-                          if (tieneTodasNivel2 && tieneTodasNivel4) {
-                              const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
-                              if (!productoExisteNivel2y4) {
-                                  productosNivel2y4.push(producto);
-                              }
+                      }else{
+                        console.log('ProductoN2Y4': producto);
+                         // Si no cumple con nivel 2 y 3, verificar nivel 2 y 4
+                         const todasNivel4Presentes = coleccionNivel4.every(col => 
+                          titulosProducto.has(col.title)
+                        );
+
+                        if (todasNivel2Presentes && todasNivel4Presentes) {
+                          const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
+                          if (!productoExisteNivel2y4) {
+                              productosNivel2y4.push(producto);
                           }
                         }
-                        
+                      }
                     }
                 });
 
