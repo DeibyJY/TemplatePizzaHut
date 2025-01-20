@@ -1346,6 +1346,8 @@
     let coleccionNivel2 = [];
     let coleccionNivel4 = [];
     let coleccionNivel3 = [];
+    let productosNivel2y3 = [];
+    let productosNivel2y4 = [];
 
     // Procesar colecciones existentes
     const collections = {{ product.collections | json }};
@@ -1365,14 +1367,6 @@
         }
     });
 
-    // Mostrar resultados de las colecciones
-    console.log('Colecciones Nivel 2:', coleccionNivel2);
-    console.log('Colecciones Nivel 3:', coleccionNivel3);
-    console.log('Colecciones Nivel 4:', coleccionNivel4);
-
-    // Array para todos los productos
-    let todosProductos = [];
-
     // Obtener datos de Shopify
     const respuesta = await fetchShopifyData();
     
@@ -1391,40 +1385,89 @@
                             description: colEdge.node.description
                         }));
 
+                        // Verificar si alguna colección tiene paréntesis
+                        const tieneParentesis = productoColecciones.some(col => 
+                          col.title.includes('(') || col.title.includes(')')
+                        );
+
+                        // Si no tiene paréntesis, saltamos este producto
+                        if (!tieneParentesis) {
+                          return;
+                        }
+
+                       
                         // Crear objeto producto
                         const producto = {
-                            id: edge.node.id,
-                            title: edge.node.title,
-                            description: edge.node.description,
-                            price: {
-                                amount: edge.node.priceRange.minVariantPrice.amount,
-                                currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
-                            },
-                            collections: productoColecciones
+                          id: edge.node.id,
+                          title: edge.node.title,
+                          description: edge.node.description,
+                          price: {
+                              amount: edge.node.priceRange.minVariantPrice.amount,
+                              currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
+                          },
+                          collections: productoColecciones
                         };
 
-                        // Verificar si el producto ya existe
-                        const productoExistente = todosProductos.some(p => p.id == producto.id);
-                        if (!productoExistente) {
-                            todosProductos.push(producto);
+                         // Obtener títulos de las colecciones
+                         const titulosProducto = productoColecciones.map(col => col.title);
+                         const titulosNivel2 = coleccionNivel2.map(col => col.title);
+                         const titulosNivel3 = coleccionNivel3.map(col => col.title);
+                         const titulosNivel4 = coleccionNivel4.map(col => col.title);
+ 
+                         // Verificar si contiene todas las colecciones de nivel 2
+                         const tieneTodasNivel2 = titulosNivel2.every(titulo => 
+                           titulosProducto.includes(titulo)
+                         );
+
+                         if (tieneTodasNivel2) {
+                           // Verificar nivel 2 y 3
+                           const tieneTodasNivel3 = titulosNivel3.every(titulo => 
+                            titulosProducto.includes(titulo)
+                           );
+
+                           if (tieneTodasNivel3) {
+                            const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
+                                if (!productoExisteNivel2y3) {
+                                    productosNivel2y3.push(producto);
+                                }
+                          }else{
+                            // Si no cumple con nivel 3, verificar nivel 4
+                            const tieneTodasNivel4 = titulosNivel4.every(titulo => 
+                              titulosProducto.includes(titulo)
+                            );
+
+                            if (tieneTodasNivel4) {
+                              const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
+                              if (!productoExisteNivel2y4) {
+                                  productosNivel2y4.push(producto);
+                              }
+                            }
+                          }
                         }
+ 
                     }
                 });
+
             }
         });
     }
 
-    // Mostrar resumen de productos
-    console.log('Todos los productos:', todosProductos);
+    // Mostrar resumen
+    console.log('Colecciones Nivel 2:', coleccionNivel2);
+    console.log('Colecciones Nivel 3:', coleccionNivel3);
+    console.log('Colecciones Nivel 4:', coleccionNivel4);
+    console.log('Productos Nivel 2 y 3:', productosNivel2y3);
+    console.log('Productos Nivel 2 y 4:', productosNivel2y4);
     
     // Retornar resultados
     return {
-        productos: todosProductos,
-        colecciones: {
-            nivel2: coleccionNivel2,
-            nivel3: coleccionNivel3,
-            nivel4: coleccionNivel4
-        }
+      colecciones: {
+          nivel2: coleccionNivel2,
+          nivel3: coleccionNivel3,
+          nivel4: coleccionNivel4
+      },
+      productosNivel2y3,
+      productosNivel2y4
     };
 }
 
