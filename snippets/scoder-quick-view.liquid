@@ -1340,116 +1340,101 @@
   * 5. Muestra los resultados organizados en consola
   */
 
- async function testPrueba() {
-  // Arrays para colecciones por nivel
-  let coleccionNivel2 = [];
-  let coleccionNivel4 = [];
-  let coleccionNivel3 = [];
+  async function testPrueba() {
+    // Arrays para almacenar colecciones por nivel
+    let coleccionNivel2 = [];
+    let coleccionNivel4 = [];
+    let coleccionNivel3 = [];
 
-  const collections = {{ product.collections | json }};
+    // Procesar colecciones existentes
+    const collections = {{ product.collections | json }};
 
-  collections.forEach((collection) => {
-      const handle = collection.handle;
-      const title = collection.title;
-      const description = limpiarBodyHtml(collection.body_html);
-      const nivel = obtenerNivel(description);
+    collections.forEach((collection) => {
+        const handle = collection.handle;
+        const title = collection.title;
+        const description = limpiarBodyHtml(collection.body_html);
+        const nivel = obtenerNivel(description);
 
-      if (nivel === 2) {
-          coleccionNivel2.push({ handle, title, description });
-      } else if (nivel === 4) {
-          coleccionNivel4.push({ handle, title, description });
-      } else if (nivel === 3) {
-          coleccionNivel3.push({ handle, title, description });
-      }
-  });
+        if (nivel === 2) {
+            coleccionNivel2.push({ handle, title, description });
+        } else if (nivel === 4) {
+            coleccionNivel4.push({ handle, title, description });
+        } else if (nivel === 3) {
+            coleccionNivel3.push({ handle, title, description });
+        }
+    });
 
-  console.log('Colecciones Nivel 2:', coleccionNivel2);
-  console.log('Colecciones Nivel 3:', coleccionNivel3);
-  console.log('Colecciones Nivel 4:', coleccionNivel4);
+    // Mostrar resultados de las colecciones
+    console.log('Colecciones Nivel 2:', coleccionNivel2);
+    console.log('Colecciones Nivel 3:', coleccionNivel3);
+    console.log('Colecciones Nivel 4:', coleccionNivel4);
 
-  let todosProductos = [];
-  
-  try {
-      const respuesta = await fetchShopifyData();
-      
-      // Verificamos que tenemos la estructura correcta
-      if (respuesta && respuesta.data) {
-          // Iteramos sobre cada colección en data
-          for (const key in respuesta.data) {
-              const coleccion = respuesta.data[key];
-              
-              // Verificamos que la colección tiene productos
-              if (coleccion && coleccion.products && coleccion.products.edges) {
-                  // Procesamos cada producto de la colección
-                  coleccion.products.edges.forEach(edge => {
-                      if (edge && edge.node) {
-                          // Procesamos las colecciones del producto
-                          const productCollections = edge.node.collections.edges.map(colEdge => ({
-                              title: colEdge.node.title,
-                              description: colEdge.node.description
-                          }));
+    // Array para todos los productos
+    let todosProductos = [];
 
-                          // Creamos el objeto producto
-                          const producto = {
-                              id: edge.node.id,
-                              title: edge.node.title,
-                              description: edge.node.description,
-                              price: {
-                                  amount: edge.node.priceRange.minVariantPrice.amount,
-                                  currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
-                              },
-                              collections: productCollections
-                          };
+    // Obtener datos de Shopify
+    const respuesta = await fetchShopifyData();
+    
+    if (respuesta && respuesta.data) {
+        Object.keys(respuesta.data).forEach(key => {
+            const coleccion = respuesta.data[key];
+            
+            // Verificar si hay productos en la colección
+            if (coleccion && coleccion.products && coleccion.products.edges) {
+                // Procesar cada producto
+                coleccion.products.edges.forEach(edge => {
+                    if (edge.node) {
+                        // Extraer colecciones del producto
+                        const productoColecciones = edge.node.collections.edges.map(colEdge => ({
+                            title: colEdge.node.title,
+                            description: colEdge.node.description
+                        }));
 
-                          // Verificamos si el producto ya existe
-                          const productoExistente = todosProductos.some(p => p.id === producto.id);
-                          if (!productoExistente) {
-                              todosProductos.push(producto);
-                          }
-                      }
-                  });
-              }
-          }
-      }
+                        // Crear objeto producto
+                        const producto = {
+                            id: edge.node.id,
+                            title: edge.node.title,
+                            description: edge.node.description,
+                            price: {
+                                amount: edge.node.priceRange.minVariantPrice.amount,
+                                currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
+                            },
+                            collections: productoColecciones
+                        };
 
-      console.log('Número total de productos únicos:', todosProductos.length);
-      console.log('Todos los productos:', todosProductos);
+                        // Verificar si el producto ya existe
+                        const productoExistente = todosProductos.some(p => p.id === producto.id);
+                        if (!productoExistente) {
+                            todosProductos.push(producto);
+                        }
+                    }
+                });
+            }
+        });
+    }
 
-      // Mostramos un resumen más detallado
-      console.log('\nResumen de productos:');
-      todosProductos.forEach(producto => {
-          console.log(`\nProducto: ${producto.title}`);
-          console.log(`Precio: ${producto.price.amount} ${producto.price.currencyCode}`);
-          console.log('Colecciones:');
-          producto.collections.forEach(col => {
-              console.log(`- ${col.title}: ${col.description}`);
-          });
-      });
-      
-      return {
-          productos: todosProductos,
-          colecciones: {
-              nivel2: coleccionNivel2,
-              nivel3: coleccionNivel3,
-              nivel4: coleccionNivel4
-          }
-      };
-      
-  } catch (error) {
-      console.error('Error al procesar los productos:', error);
-      return {
-          productos: [],
-          colecciones: {
-              nivel2: coleccionNivel2,
-              nivel3: coleccionNivel3,
-              nivel4: coleccionNivel4
-          }
-      };
-  }
+    // Mostrar resumen de productos
+    console.log('Todos los productos:', todosProductos);
+    
+    // Retornar resultados
+    return {
+        productos: todosProductos,
+        colecciones: {
+            nivel2: coleccionNivel2,
+            nivel3: coleccionNivel3,
+            nivel4: coleccionNivel4
+        }
+    };
 }
 
   // Llamar a la función
-  testPrueba();
+  testPrueba()
+  .then(resultado => {
+      console.log('Resultado:', resultado);
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
 
 
   const menuItems = [
