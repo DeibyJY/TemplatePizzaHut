@@ -1407,10 +1407,7 @@
 
                         const titulosProducto = new Set(
                           productoColecciones
-                            .filter(col => {
-                              // Debe contener AMBOS paréntesis y estar balanceados
-                              return col.title.includes('(') && col.title.includes(')') 
-                            })
+                            .filter(col => col.title.includes('(') && col.title.includes('))
                             .map(col => col.title)
                         );
 
