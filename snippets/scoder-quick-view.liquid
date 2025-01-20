@@ -2379,33 +2379,33 @@
 
   // Agregar ambos eventos para asegurar la ejecución
   document.addEventListener('DOMContentLoaded', () => {
-    {% comment %} agregarMenuItems();
+     agregarMenuItems();
     marcarOpcionesRequeridas();
-    verificarRequeridos(); {% endcomment %}
+    verificarRequeridos(); 
      // Llamar a la función
-  testPrueba()
+  {% comment %} testPrueba()
   .then(resultado => {
     console.log('Todo salio bien');
       {% comment %} console.log('Resultado:', resultado); {% endcomment %}
   })
   .catch(error => {
       console.error('Error:', error);
-  });
+  }); {% endcomment %}
   });
 
   if (document.readyState === 'complete') {
-    {% comment %} agregarMenuItems();
+    agregarMenuItems();
     marcarOpcionesRequeridas();
-    verificarRequeridos(); {% endcomment %}
-     // Llamar a la función
-  testPrueba()
-  .then(resultado => {
-    console.log('Todo salio bien');
-      {% comment %} console.log('Resultado:', resultado); {% endcomment %}
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  });
+    verificarRequeridos(); 
+
+    {% comment %} testPrueba()
+    .then(resultado => {
+      console.log('Todo salio bien');
+        {% comment %} console.log('Resultado:', resultado); {% endcomment %}
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    }); {% endcomment %}
   }
 </script>
 <style>
