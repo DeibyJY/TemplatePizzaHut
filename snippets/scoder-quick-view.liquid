@@ -1300,14 +1300,13 @@
     }
   }
 
-  {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
-  {% comment %} Función para limpiar el body_html en este caso es descripcion y obtener solo el texto {% endcomment %}
+  // Función para limpiar el body_html en este caso es descripcion y obtener solo el texto
   function limpiarBodyHtml(html) {
     if (!html) return '';
     return html.replace(/<\/?p>/g, '').trim();
   }
 
-  {% comment %} Funcion para extrae el Nivel  {% endcomment %}
+  // Funcion para extrae el Nivel 
   function obtenerNivel(text) {
     if(!text) return -1;  // Si no hay texto, devuelve -1
     
@@ -1362,7 +1361,7 @@
 
   // Funcion para verificar colecciones
   function verificarColecciones(colecciones,titulosRequeridos){
-    return Array.form(titulosRequeridos).every(titulo => colecciones.has(titulo));
+    return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
   }
 
   /**
