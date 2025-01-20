@@ -1483,7 +1483,7 @@
     }
 
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
-    coleccionNivel3.forEach((coleccion, index) => {
+    coleccionNivel3.forEach((coleccion, indexCN3) => {
       const variables = extraerVariablesDescripcion(coleccion.description);
         console.log('Variables extraídas:', variables);
         
@@ -1515,7 +1515,7 @@
           </div>
           <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
         </div>
-        <div class="item-menuItem" id="menuItem-${index}" data-limite="${limite}">
+        <div class="item-menuItem" id="menuItem-${indexCN3}" data-limite="${limite}">
       `;
 
       // Filtrar productos específicos para esta colección
@@ -1524,6 +1524,92 @@
       });
 
       console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos);
+
+      productosEspecificos.forEach((productoMainItem, indexMainItem) => {
+        if(tipoSelect == 'radio'){
+          contenidoHTML += `
+          <div class="opcion-principal-detalle-oferta3">
+            <div class="producto-info3">
+              <span class="producto-nombre3">${mainItem.titulo}</span>
+              ${parseFloat(mainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${mainItem.price.amount}</span>` : ''}
+            </div>
+            <div class="opcion-nombre1">
+              <div class="hover-area1" id="hoverArea-${index}-${indexMainItem}"></div>
+              <input
+                type="radio"
+                id="item-${indexCN3}-${indexMainItem}"
+                name="opcion-grupo-${indexCN3}"
+                class="radio-input"
+                data-group="${indexCN3}"
+                data-limite="${limite}"
+                onchange="validarLimiteRadio(this)"
+              >
+            </div>
+          </div>
+        `;
+        }
+
+        if(tipoSelect = 'numberCount'){
+          contenidoHTML += `
+            <div class="opcion-principal-detalle-oferta2">
+              <div class="producto-info2">
+                <span class="producto-nombre2">${mainItem.titulo}</span>
+                ${mainItem.precio > 0 ? `<span class="producto-precio2">+Bs${mainItem.precio}</span>` : ''}
+              </div>
+              <div class="controles-cantidad2">
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="decrementCantidad('${index}-${mainIndex}', '${index}')"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
+                >
+                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                    <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
+                <p class="cantidad-display2" id="cantidad-${index}-${mainIndex}" data-group="${index}">0</p>
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="incrementCantidad('${index}-${mainIndex}', '${index}')"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
+                >
+                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+
+        if(tipoSelect = 'checkbox'){
+          contenidoHTML += `
+            <div class="opcion-principal-detalle-oferta3">
+              <div class="producto-info3">
+                <span class="producto-nombre3">${mainItem.titulo}</span>
+                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
+              </div>
+              <div class="control-checkbox3">
+                <div class="checkbox-container3">
+                  <input
+                    type="checkbox"
+                    id="item-${index}-${mainIndex}"
+                    name="properties[${mainItem.titulo}]"
+                    class="input-checkbox3"
+                    data-group="${index}"
+                    data-limite="${item.limite}"
+                    onchange="validarLimiteCheckbox(this)"
+                  >
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      });
+        
     });
   
     // Imprimir resultados
@@ -2257,15 +2343,15 @@
 
   // Agregar ambos eventos para asegurar la ejecución
   document.addEventListener('DOMContentLoaded', () => {
-    agregarMenuItems();
+    {% comment %} agregarMenuItems();
     marcarOpcionesRequeridas();
-    verificarRequeridos();
+    verificarRequeridos(); {% endcomment %}
   });
 
   if (document.readyState === 'complete') {
-    agregarMenuItems();
+    {% comment %} agregarMenuItems();
     marcarOpcionesRequeridas();
-    verificarRequeridos();
+    verificarRequeridos(); {% endcomment %}
   }
 </script>
 <style>
