@@ -1382,7 +1382,12 @@
       }
     }
   
-    // Cache de títulos de colecciones para búsqueda más rápida
+    /**
+    * Almacenamiento en memoria (cache) de los títulos de colecciones usando Set
+    * - Evita búsquedas repetitivas en la colección original
+    * - Garantiza valores únicos mediante Set
+    * - Mejora el rendimiento con acceso O(1) para búsquedas
+    */
     const titulosNivel2 = new Set(coleccionNivel2.map(col => col.title));
     const titulosNivel3 = new Set(coleccionNivel3.map(col => col.title));
     const titulosNivel4 = new Set(coleccionNivel4.map(col => col.title));
@@ -1451,6 +1456,11 @@
         }
       }
     }
+
+    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    coleccionNivel2.forEach(coleccion => {
+      console.log(coleccion.description);
+    });
   
     // Imprimir resultados
     console.log('Colecciones Nivel 2:', coleccionNivel2);
