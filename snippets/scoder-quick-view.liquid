@@ -1300,11 +1300,12 @@
         
         const data = await response.json();
         console.log('Respuesta:', data);
+        return data; // Añadimos el return aquí
     } catch (error) {
         console.error('Error:', error);
+        return null; // También es buena práctica retornar algo en caso de error
     }
-  }
-
+}
 
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
   {% comment %} Función para limpiar el body_html en este caso es descripcion y obtener solo el texto {% endcomment %}
@@ -1374,7 +1375,6 @@
 
     // Obtener datos de Shopify
     const respuesta = await fetchShopifyData();
-    console.log('Respuesta Data:', respuesta);
     
     if (respuesta && respuesta.data) {
         Object.keys(respuesta.data).forEach(key => {
