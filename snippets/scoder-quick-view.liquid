@@ -745,19 +745,9 @@
             class="productView-title"
             style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
           >
-            {% comment %} <a href="{{ product.url }}">{{ product.title | escape }}</a> {% endcomment %}
-            {% comment %} {{ product.category }} {% endcomment %}
-            {% for product in primera_coleccion.products %}
-              <li>{{ product.title }}</li>
-            {% else %}
-              <li>No hay productos en esta colección.</li>
-            {% endfor %}
+            <a href="{{ product.url }}">{{ product.title | escape }}</a>
+            {{ product.category }}
           </h2>
-          {% comment %}Método 2: Todas las colecciones de la tienda{% endcomment %}
-          {% for collection in collections %}
-            {{ collection.title }}
-            {% unless forloop.last %}, {% endunless %}
-          {% endfor %}
 
           {%- if show_quick_view_short_description -%}
             {%- liquid
