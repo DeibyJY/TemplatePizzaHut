@@ -1328,7 +1328,18 @@
     // obtenerNivel("")         // → -1
   }
 
-  function testPrueba() {
+  /**
+  * Esta función procesa y organiza datos de una tienda Shopify:
+  * 1. Clasifica las colecciones existentes en tres niveles (2, 3 y 4)
+  * 2. Obtiene todos los productos de la tienda usando GraphQL
+  * 3. Extrae y organiza la información de cada producto incluyendo:
+  *    - Información básica (id, título, descripción)
+  *    - Precios
+  *    - Colecciones asociadas
+  * 4. Evita duplicados de productos
+  * 5. Muestra los resultados organizados en consola
+  */
+  async function testPrueba() {
     let coleccionNivel2 = [];
     let coleccionNivel4 = [];
     let coleccionNivel3 = [];
@@ -1341,26 +1352,79 @@
         const description = limpiarBodyHtml(collection.body_html);
         const nivel = obtenerNivel(description);
 
-        if (nivel == 2) {
+        if (nivel === 2) {
             coleccionNivel2.push({ handle, title, description });
-        } else if (nivel == 4) {
+        } else if (nivel === 4) {
             coleccionNivel4.push({ handle, title, description });
-        } else if (nivel == 3) {
+        } else if (nivel === 3) {
             coleccionNivel3.push({ handle, title, description });
         }
     });
 
-    // Mostrar resultados en consola
     console.log('Colecciones Nivel 2:', coleccionNivel2);
     console.log('Colecciones Nivel 3:', coleccionNivel3);
     console.log('Colecciones Nivel 4:', coleccionNivel4);
 
-    // Opcional: retornar los arrays si necesitas usarlos después
-    return {
-        nivel2: coleccionNivel2,
-        nivel3: coleccionNivel3,
-        nivel4: coleccionNivel4
-    };
+    let todosProductos = [];
+    
+    try {
+        const dataTrabajo = await fetchShopifyData();
+        
+        if (dataTrabajo && dataTrabajo.data) {
+            Object.keys(dataTrabajo.data).forEach(collectionKey => {
+                const collection = dataTrabajo.data[collectionKey];
+                
+                if (collection && collection.products && collection.products.edges) {
+                    collection.products.edges.forEach(edge => {
+                        if (edge.node) {
+                            const productoColecciones = edge.node.collections.edges.map(colEdge => ({
+                                title: colEdge.node.title,
+                                description: colEdge.node.description
+                            }));
+
+                            const producto = {
+                                id: edge.node.id,
+                                title: edge.node.title,
+                                description: edge.node.description,
+                                price: {
+                                    amount: edge.node.priceRange.minVariantPrice.amount,
+                                    currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
+                                },
+                                collections: productoColecciones
+                            };
+
+                            const productoExistente = todosProductos.some(p => p.id === producto.id);
+                            if (!productoExistente) {
+                                todosProductos.push(producto);
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        
+        console.log('Todos los productos:', todosProductos);
+        
+        return {
+            productos: todosProductos,
+            colecciones: {
+                nivel2: coleccionNivel2,
+                nivel3: coleccionNivel3,
+                nivel4: coleccionNivel4
+            }
+        };
+        
+    } catch (error) {
+        console.error('Error al procesar los productos:', error);
+        return {
+            productos: [],
+            colecciones: {
+                nivel2: coleccionNivel2,
+                nivel3: coleccionNivel3,
+                nivel4: coleccionNivel4
+            }
+        };
+    }
   }
 
   // Llamar a la función
