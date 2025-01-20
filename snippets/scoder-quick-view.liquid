@@ -1399,7 +1399,7 @@
                         if (!tieneParentesisValidos) {
                           return;
                         }
-                        
+
                         // Crear objeto producto
                         const producto = {
                           id: edge.node.id,
@@ -1418,37 +1418,28 @@
                          const titulosNivel3 = coleccionNivel3.map(col => col.title);
                          const titulosNivel4 = coleccionNivel4.map(col => col.title);
  
-                         // Verificar si contiene todas las colecciones de nivel 2
-                         const tieneTodasNivel2 = titulosNivel2.every(titulo => 
-                           titulosProducto.includes(titulo)
-                         );
+                        // Verificar si el producto contiene todas las colecciones de nivel 2 y nivel 3
+                        const tieneTodasNivel2 = titulosNivel2.every(titulo => titulosProducto.includes(titulo));
+                        const tieneTodasNivel3 = titulosNivel3.every(titulo => titulosProducto.includes(titulo));
 
-                         if (tieneTodasNivel2) {
-                           // Verificar nivel 2 y 3
-                           const tieneTodasNivel3 = titulosNivel3.every(titulo => 
-                            titulosProducto.includes(titulo)
-                           );
-
-                           if (tieneTodasNivel3) {
-                            const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
-                                if (!productoExisteNivel2y3) {
-                                    productosNivel2y3.push(producto);
-                                }
-                          }else{
-                            // Si no cumple con nivel 3, verificar nivel 4
-                            const tieneTodasNivel4 = titulosNivel4.every(titulo => 
-                              titulosProducto.includes(titulo)
-                            );
-
-                            if (tieneTodasNivel4) {
+                        // Si tiene todas las colecciones de nivel 2 y nivel 3, añadir a productosNivel2y3
+                        if (tieneTodasNivel2 && tieneTodasNivel3) {
+                          const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
+                          if (!productoExisteNivel2y3) {
+                              productosNivel2y3.push(producto);
+                          }
+                        } else {
+                          // Si no cumple con nivel 2 y 3, verificar si cumple con nivel 2 y 4
+                          const tieneTodasNivel4 = titulosNivel4.every(titulo => titulosProducto.includes(titulo));
+                          
+                          if (tieneTodasNivel2 && tieneTodasNivel4) {
                               const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
                               if (!productoExisteNivel2y4) {
                                   productosNivel2y4.push(producto);
                               }
-                            }
                           }
                         }
- 
+                        
                     }
                 });
 
