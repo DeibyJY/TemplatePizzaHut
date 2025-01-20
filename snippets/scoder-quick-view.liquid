@@ -1410,6 +1410,7 @@
                             .filter(col => col.title.includes('(') && col.title.includes(')'))
                             .map(col => col.title)
                         );
+                        console.log('titulosProducto:', titulosProducto);
 
 
                         // Verificar nivel 2 (común para ambas validaciones)
@@ -1437,7 +1438,6 @@
     }
 
     // Mostrar resumen
-    console.log('titulosProducto:', titulosProducto);
 
     console.log('Colecciones Nivel 2:', coleccionNivel2);
     console.log('Colecciones Nivel 3:', coleccionNivel3);
