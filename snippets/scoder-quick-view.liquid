@@ -1407,7 +1407,7 @@
 
                         const titulosProducto = new Set(
                           productoColecciones
-                            .filter(col => col.title.includes('(') && col.title.includes(')')
+                            .filter(col => col.title.includes('(') && col.title.includes(')'))
                             .map(col => col.title)
                         );
 
