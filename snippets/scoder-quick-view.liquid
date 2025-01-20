@@ -1641,9 +1641,7 @@
         }
       });
 
-      contenidooHTML += `
-          </div>
-      `;
+      contenidooHTML += '</div>';
       menuItemProducto.innerHTML = contenidooHTML;
       contendorPrincipal.appendChild(menuItemProducto);
     });
@@ -2377,35 +2375,25 @@
   }
 
   // Agregar ambos eventos para asegurar la ejecución
-  document.addEventListener('DOMContentLoaded', () => {
-    {% comment %} agregarMenuItems();
+  {% comment %} agregarMenuItems();
     marcarOpcionesRequeridas();
     verificarRequeridos(); {% endcomment %}
-     // Llamar a la función
-  {% comment %} testPrueba()
-  .then(resultado => {
-    console.log('Todo salio bien');
-      {% comment %} console.log('Resultado:', resultado); {% endcomment %}
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  }); {% endcomment %}
-  });
-
-  if (document.readyState === 'complete') {
-    {% comment %} agregarMenuItems();
-    marcarOpcionesRequeridas();
-    verificarRequeridos(); {% endcomment %}
-     // Llamar a la función
-  testPrueba()
-  .then(resultado => {
-    console.log('Todo salio bien');
-      {% comment %} console.log('Resultado:', resultado); {% endcomment %}
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  });
-  }
+   
+    document.addEventListener('DOMContentLoaded', () => {
+      // Limpiar el contenedor primero
+      const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+      if (contendorPrincipal) {
+        contendorPrincipal.innerHTML = '';
+      }
+    
+      testPrueba()
+        .then(resultado => {
+          console.log('Todo salió bien');
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    });
 </script>
 <style>
   .opcion-principal-detalle-oferta1 input[type='radio'] {
