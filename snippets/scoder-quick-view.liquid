@@ -1483,7 +1483,7 @@
     }
 
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
-    coleccionNivel3.forEach(coleccion => {
+    coleccionNivel3.forEach((coleccion, index) => {
       const variables = extraerVariablesDescripcion(coleccion.description);
         console.log('Variables extraídas:', variables);
         
