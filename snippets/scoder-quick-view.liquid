@@ -1361,11 +1361,11 @@
         const description = limpiarBodyHtml(collection.body_html);
         const nivel = obtenerNivel(description);
 
-        if (nivel === 2) {
+        if (nivel == 2) {
             coleccionNivel2.push({ handle, title, description });
-        } else if (nivel === 4) {
+        } else if (nivel == 4) {
             coleccionNivel4.push({ handle, title, description });
-        } else if (nivel === 3) {
+        } else if (nivel == 3) {
             coleccionNivel3.push({ handle, title, description });
         }
     });
@@ -1405,8 +1405,15 @@
                           collections: productoColecciones
                         };
 
-                        const titulosProducto = new Set(productoColecciones.map(col => col.title));
-
+                        const titulosProducto = new Set(
+                          productoColecciones
+                            .filter(col => {
+                              const apertura = (col.title.match(/\(/g) || []).length;
+                              const cierre = (col.title.match(/\)/g) || []).length;
+                              return apertura > 0 && apertura == cierre;
+                            })
+                            .map(col => col.title)
+                        );
                         // Verificar nivel 2 (común para ambas validaciones)
                         const cumpleNivel2 = coleccionNivel2.every(col => titulosProducto.has(col.title));
                         if (!cumpleNivel2) return;
