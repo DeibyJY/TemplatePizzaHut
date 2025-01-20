@@ -1487,7 +1487,6 @@
       const variables = extraerVariablesDescripcion(coleccion.description);
         console.log('Variables extraídas:', variables);
         
-        // También puedes acceder a cada variable individualmente
         const {
           variante,
           limite,
@@ -1510,7 +1509,7 @@
         let contenidoHTML = `
         <div class="titulo-detalle-oferta-producto">
           <div id="titulo-detalle__comp1">
-            <h2 class="titulo-base1">${titulo.toUpperCase()}</h2>
+            <h2 class="titulo-base1">ELIGE ${variante.toUpperCase()}</h2>
             <span class="titulo-base2">${textoSeleccion}</span>
           </div>
           <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
@@ -1520,7 +1519,7 @@
 
       // Filtrar productos específicos para esta colección
       const productosEspecificos = productosNivel2y3.filter(producto => {
-        return producto.collections.some(col => col.title === coleccion.title);
+        return producto.collections.some(col => col.title == coleccion.title);
       });
 
       console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos);
