@@ -1233,7 +1233,7 @@
 
 <script>
   // Obtener de las colecciones de los productos una [handle1,handle2,.....,handleN]
-  const coleccionesOfProduct = () => {
+  function coleccionesOfProduct() {
     const collections = {{ product.collections | json }};
     return collections
         .filter(collection => {
@@ -1243,7 +1243,7 @@
             return openIndex !== -1 && closeIndex !== -1 && openIndex < closeIndex;
         })
         .map(({ handle }) => handle);
-  };
+  }
 
   // Creacion del Query para la consulta 
   function createQuery(){
@@ -1343,7 +1343,6 @@
   * 4. Evita duplicados de productos
   * 5. Muestra los resultados organizados en consola
   */
-
   async function testPrueba() {
     // Arrays para mantener la lógica original
     const coleccionNivel2 = [];
