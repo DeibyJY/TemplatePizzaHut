@@ -1407,9 +1407,10 @@
 
                         const titulosProducto = new Set(
                           productoColecciones
-                            .filter(col => col.title.includes('(') && col.title.includes('))
+                            .filter(col => col.title.includes('(') && col.title.includes(')')
                             .map(col => col.title)
                         );
+
 
                         // Verificar nivel 2 (común para ambas validaciones)
                         const cumpleNivel2 = coleccionNivel2.every(col => titulosProducto.has(col.title));
