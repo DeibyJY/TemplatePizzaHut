@@ -1415,52 +1415,66 @@
                         // Obtener títulos de las colecciones del producto
                         const titulosProducto = new Set(productoColecciones.map(col => col.title));
                                                 
-// Verificar si todos los elementos de nivel 2 y nivel 3 están dentro de las colecciones del producto
-let cumpleNivel2y3 = true;
-let cumpleNivel2y4 = true;
+                        // Verificar nivel 2 y 3
+                        let cumpleNivel2y3 = true;
+                        
+                        // Verificar que tenga todas las colecciones de nivel 2
+                        for (const colNivel2 of coleccionNivel2) {
+                          if (!titulosProducto.has(colNivel2.title)) {
+                              cumpleNivel2y3 = false;
+                              break;
+                          }
+                        }
 
-// Verificar nivel 2 y 3
-for (const colNivel2 of coleccionNivel2) {
-  if (!titulosProducto.has(colNivel2.title)) {
-      cumpleNivel2y3 = false;
-      cumpleNivel2y4 = false;
-      break;
-  }
-}
+                        // Si cumple nivel 2, verificar nivel 3
+                        if (cumpleNivel2y3) {
+                          for (const colNivel3 of coleccionNivel3) {
+                              if (!titulosProducto.has(colNivel3.title)) {
+                                  cumpleNivel2y3 = false;
+                                  break;
+                              }
+                          }
 
-if (cumpleNivel2y3) {
-  // Si pasó nivel 2, verificar nivel 3
-  for (const colNivel3 of coleccionNivel3) {
-      if (!titulosProducto.has(colNivel3.title)) {
-          cumpleNivel2y3 = false;
-          break;
-      }
-  }
-}
+                          // Si cumple ambos niveles, añadir a productosNivel2y3
+                          if (cumpleNivel2y3) {
+                              const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
+                              if (!productoExisteNivel2y3) {
+                                  productosNivel2y3.push(producto);
+                              }
+                              return; // Si ya se añadió aquí, no seguir verificando
+                          }
+                        }
 
-// Si no cumple nivel 2 y 3, verificar nivel 2 y 4
-if (!cumpleNivel2y3 && cumpleNivel2y4) {
-  for (const colNivel4 of coleccionNivel4) {
-      if (!titulosProducto.has(colNivel4.title)) {
-          cumpleNivel2y4 = false;
-          break;
-      }
-  }
-}
+                        // Si no cumplió nivel 2 y 3, verificar nivel 2 y 4
+                        let cumpleNivel2y4 = true;
 
+                                                // Verificar nivel 2 nuevamente
+                                                for (const colNivel2 of coleccionNivel2) {
+                                                  if (!titulosProducto.has(colNivel2.title)) {
+                                                      cumpleNivel2y4 = false;
+                                                      break;
+                                                  }
+                                              }
 
-// Añadir a los arrays correspondientes
-if (cumpleNivel2y3) {
-  const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
-  if (!productoExisteNivel2y3) {
-      productosNivel2y3.push(producto);
-  }
-} else if (cumpleNivel2y4) {
-  const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
-  if (!productoExisteNivel2y4) {
-      productosNivel2y4.push(producto);
-  }
-}
+                        // Si cumple nivel 2, verificar nivel 4
+                        if (cumpleNivel2y4) {
+                          for (const colNivel4 of coleccionNivel4) {
+                              if (!titulosProducto.has(colNivel4.title)) {
+                                  cumpleNivel2y4 = false;
+                                  break;
+                              }
+                          }
+
+                          // Si cumple ambos niveles, añadir a productosNivel2y4
+                          if (cumpleNivel2y4) {
+                              const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
+                              if (!productoExisteNivel2y4) {
+                                  productosNivel2y4.push(producto);
+                              }
+                          }
+                      }
+                      
+
                     }
                 });
 
