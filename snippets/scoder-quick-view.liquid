@@ -688,15 +688,37 @@
 </script>
 
 <div
+  style="
+      position: relative !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    height: 100% !important;
+  "
   class="productView quickView scoder-quickView layout-{{ layout }}{% if product.media.size == 0 %} productView-no-media{% endif %}"
   data-product-quickview-handle="{{ product.handle }}"
 >
   <div
-    style="display: flex !important; width: 100% !important; height: 80vh !important; gap: 10px !important; margin: 0 !important; padding: 0 !important; overflow: hidden !important;"
+    style="
+      display: flex !important;
+      width: 100% !important;
+      height: 80vh !important;
+      gap: 10px !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+    "
     class="productView-top"
   >
     <div
-      style="flex: 0 0 40% !important; height: 100% !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; padding: 15px !important;"
+      style="
+        flex: 0 0 40% !important;
+        height: 100% !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 15px !important;
+      "
       class="detalle-producto-left"
     >
       {% comment %} IMAGEN 50% {% endcomment %}
@@ -846,9 +868,9 @@
       {% comment %} ACCION PARA EL CLIENTE INICIO {% endcomment %}
       <div
         style="
-          height: 10.3% !important;
+                    flex: 0 0 10.3% !important;
           width: 100% !important;
-          background-color: #2196F3 !important;
+          min-height: fit-content !important; /* Nuevo */
         "
         class="acciones-cliente"
       >
@@ -2424,10 +2446,11 @@
   .detalle-producto-right {
     flex: 1 1 60% !important;
     height: 100% !important;
-    overflow: hidden !important;
-    padding: 15px 0px 0px 0px !important;
-    display: flex !important;
-    flex-direction: column !important;
+    width: auto !important; /* Nuevo */
+    max-width: 60% !important; /* Nuevo */
+    min-width: 0 !important; /* Nuevo */
+    overflow-x: hidden !important; /* Nuevo */
+    align-self: stretch !important; /* Nuevo */
   }
 
   .detalle-producto-right .productView-product {
@@ -2460,6 +2483,7 @@
     overflow-x: hidden !important;
     display: flex !important;
     flex-direction: column !important;
+    min-height: 0 !important; /* Nuevo */
     padding-right : 4px;
   }
 
