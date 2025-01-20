@@ -1353,7 +1353,7 @@
         title: node.title,
         description: node.description,
         price: {
-            amount: node.priceRange.minVariantPrice.amount / 10,
+            amount: node.priceRange.minVariantPrice.amount / 100,
             currencyCode: node.priceRange.minVariantPrice.currencyCode
         }
     };
@@ -1364,9 +1364,6 @@
     return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
   }
 
-
-
-  
   /**
   * Esta función procesa y organiza datos de una tienda Shopify:
   * 1. Clasifica las colecciones existentes en tres niveles (2, 3 y 4)
@@ -1505,9 +1502,8 @@
     coleccionNivel3.forEach((coleccion, indexCN3) => {
 
       const variables = extraerVariablesDescripcion(coleccion.description);
-        console.log('Variables extraídas:', coleccion);
-        console.log('Variables indexCN3:', indexCN3);
-
+        {% comment %} console.log('Variables extraídas:', coleccion); {% endcomment %}
+        {% comment %} console.log('Variables indexCN3:', indexCN3); {% endcomment %}
         
         const {
           variante,
