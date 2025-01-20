@@ -1409,8 +1409,7 @@
                           productoColecciones
                             .filter(col => {
                               // Debe contener AMBOS paréntesis y estar balanceados
-                              return col.title.includes('(') && 
-                                     col.title.includes(')') && 
+                              return col.title.includes('(') && col.title.includes(')') 
                             })
                             .map(col => col.title)
                         );
