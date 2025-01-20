@@ -1554,7 +1554,7 @@
         return producto.collections.some(col => col.title == coleccion.title);
       });
 
-      console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos);
+      {% comment %} console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos); {% endcomment %}
 
       productosEspecificos.forEach((productoMainItem, indexMainItem) => {
         if(tipoSelect === 'radio'){
