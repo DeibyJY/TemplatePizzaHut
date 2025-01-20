@@ -1332,6 +1332,32 @@
     // obtenerNivel("")         // → -1
   }
 
+  // Función para extraer variables de la descripción
+  function extraerVariablesDescripcion(descripcion) {
+    const variables = {};
+    
+    // Dividir la descripción por guiones
+    const partes = descripcion.split('-').map(parte => parte.trim());
+    
+    // Procesar cada parte
+    partes.forEach(parte => {
+      // Dividir por los dos puntos
+      const [clave, valor] = parte.split(':').map(item => item.trim());
+      
+      // Convertir la clave a camelCase y limpiar
+      const claveNormalizada = clave.toLowerCase()
+        .replace('tiposelect', 'tipoSelect'); // Manejar caso especial
+      
+      // Almacenar en el objeto, ignorando "Nivel"
+      if (claveNormalizada !== 'nivel') {
+        variables[claveNormalizada] = valor;
+      }
+    });
+    
+    return variables;
+  }
+
+
   /**
   * Esta función procesa y organiza datos de una tienda Shopify:
   * 1. Clasifica las colecciones existentes en tres niveles (2, 3 y 4)
@@ -1459,7 +1485,78 @@
 
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
     coleccionNivel3.forEach(coleccion => {
-      console.log(coleccion.description);
+      const variables = extraerVariablesDescripcion(coleccion.description);
+      Untitled
+
+      // Función para extraer variables de la descripción
+      const extraerVariablesDescripcion = (descripcion) => {
+        const variables = {};
+        
+        // Dividir la descripción por guiones
+        const partes = descripcion.split('-').map(parte => parte.trim());
+        
+        // Procesar cada parte
+        partes.forEach(parte => {
+          // Dividir por los dos puntos
+          const [clave, valor] = parte.split(':').map(item => item.trim());
+          
+          // Convertir la clave a camelCase y limpiar
+          const claveNormalizada = clave.toLowerCase()
+            .replace('tiposelect', 'tipoSelect'); // Manejar caso especial
+          
+          // Almacenar en el objeto, ignorando "Nivel"
+          if (claveNormalizada !== 'nivel') {
+            variables[claveNormalizada] = valor;
+          }
+        });
+        
+        return variables;
+      };
+      
+      // Uso con el contenedor
+      const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+      
+      coleccionNivel3.forEach(coleccion => {
+        const variables = extraerVariablesDescripcion(coleccion.description);
+        console.log('Variables extraídas:', variables);
+        
+        // También puedes acceder a cada variable individualmente
+        const {
+          variante,
+          limite,
+          solicitud,
+          tipoSelect
+        } = variables;
+        
+        solicitud == 'Opcional'
+          ? limite == 1
+            ? 'Selecciona hasta un artículo'
+            : `Selecciona hasta ${limite} artículos`
+          : limite == 1
+          ? 'Selecciona un artículo'
+          : `Selecciona exactamente ${limite} artículos`;
+
+        const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
+        const menuItemProducto = document.createElement('div');
+        menuItemProducto.className = 'menu-item-producto';
+
+        let contenidoHTML = `
+        <div class="titulo-detalle-oferta-producto">
+          <div id="titulo-detalle__comp1">
+            <h2 class="titulo-base1">${titulo.toUpperCase()}</h2>
+            <span class="titulo-base2">${textoSeleccion}</span>
+          </div>
+          <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud.toUpperCase()}</span>
+        </div>
+        <div class="item-menuItem" id="menuItem-${index}" data-limite="${item.limite}">
+      `;
+
+      // Filtrar productos específicos para esta colección
+      const productosEspecificos = productosNivel2y3.filter(producto => {
+        return producto.collections.some(col => col.title === coleccion.title);
+      });
+
+      console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos);
     });
   
     // Imprimir resultados
