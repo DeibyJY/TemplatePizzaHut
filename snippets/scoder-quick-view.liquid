@@ -1412,68 +1412,119 @@
                           collections: productoColecciones
                         };
 
+                        // ... (código anterior igual)
+
                         // Obtener títulos de las colecciones del producto
                         const titulosProducto = new Set(productoColecciones.map(col => col.title));
-                                                
+
+                        console.log('\n--------- NUEVO PRODUCTO ---------');
+                        console.log('Producto:', producto.title);
+                        console.log('ID:', producto.id);
+                        console.log('Colecciones del producto:', Array.from(titulosProducto));
+                        console.log('\nValidando Nivel 2 y 3...');
+
                         // Verificar nivel 2 y 3
                         let cumpleNivel2y3 = true;
-                        
+
                         // Verificar que tenga todas las colecciones de nivel 2
+                        console.log('\nVerificando Nivel 2:');
+                        console.log('Colecciones Nivel 2 requeridas:', coleccionNivel2.map(col => col.title));
+
                         for (const colNivel2 of coleccionNivel2) {
-                          if (!titulosProducto.has(colNivel2.title)) {
-                              cumpleNivel2y3 = false;
-                              break;
-                          }
+                            if (!titulosProducto.has(colNivel2.title)) {
+                                console.log(`❌ Falta colección nivel 2: ${colNivel2.title}`);
+                                cumpleNivel2y3 = false;
+                                break;
+                            } else {
+                                console.log(`✅ Tiene colección nivel 2: ${colNivel2.title}`);
+                            }
                         }
 
                         // Si cumple nivel 2, verificar nivel 3
                         if (cumpleNivel2y3) {
-                          for (const colNivel3 of coleccionNivel3) {
-                              if (!titulosProducto.has(colNivel3.title)) {
-                                  cumpleNivel2y3 = false;
-                                  break;
-                              }
-                          }
+                            console.log('\nVerificando Nivel 3:');
+                            console.log('Colecciones Nivel 3 requeridas:', coleccionNivel3.map(col => col.title));
+                            
+                            for (const colNivel3 of coleccionNivel3) {
+                                if (!titulosProducto.has(colNivel3.title)) {
+                                    console.log(`❌ Falta colección nivel 3: ${colNivel3.title}`);
+                                    cumpleNivel2y3 = false;
+                                    break;
+                                } else {
+                                    console.log(`✅ Tiene colección nivel 3: ${colNivel3.title}`);
+                                }
+                            }
 
-                          // Si cumple ambos niveles, añadir a productosNivel2y3
-                          if (cumpleNivel2y3) {
-                              const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
-                              if (!productoExisteNivel2y3) {
-                                  productosNivel2y3.push(producto);
-                              }
-                              return; // Si ya se añadió aquí, no seguir verificando
-                          }
+                            // Si cumple ambos niveles, añadir a productosNivel2y3
+                            if (cumpleNivel2y3) {
+                                console.log('\n✅ CUMPLE NIVEL 2 Y 3');
+                                const productoExisteNivel2y3 = productosNivel2y3.some(p => p.id === producto.id);
+                                if (!productoExisteNivel2y3) {
+                                    console.log('➡️ Añadiendo a productosNivel2y3');
+                                    productosNivel2y3.push(producto);
+                                } else {
+                                    console.log('⚠️ Producto ya existe en productosNivel2y3');
+                                }
+                                return;
+                            }
+                        } else {
+                            console.log('\n❌ NO CUMPLE NIVEL 2 Y 3');
                         }
 
                         // Si no cumplió nivel 2 y 3, verificar nivel 2 y 4
+                        console.log('\nValidando Nivel 2 y 4...');
                         let cumpleNivel2y4 = true;
 
-                                                // Verificar nivel 2 nuevamente
-                                                for (const colNivel2 of coleccionNivel2) {
-                                                  if (!titulosProducto.has(colNivel2.title)) {
-                                                      cumpleNivel2y4 = false;
-                                                      break;
-                                                  }
-                                              }
+                        // Verificar nivel 2 nuevamente
+                        console.log('\nVerificando Nivel 2:');
+                        for (const colNivel2 of coleccionNivel2) {
+                            if (!titulosProducto.has(colNivel2.title)) {
+                                console.log(`❌ Falta colección nivel 2: ${colNivel2.title}`);
+                                cumpleNivel2y4 = false;
+                                break;
+                            } else {
+                                console.log(`✅ Tiene colección nivel 2: ${colNivel2.title}`);
+                            }
+                        }
 
                         // Si cumple nivel 2, verificar nivel 4
                         if (cumpleNivel2y4) {
-                          for (const colNivel4 of coleccionNivel4) {
-                              if (!titulosProducto.has(colNivel4.title)) {
-                                  cumpleNivel2y4 = false;
-                                  break;
-                              }
-                          }
+                            console.log('\nVerificando Nivel 4:');
+                            console.log('Colecciones Nivel 4 requeridas:', coleccionNivel4.map(col => col.title));
+                            
+                            for (const colNivel4 of coleccionNivel4) {
+                                if (!titulosProducto.has(colNivel4.title)) {
+                                    console.log(`❌ Falta colección nivel 4: ${colNivel4.title}`);
+                                    cumpleNivel2y4 = false;
+                                    break;
+                                } else {
+                                    console.log(`✅ Tiene colección nivel 4: ${colNivel4.title}`);
+                                }
+                            }
 
-                          // Si cumple ambos niveles, añadir a productosNivel2y4
-                          if (cumpleNivel2y4) {
-                              const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
-                              if (!productoExisteNivel2y4) {
-                                  productosNivel2y4.push(producto);
-                              }
-                          }
-                      }
-                      
+                            // Si cumple ambos niveles, añadir a productosNivel2y4
+                            if (cumpleNivel2y4) {
+                                console.log('\n✅ CUMPLE NIVEL 2 Y 4');
+                                const productoExisteNivel2y4 = productosNivel2y4.some(p => p.id === producto.id);
+                                if (!productoExisteNivel2y4) {
+                                    console.log('➡️ Añadiendo a productosNivel2y4');
+                                    productosNivel2y4.push(producto);
+                                } else {
+                                    console.log('⚠️ Producto ya existe en productosNivel2y4');
+                                }
+                            } else {
+                                console.log('\n❌ NO CUMPLE NIVEL 2 Y 4');
+                            }
+                        } else {
+                            console.log('\n❌ NO CUMPLE NIVEL 2 Y 4');
+                        }
+
+                        console.log('\n--------------------------------\n');
+
+                        // ... (resto del código igual)
+
+
+
 
                     }
                 });
