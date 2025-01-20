@@ -1345,7 +1345,7 @@
   */
 
   async function testPrueba() {
-    // Arrays para mantener la consistencia con la lógica original
+    // Arrays para mantener la lógica original
     const coleccionNivel2 = [];
     const coleccionNivel4 = [];
     const coleccionNivel3 = [];
@@ -1356,6 +1356,12 @@
     const idsNivel2y3 = new Set();
     const idsNivel2y4 = new Set();
   
+    // Validación de paréntesis
+    const tieneParentesisValidos = (titulo) => {
+      return titulo.includes('(') && titulo.includes(')') && 
+             titulo.indexOf('(') < titulo.indexOf(')');
+    };
+  
     // Procesar colecciones existentes de manera más eficiente
     const collections = {{ product.collections | json }};
     
@@ -1365,8 +1371,8 @@
       const description = limpiarBodyHtml(collection.body_html);
       const nivel = obtenerNivel(description);
       
-      // Validación de paréntesis
-      if (!title.includes('(') || !title.includes(')')) continue;
+      // Solo agregar colecciones con paréntesis válidos
+      if (!tieneParentesisValidos(title)) continue;
       
       if (nivel === 2) {
         coleccionNivel2.push({ handle, title, description });
@@ -1391,18 +1397,22 @@
   
         for (const edge of coleccion.products.edges) {
           if (!edge?.node) continue;
-          
-          const productoColecciones = edge.node.collections.edges
-            .map(colEdge => ({
-              title: colEdge.node.title,
-              description: colEdge.node.description
-            }))
-            .filter(col => col.title.includes('(') && col.title.includes(')'));
   
-          // Si no hay colecciones con paréntesis válidos, saltamos
-          if (productoColecciones.length === 0) continue;
+          // Obtener todas las colecciones del producto
+          const todasColecciones = edge.node.collections.edges.map(colEdge => ({
+            title: colEdge.node.title,
+            description: colEdge.node.description
+          }));
   
-          const titulosProducto = new Set(productoColecciones.map(col => col.title));
+          // Verificar que TODAS las colecciones tengan paréntesis válidos
+          const todasTienenParentesis = todasColecciones.every(col => 
+            tieneParentesisValidos(col.title)
+          );
+  
+          // Si alguna colección no tiene paréntesis válidos, descartamos el producto
+          if (!todasTienenParentesis) continue;
+  
+          const titulosProducto = new Set(todasColecciones.map(col => col.title));
   
           // Verificar nivel 2 (requerido para ambos casos)
           const cumpleNivel2 = Array.from(titulosNivel2).every(titulo => 
@@ -1420,7 +1430,7 @@
               amount: edge.node.priceRange.minVariantPrice.amount,
               currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
             },
-            collections: productoColecciones
+            collections: todasColecciones
           };
   
           // Verificar nivel 2 y 3
@@ -1460,7 +1470,6 @@
       productosNivel2y4
     };
   }
-
 
   // Llamar a la función
   testPrueba()
