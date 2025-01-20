@@ -1470,34 +1470,34 @@
       .filter(Boolean); 
       // Eliminar productos que no cumplen los requisitos básicos
 
-    // Procesar y clasificar productos
-    const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
-      // Verificar nivel 2 y 3
-      if (verificarColecciones(titulosProducto, titulosNivel3)) {
-        if (!idsNivel2y3.has(producto.id)) {
-          acc.nivel2y3.push(producto);
-          idsNivel2y3.add(producto.id);
+      // Procesar y clasificar productos
+      const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
+        // Verificar nivel 2 y 3
+        if (verificarColecciones(titulosProducto, titulosNivel3)) {
+          if (!idsNivel2y3.has(producto.id)) {
+            acc.nivel2y3.push(producto);
+            idsNivel2y3.add(producto.id);
+          }
         }
-      }
-      // Verificar nivel 2 y 4 solo si no cumplió nivel 3
-      else if (Array.from(titulosNivel4).some(titulo => titulosProducto.has(titulo))) {
-        if (!idsNivel2y4.has(producto.id)) {
-          acc.nivel2y4.push(producto);
-          idsNivel2y4.add(producto.id);
+        // Verificar nivel 2 y 4 solo si no cumplió nivel 3
+        else if (Array.from(titulosNivel4).some(titulo => titulosProducto.has(titulo))) {
+          if (!idsNivel2y4.has(producto.id)) {
+            acc.nivel2y4.push(producto);
+            idsNivel2y4.add(producto.id);
+          }
         }
-      }
-      return acc;
-    }, { nivel2y3: [], nivel2y4: [] });
+          return acc;
+        }, { nivel2y3: [], nivel2y4: [] });
 
-    // Ordenar por precio y asignar a los arrays finales
-    productosNivel2y3.push(
-      ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
-    );
-    
-    productosNivel2y4.push(
-      ...productosPorNivel.nivel2y4.sort((a, b) => a.price.amount - b.price.amount)
-    );
-  };
+        // Ordenar por precio y asignar a los arrays finales
+        productosNivel2y3.push(
+          ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
+        );
+        
+        productosNivel2y4.push(
+          ...productosPorNivel.nivel2y4.sort((a, b) => a.price.amount - b.price.amount)
+        );
+    };
 
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
     coleccionNivel3.forEach((coleccion, indexCN3) => {
@@ -1653,7 +1653,6 @@
       productosNivel2y4
     };
   }
-  
 
   // Llamar a la función
   {% comment %} testPrueba()
