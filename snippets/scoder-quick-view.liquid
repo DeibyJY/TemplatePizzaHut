@@ -1554,7 +1554,7 @@
         return producto.collections.some(col => col.title == coleccion.title);
       });
 
-      {% comment %} console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos); {% endcomment %}
+      console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos);
 
       productosEspecificos.forEach((productoMainItem, indexMainItem) => {
         if(tipoSelect === 'radio'){
@@ -1641,11 +1641,10 @@
         }
       });
 
-      contenidooHTML += `
-          </div>
-      `;
+      contenidooHTML += `</div>`;
       menuItemProducto.innerHTML = contenidooHTML;
       contendorPrincipal.appendChild(menuItemProducto);
+        
     });
   
     // Imprimir resultados
@@ -2377,19 +2376,19 @@
   }
 
   // Agregar ambos eventos para asegurar la ejecución
-  {% comment %} agregarMenuItems();
+  document.addEventListener('DOMContentLoaded', () => {
+    {% comment %} agregarMenuItems();
     marcarOpcionesRequeridas();
     verificarRequeridos(); {% endcomment %}
-   
-  document.addEventListener('DOMContentLoaded', () => {
-    {% comment %} testPrueba()
+     // Llamar a la función
+  testPrueba()
   .then(resultado => {
     console.log('Todo salio bien');
       {% comment %} console.log('Resultado:', resultado); {% endcomment %}
   })
   .catch(error => {
       console.error('Error:', error);
-  }); {% endcomment %} {% endcomment %}
+  });
   });
 
   if (document.readyState === 'complete') {
