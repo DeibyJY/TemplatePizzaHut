@@ -1507,7 +1507,7 @@
         const menuItemProducto = document.createElement('div');
         menuItemProducto.className = 'menu-item-producto';
 
-        let contenidoHTML = `
+        let contenidooHTML = `
         <div class="titulo-detalle-oferta-producto">
           <div id="titulo-detalle__comp1">
             <h2 class="titulo-base1">ELIGE ${variante.toUpperCase()}</h2>
@@ -1526,8 +1526,8 @@
       console.log(`Productos para colección ${coleccion.title}:`, productosEspecificos);
 
       productosEspecificos.forEach((productoMainItem, indexMainItem) => {
-        if(tipoSelect == 'radio'){
-          contenidoHTML += `
+        if(tipoSelect === 'radio'){
+          contenidooHTML += `
           <div class="opcion-principal-detalle-oferta3">
             <div class="producto-info3">
               <span class="producto-nombre3">${productoMainItem.title}</span>
@@ -1549,8 +1549,8 @@
         `;
         }
 
-        if(tipoSelect = 'numberCount'){
-          contenidoHTML += `
+        if(tipoSelect === 'numberCount'){
+          contenidooHTML += `
             <div class="opcion-principal-detalle-oferta2">
               <div class="producto-info2">
                 <span class="producto-nombre2">${productoMainItem.title}</span>
@@ -1585,8 +1585,8 @@
           `;
         }
 
-        if(tipoSelect = 'checkbox'){
-          contenidoHTML += `
+        if(tipoSelect === 'checkbox'){
+          contenidooHTML += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
                 <span class="producto-nombre3">${productoMainItem.title}</span>
@@ -1610,8 +1610,8 @@
         }
       });
 
-      contenidoHTML += `</div>`;
-      menuItemProducto.innerHTML = contenidoHTML;
+      contenidooHTML += `</div>`;
+      menuItemProducto.innerHTML = contenidooHTML;
       contendorPrincipal.appendChild(menuItemProducto);
         
     });
@@ -2350,12 +2350,30 @@
     {% comment %} agregarMenuItems();
     marcarOpcionesRequeridas();
     verificarRequeridos(); {% endcomment %}
+     // Llamar a la función
+  testPrueba()
+  .then(resultado => {
+    console.log('Todo salio bien');
+      {% comment %} console.log('Resultado:', resultado); {% endcomment %}
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
   });
 
   if (document.readyState === 'complete') {
     {% comment %} agregarMenuItems();
     marcarOpcionesRequeridas();
     verificarRequeridos(); {% endcomment %}
+     // Llamar a la función
+  testPrueba()
+  .then(resultado => {
+    console.log('Todo salio bien');
+      {% comment %} console.log('Resultado:', resultado); {% endcomment %}
+  })
+  .catch(error => {
+      console.error('Error:', error);
+  });
   }
 </script>
 <style>
