@@ -1381,25 +1381,25 @@
                     if (edge.node) {
                         // Extraer colecciones del producto
                         const productoColecciones = edge.node.collections.edges.map(colEdge => ({
-                            title: colEdge.node.title,
-                            description: colEdge.node.description
+                          title: colEdge.node.title,
+                          description: colEdge.node.description
                         }));
 
-                        // Verificar si TODAS las colecciones tienen AMBOS paréntesis
-                        const tieneParentesis = productoColecciones.some(col => {
+                        // Verificar que TODAS las colecciones tengan paréntesis válidos
+                        const tieneParentesisValidos = productoColecciones.every(col => {
                           const titulo = col.title;
-                          const tieneApertura = titulo.includes('(');
-                          const tieneCierre = titulo.includes(')');
-                          // Debe tener ambos paréntesis
-                          return tieneApertura && tieneCierre;
+                          const apertura = titulo.indexOf('(');
+                          const cierre = titulo.indexOf(')');
+                          
+                          // Debe tener ambos paréntesis y en orden correcto
+                          return apertura !== -1 && cierre !== -1 && apertura < cierre;
                         });
 
-                        // Si no tiene ambos paréntesis, saltamos este producto
-                        if (!tieneParentesis) {
+                        // Si alguna colección no tiene paréntesis válidos, saltamos
+                        if (!tieneParentesisValidos) {
                           return;
                         }
-
-                       
+                        
                         // Crear objeto producto
                         const producto = {
                           id: edge.node.id,
