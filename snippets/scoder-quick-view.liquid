@@ -1299,7 +1299,7 @@
         });
         
         const data = await response.json();
-        console.log('Respuesta:', data);
+        {% comment %} console.log('Respuesta:', data); {% endcomment %}
         return data; // Añadimos el return aquí
     } catch (error) {
         console.error('Error:', error);
@@ -1385,12 +1385,16 @@
                             description: colEdge.node.description
                         }));
 
-                        // Verificar si alguna colección tiene paréntesis
-                        const tieneParentesis = productoColecciones.some(col => 
-                          col.title.includes('(') || col.title.includes(')')
-                        );
+                        // Verificar si TODAS las colecciones tienen AMBOS paréntesis
+                        const tieneParentesis = productoColecciones.some(col => {
+                          const titulo = col.title;
+                          const tieneApertura = titulo.includes('(');
+                          const tieneCierre = titulo.includes(')');
+                          // Debe tener ambos paréntesis
+                          return tieneApertura && tieneCierre;
+                        });
 
-                        // Si no tiene paréntesis, saltamos este producto
+                        // Si no tiene ambos paréntesis, saltamos este producto
                         if (!tieneParentesis) {
                           return;
                         }
@@ -1474,7 +1478,8 @@
   // Llamar a la función
   testPrueba()
   .then(resultado => {
-      console.log('Resultado:', resultado);
+    console.log('Todo salio bien');
+      {% comment %} console.log('Resultado:', resultado); {% endcomment %}
   })
   .catch(error => {
       console.error('Error:', error);
