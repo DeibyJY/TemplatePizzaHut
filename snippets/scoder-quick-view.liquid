@@ -1494,7 +1494,8 @@
           tipoSelect
         } = variables;
         
-        solicitud == 'Opcional'
+        const textoSeleccion = 
+          solicitud == 'Opcional'
           ? limite == 1
             ? 'Selecciona hasta un artículo'
             : `Selecciona hasta ${limite} artículos`
@@ -1553,7 +1554,7 @@
   .catch(error => {
       console.error('Error:', error);
   });
-  
+
 
   function getMenuItems() {
     const menuItems = [
