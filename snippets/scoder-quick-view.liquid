@@ -1347,6 +1347,24 @@
     return variables;
   }
 
+  // Funcion para la creacion de un producto 
+  function createProductObject(node) {
+    return {
+        id: node.id,
+        title: node.title,
+        description: node.description,
+        price: {
+            amount: node.priceRange.minVariantPrice.amount / 10,
+            currencyCode: node.priceRange.minVariantPrice.currencyCode
+        }
+    };
+  }
+
+  // Funcion para verificar colecciones
+  function verificarColecciones(colecciones,titulosRequeridos){
+    return Array.form(titutlosRequeridos).every(titulo => colecciones.has(titulo));
+  }
+
   /**
   * Esta función procesa y organiza datos de una tienda Shopify:
   * 1. Clasifica las colecciones existentes en tres niveles (2, 3 y 4)
@@ -1411,66 +1429,75 @@
     const respuesta = await fetchShopifyData();
     
     if (respuesta?.data) {
-      for (const coleccion of Object.values(respuesta.data)) {
-        if (!coleccion?.products?.edges) continue;
-  
-        for (const edge of coleccion.products.edges) {
-          if (!edge?.node) continue;
-  
-          // Obtener todas las colecciones del producto
-          const todasColecciones = edge.node.collections.edges.map(colEdge => ({
-            title: colEdge.node.title,
-            description: colEdge.node.description
-          }));
-  
-          // Verificar que TODAS las colecciones tengan paréntesis válidos
-          const todasTienenParentesis = todasColecciones.every(col => 
-            tieneParentesisValidos(col.title)
-          );
-  
-          // Si alguna colección no tiene paréntesis válidos, descartamos el producto
-          if (!todasTienenParentesis) continue;
-  
-          const titulosProducto = new Set(todasColecciones.map(col => col.title));
-  
-          // Verificar nivel 2 (requerido para ambos casos)
-          const cumpleNivel2 = Array.from(titulosNivel2).every(titulo => 
-            titulosProducto.has(titulo)
-          );
-          
-          if (!cumpleNivel2) continue;
-  
-          // Crear objeto producto solo si pasa la validación inicial
-          const producto = {
-            id: edge.node.id,
-            title: edge.node.title,
-            description: edge.node.description,
-            price: {
-              amount: edge.node.priceRange.minVariantPrice.amount,
-              currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
-            },
-            collections: todasColecciones
-          };
-  
-          // Verificar nivel 2 y 3
-          if (Array.from(titulosNivel3).every(titulo => titulosProducto.has(titulo))) {
-            if (!idsNivel2y3.has(producto.id)) {
-              idsNivel2y3.add(producto.id);
-              productosNivel2y3.push(producto);
-            }
-            continue; // Si cumple nivel 2 y 3, no verificamos nivel 4
-          }
-  
-          // Verificar nivel 2 y 4
-          if (Array.from(titulosNivel4).some(titulo => titulosProducto.has(titulo))) {
-            if (!idsNivel2y4.has(producto.id)) {
-              idsNivel2y4.add(producto.id);
-              productosNivel2y4.push(producto);
-            }
-          }
+      // Procesar todos los productos de una vez
+      const productosProcessados = Object.values(respuesta.data)
+      // Aplanar y filtrar productos válidos
+      .flatMap(coleccion => coleccion?.products?.edges || [])
+      .filter(edge => edge?.node)
+      .map(edge => {
+        const node = edge.node;
+
+        // Obtener y validar colecciones
+        const todasColecciones = node.collections.edges.map(colEdge => ({
+          title: colEdge.node.title,
+          description: colEdge.node.description
+        }));
+
+        // Validación rápida de paréntesis
+        if (!todasColecciones.every(col => tieneParentesisValidos(col.title))) {
+          return null;
+        }
+
+        // Crear Set de títulos una sola vez
+        const titulosProducto = new Set(todasColecciones.map(col => col.title));
+
+        // Validar nivel 2 (requerido)
+        if (!verificarColecciones(titulosProducto, titulosNivel2)) {
+          return null;
+        }
+
+        // Crear el objeto producto
+        const producto = {
+          ...createProductObject(node),
+          collections: todasColecciones
+        };
+
+        return {
+          producto,
+          titulosProducto
+        };
+      })
+      .filter(Boolean); 
+      // Eliminar productos que no cumplen los requisitos básicos
+
+    // Procesar y clasificar productos
+    const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
+      // Verificar nivel 2 y 3
+      if (verificarColecciones(titulosProducto, titulosNivel3)) {
+        if (!idsNivel2y3.has(producto.id)) {
+          acc.nivel2y3.push(producto);
+          idsNivel2y3.add(producto.id);
         }
       }
-    }
+      // Verificar nivel 2 y 4 solo si no cumplió nivel 3
+      else if (Array.from(titulosNivel4).some(titulo => titulosProducto.has(titulo))) {
+        if (!idsNivel2y4.has(producto.id)) {
+          acc.nivel2y4.push(producto);
+          idsNivel2y4.add(producto.id);
+        }
+      }
+      return acc;
+    }, { nivel2y3: [], nivel2y4: [] });
+
+    // Ordenar por precio y asignar a los arrays finales
+    productosNivel2y3.push(
+      ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
+    );
+    
+    productosNivel2y4.push(
+      ...productosPorNivel.nivel2y4.sort((a, b) => a.price.amount - b.price.amount)
+    );
+  };
 
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
     coleccionNivel3.forEach((coleccion, indexCN3) => {
@@ -1610,11 +1637,11 @@
     });
   
     // Imprimir resultados
-    console.log('Colecciones Nivel 2:', coleccionNivel2);
+    {% comment %} console.log('Colecciones Nivel 2:', coleccionNivel2);
     console.log('Colecciones Nivel 3:', coleccionNivel3);
     console.log('Colecciones Nivel 4:', coleccionNivel4);
     console.log('Productos Nivel 2 y 3:', productosNivel2y3);
-    console.log('Productos Nivel 2 y 4:', productosNivel2y4);
+    console.log('Productos Nivel 2 y 4:', productosNivel2y4); {% endcomment %}
   
     return {
       colecciones: {
