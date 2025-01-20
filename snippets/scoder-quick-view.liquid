@@ -1562,7 +1562,7 @@
                   class="btn-cantidad2" 
                   onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
                   data-group="${indexCN3}"
-                  data-limite="${item.limite}"
+                  data-limite="${limite}"
                 >
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
@@ -1589,7 +1589,7 @@
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
-                <span class="producto-nombre3">${productoMainItem.titulo}</span>
+                <span class="producto-nombre3">${productoMainItem.title}</span>
                 ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
               </div>
               <div class="control-checkbox3">
@@ -1597,7 +1597,7 @@
                   <input
                     type="checkbox"
                     id="item-${indexCN3}-${indexMainItem}"
-                    name="properties[${productoMainItem.titulo}]"
+                    name="properties[${productoMainItem.title}]"
                     class="input-checkbox3"
                     data-group="${indexCN3}"
                     data-limite="${limite}"
