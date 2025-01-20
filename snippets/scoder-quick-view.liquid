@@ -1374,9 +1374,9 @@
 
     // Obtener datos de Shopify
     const respuesta = await fetchShopifyData();
+    console.log('Respuesta Data:', respuesta);
     
     if (respuesta && respuesta.data) {
-      console.log('Respuesta Data:', respuesta.data);
         Object.keys(respuesta.data).forEach(key => {
             const coleccion = respuesta.data[key];
             
@@ -1404,7 +1404,7 @@
                         };
 
                         // Verificar si el producto ya existe
-                        const productoExistente = todosProductos.some(p => p.id === producto.id);
+                        const productoExistente = todosProductos.some(p => p.id == producto.id);
                         if (!productoExistente) {
                             todosProductos.push(producto);
                         }
