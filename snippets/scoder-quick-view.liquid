@@ -1345,121 +1345,123 @@
   */
 
   async function testPrueba() {
-    // Crear Map para búsqueda más eficiente de colecciones por nivel
-    const coleccionesPorNivel = new Map([
-      [2, new Set()],
-      [3, new Set()],
-      [4, new Set()]
-    ]);
-    
-    // Sets para almacenar productos únicos
-    const productosNivel2y3 = new Set();
-    const productosNivel2y4 = new Set();
+    // Arrays para mantener la consistencia con la lógica original
+    const coleccionNivel2 = [];
+    const coleccionNivel4 = [];
+    const coleccionNivel3 = [];
+    const productosNivel2y3 = [];
+    const productosNivel2y4 = [];
   
-    // Función auxiliar para validar paréntesis
-    const tieneParentesisValidos = (titulo) => {
-      return titulo.includes('(') && titulo.includes(')') && 
-             titulo.indexOf('(') < titulo.indexOf(')');
-    };
+    // Set para verificación rápida de IDs duplicados
+    const idsNivel2y3 = new Set();
+    const idsNivel2y4 = new Set();
   
-    // Procesar colecciones existentes
+    // Procesar colecciones existentes de manera más eficiente
     const collections = {{ product.collections | json }};
     
-    // Preprocesar colecciones y almacenarlas en el Map
-    collections.forEach(({ handle, title, body_html }) => {
-      const nivel = obtenerNivel(limpiarBodyHtml(body_html));
-      if (nivel >= 2 && nivel <= 4) {
-        // Solo agregar si tiene paréntesis válidos
-        if (tieneParentesisValidos(title)) {
-          coleccionesPorNivel.get(nivel).add({
-            handle,
-            title,
-            description: limpiarBodyHtml(body_html)
-          });
-        }
+    for (const collection of collections) {
+      const handle = collection.handle;
+      const title = collection.title;
+      const description = limpiarBodyHtml(collection.body_html);
+      const nivel = obtenerNivel(description);
+      
+      // Validación de paréntesis
+      if (!title.includes('(') || !title.includes(')')) continue;
+      
+      if (nivel === 2) {
+        coleccionNivel2.push({ handle, title, description });
+      } else if (nivel === 4) {
+        coleccionNivel4.push({ handle, title, description });
+      } else if (nivel === 3) {
+        coleccionNivel3.push({ handle, title, description });
       }
-    });
+    }
+  
+    // Cache de títulos de colecciones para búsqueda más rápida
+    const titulosNivel2 = new Set(coleccionNivel2.map(col => col.title));
+    const titulosNivel3 = new Set(coleccionNivel3.map(col => col.title));
+    const titulosNivel4 = new Set(coleccionNivel4.map(col => col.title));
   
     // Obtener datos de Shopify
     const respuesta = await fetchShopifyData();
     
     if (respuesta?.data) {
-      // Obtener colecciones requeridas una sola vez
-      const coleccionesNivel2 = Array.from(coleccionesPorNivel.get(2));
-      const coleccionesNivel3 = Array.from(coleccionesPorNivel.get(3));
-      const coleccionesNivel4 = Array.from(coleccionesPorNivel.get(4));
+      for (const coleccion of Object.values(respuesta.data)) {
+        if (!coleccion?.products?.edges) continue;
   
-      // Procesar productos
-      Object.values(respuesta.data).forEach(coleccion => {
-        if (!coleccion?.products?.edges) return;
+        for (const edge of coleccion.products.edges) {
+          if (!edge?.node) continue;
+          
+          const productoColecciones = edge.node.collections.edges
+            .map(colEdge => ({
+              title: colEdge.node.title,
+              description: colEdge.node.description
+            }))
+            .filter(col => col.title.includes('(') && col.title.includes(')'));
   
-        coleccion.products.edges.forEach(({ node: producto }) => {
-          if (!producto) return;
+          // Si no hay colecciones con paréntesis válidos, saltamos
+          if (productoColecciones.length === 0) continue;
   
-          // Extraer y validar colecciones del producto
-          const coleccionesProducto = new Set(
-            producto.collections.edges
-              .map(edge => edge.node.title)
-              .filter(tieneParentesisValidos)
-          );
-  
-          // Si no hay colecciones válidas, saltar producto
-          if (coleccionesProducto.size === 0) return;
+          const titulosProducto = new Set(productoColecciones.map(col => col.title));
   
           // Verificar nivel 2 (requerido para ambos casos)
-          const cumpleNivel2 = coleccionesNivel2.every(col => 
-            coleccionesProducto.has(col.title)
+          const cumpleNivel2 = Array.from(titulosNivel2).every(titulo => 
+            titulosProducto.has(titulo)
           );
           
-          if (!cumpleNivel2) return;
+          if (!cumpleNivel2) continue;
   
-          // Crear objeto producto solo si es necesario
-          const productoObj = {
-            id: producto.id,
-            title: producto.title,
-            description: producto.description,
+          // Crear objeto producto solo si pasa la validación inicial
+          const producto = {
+            id: edge.node.id,
+            title: edge.node.title,
+            description: edge.node.description,
             price: {
-              amount: producto.priceRange.minVariantPrice.amount,
-              currencyCode: producto.priceRange.minVariantPrice.currencyCode
+              amount: edge.node.priceRange.minVariantPrice.amount,
+              currencyCode: edge.node.priceRange.minVariantPrice.currencyCode
             },
-            collections: Array.from(coleccionesProducto).map(title => ({ title }))
+            collections: productoColecciones
           };
   
           // Verificar nivel 2 y 3
-          if (coleccionesNivel3.every(col => coleccionesProducto.has(col.title))) {
-            productosNivel2y3.add(productoObj);
-            return;
+          if (Array.from(titulosNivel3).every(titulo => titulosProducto.has(titulo))) {
+            if (!idsNivel2y3.has(producto.id)) {
+              idsNivel2y3.add(producto.id);
+              productosNivel2y3.push(producto);
+            }
+            continue; // Si cumple nivel 2 y 3, no verificamos nivel 4
           }
   
           // Verificar nivel 2 y 4
-          if (coleccionesNivel4.some(col => coleccionesProducto.has(col.title))) {
-            productosNivel2y4.add(productoObj);
+          if (Array.from(titulosNivel4).some(titulo => titulosProducto.has(titulo))) {
+            if (!idsNivel2y4.has(producto.id)) {
+              idsNivel2y4.add(producto.id);
+              productosNivel2y4.push(producto);
+            }
           }
-        });
-      });
+        }
+      }
     }
   
-    // Imprimir resultados por consola
-    console.log('Colecciones por nivel:');
-    console.log('Nivel 2:', Array.from(coleccionesPorNivel.get(2)));
-    console.log('Nivel 3:', Array.from(coleccionesPorNivel.get(3)));
-    console.log('Nivel 4:', Array.from(coleccionesPorNivel.get(4)));
-    console.log('Productos que cumplen Nivel 2 y 3:', Array.from(productosNivel2y3));
-    console.log('Productos que cumplen Nivel 2 y 4:', Array.from(productosNivel2y4));
+    // Imprimir resultados
+    console.log('Colecciones Nivel 2:', coleccionNivel2);
+    console.log('Colecciones Nivel 3:', coleccionNivel3);
+    console.log('Colecciones Nivel 4:', coleccionNivel4);
+    console.log('Productos Nivel 2 y 3:', productosNivel2y3);
+    console.log('Productos Nivel 2 y 4:', productosNivel2y4);
   
-    // Convertir Sets a Arrays para el resultado final
     return {
       colecciones: {
-        nivel2: Array.from(coleccionesPorNivel.get(2)),
-        nivel3: Array.from(coleccionesPorNivel.get(3)),
-        nivel4: Array.from(coleccionesPorNivel.get(4))
+        nivel2: coleccionNivel2,
+        nivel3: coleccionNivel3,
+        nivel4: coleccionNivel4
       },
-      productosNivel2y3: Array.from(productosNivel2y3),
-      productosNivel2y4: Array.from(productosNivel2y4)
+      productosNivel2y3,
+      productosNivel2y4
     };
   }
 
-  
+
   // Llamar a la función
   testPrueba()
   .then(resultado => {
