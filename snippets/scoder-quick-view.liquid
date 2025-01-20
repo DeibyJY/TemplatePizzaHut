@@ -1232,7 +1232,7 @@
 {%- endif -%}
 
 <script>
-
+  // Token Acceso APP ADMIN API
   const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
   
   const coleccionesOfProduct = () => {
@@ -1282,9 +1282,9 @@
 
     query += '}';
     return query;
-}
+  }
 
-async function fetchShopifyData() {
+  async function fetchShopifyData() {
     try {
         const response = await fetch('https://pizza-hut-bo.myshopify.com/admin/api/2025-01/graphql.json', {
             method: 'POST',
@@ -1303,10 +1303,7 @@ async function fetchShopifyData() {
     } catch (error) {
         console.error('Error:', error);
     }
-}
-  
-  // Llamar a la función
-  fetchShopifyData();
+  }
 
 
   {% comment %} PASO 1 : ORDENADAR LAS COLECCIONES DEL PRODUCTO {% endcomment %}
@@ -1331,33 +1328,43 @@ async function fetchShopifyData() {
     // obtenerNivel("")         // → -1
   }
 
-  {% comment %} Funcion para ordenar coleccion  {% endcomment %}
-  function ordenarColecciones() {
-    const coleccionesAux = {{ product.collections | json }};
-    
-    coleccionesAux.sort((a,b) => {
-      const textA = limpiarBodyHtml(a.body_html);
-      const textB = limpiarBodyHtml(b.body_html);
+  function testPrueba() {
+    let coleccionNivel2 = [];
+    let coleccionNivel4 = [];
+    let coleccionNivel3 = [];
 
-      // Si el body_html esta vacio, va primero
-      if (!textA && textB) return -1;
-      if (textA && !textB) return 1;
-      if (!textA && !textB) return 0;
+    const collections = {{ product.collections | json }};
 
-      const nivelA = obtenerNivel(textA);
-      const nivelB = obtenerNivel(textB);
+    collections.forEach((collection) => {
+        const handle = collection.handle;
+        const title = collection.title;
+        const description = limpiarBodyHtml(collection.body_html);
+        const nivel = obtenerNivel(description);
 
-      // Ordenar por nivel de forma ascendente
-      return nivelA - nivelB;
+        if (nivel == 2) {
+            coleccionNivel2.push({ handle, title, description });
+        } else if (nivel == 4) {
+            coleccionNivel4.push({ handle, title, description });
+        } else if (nivel == 3) {
+            coleccionNivel3.push({ handle, title, description });
+        }
     });
 
-    console.log('Colecciones:', coleccionesAux);
-    return coleccionesAux;
-  }
-  
-  {% comment %} PASO 2 : TRAER {% endcomment %}
-  ordenarColecciones();
+    // Mostrar resultados en consola
+    console.log('Colecciones Nivel 2:', coleccionNivel2);
+    console.log('Colecciones Nivel 3:', coleccionNivel3);
+    console.log('Colecciones Nivel 4:', coleccionNivel4);
 
+    // Opcional: retornar los arrays si necesitas usarlos después
+    return {
+        nivel2: coleccionNivel2,
+        nivel3: coleccionNivel3,
+        nivel4: coleccionNivel4
+    };
+  }
+
+  // Llamar a la función
+  testPrueba();
 
 
   const menuItems = [
