@@ -759,7 +759,7 @@
             style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
           >
             <a href="{{ product.url }}">{{ product.title | escape }}</a>
-            {{ product.category }}
+            {% comment %} {{ product.category }} {% endcomment %}
           </h2>
 
           {%- if show_quick_view_short_description -%}
