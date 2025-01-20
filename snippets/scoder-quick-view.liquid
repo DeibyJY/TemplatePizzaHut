@@ -1530,11 +1530,11 @@
           contenidoHTML += `
           <div class="opcion-principal-detalle-oferta3">
             <div class="producto-info3">
-              <span class="producto-nombre3">${mainItem.titulo}</span>
-              ${parseFloat(mainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${mainItem.price.amount}</span>` : ''}
+              <span class="producto-nombre3">${productoMainItem.title}</span>
+              ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
             </div>
             <div class="opcion-nombre1">
-              <div class="hover-area1" id="hoverArea-${index}-${indexMainItem}"></div>
+              <div class="hover-area1" id="hoverArea-${indexCN3}-${indexMainItem}"></div>
               <input
                 type="radio"
                 id="item-${indexCN3}-${indexMainItem}"
@@ -1553,28 +1553,28 @@
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta2">
               <div class="producto-info2">
-                <span class="producto-nombre2">${mainItem.titulo}</span>
-                ${mainItem.precio > 0 ? `<span class="producto-precio2">+Bs${mainItem.precio}</span>` : ''}
+                <span class="producto-nombre2">${productoMainItem.title}</span>
+                ${productoMainItem.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoMainItem.price.amount}</span>` : ''}
               </div>
               <div class="controles-cantidad2">
                 <button 
                   type="button" 
                   class="btn-cantidad2" 
-                  onclick="decrementCantidad('${index}-${mainIndex}', '${index}')"
-                  data-group="${index}"
+                  onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
+                  data-group="${indexCN3}"
                   data-limite="${item.limite}"
                 >
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
                 </button>
-                <p class="cantidad-display2" id="cantidad-${index}-${mainIndex}" data-group="${index}">0</p>
+                <p class="cantidad-display2" id="cantidad-${indexCN3}-${indexMainItem}" data-group="${indexCN3}">0</p>
                 <button 
                   type="button" 
                   class="btn-cantidad2" 
-                  onclick="incrementCantidad('${index}-${mainIndex}', '${index}')"
-                  data-group="${index}"
-                  data-limite="${item.limite}"
+                  onclick="incrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
+                  data-group="${indexCN3}"
+                  data-limite="${limite}"
                 >
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
@@ -1589,18 +1589,18 @@
           contenidoHTML += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
-                <span class="producto-nombre3">${mainItem.titulo}</span>
-                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
+                <span class="producto-nombre3">${productoMainItem.titulo}</span>
+                ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
               </div>
               <div class="control-checkbox3">
                 <div class="checkbox-container3">
                   <input
                     type="checkbox"
-                    id="item-${index}-${mainIndex}"
-                    name="properties[${mainItem.titulo}]"
+                    id="item-${indexCN3}-${indexMainItem}"
+                    name="properties[${productoMainItem.titulo}]"
                     class="input-checkbox3"
-                    data-group="${index}"
-                    data-limite="${item.limite}"
+                    data-group="${indexCN3}"
+                    data-limite="${limite}"
                     onchange="validarLimiteCheckbox(this)"
                   >
                 </div>
@@ -1609,6 +1609,10 @@
           `;
         }
       });
+
+      contenidoHTML += `</div>`;
+      menuItemProducto.innerHTML = contenidoHTML;
+      contendorPrincipal.appendChild(menuItemProducto);
         
     });
   
