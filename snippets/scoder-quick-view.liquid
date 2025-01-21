@@ -741,7 +741,12 @@
               {%- endif -%}
             </div>
           {%- endif -%}
-
+          <div
+            class="productView-desc scoder-text-format"
+            style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
+          >
+            {{ desc | truncatewords: word_number_short_desc }}
+          </div>
           {% comment %}
             {%- if show_quick_view_short_description -%}
               {%- liquid
@@ -753,12 +758,7 @@
                 -%}
               {%- endif -%}
               {%- if desc != blank -%}
-                <div
-                  class="productView-desc scoder-text-format"
-                  style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
-                >
-                  {{ desc | truncatewords: word_number_short_desc }}
-                </div>
+
               {%- endif -%}
             {%- endif -%}
           {% endcomment %}
