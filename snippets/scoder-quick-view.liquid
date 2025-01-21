@@ -699,7 +699,7 @@
             {%- when 'image' -%}
               {% comment %} style="width: 100% !important; height: 100% !important; object-fit: contain !important; display: block !important; margin: auto !important;" {% endcomment %}
               <img
-                id="product-featured-image-{{ media.id }}"
+                id="image-producto-original product-featured-image-{{ media.id }}"
                 {% render 'lazyload', preview_img: media.preview_image, class: true %}
                 title="{{ media.preview_image.alt | escape }}"
                 data-main-image
@@ -2456,6 +2456,14 @@
     align-items: center !important;
     position: relative !important;
     overflow: hidden !important;
+  }
+
+  .image-producto-original{
+    width: 100% !important; 
+    height: 100% !important; 
+    object-fit: contain !important; 
+    display: block !important; 
+    margin: auto !important;
   }
 
   .informacion-producto-opciones{
