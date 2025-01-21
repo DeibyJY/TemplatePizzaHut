@@ -1,4 +1,5 @@
 {%- liquid
+
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
   assign current_variant = product.selected_or_first_available_variant
@@ -756,12 +757,11 @@
                 class="productView-desc scoder-text-format"
                 style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
               >
-                {{ desc }}
+                {{ desc  }}
               </div>
             {%- endif -%}
           {%- endif -%}
 
-          {% comment %}
             {%- if show_quick_view_vendor
               or show_quick_view_availability
               or show_quick_view_sku
@@ -819,8 +819,6 @@
             >
               {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
             </div>
-          {% endcomment %}
-          {% comment %}
             <h2
               class="productView-title"
               style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -847,7 +845,6 @@
             >
               {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
             </div>
-          {% endcomment %}
           {%- if show_quick_view_qty -%}
             <div
               class="quantity_selector productView-groupTop"
