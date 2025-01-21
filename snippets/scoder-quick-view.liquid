@@ -716,6 +716,108 @@
           >
             <a href="{{ product.url }}">{{ product.title | escape }}</a>
           </h2>
+          {%- if show_quick_view_review or show_quick_view_sold_in -%}
+            <div
+              class="productView-meta clearfix"
+              style="--color_short_desc: {{ color_short_desc }}; --fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
+            >
+              {%- if show_quick_view_review -%}
+                <div class="productView-rating scoder-productReview">
+                  <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_sold_in -%}
+                <div
+                  class="productView-soldProduct"
+                  data-sold-out-product
+                  data-item="{{ quick_view_sold_in_number }}"
+                  data-hours="{{ quick_view_sold_in_hours }}"
+                  style="display: none;"
+                >
+                  {% render 'icon-fire-2' %}
+                  <span class="text"
+                    ><span data-sold-out-number>2</span> {{ 'products.product.sold_in_last.text_1' | t }}
+                    <span data-sold-out-hours>8</span> {{ 'products.product.sold_in_last.text_2' | t -}}
+                  </span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          {%- if show_quick_view_short_description -%}
+            {%- liquid
+              assign desc = product.description
+            -%}
+            {%- if product.metafields.c_f.short_description -%}
+              {%- liquid
+                assign desc = product.metafields.c_f.short_description
+              -%}
+            {%- endif -%}
+            {%- if desc != blank -%}
+              <div
+                class="productView-desc scoder-text-format"
+                style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
+              >
+                {{ desc | truncatewords: word_number_short_desc }}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+          {%- if show_quick_view_vendor
+            or show_quick_view_availability
+            or show_quick_view_sku
+            or show_quick_view_product_type
+          -%}
+            <div class="productView-info">
+              {%- if show_quick_view_sku -%}
+                <div
+                  class="productView-info-item"
+                  data-sku
+                  {% unless current_variant.sku != blank %}
+                    style="display: none;"
+                  {% endunless %}
+                >
+                  <span class="productView-info-name">{{ 'products.product.text.sku' | t }}</span>
+                  <span class="productView-info-value">{{ current_variant.sku }}</span>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_vendor -%}
+                <div class="productView-info-item">
+                  <span class="productView-info-name">{{ 'products.product.text.vendor' | t }}</span>
+                  <span class="productView-info-value">{{ product.vendor | link_to_vendor }}</span>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_availability -%}
+                <div class="productView-info-item" data-inventory data-stock-level="{{ stock_level_display }}">
+                  <span class="productView-info-name">{{ 'products.product.text.availability' | t }}</span>
+                  <span class="productView-info-value">
+                    {%- if current_variant.inventory_management -%}
+                      {%- assign first_inventory = current_variant.inventory_quantity -%}
+                      {%- if first_inventory > 0 -%}
+                        {% if stock_level_display == 'show' %}{{ first_inventory }} {% endif %}
+                        {{ 'products.product.in_stock' | t }}
+                      {%- else -%}
+                        {{ 'products.product.out_of_stock' | t }}
+                      {%- endif -%}
+                    {%- else -%}
+                      {{ 'products.product.many_in_stock' | t }}
+                    {%- endif -%}
+                  </span>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_product_type -%}
+                <div class="productView-info-item">
+                  <span class="productView-info-name">{{ 'products.product.text.type' | t }}</span>
+                  <span class="productView-info-value">{{ product.type | escape }}</span>
+                </div>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          <div
+            class="productView-price no-js-hidden clearfix"
+            id="product-quick-view-price-{{ product.id }}"
+            style="--fontsize-text: {{ fontsize_price | append: 'px' }};"
+          >
+            {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
+          </div>
           {% comment %}
             <h2
               class="productView-title"
