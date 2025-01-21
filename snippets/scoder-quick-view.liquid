@@ -1634,7 +1634,7 @@
               >
             </div>
           </div>
-        `;
+          `;
         }
 
         if(tipoSelect === 'numberCount'){
@@ -1696,143 +1696,11 @@
             </div>
           `;
         }
-        
       });
 
-      contenidooHTML += `</div></div>`; 
-      // 2. Ahora procesamos las colecciones de nivel 4
-      let contenidoSubHTML = '';
-
-
-      // Iteramos cada producto principal
-      productosEspecificos.forEach((productoMainItem, indexMainItem) => {
-         // Iteramos las colecciones de este producto
-         productoMainItem.collections.forEach((coleccionProducto, indexColeccion) => {
-          // Verificamos si esta colección está en coleccionNivel4
-          const detallesColeccion = coleccionNivel4.find(col => col.title === coleccionProducto.title);
-          if (detallesColeccion) {
-            // Si encontramos la colección en nivel 4, procesamos sus variables
-            const variablesN4 = extraerVariablesDescripcion(detallesColeccion.description);
-            const { atributo, limite, solicitud, tipoSelect } = variablesN4;
-            
-            const textoSeleccion = 
-            solicitud == 'Opcional'
-            ? limite == 1
-              ? 'Selecciona hasta un artículo'
-              : `Selecciona hasta ${limite} artículos`
-            : limite == 1
-            ? 'Selecciona un artículo'
-            : `Selecciona exactamente ${limite} artículos`;
-            const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-            contenidoSubHTML += `
-            <div class="sub-item-producto">
-              <div class="titulo-detalle-oferta-producto">
-                <div id="titulo-detalle__comp1">
-                  <h2 class="titulo-base1">ELIGE ${atributo.toUpperCase()}</h2>
-                  <span class="titulo-base2">${textoSeleccion}</span>
-                </div>
-                <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
-              </div>
-              <div class="item-menuItem" id="menuItem-${indexCN3}-sub-${indexColeccion}" data-limite="${limite}">
-          `;
-
-          // Filtramos productos que tengan esta colección de nivel 4
-          const productosDeEstaColeccion = productosNivel2y4.filter(producto => 
-            producto.collections.some(col => col.title === coleccionProducto.title)
-          );
-
-          // Agregamos cada producto de nivel 4
-        productosDeEstaColeccion.forEach((productoSubItem, indexSubItem) => {
-          if(tipoSelect === 'radio'){
-            contenidoSubHTML  += `
-            <div class="opcion-principal-detalle-oferta3">
-              <div class="producto-info3">
-                <span class="producto-nombre3">${productoSubItem.title}</span>
-                ${parseFloat(productoSubItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoSubItem.price.amount}</span>` : ''}
-              </div>
-              <div class="opcion-nombre1">
-                <div class="hover-area1" id="hoverArea-${indexCN3}-${indexSubItem}"></div>
-                <input
-                  type="radio"
-                  id="item-${indexCN3}-${indexSubItem}"
-                  name="opcion-grupo-${indexCN3}"
-                  class="radio-input"
-                  data-group="${indexCN3}"
-                  data-limite="${limite}"
-                  onchange="validarLimiteRadio(this)"
-                >
-              </div>
-            </div>
-          `;
-          }
-  
-          if(tipoSelect === 'numberCount'){
-            contenidoSubHTML  += `
-              <div class="opcion-principal-detalle-oferta2">
-                <div class="producto-info2">
-                  <span class="producto-nombre2">${productoSubItem.title}</span>
-                  ${productoSubItem.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoSubItem.price.amount}</span>` : ''}
-                </div>
-                <div class="controles-cantidad2">
-                  <button 
-                    type="button" 
-                    class="btn-cantidad2" 
-                    onclick="decrementCantidad('${indexCN3}-${indexSubItem}', '${indexCN3}')"
-                    data-group="${indexCN3}"
-                    data-limite="${limite}"
-                  >
-                    <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                  <p class="cantidad-display2" id="cantidad-${indexCN3}-${indexSubItem}" data-group="${indexCN3}">0</p>
-                  <button 
-                    type="button" 
-                    class="btn-cantidad2" 
-                    onclick="incrementCantidad('${indexCN3}-${indexSubItem}', '${indexCN3}')"
-                    data-group="${indexCN3}"
-                    data-limite="${limite}"
-                  >
-                    <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            `;
-          }
-  
-          if(tipoSelect === 'checkbox'){
-            contenidoSubHTML  += `
-              <div class="opcion-principal-detalle-oferta3">
-                <div class="producto-info3">
-                  <span class="producto-nombre3">${productoSubItem.title}</span>
-                  ${parseFloat(productoSubItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoSubItem.price.amount}</span>` : ''}
-                </div>
-                <div class="control-checkbox3">
-                  <div class="checkbox-container3">
-                    <input
-                      type="checkbox"
-                      id="item-${indexCN3}-${indexMainItem}"
-                      name="properties[${productoSubItem.title}]"
-                      class="input-checkbox3"
-                      data-group="${indexCN3}"
-                      data-limite="${limite}"
-                      onchange="validarLimiteCheckbox(this)"
-                    >
-                  </div>
-                </div>
-              </div>
-            `;
-          }
-        });
-
-        contenidoSubHTML += `</div></div>`;
-          }
-      });
-
-       // 3. Combinamos todo y lo agregamos al DOM
-      menuItemProducto.innerHTML = contenidooHTML + contenidoSubHTML;
+      contenidooHTML += `</div>`; 
+     
+      menuItemProducto.innerHTML = contenidooHTML ;
       contendorPrincipal.appendChild(menuItemProducto);
     });
 
