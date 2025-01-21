@@ -692,7 +692,22 @@
   data-product-quickview-handle="{{ product.handle }}"
 >
   <div class="productView-top">
-    <div class="detalle-producto-left"></div>
+    <div class="detalle-producto-left">
+      <div class="image-producto">
+        {%- for media in product.media limit: 1 -%}
+          {%- case media.media_type -%}
+            {%- when 'image' -%}
+              {% comment %} style="width: 100% !important; height: 100% !important; object-fit: contain !important; display: block !important; margin: auto !important;" {% endcomment %}
+              <img
+                id="product-featured-image-{{ media.id }}"
+                {% render 'lazyload', preview_img: media.preview_image, class: true %}
+                title="{{ media.preview_image.alt | escape }}"
+                data-main-image
+              >
+          {%- endcase -%}
+        {%- endfor -%}
+      </div>
+    </div>
     <div class="detalle-producto-right">
       <div class="opciontes-seleccion-cliente">
         <h2 class="productView-title">PERSONALIZAR EL ÍTEM</h2>
@@ -701,11 +716,7 @@
         </div>
       </div>
       <div
-        style="
-          height: 10.3% !important;
-          width: 100% !important;
-          background-color: #2196F3 !important;
-        "
+        style="height: 10.3% !important;width: 100% !important;background-color: #2196F3 !important;"
         class="acciones-cliente"
       >
         <div class="productView-options">
@@ -1508,17 +1519,6 @@
     };
   }
 
-  // Llamar a la función
-  {% comment %} testPrueba()
-  .then(resultado => {
-    console.log('Todo salio bien');
-      {% comment %} console.log('Resultado:', resultado); {% endcomment %}
-  })
-  .catch(error => {
-      console.error('Error:', error);
-  }); {% endcomment %}
-
-
   function getMenuItems() {
     const menuItems = [
       {
@@ -2226,29 +2226,6 @@
     .catch(error => {
         console.error('Error:', error);
     });
-
-  // Agregar ambos eventos para asegurar la ejecución
-  document.addEventListener('DOMContentLoaded', () => {
-    //agregarMenuItems();
-    //marcarOpcionesRequeridas();
-    //verificarRequeridos(); 
-     // Llamar a la función
-    {% comment %} testPrueba()
-    .then(resultado => {
-      console.log('Todo salio bien');
-        {% comment %} console.log('Resultado:', resultado); {% endcomment %}
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });  {% endcomment %}
-  });
-
-  if (document.readyState === 'complete') {
-    {% comment %} agregarMenuItems();
-    marcarOpcionesRequeridas();
-    verificarRequeridos();  {% endcomment %}
-      
-  }
 </script>
 <style>
   .productView-top{
