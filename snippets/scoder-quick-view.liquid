@@ -707,6 +707,95 @@
           {%- endcase -%}
         {%- endfor -%}
       </div>
+      <div class="informacion-producto-opciones">
+        {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
+        <div class="detalle-producto">
+          <h2
+            class="productView-title"
+            style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
+          >
+            <a href="{{ product.url }}">{{ product.title | escape }}</a>
+            {% comment %} {{ product.category }} {% endcomment %}
+          </h2>
+          {%- if show_quick_view_short_description -%}
+            {%- liquid
+              assign desc = product.description
+            -%}
+            {%- if desc != blank -%}
+              <div
+                class="productView-desc scoder-text-format"
+                style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
+              >
+                {{ desc | truncatewords: word_number_short_desc }}
+              </div>
+            {%- endif -%}
+          {%- endif -%}
+          <div
+            class="productView-price no-js-hidden clearfix"
+            id="product-quick-view-price-{{ product.id }}"
+            style="--fontsize-text: {{ fontsize_price | append: 'px' }};"
+          >
+            {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
+          </div>
+          {%- if show_quick_view_qty -%}
+            <div
+              class="quantity_selector productView-groupTop"
+              style="
+                display: flex !important;
+                flex-direction: row !important;
+                flex-wrap: wrap !important;
+                align-items: end !important;
+              "
+            >
+              <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--2 quantity__style--1 clearfix">
+                <label class="form-label quantity__label" for="quantity-{{ product.id }}-2">
+                  {{- 'products.product.quantity.label__2' | t -}}
+                </label>
+                <div class="quantity__container">
+                  <button type="button" name="minus" class="minus btn-quantity">
+                    <span class="visually-hidden">
+                      {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                    </span>
+                  </button>
+                  <input
+                    class="form-input quantity__input quantity"
+                    type="number"
+                    name="quantity"
+                    min="1"
+                    value="1"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    id="quantity-{{ product.id }}-2"
+                    data-product="{{ product.id }}"
+                    data-price="{{ current_variant.price }}"
+                    data-inventory-quantity="{{ current_variant.inventory_quantity }}"
+                  >
+                  <button type="button" name="plus" class="plus btn-quantity">
+                    <span class="visually-hidden">
+                      {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                    </span>
+                  </button>
+                </div>
+              </quantity-quick-view-input>
+              {%- if settings.show_wishlist -%}
+                <div class="productView-wishlist clearfix">
+                  <a
+                    data-wishlist
+                    href="#"
+                    data-wishlist-handle="{{ product.handle }}"
+                    data-product-id="{{ product.id }}"
+                    ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
+                  </a>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_share -%}
+                {% render 'scoder-share', product: product, share_layout: '2' %}
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+        {% comment %} READ : DETALLE DE PRODUCTO FIN {% endcomment %}
+      </div>
     </div>
     <div class="detalle-producto-right">
       <div class="opciontes-seleccion-cliente">
