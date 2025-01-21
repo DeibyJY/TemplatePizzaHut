@@ -1392,8 +1392,11 @@
   function extraerVariablesDescripcion(descripcion) {
     const variables = {};
     
+    // Eliminar todos los <br> de la descripción
+    const descripcionLimpia = descripcion.replace(/<br>/gi, '');
+    
     // Dividir la descripción por guiones
-    const partes = descripcion.split('-').map(parte => parte.trim());
+    const partes = descripcionLimpia.split('-').map(parte => parte.trim());
     
     // Procesar cada parte
     partes.forEach(parte => {
