@@ -745,8 +745,11 @@
           {%- liquid
             assign desc = product.metafields.c_f.short_description
           -%}
-          <div>
-            {{ desc }}
+          <div
+            class="productView-desc scoder-text-format"
+            style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
+          >
+            {{ desc | truncatewords: word_number_short_desc }}
           </div>
 
           {% comment %}
@@ -755,14 +758,10 @@
                 assign desc = product.description
               -%}
               {%- if product.metafields.c_f.short_description -%}
-                {%- liquid
-                  assign desc = product.metafields.c_f.short_description
-                -%}
+
               {%- endif -%}
               {%- if desc != blank -%}
-                <div>
-                  {{ desc | truncatewords: word_number_short_desc }}
-                </div>
+
               {%- endif -%}
             {%- endif -%}
           {% endcomment %}
