@@ -1,4 +1,6 @@
 {%- liquid
+  assign primera_coleccion = collections | first
+
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
   assign current_variant = product.selected_or_first_available_variant
