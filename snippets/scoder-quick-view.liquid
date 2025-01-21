@@ -710,6 +710,12 @@
       <div class="informacion-producto-opciones">
         {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
         <div class="detalle-producto">
+          <h2
+            class="productView-title"
+            style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
+          >
+            <a href="{{ product.url }}">{{ product.title | escape }}</a>
+          </h2>
           {% comment %}
             <h2
               class="productView-title"
