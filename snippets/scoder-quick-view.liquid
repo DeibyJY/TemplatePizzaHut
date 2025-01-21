@@ -1568,17 +1568,15 @@
         );
     }
 
+     //  contenidoSubItemsHTML esto mismo ira depsues de crear los menuItemProducto
+     let contenidoSubHTML =  ``;
+
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
     coleccionNivel3.forEach((coleccion, indexCN3) => {
 
       const variables = extraerVariablesDescripcion(coleccion.description);
         
-        const {
-          variante,
-          limite,
-          solicitud,
-          tipoSelect
-        } = variables;
+        const {variante,limite,solicitud,tipoSelect} = variables;
         
         const textoSeleccion = 
           solicitud == 'Opcional'
@@ -1590,8 +1588,9 @@
           : `Selecciona exactamente ${limite} artículos`;
 
         const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-        const menuItemProducto = document.createElement('div');
-        menuItemProducto.className = 'menu-item-producto';
+        {% comment %} const menuItemProducto = document.createElement('div'); {% endcomment %}
+        {% comment %} menuItemProducto.className = 'menu-item-producto'; {% endcomment %}
+        const menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
 
         // contenidoMainItemsHTML
         let contenidooHTML = `
@@ -1605,8 +1604,7 @@
         <div class="item-menuItem" id="menuItem-${indexCN3}" data-limite="${limite}">
       `;
 
-      // contenidoSubItemsHTML
-      {% comment %} let contenidoSubHTML =  ``; {% endcomment %}
+     
 
       // Filtrar productos específicos que son de nivel 3 
       const productosEspecificos = productosNivel2y3.filter(producto => {
@@ -1696,11 +1694,50 @@
             </div>
           `;
         }
+
+        {% comment %} // Obtener todas las colecciones del producto
+        const coleccionesProducto = productoMainItem.collections.map(col => col.title);
+
+        // Iterar sobre las colecciones del producto
+        coleccionesProducto.forEach((coleccion, indexColeccion) => {
+            // Verificar si es colección nivel 4
+            const esUnaColeccionNivel4 = coleccionNivel4.some(col => col.title === coleccion);
+
+            // Log para debugging
+            console.log(`Verificando colección ${coleccion}:`, 
+                esUnaColeccionNivel4 ? 'Es nivel 4' : 'No es nivel 4');
+
+            // Si no es nivel 4, saltar a la siguiente iteración
+            if (!esUnaColeccionNivel4) {
+                return;
+            }
+
+            // Aquí continúa el código para procesar colecciones nivel 4
+            console.log(`Procesando colección nivel 4: ${coleccion}`);
+
+            // Se va obtener mas detalles completos de la colección
+            const detallesCompletoColeccion = coleccionNivel4.find(col => col.title === coleccion);
+
+            // Log para debugging
+            console.log('Detalles completos de la colección:', detallesCompletoColeccion);
+
+            productosNivel2y4.forEach((productoNivel2y4, indexProductoNivel2y4) => {
+              // Verificar si el producto dentro de sus coleccion se encuentra la coleccion nivel 4 actual de trabajo "coleccion"
+              const esProductoDeColeccionNivel4 = productoNivel2y4.collections.some(col => col.title === coleccion);
+
+              // Traer la descripcion de la coleccion nivel 4, de "detallesCompletoColeccion" y obtener las variables
+              const variablesColeccionNivel4 = extraerVariablesDescripcion(detallesCompletoColeccion.description);
+
+
+            
+            });
+        }); {% endcomment %}
+
       });
 
       contenidooHTML += `</div>`; 
-     
-      menuItemProducto.innerHTML = contenidooHTML ;
+      menuItemProducto += ` ${contenidooHTML} </div>`; 
+      {% comment %} menuItemProducto.innerHTML = contenidooHTML ; {% endcomment %}
       contendorPrincipal.appendChild(menuItemProducto);
     });
 
