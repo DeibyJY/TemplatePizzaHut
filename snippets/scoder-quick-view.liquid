@@ -1,4 +1,5 @@
 {%- liquid
+  assign primera_coleccion = collections | first
 
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
@@ -757,68 +758,68 @@
                 class="productView-desc scoder-text-format"
                 style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
               >
-                {{ desc  }}
+                {{ desc }}
               </div>
             {%- endif -%}
           {%- endif -%}
-
-            {%- if show_quick_view_vendor
-              or show_quick_view_availability
-              or show_quick_view_sku
-              or show_quick_view_product_type
-            -%}
-              <div class="productView-info">
-                {%- if show_quick_view_sku -%}
-                  <div
-                    class="productView-info-item"
-                    data-sku
-                    {% unless current_variant.sku != blank %}
-                      style="display: none;"
-                    {% endunless %}
-                  >
-                    <span class="productView-info-name">{{ 'products.product.text.sku' | t }}</span>
-                    <span class="productView-info-value">{{ current_variant.sku }}</span>
-                  </div>
-                {%- endif -%}
-                {%- if show_quick_view_vendor -%}
-                  <div class="productView-info-item">
-                    <span class="productView-info-name">{{ 'products.product.text.vendor' | t }}</span>
-                    <span class="productView-info-value">{{ product.vendor | link_to_vendor }}</span>
-                  </div>
-                {%- endif -%}
-                {%- if show_quick_view_availability -%}
-                  <div class="productView-info-item" data-inventory data-stock-level="{{ stock_level_display }}">
-                    <span class="productView-info-name">{{ 'products.product.text.availability' | t }}</span>
-                    <span class="productView-info-value">
-                      {%- if current_variant.inventory_management -%}
-                        {%- assign first_inventory = current_variant.inventory_quantity -%}
-                        {%- if first_inventory > 0 -%}
-                          {% if stock_level_display == 'show' %}{{ first_inventory }} {% endif %}
-                          {{ 'products.product.in_stock' | t }}
-                        {%- else -%}
-                          {{ 'products.product.out_of_stock' | t }}
-                        {%- endif -%}
+          {%- if show_quick_view_vendor
+            or show_quick_view_availability
+            or show_quick_view_sku
+            or show_quick_view_product_type
+          -%}
+            <div class="productView-info">
+              {%- if show_quick_view_sku -%}
+                <div
+                  class="productView-info-item"
+                  data-sku
+                  {% unless current_variant.sku != blank %}
+                    style="display: none;"
+                  {% endunless %}
+                >
+                  <span class="productView-info-name">{{ 'products.product.text.sku' | t }}</span>
+                  <span class="productView-info-value">{{ current_variant.sku }}</span>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_vendor -%}
+                <div class="productView-info-item">
+                  <span class="productView-info-name">{{ 'products.product.text.vendor' | t }}</span>
+                  <span class="productView-info-value">{{ product.vendor | link_to_vendor }}</span>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_availability -%}
+                <div class="productView-info-item" data-inventory data-stock-level="{{ stock_level_display }}">
+                  <span class="productView-info-name">{{ 'products.product.text.availability' | t }}</span>
+                  <span class="productView-info-value">
+                    {%- if current_variant.inventory_management -%}
+                      {%- assign first_inventory = current_variant.inventory_quantity -%}
+                      {%- if first_inventory > 0 -%}
+                        {% if stock_level_display == 'show' %}{{ first_inventory }} {% endif %}
+                        {{ 'products.product.in_stock' | t }}
                       {%- else -%}
-                        {{ 'products.product.many_in_stock' | t }}
+                        {{ 'products.product.out_of_stock' | t }}
                       {%- endif -%}
-                    </span>
-                  </div>
-                {%- endif -%}
-                {%- if show_quick_view_product_type -%}
-                  <div class="productView-info-item">
-                    <span class="productView-info-name">{{ 'products.product.text.type' | t }}</span>
-                    <span class="productView-info-value">{{ product.type | escape }}</span>
-                  </div>
-                {%- endif -%}
-              </div>
-            {%- endif -%}
-            <div
-              class="productView-price no-js-hidden clearfix"
-              id="product-quick-view-price-{{ product.id }}"
-              style="--fontsize-text: {{ fontsize_price | append: 'px' }};"
-            >
-              {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
+                    {%- else -%}
+                      {{ 'products.product.many_in_stock' | t }}
+                    {%- endif -%}
+                  </span>
+                </div>
+              {%- endif -%}
+              {%- if show_quick_view_product_type -%}
+                <div class="productView-info-item">
+                  <span class="productView-info-name">{{ 'products.product.text.type' | t }}</span>
+                  <span class="productView-info-value">{{ product.type | escape }}</span>
+                </div>
+              {%- endif -%}
             </div>
+          {%- endif -%}
+          <div
+            class="productView-price no-js-hidden clearfix"
+            id="product-quick-view-price-{{ product.id }}"
+            style="--fontsize-text: {{ fontsize_price | append: 'px' }};"
+          >
+            {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
+          </div>
+          {% comment %}
             <h2
               class="productView-title"
               style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -845,6 +846,7 @@
             >
               {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
             </div>
+          {% endcomment %}
           {%- if show_quick_view_qty -%}
             <div
               class="quantity_selector productView-groupTop"
