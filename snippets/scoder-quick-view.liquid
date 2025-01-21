@@ -691,38 +691,16 @@
   class="productView quickView scoder-quickView layout-{{ layout }}{% if product.media.size == 0 %} productView-no-media{% endif %}"
   data-product-quickview-handle="{{ product.handle }}"
 >
-  <div
-    style="
-      display: flex !important;
-      width: 100% !important;
-      height: 80vh !important;
-      gap: 10px !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden !important;
-    "
-    class="productView-top"
-  >
-    <div
-      style="
-        flex: 0 0 40% !important;
-        height: 100% !important;
-        overflow: hidden !important;
-        display: flex !important; flex-direction: column !important; padding: 15px !important;
-      "
-      class="detalle-producto-left"
-    >
+  <div class="productView-top">
+    <div class="detalle-producto-left">
       {% comment %} IMAGEN 50% {% endcomment %}
-      <div
-        style="width: 100% !important; height: 50% !important; flex: 0 0 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; position: relative !important; overflow: hidden !important;"
-        class="image-producto"
-      >
+      <div class="image-producto">
         {%- for media in product.media limit: 1 -%}
           {%- case media.media_type -%}
             {%- when 'image' -%}
+              {% comment %} style="width: 100% !important; height: 100% !important; object-fit: contain !important; display: block !important; margin: auto !important;" {% endcomment %}
               <img
                 id="product-featured-image-{{ media.id }}"
-                style="width: 100% !important; height: 100% !important; object-fit: contain !important; display: block !important; margin: auto !important;"
                 {% render 'lazyload', preview_img: media.preview_image, class: true %}
                 title="{{ media.preview_image.alt | escape }}"
                 data-main-image
@@ -731,29 +709,9 @@
         {%- endfor -%}
       </div>
       {% comment %} CONTENIDO INFORMACION PRODUCTO 50% {% endcomment %}
-      <div
-        style="
-          width: 100% !important;
-          height: 50% !important;
-          flex: 0 0 50% !important;
-          display: flex !important;
-          flex-direction: column !important;
-          align-items: center !important;
-          justify-content: center !important;
-        "
-        class="informacion-producto-opciones"
-      >
+      <div class="informacion-producto-opciones">
         {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
-        <div
-          class="detalle-producto"
-          style="
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 2px !important;
-            padding: 0 !important;
-            margin: 0 !important;
-          "
-        >
+        <div class="detalle-producto">
           <h2
             class="productView-title"
             style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -761,7 +719,6 @@
             <a href="{{ product.url }}">{{ product.title | escape }}</a>
             {% comment %} {{ product.category }} {% endcomment %}
           </h2>
-
           {%- if show_quick_view_short_description -%}
             {%- liquid
               assign desc = product.description
@@ -1235,6 +1192,55 @@
 {%- endif -%}
 
 <style>
+  .productView-top{
+    display: flex !important;
+    width: 100% !important;
+    height: 80vh !important;
+    gap: 10px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    background-color: orange !important;
+  }
+
+  .detalle-producto-left{
+    flex: 0 0 40% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 15px !important;
+  }
+
+  .image-producto{
+    width: 100% !important;
+    height: 50% !important;
+    flex: 0 0 50% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
+  .informacion-producto-opciones{
+    width: 100% !important;
+    height: 50% !important;
+    flex: 0 0 50% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .detalle-producto{
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
   .opcion-principal-detalle-oferta1 input[type='radio'] {
     opacity: 1 !important;
     visibility: visible !important;
