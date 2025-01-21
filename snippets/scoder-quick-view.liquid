@@ -1,6 +1,4 @@
 {%- liquid
-  assign primera_coleccion = collections | first
-
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
   assign current_variant = product.selected_or_first_available_variant
@@ -755,7 +753,7 @@
             {%- endif -%}
             {%- if desc != blank -%}
               <div
-                class=""
+                class="productView-desc scoder-text-format"
                 style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
               >
                 {{ desc | truncatewords: word_number_short_desc }}
