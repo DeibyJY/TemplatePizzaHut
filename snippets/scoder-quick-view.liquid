@@ -1738,7 +1738,9 @@
       contenidooHTML += `</div>`; 
       menuItemProducto += ` ${contenidooHTML} </div>`; 
       {% comment %} menuItemProducto.innerHTML = contenidooHTML ; {% endcomment %}
-      contendorPrincipal.appendChild(menuItemProducto);
+      {% comment %} contendorPrincipal.appendChild(menuItemProducto); {% endcomment %}
+      contendorPrincipal.innerHTML += menuItemProducto;
+
     });
 
   
