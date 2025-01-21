@@ -742,24 +742,26 @@
             </div>
           {%- endif -%}
 
-          {%- if show_quick_view_short_description -%}
-            {%- liquid
-              assign desc = product.description
-            -%}
-            {%- if product.metafields.c_f.short_description -%}
+          {% comment %}
+            {%- if show_quick_view_short_description -%}
               {%- liquid
-                assign desc = product.metafields.c_f.short_description
+                assign desc = product.description
               -%}
+              {%- if product.metafields.c_f.short_description -%}
+                {%- liquid
+                  assign desc = product.metafields.c_f.short_description
+                -%}
+              {%- endif -%}
+              {%- if desc != blank -%}
+                <div
+                  class="productView-desc scoder-text-format"
+                  style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
+                >
+                  {{ desc }}
+                </div>
+              {%- endif -%}
             {%- endif -%}
-            {%- if desc != blank -%}
-              <div
-                class="productView-desc scoder-text-format"
-                style="--color_short_desc: {{ color_short_desc }};--fontsize_short_desc: {{ fontsize_short_desc | append: 'px' }}"
-              >
-                {{ desc }}
-              </div>
-            {%- endif -%}
-          {%- endif -%}
+          {% endcomment %}
 
           {% comment %}
             {%- if show_quick_view_vendor
