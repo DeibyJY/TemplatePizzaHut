@@ -742,21 +742,30 @@
             </div>
           {%- endif -%}
 
-          {%- if show_quick_view_short_description -%}
-            {%- liquid
-              assign desc = product.description
-            -%}
-            {%- if product.metafields.c_f.short_description -%}
+          {%- liquid
+            assign desc = product.metafields.c_f.short_description
+          -%}
+          <div>
+            {{ desc }}
+          </div>
+
+          {% comment %}
+            {%- if show_quick_view_short_description -%}
               {%- liquid
-                assign desc = product.metafields.c_f.short_description
+                assign desc = product.description
               -%}
+              {%- if product.metafields.c_f.short_description -%}
+                {%- liquid
+                  assign desc = product.metafields.c_f.short_description
+                -%}
+              {%- endif -%}
+              {%- if desc != blank -%}
+                <div>
+                  {{ desc | truncatewords: word_number_short_desc }}
+                </div>
+              {%- endif -%}
             {%- endif -%}
-            {%- if desc != blank -%}
-              <div>
-                {{ desc | truncatewords: word_number_short_desc }}
-              </div>
-            {%- endif -%}
-          {%- endif -%}
+          {% endcomment %}
 
           {% comment %}
             {%- if show_quick_view_vendor
