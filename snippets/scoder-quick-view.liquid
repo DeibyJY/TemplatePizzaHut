@@ -2218,26 +2218,21 @@
     });
   }
 
-  // Agregar ambos eventos para asegurar la ejecución
-  document.addEventListener('DOMContentLoaded', () => {
-    //agregarMenuItems();
-    //marcarOpcionesRequeridas();
-    //verificarRequeridos(); 
-     // Llamar a la función
-    testPrueba()
+  testPrueba()
     .then(resultado => {
       console.log('Todo salio bien');
         {% comment %} console.log('Resultado:', resultado); {% endcomment %}
     })
     .catch(error => {
         console.error('Error:', error);
-    }); 
-  });
+    });
 
-  if (document.readyState === 'complete') {
-    agregarMenuItems();
-    marcarOpcionesRequeridas();
-    verificarRequeridos(); 
+  // Agregar ambos eventos para asegurar la ejecución
+  document.addEventListener('DOMContentLoaded', () => {
+    //agregarMenuItems();
+    //marcarOpcionesRequeridas();
+    //verificarRequeridos(); 
+     // Llamar a la función
     {% comment %} testPrueba()
     .then(resultado => {
       console.log('Todo salio bien');
@@ -2245,7 +2240,14 @@
     })
     .catch(error => {
         console.error('Error:', error);
-    }); {% endcomment %}
+    });  {% endcomment %}
+  });
+
+  if (document.readyState === 'complete') {
+    {% comment %} agregarMenuItems();
+    marcarOpcionesRequeridas();
+    verificarRequeridos();  {% endcomment %}
+      
   }
 </script>
 <style>
