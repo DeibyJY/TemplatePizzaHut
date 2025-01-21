@@ -1590,7 +1590,7 @@
         const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
         {% comment %} const menuItemProducto = document.createElement('div'); {% endcomment %}
         {% comment %} menuItemProducto.className = 'menu-item-producto'; {% endcomment %}
-        const menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
+        let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
 
         // contenidoMainItemsHTML
         let contenidooHTML = `
