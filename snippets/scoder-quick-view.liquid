@@ -1566,7 +1566,7 @@
         productosNivel2y4.push(
           ...productosPorNivel.nivel2y4.sort((a, b) => a.price.amount - b.price.amount)
         );
-    };
+    }
 
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
     coleccionNivel3.forEach((coleccion, indexCN3) => {
@@ -1696,23 +1696,7 @@
             </div>
           `;
         }
-
-        // Colecciones especificas del producto este es el Nivel 4  
-        const coleccionesProducto = productoMainItem.collections.map(col => col.title);
-        coleccionesProducto.forEach((coleccion, indexColeccion) => {
-          const detallesColeccion = coleccionNivel4.find(col => col.title === coleccion);
-          
-          if (!detallesColeccion) {
-              console.log(`Colección ${indexColeccion + 1} no encontrada, saltando...`);
-              return; // Sale de la iteración actual y continúa con la siguiente
-          }
-          
-          console.log(`Colección ${indexColeccion + 1} encontrada:`, detallesColeccion);
-          // Aquí continúa el código para procesar la colección encontrada
-
-          // Usar productosNivel2y4 pero el producto debe tener dentro de su coleccion si o si 
-          // la coleccion que se esta iterando en este  
-      });
+        
       });
 
       contenidooHTML += `</div>`;
@@ -1760,7 +1744,7 @@
           // Agregamos cada producto de nivel 4
         productosDeEstaColeccion.forEach((productoSubItem, indexSubItem) => {
           if(tipoSelect === 'radio'){
-            contenidooHTML += `
+            contenidoSubHTML  += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
                 <span class="producto-nombre3">${productoSubItem.title}</span>
@@ -1783,7 +1767,7 @@
           }
   
           if(tipoSelect === 'numberCount'){
-            contenidooHTML += `
+            contenidoSubHTML  += `
               <div class="opcion-principal-detalle-oferta2">
                 <div class="producto-info2">
                   <span class="producto-nombre2">${productoSubItem.title}</span>
@@ -1819,7 +1803,7 @@
           }
   
           if(tipoSelect === 'checkbox'){
-            contenidooHTML += `
+            contenidoSubHTML  += `
               <div class="opcion-principal-detalle-oferta3">
                 <div class="producto-info3">
                   <span class="producto-nombre3">${productoSubItem.title}</span>
