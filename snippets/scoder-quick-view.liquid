@@ -1703,7 +1703,7 @@
         const coleccionesProducto = productoMainItem.collections.map(col => col.title);
 
         if(coleccionesProducto.length > 0){
-           subItemProducto += `<div class="sub-item-producto" id="menu-item-${indexCN3} tipo-producto-${indexMainItem}`;
+           subItemProducto += ``;
            let atributosSubItemProducto = ``;
 
           // Iterar sobre las colecciones del producto actual de trabajo
@@ -1721,7 +1721,7 @@
             }
             
             // Se va poner el id de distincio de la coleccion
-            subItemProducto += ` sub-item-${indexColeccion}">`;
+            subItemProducto += `<div class="sub-item-producto" id="menu-item-${indexCN3} tipo-producto-${indexMainItem} sub-item-${indexColeccion}">`;
 
             // Aquí continúa el código para procesar colecciones nivel 4
             console.log(`Procesando colección nivel 4: ${coleccion}`);
