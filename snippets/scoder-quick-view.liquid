@@ -1701,6 +1701,7 @@
 
         // Obtener todas las colecciones solamente el titulo del producto actual
         const coleccionesProducto = productoMainItem.collections.map(col => col.title);
+        console.log(coleccionesProducto);
 
         if(coleccionesProducto.length > 0){
            subItemProducto += ``;
@@ -1712,8 +1713,8 @@
             const esUnaColeccionNivel4 = coleccionNivel4.some(col => col.title === coleccion);
 
             // Log para debugging
-            console.log(`Verificando colección ${coleccion}:`, 
-                esUnaColeccionNivel4 ? 'Es nivel 4' : 'No es nivel 4');
+            {% comment %} console.log(`Verificando colección ${coleccion}:`, 
+                esUnaColeccionNivel4 ? 'Es nivel 4' : 'No es nivel 4'); {% endcomment %}
 
             // Si no es nivel 4 no se trabaja si va al siguiente
             if (!esUnaColeccionNivel4) {
@@ -1724,13 +1725,13 @@
             subItemProducto += `<div class="sub-item-producto" id="menu-item-${indexCN3} tipo-producto-${indexMainItem} sub-item-${indexColeccion}">`;
 
             // Aquí continúa el código para procesar colecciones nivel 4
-            console.log(`Procesando colección nivel 4: ${coleccion}`);
+            {% comment %} console.log(`Procesando colección nivel 4: ${coleccion}`); {% endcomment %}
 
             // Se va obtener mas detalles completos de la colección
             const detallesCompletoColeccion = coleccionNivel4.find(col => col.title === coleccion);
 
             // Log para debugging
-            console.log('Detalles completos de la colección:', detallesCompletoColeccion);
+            {% comment %} console.log('Detalles completos de la colección:', detallesCompletoColeccion); {% endcomment %}
 
             // Traer la descripcion de la coleccion nivel 4, de "detallesCompletoColeccion" y obtener las variables
             const variablesColeccionNivel4 = extraerVariablesDescripcion(detallesCompletoColeccion.description);
