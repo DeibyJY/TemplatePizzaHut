@@ -914,308 +914,7 @@
       <div class="opciontes-seleccion-cliente">
         <h2 class="productView-title">PERSONALIZAR EL ÍTEM</h2>
         <div class="productView-product">
-          <div
-            class="sector-general-opciones-producto"
-            style="display: flex !important;flex-direction: column  !important;align-items: center !important;justify-content: space-between !important;width: 100% !important;"
-          >
-            <div
-              class="menu-item-producto"
-              style="width: 100% !important;display: flex !important;flex-direction: column !important;"
-            >
-              {% comment %} TITULO PRINCIPAL MENU ITEM INICIO {% endcomment %}
-              <div
-                class="titulo-detalle-oferta-producto"
-                style="display: flex !important; flex-direction: row !important; align-items: center !important; justify-content: space-between !important; width: 100% !important;"
-              >
-                <div style="display: flex !important; flex-direction: column !important;">
-                  <h2
-                    class="titulo-base1 productView-title"
-                    style="padding-bottom: 2px !important; font-weight: bold !important;font-size: 18px !important;"
-                  >
-                    ELIGE TAMAÑO
-                  </h2>
-                  <span
-                    class="titulo-base2"
-                    style="color: #B5B6BD !important;font-size: 14px !important;margin-bottom: 0px !important;"
-                    >Selecciona un articulo</span
-                  >
-                </div>
-                <span
-                  class="titulo-detalle-seleccion text"
-                  style=" font-size: 16px !important; color: #69d975 !important; margin-bottom: 0px !important;"
-                  >REQUERIDO</span
-                >
-              </div>
-              {% comment %} TITULO PRINCIPAL MENU ITEM FIN {% endcomment %}
-              {% comment %} OPCIONES MENU ITEM INICIO {% endcomment %}
-              <div class="productView-groupItem" style="display: flex; flex-wrap: wrap; justify-content:flex-start;">
-                <div
-                  class="opcion-principal-detalle-oferta"
-                  style="
-                    width: 100%;
-                    padding: 8px 5.5px 8px 3.5px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    border-bottom: 1px solid rgb(212, 208, 208);
-                  "
-                >
-                  <div
-                    style="
-                      display: flex;
-                      gap: 4px
-                    "
-                  >
-                    <span
-                      style="
-                        font-weight: 400;
-                        color: #1d1d1d;
-                      "
-                    >
-                      Hola Mundo
-                    </span>
-                    <span
-                      style="
-                        color: #999999;
-                        font-weight: 500;
-                      "
-                    >
-                      +Bs18.00
-                    </span>
-                  </div>
-
-                  <div
-                    style="
-                      position: relative;
-                      width: 24px;
-                      height: 24px;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center
-                    "
-                  >
-                    <div
-                      style="
-                        position: absolute;
-                        width: 44px;
-                        height: 44px;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        border-radius: 50%;
-                        transition: background-color 0.2s ease;
-                        pointer-events: none
-                      "
-                      id="hoverArea"
-                    ></div>
-
-                    <input
-                      type="radio"
-                      id="pizza-size"
-                      name="opcion-pizza"
-                      style="
-                        appearance: auto !important;
-                        -webkit-appearance: radio !important;
-                        opacity: 1 !important;
-                        display: block !important;
-                        width: 24px !important;
-                        height: 24px !important;
-                        margin: 0 !important;
-                        cursor: pointer !important;
-                        position: relative !important;
-                        z-index: 1 !important;
-                        visibility: visible !important;
-                        accent-color: #232323 !important;
-                        border: 3px solid #232323 !important;
-                        border-radius: 50% !important;
-                      "
-                      onmouseover="document.getElementById('hoverArea').style.backgroundColor='rgba(0,0,0,0.08)'"
-                      onmouseout="document.getElementById('hoverArea').style.backgroundColor='transparent'"
-                      {% if forloop.first %}
-                        checked
-                      {% endif %}
-                    >
-                  </div>
-                </div>
-              </div>
-              {% comment %} OPCIONES MENU ITEM FIN {% endcomment %}
-            </div>
-            <div
-              class="sub-item-producto"
-              style="
-                width: 100%;
-                height: 200px;
-                padding: 10px 0px 10px 20px;
-                display: flex;
-                flex-direction: column;
-                gap: 10px;
-                margin-top: 10px;
-                background-color: #f3f3f3;
-              "
-            >
-              {% comment %} TITULO PRINCIPAL SUB MENU ITEM INICIO {% endcomment %}
-              <div
-                class="titulo-detalle-oferta-producto"
-                style="
-                  display: flex !important;
-                  flex-direction: row !important;
-                  align-items: center !important;
-                  justify-content: space-between !important;
-                  width: 100% !important;
-                "
-              >
-                <div
-                  style="
-                    display: flex !important;
-                    flex-direction: column !important;
-                  "
-                >
-                  <h2
-                    class="titulo-base1 productView-title"
-                    style="
-                      padding-bottom: 2px !important;
-                      font-weight: bold !important;
-                      font-size: 18px !important;
-                    "
-                  >
-                    ELIGE TAMAÑO
-                  </h2>
-                  <span
-                    class="titulo-base2"
-                    style="
-                      color: #B5B6BD !important;
-                      font-size: 14px !important;
-                      margin-bottom: 0px !important;
-                    "
-                  >
-                    Selecciona un articulo
-                  </span>
-                </div>
-                <span
-                  class="titulo-detalle-seleccion text"
-                  style="
-                    font-size: 16px !important;
-                    color: #69d975 !important;
-                    margin-bottom: 0px !important;
-                  "
-                >
-                  REQUERIDO
-                </span>
-              </div>
-              {% comment %} TITULO PRINCIPAL SUB MENU ITEM FIN {% endcomment %}
-              {% comment %} OPCIONES SUB MENU ITEM INICIO {% endcomment %}
-              <div
-                class="opcion-principal-detalle-oferta"
-                style="
-                  width: 100%;
-                  padding: 8px 0px 8px 3.5px;
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-                  border-bottom: 1px solid rgb(212, 208, 208);
-                "
-              >
-                <div
-                  style="
-                    display: flex;
-                    gap: 4px;
-                  "
-                >
-                  <span
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                    "
-                  >
-                    Extra Pepperoni
-                  </span>
-                  <span
-                    style="
-                      color: #999999;
-                      font-weight: 500;
-                    "
-                  >
-                    +Bs9.00
-                  </span>
-                </div>
-
-                <div
-                  style="
-                    display: flex;
-                    align-items: center;
-                    gap: 3px;
-                  "
-                >
-                  <button
-                    type="button"
-                    onclick="decrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-
-                  <p
-                    style="
-                      font-weight: 400;
-                      color: #1d1d1d;
-                      width: 26px;
-                      height: 32px;
-                      text-align: center;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      margin: 0;
-                    "
-                  >
-                    1
-                  </p>
-
-                  <button
-                    type="button"
-                    onclick="incrementQuantity(this)"
-                    style="
-                      width: 32px !important;
-                      height: 32px !important;
-                      border: none !important;
-                      background: transparent !important;
-                      cursor: pointer !important;
-                      display: flex !important;
-                      align-items: center !important;
-                      justify-content: center !important;
-                      padding: 0 !important;
-                    "
-                  >
-                    <svg
-                      class="MuiSvgIcon-root"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              {% comment %} OPCIONES SUB MENU ITEM FIN {% endcomment %}
-            </div>
-          </div>
+          <div class="sector-general-opciones-producto"></div>
         </div>
       </div>
       <div
@@ -1589,298 +1288,456 @@
     index: index
   %}
 {%- endif -%}
-{% comment %}
-  <script>
-    // Obtener de las colecciones de los productos una [handle1,handle2,.....,handleN]
-    function coleccionesOfProduct() {
-      const collections = {{ product.collections | json }};
-      return collections
-          .filter(collection => {
-              const title = collection.title;
-              const openIndex = title.indexOf('(');
-              const closeIndex = title.indexOf(')');
-              return openIndex !== -1 && closeIndex !== -1 && openIndex < closeIndex;
-          })
-          .map(({ handle }) => handle);
-    }
-
-    // Creacion del Query para la consulta
-    function createQuery(){
-      let query = '{\n';
-
-      coleccionesOfProduct().forEach((handle, index) => {
-          query += `  coleccion${index + 1}: collectionByHandle(handle: "${handle}") {
-              title
-              description
-              products(first: 250) {
-                  edges {
-                      node {
-                          id
-                          title
-                          description
-                          priceRange {
-                              minVariantPrice {
-                                  amount
-                                  currencyCode
-                              }
-                          }
-                          collections(first: 250) {
-                              edges {
-                                  node {
-                                      title
-                                      description
-                                  }
-                              }
-                          }
-                      }
-                  }
-              }
-          }\n`;
-      });
-
-      query += '}';
-      return query;
-    }
-
-    // Funcion de solicitud a la base de datos de shopify
-    async function fetchShopifyData() {
-       // Token Acceso APP ADMIN API
-      const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
-
-      try {
-          const response = await fetch('https://pizza-hut-bo.myshopify.com/admin/api/2025-01/graphql.json', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'X-Shopify-Access-Token': myTest
-              },
-              body: JSON.stringify({
-                  query: createQuery(),
-                  variables: {}
-              })
-          });
-
-          const data = await response.json();
-          {% comment %} console.log('Respuesta:', data); {% endcomment %}
-          return data; // Añadimos el return aquí
-      } catch (error) {
-          console.error('Error:', error);
-          return null; // También es buena práctica retornar algo en caso de error
-      }
-    }
-
-    // Función para limpiar el body_html en este caso es descripcion y obtener solo el texto
-    function limpiarBodyHtml(html) {
-      if (!html) return '';
-      return html.replace(/<\/?p>/g, '').trim();
-    }
-
-    // Funcion para extrae el Nivel
-    function obtenerNivel(text) {
-      if(!text) return -1;  // Si no hay texto, devuelve -1
-
-      // Busca "Nivel: X" donde X es número
-      const nivelMatch = text.match(/Nivel\s*:\s*(\d+)/);
-
-      // Devuelve el número o -1 si no encuentra
-      return nivelMatch ? parseInt(nivelMatch[1]) : -1;
-
-      // Resultado :
-      // obtenerNivel("Nivel: 5")  // → 5
-      // obtenerNivel("")         // → -1
-    }
-
-    // Función para extraer variables de la descripción
-    function extraerVariablesDescripcion(descripcion) {
-      const variables = {};
-
-      // Eliminar todos los <br> de la descripción
-      const descripcionLimpia = descripcion.replace(/<br>/gi, '');
-
-      // Dividir la descripción por guiones
-      const partes = descripcionLimpia.split('-').map(parte => parte.trim());
-
-      // Procesar cada parte
-      partes.forEach(parte => {
-        // Dividir por los dos puntos
-        const [clave, valor] = parte.split(':').map(item => item.trim());
-
-        // Convertir la clave a camelCase y limpiar
-        const claveNormalizada = clave.toLowerCase()
-          .replace('tiposelect', 'tipoSelect'); // Manejar caso especial
-
-        // Almacenar en el objeto, ignorando "Nivel"
-        if (claveNormalizada !== 'nivel') {
-          variables[claveNormalizada] = valor;
-        }
-      });
-
-      return variables;
-    }
-
-    // Funcion para la creacion de un producto
-    function createProductObject(node) {
-      return {
-          id: node.id,
-          title: node.title,
-          description: node.description,
-          price: {
-              amount: node.priceRange.minVariantPrice.amount / 100,
-              currencyCode: node.priceRange.minVariantPrice.currencyCode
-          }
-      };
-    }
-
-    // Funcion para verificar colecciones
-    function verificarColecciones(colecciones,titulosRequeridos){
-      return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
-    }
-
-    /**
-    * Esta función procesa y organiza datos de una tienda Shopify:
-    * 1. Clasifica las colecciones existentes en tres niveles (2, 3 y 4)
-    * 2. Obtiene todos los productos de la tienda usando GraphQL
-    * 3. Extrae y organiza la información de cada producto incluyendo:
-    *    - Información básica (id, título, descripción)
-    *    - Precios
-    *    - Colecciones asociadas
-    * 4. Evita duplicados de productos
-    * 5. Muestra los resultados organizados en consola
-    */
-    async function testPrueba() {
-      // Arrays para mantener la lógica original
-      const coleccionNivel2 = [];
-      const coleccionNivel4 = [];
-      const coleccionNivel3 = [];
-      const productosNivel2y3 = [];
-      const productosNivel2y4 = [];
-
-      // Set para verificación rápida de IDs duplicados
-      const idsNivel2y3 = new Set();
-      const idsNivel2y4 = new Set();
-
-      // Validación de paréntesis
-      const tieneParentesisValidos = (titulo) => {
-        return titulo.includes('(') && titulo.includes(')') &&
-               titulo.indexOf('(') < titulo.indexOf(')');
-      };
-
-      // Procesar colecciones existentes de manera más eficiente
-      const collections = {{ product.collections | json }};
-
-      for (const collection of collections) {
-        const handle = collection.handle;
-        const title = collection.title;
-        const description = limpiarBodyHtml(collection.body_html);
-        const nivel = obtenerNivel(description);
-
-        // Solo agregar colecciones con paréntesis válidos
-        if (!tieneParentesisValidos(title)) continue;
-
-        if (nivel === 2) {
-          coleccionNivel2.push({ handle, title, description });
-        } else if (nivel === 4) {
-          coleccionNivel4.push({ handle, title, description });
-        } else if (nivel === 3) {
-          coleccionNivel3.push({ handle, title, description });
-        }
-      }
-
-      /**
-      * Almacenamiento en memoria (cache) de los títulos de colecciones usando Set
-      * - Evita búsquedas repetitivas en la colección original
-      * - Garantiza valores únicos mediante Set
-      * - Mejora el rendimiento con acceso O(1) para búsquedas
-      */
-      const titulosNivel2 = new Set(coleccionNivel2.map(col => col.title));
-      const titulosNivel3 = new Set(coleccionNivel3.map(col => col.title));
-      const titulosNivel4 = new Set(coleccionNivel4.map(col => col.title));
-
-      // Obtener datos de Shopify
-      const respuesta = await fetchShopifyData();
-
-      if (respuesta?.data) {
-        // Procesar todos los productos de una vez
-        const productosProcessados = Object.values(respuesta.data)
-        // Aplanar y filtrar productos válidos
-        .flatMap(coleccion => coleccion?.products?.edges || [])
-        .filter(edge => edge?.node)
-        .map(edge => {
-          const node = edge.node;
-
-          // Obtener y validar colecciones
-          const todasColecciones = node.collections.edges.map(colEdge => ({
-            title: colEdge.node.title,
-            description: colEdge.node.description
-          }));
-
-          // Validación rápida de paréntesis
-          if (!todasColecciones.every(col => tieneParentesisValidos(col.title))) {
-            return null;
-          }
-
-          // Crear Set de títulos una sola vez
-          const titulosProducto = new Set(todasColecciones.map(col => col.title));
-
-          // Validar nivel 2 (requerido)
-          if (!verificarColecciones(titulosProducto, titulosNivel2)) {
-            return null;
-          }
-
-          // Crear el objeto producto
-          const producto = {
-            ...createProductObject(node),
-            collections: todasColecciones
-          };
-
-          return {
-            producto,
-            titulosProducto
-          };
+<script>
+  // Obtener de las colecciones de los productos una [handle1,handle2,.....,handleN]
+  function coleccionesOfProduct() {
+    const collections = {{ product.collections | json }};
+    return collections
+        .filter(collection => {
+            const title = collection.title;
+            const openIndex = title.indexOf('(');
+            const closeIndex = title.indexOf(')');
+            return openIndex !== -1 && closeIndex !== -1 && openIndex < closeIndex;
         })
-        .filter(Boolean);
-        // Eliminar productos que no cumplen los requisitos básicos
+        .map(({ handle }) => handle);
+  }
 
-        // Procesar y clasificar productos
-        const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
-          // Verificar nivel 2 y 3
-          if (verificarColecciones(titulosProducto, titulosNivel3)) {
-            if (!idsNivel2y3.has(producto.id)) {
-              acc.nivel2y3.push(producto);
-              idsNivel2y3.add(producto.id);
+  // Creacion del Query para la consulta 
+  function createQuery(){
+    let query = '{\n';
+
+    coleccionesOfProduct().forEach((handle, index) => {
+        query += `  coleccion${index + 1}: collectionByHandle(handle: "${handle}") {
+            title
+            description
+            products(first: 250) {
+                edges {
+                    node {
+                        id
+                        title
+                        description
+                        priceRange {
+                            minVariantPrice {
+                                amount
+                                currencyCode
+                            }
+                        }
+                        collections(first: 250) {
+                            edges {
+                                node {
+                                    title
+                                    description
+                                }
+                            }
+                        }
+                    }
+                }
             }
-          }
-          // Verificar nivel 2 y 4 solo si no cumplió nivel 3
-          else if (Array.from(titulosNivel4).some(titulo => titulosProducto.has(titulo))) {
-            if (!idsNivel2y4.has(producto.id)) {
-              acc.nivel2y4.push(producto);
-              idsNivel2y4.add(producto.id);
-            }
-          }
-            return acc;
-          }, { nivel2y3: [], nivel2y4: [] });
+        }\n`; 
+    });
 
-          // Ordenar por precio y asignar a los arrays finales
-          productosNivel2y3.push(
-            ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
-          );
+    query += '}';
+    return query;
+  }
 
-          productosNivel2y4.push(
-            ...productosPorNivel.nivel2y4.sort((a, b) => a.price.amount - b.price.amount)
-          );
+  // Funcion de solicitud a la base de datos de shopify
+  async function fetchShopifyData() {
+     // Token Acceso APP ADMIN API
+    const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
+
+    try {
+        const response = await fetch('https://pizza-hut-bo.myshopify.com/admin/api/2025-01/graphql.json', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Shopify-Access-Token': myTest
+            },
+            body: JSON.stringify({
+                query: createQuery(),
+                variables: {}
+            })
+        });
+        
+        const data = await response.json();
+        {% comment %} console.log('Respuesta:', data); {% endcomment %}
+        return data; // Añadimos el return aquí
+    } catch (error) {
+        console.error('Error:', error);
+        return null; // También es buena práctica retornar algo en caso de error
+    }
+  }
+
+  // Función para limpiar el body_html en este caso es descripcion y obtener solo el texto
+  function limpiarBodyHtml(html) {
+    if (!html) return '';
+    return html.replace(/<\/?p>/g, '').trim();
+  }
+
+  // Funcion para extrae el Nivel 
+  function obtenerNivel(text) {
+    if(!text) return -1;  // Si no hay texto, devuelve -1
+    
+    // Busca "Nivel: X" donde X es número
+    const nivelMatch = text.match(/Nivel\s*:\s*(\d+)/);  
+    
+    // Devuelve el número o -1 si no encuentra
+    return nivelMatch ? parseInt(nivelMatch[1]) : -1;
+    
+    // Resultado :
+    // obtenerNivel("Nivel: 5")  // → 5
+    // obtenerNivel("")         // → -1
+  }
+
+  // Función para extraer variables de la descripción
+  function extraerVariablesDescripcion(descripcion) {
+    const variables = {};
+    
+    // Eliminar todos los <br> de la descripción
+    const descripcionLimpia = descripcion.replace(/<br>/gi, '');
+    
+    // Dividir la descripción por guiones
+    const partes = descripcionLimpia.split('-').map(parte => parte.trim());
+    
+    // Procesar cada parte
+    partes.forEach(parte => {
+      // Dividir por los dos puntos
+      const [clave, valor] = parte.split(':').map(item => item.trim());
+      
+      // Convertir la clave a camelCase y limpiar
+      const claveNormalizada = clave.toLowerCase()
+        .replace('tiposelect', 'tipoSelect'); // Manejar caso especial
+      
+      // Almacenar en el objeto, ignorando "Nivel"
+      if (claveNormalizada !== 'nivel') {
+        variables[claveNormalizada] = valor;
       }
+    });
+    
+    return variables;
+  }
 
-       //  contenidoSubItemsHTML esto mismo ira depsues de crear los menuItemProducto
-       let contenidoSubHTML =  ``;
+  // Funcion para la creacion de un producto 
+  function createProductObject(node) {
+    return {
+        id: node.id,
+        title: node.title,
+        description: node.description,
+        price: {
+            amount: node.priceRange.minVariantPrice.amount / 100,
+            currencyCode: node.priceRange.minVariantPrice.currencyCode
+        }
+    };
+  }
 
-      const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
-      coleccionNivel3.forEach((coleccion, indexCN3) => {
+  // Funcion para verificar colecciones
+  function verificarColecciones(colecciones,titulosRequeridos){
+    return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
+  }
 
-        const variables = extraerVariablesDescripcion(coleccion.description);
+  /**
+  * Esta función procesa y organiza datos de una tienda Shopify:
+  * 1. Clasifica las colecciones existentes en tres niveles (2, 3 y 4)
+  * 2. Obtiene todos los productos de la tienda usando GraphQL
+  * 3. Extrae y organiza la información de cada producto incluyendo:
+  *    - Información básica (id, título, descripción)
+  *    - Precios
+  *    - Colecciones asociadas
+  * 4. Evita duplicados de productos
+  * 5. Muestra los resultados organizados en consola
+  */
+  async function testPrueba() {
+    // Arrays para mantener la lógica original
+    const coleccionNivel2 = [];
+    const coleccionNivel4 = [];
+    const coleccionNivel3 = [];
+    const productosNivel2y3 = [];
+    const productosNivel2y4 = [];
+  
+    // Set para verificación rápida de IDs duplicados
+    const idsNivel2y3 = new Set();
+    const idsNivel2y4 = new Set();
+  
+    // Validación de paréntesis
+    const tieneParentesisValidos = (titulo) => {
+      return titulo.includes('(') && titulo.includes(')') && 
+             titulo.indexOf('(') < titulo.indexOf(')');
+    };
+  
+    // Procesar colecciones existentes de manera más eficiente
+    const collections = {{ product.collections | json }};
+    
+    for (const collection of collections) {
+      const handle = collection.handle;
+      const title = collection.title;
+      const description = limpiarBodyHtml(collection.body_html);
+      const nivel = obtenerNivel(description);
+      
+      // Solo agregar colecciones con paréntesis válidos
+      if (!tieneParentesisValidos(title)) continue;
+      
+      if (nivel === 2) {
+        coleccionNivel2.push({ handle, title, description });
+      } else if (nivel === 4) {
+        coleccionNivel4.push({ handle, title, description });
+      } else if (nivel === 3) {
+        coleccionNivel3.push({ handle, title, description });
+      }
+    }
+  
+    /**
+    * Almacenamiento en memoria (cache) de los títulos de colecciones usando Set
+    * - Evita búsquedas repetitivas en la colección original
+    * - Garantiza valores únicos mediante Set
+    * - Mejora el rendimiento con acceso O(1) para búsquedas
+    */
+    const titulosNivel2 = new Set(coleccionNivel2.map(col => col.title));
+    const titulosNivel3 = new Set(coleccionNivel3.map(col => col.title));
+    const titulosNivel4 = new Set(coleccionNivel4.map(col => col.title));
+  
+    // Obtener datos de Shopify
+    const respuesta = await fetchShopifyData();
+    
+    if (respuesta?.data) {
+      // Procesar todos los productos de una vez
+      const productosProcessados = Object.values(respuesta.data)
+      // Aplanar y filtrar productos válidos
+      .flatMap(coleccion => coleccion?.products?.edges || [])
+      .filter(edge => edge?.node)
+      .map(edge => {
+        const node = edge.node;
 
-          const {variante,limite,solicitud,tipoSelect} = variables;
+        // Obtener y validar colecciones
+        const todasColecciones = node.collections.edges.map(colEdge => ({
+          title: colEdge.node.title,
+          description: colEdge.node.description
+        }));
 
-          const textoSeleccion =
+        // Validación rápida de paréntesis
+        if (!todasColecciones.every(col => tieneParentesisValidos(col.title))) {
+          return null;
+        }
+
+        // Crear Set de títulos una sola vez
+        const titulosProducto = new Set(todasColecciones.map(col => col.title));
+
+        // Validar nivel 2 (requerido)
+        if (!verificarColecciones(titulosProducto, titulosNivel2)) {
+          return null;
+        }
+
+        // Crear el objeto producto
+        const producto = {
+          ...createProductObject(node),
+          collections: todasColecciones
+        };
+
+        return {
+          producto,
+          titulosProducto
+        };
+      })
+      .filter(Boolean); 
+      // Eliminar productos que no cumplen los requisitos básicos
+
+      // Procesar y clasificar productos
+      const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
+        // Verificar nivel 2 y 3
+        if (verificarColecciones(titulosProducto, titulosNivel3)) {
+          if (!idsNivel2y3.has(producto.id)) {
+            acc.nivel2y3.push(producto);
+            idsNivel2y3.add(producto.id);
+          }
+        }
+        // Verificar nivel 2 y 4 solo si no cumplió nivel 3
+        else if (Array.from(titulosNivel4).some(titulo => titulosProducto.has(titulo))) {
+          if (!idsNivel2y4.has(producto.id)) {
+            acc.nivel2y4.push(producto);
+            idsNivel2y4.add(producto.id);
+          }
+        }
+          return acc;
+        }, { nivel2y3: [], nivel2y4: [] });
+
+        // Ordenar por precio y asignar a los arrays finales
+        productosNivel2y3.push(
+          ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
+        );
+        
+        productosNivel2y4.push(
+          ...productosPorNivel.nivel2y4.sort((a, b) => a.price.amount - b.price.amount)
+        );
+    }
+
+
+
+    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    coleccionNivel3.forEach((coleccion, indexCN3) => {
+
+      const variables = extraerVariablesDescripcion(coleccion.description);
+        
+        const {variante,limite,solicitud,tipoSelect} = variables;
+        
+        const textoSeleccion = 
+          solicitud == 'Opcional'
+          ? limite == 1
+            ? 'Selecciona hasta un artículo'
+            : `Selecciona hasta ${limite} artículos`
+          : limite == 1
+          ? 'Selecciona un artículo'
+          : `Selecciona exactamente ${limite} artículos`;
+
+        const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
+        {% comment %} const menuItemProducto = document.createElement('div'); {% endcomment %}
+        {% comment %} menuItemProducto.className = 'menu-item-producto'; {% endcomment %}
+        let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
+
+        // contenidoMainItemsHTML
+        let contenidooHTML = `
+        <div class="titulo-detalle-oferta-producto">
+          <div id="titulo-detalle__comp1">
+            <h2 class="titulo-base1">ELIGE ${variante.toUpperCase()}</h2>
+            <span class="titulo-base2">${textoSeleccion}</span>
+          </div>
+          <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
+        </div>
+        <div class="item-menuItem" id="menuItem-${indexCN3}" data-limite="${limite}">
+        `;
+
+
+      // contenidoSubItemsHTML esto mismo ira depsues de crear los menuItemProducto
+      let subItemProducto =  ``;
+
+      // Filtrar productos específicos que son de nivel 3 
+      const productosEspecificos = productosNivel2y3.filter(producto => {
+        return producto.collections.some(col => col.title == coleccion.title);
+      });
+
+      productosEspecificos.forEach((productoMainItem, indexMainItem) => {
+        if(tipoSelect === 'radio'){
+          contenidooHTML += `
+          <div class="opcion-principal-detalle-oferta3">
+            <div class="producto-info3">
+              <span class="producto-nombre3">${productoMainItem.title}</span>
+              ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
+            </div>
+            <div class="opcion-nombre1">
+              <div class="hover-area1" id="hoverArea-${indexCN3}-${indexMainItem}"></div>
+              <input
+                type="radio"
+                id="item-${indexCN3}-${indexMainItem}"
+                name="opcion-grupo-${indexCN3}"
+                class="radio-input"
+                data-group="${indexCN3}"
+                data-limite="${limite}"
+                onchange="validarLimiteRadio(this)"
+              >
+            </div>
+          </div>
+          `;
+        }
+
+        if(tipoSelect === 'numberCount'){
+          contenidooHTML += `
+            <div class="opcion-principal-detalle-oferta2">
+              <div class="producto-info2">
+                <span class="producto-nombre2">${productoMainItem.title}</span>
+                ${productoMainItem.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoMainItem.price.amount}</span>` : ''}
+              </div>
+              <div class="controles-cantidad2">
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
+                  data-group="${indexCN3}"
+                  data-limite="${limite}"
+                >
+                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                    <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
+                <p class="cantidad-display2" id="cantidad-${indexCN3}-${indexMainItem}" data-group="${indexCN3}">0</p>
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="incrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
+                  data-group="${indexCN3}"
+                  data-limite="${limite}"
+                >
+                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          `;
+        }
+
+        if(tipoSelect === 'checkbox'){
+          contenidooHTML += `
+            <div class="opcion-principal-detalle-oferta3">
+              <div class="producto-info3">
+                <span class="producto-nombre3">${productoMainItem.title}</span>
+                ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
+              </div>
+              <div class="control-checkbox3">
+                <div class="checkbox-container3">
+                  <input
+                    type="checkbox"
+                    id="item-${indexCN3}-${indexMainItem}"
+                    name="properties[${productoMainItem.title}]"
+                    class="input-checkbox3"
+                    data-group="${indexCN3}"
+                    data-limite="${limite}"
+                    onchange="validarLimiteCheckbox(this)"
+                  >
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Aqui falta un id mas en este caso seria el subItem de la coleccion seleccionada
+        {% comment %} let subItemProducto = ``; {% endcomment %}
+
+        // Obtener todas las colecciones solamente el titulo del producto actual
+        const coleccionesProducto = productoMainItem.collections.map(col => col.title);
+
+        if(coleccionesProducto.length > 0){
+           subItemProducto += `<div class="sub-item-producto" id="menu-item-${indexCN3} tipo-producto-${indexMainItem}`;
+           let atributosSubItemProducto = ``;
+
+          // Iterar sobre las colecciones del producto actual de trabajo
+          coleccionesProducto.forEach((coleccion, indexColeccion) => {
+            // Verificar si es colección nivel 4
+            const esUnaColeccionNivel4 = coleccionNivel4.some(col => col.title === coleccion);
+
+            // Log para debugging
+            console.log(`Verificando colección ${coleccion}:`, 
+                esUnaColeccionNivel4 ? 'Es nivel 4' : 'No es nivel 4');
+
+            // Si no es nivel 4 no se trabaja si va al siguiente
+            if (!esUnaColeccionNivel4) {
+                return;
+            }
+            
+            // Se va poner el id de distincio de la coleccion
+            subItemProducto += `sub-item-${indexColeccion}">`;
+              
+
+            // Aquí continúa el código para procesar colecciones nivel 4
+            console.log(`Procesando colección nivel 4: ${coleccion}`);
+
+            // Se va obtener mas detalles completos de la colección
+            const detallesCompletoColeccion = coleccionNivel4.find(col => col.title === coleccion);
+
+            // Log para debugging
+            console.log('Detalles completos de la colección:', detallesCompletoColeccion);
+
+            // Traer la descripcion de la coleccion nivel 4, de "detallesCompletoColeccion" y obtener las variables
+            const variablesColeccionNivel4 = extraerVariablesDescripcion(detallesCompletoColeccion.description);
+
+            const {atributo,limite,solicitud,tipoSelect} = variablesColeccionNivel4;
+            const textoSeleccion = 
             solicitud == 'Opcional'
             ? limite == 1
               ? 'Selecciona hasta un artículo'
@@ -1889,891 +1746,860 @@
             ? 'Selecciona un artículo'
             : `Selecciona exactamente ${limite} artículos`;
 
-          const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-          {% comment %} const menuItemProducto = document.createElement('div'); {% endcomment %}
-          {% comment %} menuItemProducto.className = 'menu-item-producto'; {% endcomment %}
-          let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
-
-          // contenidoMainItemsHTML
-          let contenidooHTML = `
-          <div class="titulo-detalle-oferta-producto">
-            <div id="titulo-detalle__comp1">
-              <h2 class="titulo-base1">ELIGE ${variante.toUpperCase()}</h2>
-              <span class="titulo-base2">${textoSeleccion}</span>
+            const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
+            
+            atributosSubItemProducto = `
+            <div class="titulo-detalle-oferta-producto">
+              <div id="titulo-detalle__comp1">
+                <h2 class="titulo-base1">ELIGE ${atributo.toUpperCase()}</h2>
+                <span class="titulo-base2">${textoSeleccion}</span>
+              </div>
+              <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
             </div>
-            <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
+            <div class="item-subItem" id="subItem-${indexColeccion}" data-limite="${limite}">
+            `;
+
+            // Se va a iterar sobre los productos de nivel 2 y 4 que fueron preseleccionados, para verificar 
+            // si algunos de ellos pertenecen a la colección nivel 4 actucal, al que se trabaja
+            productosNivel2y4.forEach((productoNivel2y4, indexProductoNivel2y4) => {
+
+              // Verificar si el producto dentro de sus coleccion se encuentra la coleccion nivel 4 actual de trabajo "coleccion"
+              const esProductoDeColeccionNivel4 = productoNivel2y4.collections.some(col => col.title === coleccion);
+
+              // Verificar si el producto es de la colección nivel 4 actual
+              if (!esProductoDeColeccionNivel4) {
+                return;
+              }
+
+              if(tipoSelect === 'radio'){
+                atributosSubItemProducto += `
+                <div class="opcion-principal-detalle-oferta3">
+                  <div class="producto-info3">
+                    <span class="producto-nombre3">${productoNivel2y4.title}</span>
+                    ${parseFloat(productoNivel2y4.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoNivel2y4.price.amount}</span>` : ''}
+                  </div>
+                  <div class="opcion-nombre1">
+                    <div class="hover-area1" id="hoverArea-${indexColeccion}-${indexProductoNivel2y4}"></div>
+                    <input
+                      type="radio"
+                      id="item-${indexColeccion}-${indexMainItem}"
+                      name="opcion-grupo-${indexColeccion}"
+                      class="radio-input"
+                      data-group="${indexColeccion}"
+                      data-limite="${limite}"
+                      onchange="validarLimiteRadio(this)"
+                    >
+                  </div>
+                </div>
+                `;
+              }
+      
+              if(tipoSelect === 'numberCount'){
+                atributosSubItemProducto += `
+                  <div class="opcion-principal-detalle-oferta2">
+                    <div class="producto-info2">
+                      <span class="producto-nombre2">${productoNivel2y4.title}</span>
+                      ${productoNivel2y4.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoNivel2y4.price.amount}</span>` : ''}
+                    </div>
+                    <div class="controles-cantidad2">
+                      <button 
+                        type="button" 
+                        class="btn-cantidad2" 
+                        onclick="decrementCantidad('${indexColeccion}-${indexProductoNivel2y4}', '${indexColeccion}')"
+                        data-group="${indexColeccion}"
+                        data-limite="${limite}"
+                      >
+                        <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                          <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                        </svg>
+                      </button>
+                      <p class="cantidad-display2" id="cantidad-${indexColeccion}-${indexProductoNivel2y4}" data-group="${indexColeccion}">0</p>
+                      <button 
+                        type="button" 
+                        class="btn-cantidad2" 
+                        onclick="incrementCantidad('${indexColeccion}-${indexProductoNivel2y4}', '${indexColeccion}')"
+                        data-group="${indexColeccion}"
+                        data-limite="${limite}"
+                      >
+                        <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                          <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }
+      
+              if(tipoSelect === 'checkbox'){
+                atributosSubItemProducto += `
+                  <div class="opcion-principal-detalle-oferta3">
+                    <div class="producto-info3">
+                      <span class="producto-nombre3">${productoNivel2y4.title}</span>
+                      ${parseFloat(productoNivel2y4.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoNivel2y4.price.amount}</span>` : ''}
+                    </div>
+                    <div class="control-checkbox3">
+                      <div class="checkbox-container3">
+                        <input
+                          type="checkbox"
+                          id="item-${indexColeccion}-${indexProductoNivel2y4}"
+                          name="properties[${productoNivel2y4.title}]"
+                          class="input-checkbox3"
+                          data-group="${indexColeccion}"
+                          data-limite="${limite}"
+                          onchange="validarLimiteCheckbox(this)"
+                        >
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }
+            });
+
+            // Aquí se debe cerrar el subItemProducto div
+            subItemProducto += `</div>`;
+            // Aquí se debe añadir el subItemProducto al contenidoSubItemsHTML
+            contenidoSubHTML += `${subItemProducto} </div>`; 
+          }); 
+
+          // Cerramos el subItemProducto
+          subItemProducto += `${atributosSubItemProducto} </div>`;
+        }
+      });
+
+      contenidooHTML += `</div>`; 
+      // Aqui es donde se debe a;adir el subItemProducto abajo de los atributos del menu item esto llegara a ser de la forma
+      // menuItemProducto += ` ${contenidooHTML} + ${subItemProducto}</div>`; 
+      
+      menuItemProducto += ` ${contenidooHTML} ${contenidoSubHTML} </div>`; 
+      {% comment %} menuItemProducto.innerHTML = contenidooHTML ; {% endcomment %}
+      {% comment %} contendorPrincipal.appendChild(menuItemProducto); {% endcomment %}
+      contendorPrincipal.innerHTML += menuItemProducto;
+
+    });
+
+  
+    // Imprimir resultados
+    console.log('Colecciones Nivel 2:', coleccionNivel2);
+    console.log('Colecciones Nivel 3:', coleccionNivel3);
+    console.log('Colecciones Nivel 4:', coleccionNivel4);
+    console.log('Productos Nivel 2 y 3:', productosNivel2y3);
+    console.log('Productos Nivel 2 y 4:', productosNivel2y4); 
+  
+    return {
+      colecciones: {
+        nivel2: coleccionNivel2,
+        nivel3: coleccionNivel3,
+        nivel4: coleccionNivel4
+      },
+      productosNivel2y3,
+      productosNivel2y4
+    };
+  }
+
+  function getMenuItems() {
+    const menuItems = [
+      {
+        id: '1',
+        titulo: 'Elige tamaño',
+        solicitud: 'Requerido',
+        limite: 1,
+        typeSelect: 'radio',
+        mainItems: [
+          {
+            id: '1a',
+            titulo: 'Personal para 1 persona',
+            precio: 0,
+            sideItems: [],
+          },
+          {
+            id: '1b',
+            titulo: 'Super personal para 2 a 3 personas',
+            precio: 18,
+            sideItems: [
+              {
+                id: '1a1',
+                titulo: 'Elige Extra',
+                solicitud: 'Opcional',
+                limite: 9,
+                typeSelect: 'numberCount',
+                opciones: [
+                  {
+                    id: '1a1a',
+                    titulo: 'Extra Queso',
+                    precio: 12,
+                  },
+                  {
+                    id: '1a1b',
+                    titulo: 'Extra Pepeeroni',
+                    precio: 5,
+                  },
+                  {
+                    id: '1a1c',
+                    titulo: 'Extra Choclo',
+                    precio: 5,
+                  },
+                  {
+                    id: '1a1d',
+                    titulo: 'Extra Tocino',
+                    precio: 5,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '1c',
+            titulo: 'Mediana para 3 a 4 personas',
+            precio: 61,
+            sideItems: [
+              {
+                id: '1c1',
+                titulo: 'Elige Masa - Borde',
+                solicitud: 'Requerido',
+                limite: 1,
+                typeSelect: 'radio',
+                opciones: [
+                  {
+                    id: '1c1a',
+                    titulo: 'Pan Pizza',
+                    precio: 0,
+                  },
+                  {
+                    id: '1c1b',
+                    titulo: 'Crispy (delgada y crujiente)',
+                    precio: 0,
+                  },
+                  {
+                    id: '1c1c',
+                    titulo: 'Pan pizza + borde catupiry',
+                    precio: 15,
+                  },
+                  {
+                    id: '1c1d',
+                    titulo: 'Pan pizza + border hot chesse',
+                    precio: 12,
+                  },
+                ],
+              },
+              {
+                id: '1c2',
+                titulo: 'Elige Extra',
+                solicitud: 'Opcional',
+                limite: 9,
+                typeSelect: 'numberCount',
+                opciones: [
+                  {
+                    id: '1c2a',
+                    titulo: 'Extra Queso',
+                    precio: 12,
+                  },
+                  {
+                    id: '1c2b',
+                    titulo: 'Extra Pepeeroni',
+                    precio: 5,
+                  },
+                  {
+                    id: '1c2c',
+                    titulo: 'Extra Choclo',
+                    precio: 5,
+                  },
+                  {
+                    id: '1c2d',
+                    titulo: 'Extra Tocino',
+                    precio: 5,
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '1d',
+            titulo: 'Familiar para 4 a 5 personas',
+            precio: 87,
+            sideItems: [
+              {
+                id: '1d1',
+                titulo: 'Elige Masa - Borde',
+                solicitud: 'Requerido',
+                limite: 1,
+                typeSelect: 'radio',
+                opciones: [
+                  {
+                    id: '1d1a',
+                    titulo: 'Pan Pizza',
+                    precio: 0,
+                  },
+                  {
+                    id: '1d1b',
+                    titulo: 'Crispy (delgada y crujiente)',
+                    precio: 0,
+                  },
+                  {
+                    id: '1d1c',
+                    titulo: 'Pan pizza + borde catupiry',
+                    precio: 15,
+                  },
+                  {
+                    id: '1d1d',
+                    titulo: 'Pan pizza + border hot chesse',
+                    precio: 12,
+                  },
+                ],
+              },
+              {
+                id: '1d2',
+                titulo: 'Postres',
+                solicitud: 'Opcional',
+                limite: 9,
+                typeSelect: 'checkbox',
+                opciones: [
+                  {
+                    id: '1d2a',
+                    titulo: '3 Leches',
+                    precio: 17,
+                  },
+                  {
+                    id: '1d2b',
+                    titulo: 'Lemon Hut',
+                    precio: 22,
+                  },
+                  {
+                    id: '1d2c',
+                    titulo: 'Choco Hut Doblon',
+                    precio: 22,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: '2',
+        titulo: 'GASEOSAS',
+        solicitud: 'Opcional',
+        limite: 4,
+        typeSelect: 'checkbox',
+        mainItems: [
+          {
+            id: '2a',
+            titulo: 'Coca Cola x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '2b',
+            titulo: 'Coca Cola sin azucar x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '2c',
+            titulo: 'Fanta naranja x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '2d',
+            titulo: 'Fanta guarana x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '2e',
+            titulo: 'Fanta papaya x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '2f',
+            titulo: 'Sprite lima limon x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+        ],
+      },
+      {
+        id: '3',
+        titulo: 'Postres',
+        solicitud: 'Opcional',
+        limite: 2,
+        typeSelect: 'checkbox',
+        mainItems: [
+          {
+            id: '3a',
+            titulo: 'Mousse de Maracuya',
+            precio: 17,
+            sideItems: [],
+          },
+          {
+            id: '3b',
+            titulo: '10 Unidades Cinammon Sticks',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '3c',
+            titulo: 'Brownie Chocolate Personal',
+            precio: 17,
+            sideItems: [],
+          },
+        ],
+      },
+      {
+        id: '5',
+        titulo: 'GASEOSAS',
+        solicitud: 'Requerido',
+        limite: 4,
+        typeSelect: 'checkbox',
+        mainItems: [
+          {
+            id: '5a',
+            titulo: 'Coca Cola x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '5b',
+            titulo: 'Coca Cola sin azucar x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '5c',
+            titulo: 'Fanta naranja x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '5d',
+            titulo: 'Fanta guarana x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '5e',
+            titulo: 'Fanta papaya x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+          {
+            id: '5f',
+            titulo: 'Sprite lima limon x 2lt',
+            precio: 22,
+            sideItems: [],
+          },
+        ],
+      },
+      {
+        id: '4',
+        titulo: 'ELIGE 2DO SABOR',
+        solicitud: 'Requerido',
+        limite: 3,
+        typeSelect: 'numberCount',
+        mainItems: [
+          {
+            id: '4a',
+            titulo: 'Pepperoni lovers',
+            precio: 0,
+            sideItems: [],
+          },
+          {
+            id: '4b',
+            titulo: 'Chessy lovers',
+            precio: 0,
+            sideItems: [],
+          },
+          {
+            id: '4c',
+            titulo: 'Veggie lovers',
+            precio: 0,
+            sideItems: [],
+          },
+          {
+            id: '4d',
+            titulo: 'Meat lovers',
+            precio: 0,
+            sideItems: [],
+          },
+          {
+            id: '4e',
+            titulo: 'Hawaian lovers',
+            precio: 0,
+            sideItems: [],
+          },
+        ],
+      },
+    ];
+    // ... lógica para llenar menuItems ...
+    return menuItems;
+  }
+
+  function agregarMenuItems() {
+    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+
+    getMenuItems().forEach((item, index) => {
+      const textoSeleccion =
+        item.solicitud == 'Opcional'
+          ? item.limite == 1
+            ? 'Selecciona hasta un artículo'
+            : `Selecciona hasta ${item.limite} artículos`
+          : item.limite == 1
+          ? 'Selecciona un artículo'
+          : `Selecciona exactamente ${item.limite} artículos`;
+      const colorSolicitud = item.solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
+
+      const menuItemProducto = document.createElement('div');
+      menuItemProducto.className = 'menu-item-producto';
+
+      let contenidoHTML = `
+        <div class="titulo-detalle-oferta-producto">
+          <div id="titulo-detalle__comp1">
+            <h2 class="titulo-base1">${item.titulo}</h2>
+            <span class="titulo-base2">${textoSeleccion}</span>
           </div>
-          <div class="item-menuItem" id="menuItem-${indexCN3}" data-limite="${limite}">
-          `;
+          <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud.toUpperCase()}</span>
+        </div>
+        <div class="item-menuItem" id="menuItem-${index}" data-limite="${item.limite}">
+      `;
 
-
-        // Filtrar productos específicos que son de nivel 3
-        const productosEspecificos = productosNivel2y3.filter(producto => {
-          return producto.collections.some(col => col.title == coleccion.title);
-        });
-
-        productosEspecificos.forEach((productoMainItem, indexMainItem) => {
-          if(tipoSelect === 'radio'){
-            contenidooHTML += `
+      item.mainItems.forEach((mainItem, mainIndex) => {
+        if (item.typeSelect == 'radio') {
+          contenidoHTML += `
             <div class="opcion-principal-detalle-oferta3">
               <div class="producto-info3">
-                <span class="producto-nombre3">${productoMainItem.title}</span>
-                ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
+                <span class="producto-nombre3">${mainItem.titulo}</span>
+                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
               </div>
               <div class="opcion-nombre1">
-                <div class="hover-area1" id="hoverArea-${indexCN3}-${indexMainItem}"></div>
+                <div class="hover-area1" id="hoverArea-${index}-${mainIndex}"></div>
                 <input
                   type="radio"
-                  id="item-${indexCN3}-${indexMainItem}"
-                  name="opcion-grupo-${indexCN3}"
+                  id="item-${index}-${mainIndex}"
+                  name="opcion-grupo-${index}"
                   class="radio-input"
-                  data-group="${indexCN3}"
-                  data-limite="${limite}"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
                   onchange="validarLimiteRadio(this)"
                 >
               </div>
             </div>
-            `;
-          }
+          `;
+        }
 
-          if(tipoSelect === 'numberCount'){
-            contenidooHTML += `
-              <div class="opcion-principal-detalle-oferta2">
-                <div class="producto-info2">
-                  <span class="producto-nombre2">${productoMainItem.title}</span>
-                  ${productoMainItem.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoMainItem.price.amount}</span>` : ''}
-                </div>
-                <div class="controles-cantidad2">
-                  <button
-                    type="button"
-                    class="btn-cantidad2"
-                    onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
-                    data-group="${indexCN3}"
-                    data-limite="${limite}"
-                  >
-                    <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                  <p class="cantidad-display2" id="cantidad-${indexCN3}-${indexMainItem}" data-group="${indexCN3}">0</p>
-                  <button
-                    type="button"
-                    class="btn-cantidad2"
-                    onclick="incrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
-                    data-group="${indexCN3}"
-                    data-limite="${limite}"
-                  >
-                    <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                </div>
+        if (item.typeSelect === 'numberCount') {
+          contenidoHTML += `
+            <div class="opcion-principal-detalle-oferta2">
+              <div class="producto-info2">
+                <span class="producto-nombre2">${mainItem.titulo}</span>
+                ${mainItem.precio > 0 ? `<span class="producto-precio2">+Bs${mainItem.precio}</span>` : ''}
               </div>
-            `;
-          }
-
-          if(tipoSelect === 'checkbox'){
-            contenidooHTML += `
-              <div class="opcion-principal-detalle-oferta3">
-                <div class="producto-info3">
-                  <span class="producto-nombre3">${productoMainItem.title}</span>
-                  ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
-                </div>
-                <div class="control-checkbox3">
-                  <div class="checkbox-container3">
-                    <input
-                      type="checkbox"
-                      id="item-${indexCN3}-${indexMainItem}"
-                      name="properties[${productoMainItem.title}]"
-                      class="input-checkbox3"
-                      data-group="${indexCN3}"
-                      data-limite="${limite}"
-                      onchange="validarLimiteCheckbox(this)"
-                    >
-                  </div>
-                </div>
+              <div class="controles-cantidad2">
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="decrementCantidad('${index}-${mainIndex}', '${index}')"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
+                >
+                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                    <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
+                <p class="cantidad-display2" id="cantidad-${index}-${mainIndex}" data-group="${index}">0</p>
+                <button 
+                  type="button" 
+                  class="btn-cantidad2" 
+                  onclick="incrementCantidad('${index}-${mainIndex}', '${index}')"
+                  data-group="${index}"
+                  data-limite="${item.limite}"
+                >
+                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                  </svg>
+                </button>
               </div>
-            `;
-          }
-
-          let subItemProducto += `<div class="sub-item-producto" id="sub-item-${indexCN3}">`;
-
-
-          {% comment %} // Obtener todas las colecciones del producto
-          const coleccionesProducto = productoMainItem.collections.map(col => col.title);
-
-          // Iterar sobre las colecciones del producto
-          coleccionesProducto.forEach((coleccion, indexColeccion) => {
-              // Verificar si es colección nivel 4
-              const esUnaColeccionNivel4 = coleccionNivel4.some(col => col.title === coleccion);
-
-              // Log para debugging
-              console.log(`Verificando colección ${coleccion}:`,
-                  esUnaColeccionNivel4 ? 'Es nivel 4' : 'No es nivel 4');
-
-              // Si no es nivel 4, saltar a la siguiente iteración
-              if (!esUnaColeccionNivel4) {
-                  return;
-              }
-
-              // Aquí continúa el código para procesar colecciones nivel 4
-              console.log(`Procesando colección nivel 4: ${coleccion}`);
-
-              // Se va obtener mas detalles completos de la colección
-              const detallesCompletoColeccion = coleccionNivel4.find(col => col.title === coleccion);
-
-              // Log para debugging
-              console.log('Detalles completos de la colección:', detallesCompletoColeccion);
-
-              productosNivel2y4.forEach((productoNivel2y4, indexProductoNivel2y4) => {
-                // Verificar si el producto dentro de sus coleccion se encuentra la coleccion nivel 4 actual de trabajo "coleccion"
-                const esProductoDeColeccionNivel4 = productoNivel2y4.collections.some(col => col.title === coleccion);
-
-                // Traer la descripcion de la coleccion nivel 4, de "detallesCompletoColeccion" y obtener las variables
-                const variablesColeccionNivel4 = extraerVariablesDescripcion(detallesCompletoColeccion.description);
-
-
-
-              });
-          }); {% endcomment %}
-
-        });
-
-        contenidooHTML += `</div>`;
-        // Aqui es donde se debe a;adir el subItemProducto abajo de los atributos del menu item esto llegara a ser de la forma
-        // menuItemProducto += ` ${contenidooHTML} + ${subItemProducto}</div>`;
-
-        menuItemProducto += ` ${contenidooHTML} </div>`;
-        {% comment %} menuItemProducto.innerHTML = contenidooHTML ; {% endcomment %}
-        {% comment %} contendorPrincipal.appendChild(menuItemProducto); {% endcomment %}
-        contendorPrincipal.innerHTML += menuItemProducto;
-
-      });
-
-
-      // Imprimir resultados
-      console.log('Colecciones Nivel 2:', coleccionNivel2);
-      console.log('Colecciones Nivel 3:', coleccionNivel3);
-      console.log('Colecciones Nivel 4:', coleccionNivel4);
-      console.log('Productos Nivel 2 y 3:', productosNivel2y3);
-      console.log('Productos Nivel 2 y 4:', productosNivel2y4);
-
-      return {
-        colecciones: {
-          nivel2: coleccionNivel2,
-          nivel3: coleccionNivel3,
-          nivel4: coleccionNivel4
-        },
-        productosNivel2y3,
-        productosNivel2y4
-      };
-    }
-
-    function getMenuItems() {
-      const menuItems = [
-        {
-          id: '1',
-          titulo: 'Elige tamaño',
-          solicitud: 'Requerido',
-          limite: 1,
-          typeSelect: 'radio',
-          mainItems: [
-            {
-              id: '1a',
-              titulo: 'Personal para 1 persona',
-              precio: 0,
-              sideItems: [],
-            },
-            {
-              id: '1b',
-              titulo: 'Super personal para 2 a 3 personas',
-              precio: 18,
-              sideItems: [
-                {
-                  id: '1a1',
-                  titulo: 'Elige Extra',
-                  solicitud: 'Opcional',
-                  limite: 9,
-                  typeSelect: 'numberCount',
-                  opciones: [
-                    {
-                      id: '1a1a',
-                      titulo: 'Extra Queso',
-                      precio: 12,
-                    },
-                    {
-                      id: '1a1b',
-                      titulo: 'Extra Pepeeroni',
-                      precio: 5,
-                    },
-                    {
-                      id: '1a1c',
-                      titulo: 'Extra Choclo',
-                      precio: 5,
-                    },
-                    {
-                      id: '1a1d',
-                      titulo: 'Extra Tocino',
-                      precio: 5,
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              id: '1c',
-              titulo: 'Mediana para 3 a 4 personas',
-              precio: 61,
-              sideItems: [
-                {
-                  id: '1c1',
-                  titulo: 'Elige Masa - Borde',
-                  solicitud: 'Requerido',
-                  limite: 1,
-                  typeSelect: 'radio',
-                  opciones: [
-                    {
-                      id: '1c1a',
-                      titulo: 'Pan Pizza',
-                      precio: 0,
-                    },
-                    {
-                      id: '1c1b',
-                      titulo: 'Crispy (delgada y crujiente)',
-                      precio: 0,
-                    },
-                    {
-                      id: '1c1c',
-                      titulo: 'Pan pizza + borde catupiry',
-                      precio: 15,
-                    },
-                    {
-                      id: '1c1d',
-                      titulo: 'Pan pizza + border hot chesse',
-                      precio: 12,
-                    },
-                  ],
-                },
-                {
-                  id: '1c2',
-                  titulo: 'Elige Extra',
-                  solicitud: 'Opcional',
-                  limite: 9,
-                  typeSelect: 'numberCount',
-                  opciones: [
-                    {
-                      id: '1c2a',
-                      titulo: 'Extra Queso',
-                      precio: 12,
-                    },
-                    {
-                      id: '1c2b',
-                      titulo: 'Extra Pepeeroni',
-                      precio: 5,
-                    },
-                    {
-                      id: '1c2c',
-                      titulo: 'Extra Choclo',
-                      precio: 5,
-                    },
-                    {
-                      id: '1c2d',
-                      titulo: 'Extra Tocino',
-                      precio: 5,
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              id: '1d',
-              titulo: 'Familiar para 4 a 5 personas',
-              precio: 87,
-              sideItems: [
-                {
-                  id: '1d1',
-                  titulo: 'Elige Masa - Borde',
-                  solicitud: 'Requerido',
-                  limite: 1,
-                  typeSelect: 'radio',
-                  opciones: [
-                    {
-                      id: '1d1a',
-                      titulo: 'Pan Pizza',
-                      precio: 0,
-                    },
-                    {
-                      id: '1d1b',
-                      titulo: 'Crispy (delgada y crujiente)',
-                      precio: 0,
-                    },
-                    {
-                      id: '1d1c',
-                      titulo: 'Pan pizza + borde catupiry',
-                      precio: 15,
-                    },
-                    {
-                      id: '1d1d',
-                      titulo: 'Pan pizza + border hot chesse',
-                      precio: 12,
-                    },
-                  ],
-                },
-                {
-                  id: '1d2',
-                  titulo: 'Postres',
-                  solicitud: 'Opcional',
-                  limite: 9,
-                  typeSelect: 'checkbox',
-                  opciones: [
-                    {
-                      id: '1d2a',
-                      titulo: '3 Leches',
-                      precio: 17,
-                    },
-                    {
-                      id: '1d2b',
-                      titulo: 'Lemon Hut',
-                      precio: 22,
-                    },
-                    {
-                      id: '1d2c',
-                      titulo: 'Choco Hut Doblon',
-                      precio: 22,
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: '2',
-          titulo: 'GASEOSAS',
-          solicitud: 'Opcional',
-          limite: 4,
-          typeSelect: 'checkbox',
-          mainItems: [
-            {
-              id: '2a',
-              titulo: 'Coca Cola x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '2b',
-              titulo: 'Coca Cola sin azucar x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '2c',
-              titulo: 'Fanta naranja x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '2d',
-              titulo: 'Fanta guarana x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '2e',
-              titulo: 'Fanta papaya x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '2f',
-              titulo: 'Sprite lima limon x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-          ],
-        },
-        {
-          id: '3',
-          titulo: 'Postres',
-          solicitud: 'Opcional',
-          limite: 2,
-          typeSelect: 'checkbox',
-          mainItems: [
-            {
-              id: '3a',
-              titulo: 'Mousse de Maracuya',
-              precio: 17,
-              sideItems: [],
-            },
-            {
-              id: '3b',
-              titulo: '10 Unidades Cinammon Sticks',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '3c',
-              titulo: 'Brownie Chocolate Personal',
-              precio: 17,
-              sideItems: [],
-            },
-          ],
-        },
-        {
-          id: '5',
-          titulo: 'GASEOSAS',
-          solicitud: 'Requerido',
-          limite: 4,
-          typeSelect: 'checkbox',
-          mainItems: [
-            {
-              id: '5a',
-              titulo: 'Coca Cola x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '5b',
-              titulo: 'Coca Cola sin azucar x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '5c',
-              titulo: 'Fanta naranja x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '5d',
-              titulo: 'Fanta guarana x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '5e',
-              titulo: 'Fanta papaya x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-            {
-              id: '5f',
-              titulo: 'Sprite lima limon x 2lt',
-              precio: 22,
-              sideItems: [],
-            },
-          ],
-        },
-        {
-          id: '4',
-          titulo: 'ELIGE 2DO SABOR',
-          solicitud: 'Requerido',
-          limite: 3,
-          typeSelect: 'numberCount',
-          mainItems: [
-            {
-              id: '4a',
-              titulo: 'Pepperoni lovers',
-              precio: 0,
-              sideItems: [],
-            },
-            {
-              id: '4b',
-              titulo: 'Chessy lovers',
-              precio: 0,
-              sideItems: [],
-            },
-            {
-              id: '4c',
-              titulo: 'Veggie lovers',
-              precio: 0,
-              sideItems: [],
-            },
-            {
-              id: '4d',
-              titulo: 'Meat lovers',
-              precio: 0,
-              sideItems: [],
-            },
-            {
-              id: '4e',
-              titulo: 'Hawaian lovers',
-              precio: 0,
-              sideItems: [],
-            },
-          ],
-        },
-      ];
-      // ... lógica para llenar menuItems ...
-      return menuItems;
-    }
-
-    function agregarMenuItems() {
-      const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
-
-      getMenuItems().forEach((item, index) => {
-        const textoSeleccion =
-          item.solicitud == 'Opcional'
-            ? item.limite == 1
-              ? 'Selecciona hasta un artículo'
-              : `Selecciona hasta ${item.limite} artículos`
-            : item.limite == 1
-            ? 'Selecciona un artículo'
-            : `Selecciona exactamente ${item.limite} artículos`;
-        const colorSolicitud = item.solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-
-        const menuItemProducto = document.createElement('div');
-        menuItemProducto.className = 'menu-item-producto';
-
-        let contenidoHTML = `
-          <div class="titulo-detalle-oferta-producto">
-            <div id="titulo-detalle__comp1">
-              <h2 class="titulo-base1">${item.titulo}</h2>
-              <span class="titulo-base2">${textoSeleccion}</span>
             </div>
-            <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud.toUpperCase()}</span>
-          </div>
-          <div class="item-menuItem" id="menuItem-${index}" data-limite="${item.limite}">
-        `;
+          `;
+        }
 
-        item.mainItems.forEach((mainItem, mainIndex) => {
-          if (item.typeSelect == 'radio') {
-            contenidoHTML += `
-              <div class="opcion-principal-detalle-oferta3">
-                <div class="producto-info3">
-                  <span class="producto-nombre3">${mainItem.titulo}</span>
-                  ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
-                </div>
-                <div class="opcion-nombre1">
-                  <div class="hover-area1" id="hoverArea-${index}-${mainIndex}"></div>
+        if (item.typeSelect === 'checkbox') {
+          contenidoHTML += `
+            <div class="opcion-principal-detalle-oferta3">
+              <div class="producto-info3">
+                <span class="producto-nombre3">${mainItem.titulo}</span>
+                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
+              </div>
+              <div class="control-checkbox3">
+                <div class="checkbox-container3">
                   <input
-                    type="radio"
+                    type="checkbox"
                     id="item-${index}-${mainIndex}"
-                    name="opcion-grupo-${index}"
-                    class="radio-input"
+                    name="properties[${mainItem.titulo}]"
+                    class="input-checkbox3"
                     data-group="${index}"
                     data-limite="${item.limite}"
-                    onchange="validarLimiteRadio(this)"
+                    onchange="validarLimiteCheckbox(this)"
                   >
                 </div>
               </div>
-            `;
-          }
-
-          if (item.typeSelect === 'numberCount') {
-            contenidoHTML += `
-              <div class="opcion-principal-detalle-oferta2">
-                <div class="producto-info2">
-                  <span class="producto-nombre2">${mainItem.titulo}</span>
-                  ${mainItem.precio > 0 ? `<span class="producto-precio2">+Bs${mainItem.precio}</span>` : ''}
-                </div>
-                <div class="controles-cantidad2">
-                  <button
-                    type="button"
-                    class="btn-cantidad2"
-                    onclick="decrementCantidad('${index}-${mainIndex}', '${index}')"
-                    data-group="${index}"
-                    data-limite="${item.limite}"
-                  >
-                    <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                      <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                  <p class="cantidad-display2" id="cantidad-${index}-${mainIndex}" data-group="${index}">0</p>
-                  <button
-                    type="button"
-                    class="btn-cantidad2"
-                    onclick="incrementCantidad('${index}-${mainIndex}', '${index}')"
-                    data-group="${index}"
-                    data-limite="${item.limite}"
-                  >
-                    <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                      <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            `;
-          }
-
-          if (item.typeSelect === 'checkbox') {
-            contenidoHTML += `
-              <div class="opcion-principal-detalle-oferta3">
-                <div class="producto-info3">
-                  <span class="producto-nombre3">${mainItem.titulo}</span>
-                  ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
-                </div>
-                <div class="control-checkbox3">
-                  <div class="checkbox-container3">
-                    <input
-                      type="checkbox"
-                      id="item-${index}-${mainIndex}"
-                      name="properties[${mainItem.titulo}]"
-                      class="input-checkbox3"
-                      data-group="${index}"
-                      data-limite="${item.limite}"
-                      onchange="validarLimiteCheckbox(this)"
-                    >
-                  </div>
-                </div>
-              </div>
-            `;
-          }
-        });
-
-        contenidoHTML += `</div>`;
-        menuItemProducto.innerHTML = contenidoHTML;
-        contendorPrincipal.appendChild(menuItemProducto);
-      });
-    }
-
-    function validarLimiteCheckbox(casilla) {
-      // Obtiene el ID del grupo desde el atributo data-group del checkbox
-      // Ejemplo: si data-group="2", grupoId será "2"
-      const grupoId = casilla.dataset.group;
-
-      // Convierte el límite de string a número
-      // Ejemplo: si data-limite="4", limitePermitido será 4
-      const limitePermitido = parseInt(casilla.dataset.limite);
-
-      // Encuentra el div contenedor del grupo usando el ID
-      // Ejemplo: busca <div id="menuItem-2">
-      const contenedorGrupo = document.getElementById(`menuItem-${grupoId}`);
-
-      // Obtiene todos los checkboxes dentro de ese grupo
-      // Ejemplo: si hay 6 gaseosas, obtiene esos 6 checkboxes
-      const casillasGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
-
-      // Inicializa contador
-      let totalSeleccionados = 0;
-
-      // Cuenta cuántos checkboxes están marcados en ese grupo
-      // Ejemplo: si marcaste Coca Cola, Fanta y Sprite, totalSeleccionados será 3
-      casillasGrupo.forEach((casilla) => {
-        if (casilla.checked) totalSeleccionados++;
+            </div>
+          `;
+        }
       });
 
-      // Si excede el límite, desmarca el último checkbox
-      // Ejemplo: si el límite es 4 y intentas marcar un quinto, lo impide
-      if (totalSeleccionados > limitePermitido) {
-        casilla.checked = false;
-      }
+      contenidoHTML += `</div>`;
+      menuItemProducto.innerHTML = contenidoHTML;
+      contendorPrincipal.appendChild(menuItemProducto);
+    });
+  }
 
-      verificarRequeridos();
+  function validarLimiteCheckbox(casilla) {
+    // Obtiene el ID del grupo desde el atributo data-group del checkbox
+    // Ejemplo: si data-group="2", grupoId será "2"
+    const grupoId = casilla.dataset.group;
+
+    // Convierte el límite de string a número
+    // Ejemplo: si data-limite="4", limitePermitido será 4
+    const limitePermitido = parseInt(casilla.dataset.limite);
+
+    // Encuentra el div contenedor del grupo usando el ID
+    // Ejemplo: busca <div id="menuItem-2">
+    const contenedorGrupo = document.getElementById(`menuItem-${grupoId}`);
+
+    // Obtiene todos los checkboxes dentro de ese grupo
+    // Ejemplo: si hay 6 gaseosas, obtiene esos 6 checkboxes
+    const casillasGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
+
+    // Inicializa contador
+    let totalSeleccionados = 0;
+
+    // Cuenta cuántos checkboxes están marcados en ese grupo
+    // Ejemplo: si marcaste Coca Cola, Fanta y Sprite, totalSeleccionados será 3
+    casillasGrupo.forEach((casilla) => {
+      if (casilla.checked) totalSeleccionados++;
+    });
+
+    // Si excede el límite, desmarca el último checkbox
+    // Ejemplo: si el límite es 4 y intentas marcar un quinto, lo impide
+    if (totalSeleccionados > limitePermitido) {
+      casilla.checked = false;
     }
 
-    function validarLimiteRadio(radioBoton) {
-      // Obtiene el ID del grupo desde el atributo data-group del radio
-      // Ejemplo: si data-group="1", grupoId será "1" (grupo de tamaños de pizza)
-      const grupoId = radioBoton.dataset.group;
+    verificarRequeridos();
+  }
 
-      // Convierte el límite de string a número
-      // Ejemplo: si data-limite="1", limitePermitido será 1 (solo una opción de tamaño)
-      const limitePermitido = parseInt(radioBoton.dataset.limite);
+  function validarLimiteRadio(radioBoton) {
+    // Obtiene el ID del grupo desde el atributo data-group del radio
+    // Ejemplo: si data-group="1", grupoId será "1" (grupo de tamaños de pizza)
+    const grupoId = radioBoton.dataset.group;
 
-      // Encuentra el contenedor del grupo usando el ID
-      // Ejemplo: busca <div id="menuItem-1"> (contenedor de tamaños)
-      const contenedorGrupo = document.getElementById(`menuItem-${grupoId}`);
+    // Convierte el límite de string a número
+    // Ejemplo: si data-limite="1", limitePermitido será 1 (solo una opción de tamaño)
+    const limitePermitido = parseInt(radioBoton.dataset.limite);
 
-      // Obtiene todos los radio buttons MARCADOS dentro de ese grupo
-      // Ejemplo: obtiene todos los radio buttons de tamaño que estén checked
-      const radiosBotones = contenedorGrupo.querySelectorAll('input[type="radio"]:checked');
+    // Encuentra el contenedor del grupo usando el ID
+    // Ejemplo: busca <div id="menuItem-1"> (contenedor de tamaños)
+    const contenedorGrupo = document.getElementById(`menuItem-${grupoId}`);
 
-      // Si hay más seleccionados que el límite permitido, desmarca el último
-      // Ejemplo: si intentas seleccionar un segundo tamaño cuando el límite es 1
-      if (radiosBotones.length > limitePermitido) {
-        radioBoton.checked = false;
-      }
+    // Obtiene todos los radio buttons MARCADOS dentro de ese grupo
+    // Ejemplo: obtiene todos los radio buttons de tamaño que estén checked
+    const radiosBotones = contenedorGrupo.querySelectorAll('input[type="radio"]:checked');
+
+    // Si hay más seleccionados que el límite permitido, desmarca el último
+    // Ejemplo: si intentas seleccionar un segundo tamaño cuando el límite es 1
+    if (radiosBotones.length > limitePermitido) {
+      radioBoton.checked = false;
     }
+  }
 
-    function obtenerSumaGrupo(grupo) {
-      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-      const displays = contenedorGrupo.querySelectorAll('.cantidad-display2');
-      let suma = 0;
-      displays.forEach((display) => {
-        suma += parseInt(display.textContent || '0');
-      });
-      return suma;
-    }
+  function obtenerSumaGrupo(grupo) {
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const displays = contenedorGrupo.querySelectorAll('.cantidad-display2');
+    let suma = 0;
+    displays.forEach((display) => {
+      suma += parseInt(display.textContent || '0');
+    });
+    return suma;
+  }
 
-    function incrementCantidad(id, grupo) {
-      const display = document.getElementById(`cantidad-${id}`);
-      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-      const limite = parseInt(contenedorGrupo.dataset.limite);
-      const sumaActual = obtenerSumaGrupo(grupo);
-
-      if (sumaActual < limite) {
-        const valorActual = parseInt(display.textContent || '0');
-        display.textContent = valorActual + 1;
-        // Actualizar estado de todos los botones después de incrementar
-        actualizarBotonesNumberCount(grupo);
-      }
-
-      verificarRequeridos();
-    }
-
-    function decrementCantidad(id, grupo) {
-      const display = document.getElementById(`cantidad-${id}`);
+  function incrementCantidad(id, grupo) {
+    const display = document.getElementById(`cantidad-${id}`);
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const limite = parseInt(contenedorGrupo.dataset.limite);
+    const sumaActual = obtenerSumaGrupo(grupo);
+  
+    if (sumaActual < limite) {
       const valorActual = parseInt(display.textContent || '0');
+      display.textContent = valorActual + 1;
+      // Actualizar estado de todos los botones después de incrementar
+      actualizarBotonesNumberCount(grupo);
+    }
 
-      if (valorActual > 0) {
-        display.textContent = valorActual - 1;
-        // Actualizar estado de todos los botones después de decrementar
-        actualizarBotonesNumberCount(grupo);
+    verificarRequeridos();
+  }
+  
+  function decrementCantidad(id, grupo) {
+    const display = document.getElementById(`cantidad-${id}`);
+    const valorActual = parseInt(display.textContent || '0');
+    
+    if (valorActual > 0) {
+      display.textContent = valorActual - 1;
+      // Actualizar estado de todos los botones después de decrementar
+      actualizarBotonesNumberCount(grupo);
+    }
+    verificarRequeridos();
+  }
+
+  function actualizarBotonesNumberCount(grupo) {
+    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
+    const limite = parseInt(contenedorGrupo.dataset.limite);
+    const sumaTotal = obtenerSumaGrupo(grupo);
+    
+    // Obtener todos los pares de botones y sus displays
+    const elementosGrupo = contenedorGrupo.querySelectorAll('.opcion-principal-detalle-oferta2');
+    
+    elementosGrupo.forEach((elemento, index) => {
+      const botonIncremento = elemento.querySelector('button:last-child');
+      const botonDecremento = elemento.querySelector('button:first-child');
+      const display = elemento.querySelector('.cantidad-display2');
+      const cantidad = parseInt(display.textContent || '0');
+      
+      // Manejar botón de incremento
+      if (sumaTotal >= limite) {
+        // Si llegamos al límite, deshabilitamos incremento
+        botonIncremento.style.fill = 'currentColor';
+        botonIncremento.disabled = true;
+      } else {
+        // Si no llegamos al límite, habilitamos incremento
+        botonIncremento.style.fill = '';
+        botonIncremento.disabled = false;
       }
-      verificarRequeridos();
-    }
+      
+      // Manejar botón de decremento
+      if (cantidad === 0) {
+        // Si el valor es 0, deshabilitamos decremento
+        botonDecremento.style.fill = 'currentColor';
+        botonDecremento.disabled = true;
+      } else {
+        // Si el valor es mayor a 0, habilitamos decremento
+        botonDecremento.style.fill = '';
+        botonDecremento.disabled = false;
+      }
+    });
+  }
 
-    function actualizarBotonesNumberCount(grupo) {
-      const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-      const limite = parseInt(contenedorGrupo.dataset.limite);
-      const sumaTotal = obtenerSumaGrupo(grupo);
-
-      // Obtener todos los pares de botones y sus displays
-      const elementosGrupo = contenedorGrupo.querySelectorAll('.opcion-principal-detalle-oferta2');
-
-      elementosGrupo.forEach((elemento, index) => {
-        const botonIncremento = elemento.querySelector('button:last-child');
-        const botonDecremento = elemento.querySelector('button:first-child');
-        const display = elemento.querySelector('.cantidad-display2');
-        const cantidad = parseInt(display.textContent || '0');
-
-        // Manejar botón de incremento
-        if (sumaTotal >= limite) {
-          // Si llegamos al límite, deshabilitamos incremento
-          botonIncremento.style.fill = 'currentColor';
-          botonIncremento.disabled = true;
-        } else {
-          // Si no llegamos al límite, habilitamos incremento
-          botonIncremento.style.fill = '';
-          botonIncremento.disabled = false;
+  {% comment %} MARCAR OPCIONES PREDEFINIDAS CUANDO ES REQUERIDO {% endcomment %}
+  function marcarOpcionesRequeridas() {
+    getMenuItems().forEach((item, index) => {
+      if (item.solicitud === 'Requerido') {
+        const contenedorGrupo = document.getElementById(`menuItem-${index}`);
+        
+        // Caso 1: Radio buttons
+        if (item.typeSelect === 'radio') {
+          const primerRadio = contenedorGrupo.querySelector('input[type="radio"]');
+          if (primerRadio) {
+            primerRadio.checked = true;
+          }
         }
-
-        // Manejar botón de decremento
-        if (cantidad === 0) {
-          // Si el valor es 0, deshabilitamos decremento
-          botonDecremento.style.fill = 'currentColor';
-          botonDecremento.disabled = true;
-        } else {
-          // Si el valor es mayor a 0, habilitamos decremento
-          botonDecremento.style.fill = '';
-          botonDecremento.disabled = false;
-        }
-      });
-    }
-
-    {% comment %} MARCAR OPCIONES PREDEFINIDAS CUANDO ES REQUERIDO {% endcomment %}
-    function marcarOpcionesRequeridas() {
-      getMenuItems().forEach((item, index) => {
-        if (item.solicitud === 'Requerido') {
-          const contenedorGrupo = document.getElementById(`menuItem-${index}`);
-
-          // Caso 1: Radio buttons
-          if (item.typeSelect === 'radio') {
-            const primerRadio = contenedorGrupo.querySelector('input[type="radio"]');
-            if (primerRadio) {
-              primerRadio.checked = true;
+        
+        // Caso 2: Checkbox
+        else if (item.typeSelect === 'checkbox') {
+          const checkboxes = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
+          const limite = parseInt(item.limite);
+          
+          // Marcar los primeros checkboxes según el límite
+          checkboxes.forEach((checkbox, i) => {
+            if (i < limite) {
+              checkbox.checked = true;
             }
-          }
-
-          // Caso 2: Checkbox
-          else if (item.typeSelect === 'checkbox') {
-            const checkboxes = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
-            const limite = parseInt(item.limite);
-
-            // Marcar los primeros checkboxes según el límite
-            checkboxes.forEach((checkbox, i) => {
-              if (i < limite) {
-                checkbox.checked = true;
-              }
-            });
-          }
-
-          // Caso 3: NumberCount
-          else if (item.typeSelect === 'numberCount') {
-            const cantidadElementos = item.mainItems.length;
-            const limite = parseInt(item.limite);
-            const valorPorElemento = Math.floor(limite / cantidadElementos);
-            const residuo = limite % cantidadElementos;
-
-            item.mainItems.forEach((_, mainIndex) => {
-              const display = document.getElementById(`cantidad-${index}-${mainIndex}`);
-              if (display) {
-                // Distribuir el límite entre todos los elementos
-                let valor = valorPorElemento;
-                if (mainIndex < residuo) {
-                  valor += 1; // Distribuir el residuo entre los primeros elementos
-                }
-                display.textContent = valor;
-              }
-            });
-
-            // Actualizar estado de los botones después de establecer valores
-            actualizarBotonesNumberCount(index);
-          }
+          });
         }
-      });
-    }
-
-    function verificarRequeridos() {
-      getMenuItems().forEach((item, index) => {
-        if (item.solicitud === 'Requerido') {
-          const contenedorGrupo = document.getElementById(`menuItem-${index}`);
-          const tituloBase1 = contenedorGrupo.parentElement.querySelector('.titulo-base1');
-          const tituloBase2 = contenedorGrupo.parentElement.querySelector('.titulo-base2');
-          const tituloSeleccion = contenedorGrupo.parentElement.querySelector('.titulo-detalle-seleccion');
-
-          let faltaSeleccion = false;
-
-          if (item.typeSelect === 'checkbox') {
-            const checkboxesSeleccionados = contenedorGrupo.querySelectorAll('input[type="checkbox"]:checked').length;
-            faltaSeleccion = checkboxesSeleccionados < item.limite;
-
-            // Marcar elementos en rojo si falta selección
-            const checkboxes = contenedorGrupo.querySelectorAll('.producto-nombre3');
-            checkboxes.forEach(elem => {
-              if (faltaSeleccion) {
-                elem.style.setProperty('color', '#FF6565', 'important');
-              } else {
-                elem.style.removeProperty('color');
+        
+        // Caso 3: NumberCount
+        else if (item.typeSelect === 'numberCount') {
+          const cantidadElementos = item.mainItems.length;
+          const limite = parseInt(item.limite);
+          const valorPorElemento = Math.floor(limite / cantidadElementos);
+          const residuo = limite % cantidadElementos;
+          
+          item.mainItems.forEach((_, mainIndex) => {
+            const display = document.getElementById(`cantidad-${index}-${mainIndex}`);
+            if (display) {
+              // Distribuir el límite entre todos los elementos
+              let valor = valorPorElemento;
+              if (mainIndex < residuo) {
+                valor += 1; // Distribuir el residuo entre los primeros elementos
               }
-            });
-          }
-          else if (item.typeSelect === 'numberCount') {
-            const sumaTotal = obtenerSumaGrupo(index);
-            faltaSeleccion = sumaTotal < item.limite;
-
-            // Marcar elementos en rojo si falta selección
-            const elementos = contenedorGrupo.querySelectorAll('.producto-nombre2');
-            elementos.forEach(elem => {
-              if (faltaSeleccion) {
-                elem.style.setProperty('color', '#FF6565', 'important');
-              } else {
-                elem.style.removeProperty('color');
-              }
-            });
-          }
-
-          // Actualizar colores de los títulos
-          if (faltaSeleccion) {
-            tituloBase1.style.setProperty('color', '#FF6565', 'important');
-            tituloBase2.style.setProperty('color', '#FF6565', 'important');
-            tituloSeleccion.style.setProperty('color', '#FF6565', 'important');
-          } else {
-            tituloBase1.style.removeProperty('color');
-            tituloBase2.style.removeProperty('color');
-            tituloSeleccion.style.removeProperty('color');
-          }
+              display.textContent = valor;
+            }
+          });
+          
+          // Actualizar estado de los botones después de establecer valores
+          actualizarBotonesNumberCount(index);
         }
-      });
-    }
+      }
+    });
+  }
 
-    testPrueba()
-      .then(resultado => {
-        console.log('Todo salio bien');
-      })
-      .catch(error => {
-          console.error('Error:', error);
-      });
-  </script>
-{% endcomment %}
+  function verificarRequeridos() {
+    getMenuItems().forEach((item, index) => {
+      if (item.solicitud === 'Requerido') {
+        const contenedorGrupo = document.getElementById(`menuItem-${index}`);
+        const tituloBase1 = contenedorGrupo.parentElement.querySelector('.titulo-base1');
+        const tituloBase2 = contenedorGrupo.parentElement.querySelector('.titulo-base2');
+        const tituloSeleccion = contenedorGrupo.parentElement.querySelector('.titulo-detalle-seleccion');
+        
+        let faltaSeleccion = false;
+        
+        if (item.typeSelect === 'checkbox') {
+          const checkboxesSeleccionados = contenedorGrupo.querySelectorAll('input[type="checkbox"]:checked').length;
+          faltaSeleccion = checkboxesSeleccionados < item.limite;
+          
+          // Marcar elementos en rojo si falta selección
+          const checkboxes = contenedorGrupo.querySelectorAll('.producto-nombre3');
+          checkboxes.forEach(elem => {
+            if (faltaSeleccion) {
+              elem.style.setProperty('color', '#FF6565', 'important');
+            } else {
+              elem.style.removeProperty('color');
+            }
+          });
+        }
+        else if (item.typeSelect === 'numberCount') {
+          const sumaTotal = obtenerSumaGrupo(index);
+          faltaSeleccion = sumaTotal < item.limite;
+          
+          // Marcar elementos en rojo si falta selección
+          const elementos = contenedorGrupo.querySelectorAll('.producto-nombre2');
+          elementos.forEach(elem => {
+            if (faltaSeleccion) {
+              elem.style.setProperty('color', '#FF6565', 'important');
+            } else {
+              elem.style.removeProperty('color');
+            }
+          });
+        }
+        
+        // Actualizar colores de los títulos
+        if (faltaSeleccion) {
+          tituloBase1.style.setProperty('color', '#FF6565', 'important');
+          tituloBase2.style.setProperty('color', '#FF6565', 'important');
+          tituloSeleccion.style.setProperty('color', '#FF6565', 'important');
+        } else {
+          tituloBase1.style.removeProperty('color');
+          tituloBase2.style.removeProperty('color');
+          tituloSeleccion.style.removeProperty('color');
+        }
+      }
+    });
+  }
+
+  testPrueba()
+    .then(resultado => {
+      console.log('Todo salio bien');
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+</script>
