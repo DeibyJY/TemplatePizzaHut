@@ -1721,7 +1721,7 @@
             }
             
             // Se va poner el id de distincio de la coleccion
-            subItemProducto += `sub-item-${indexColeccion}">`;
+            subItemProducto += ` sub-item-${indexColeccion}">`;
 
             // Aquí continúa el código para procesar colecciones nivel 4
             console.log(`Procesando colección nivel 4: ${coleccion}`);
@@ -1747,7 +1747,7 @@
 
             const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
             
-            atributosSubItemProducto = `
+            atributosSubItemProducto += `
             <div class="titulo-detalle-oferta-producto">
               <div id="titulo-detalle__comp1">
                 <h2 class="titulo-base1">ELIGE ${atributo.toUpperCase()}</h2>
@@ -1855,7 +1855,7 @@
             });
 
             // Aquí se debe cerrar el subItemProducto div
-            subItemProducto += `</div>`;
+            atributosSubItemProducto += `</div>`;
             // Aquí se debe añadir el subItemProducto al contenidoSubItemsHTML
             subItemProducto += `${atributosSubItemProducto} </div>`; 
           }); 
