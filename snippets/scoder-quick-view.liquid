@@ -1545,7 +1545,6 @@
     if (respuesta?.data) {
       // Procesar todos los productos de una vez
       const productosProcessados = Object.values(respuesta.data)
-      // Aplanar y filtrar productos válidos
       .flatMap(coleccion => coleccion?.products?.edges || [])
       .filter(edge => edge?.node)
       .map(edge => {
@@ -1562,13 +1561,19 @@
           return null;
         }
 
-        // Crear Set de títulos una sola vez
-        const titulosProducto = new Set(todasColecciones.map(col => col.title));
+        // Crear Set de títulos de las colecciones 
+        const titulosColeccionesDelProducto = new Set(todasColecciones.map(col => col.title));
 
-        // Validar nivel 2 (requerido)
-        {% comment %} if (!verificarColecciones(titulosProducto, titulosNivel2)) {
+        // Verificar si tiene nivel 2 o nivel 4
+        const tieneNivel2 = verificarColecciones(titulosColeccionesDelProducto, titulosNivel2);
+        const tieneNivel4 = Array.from(titulosColeccionesDelProducto).some(titulo => 
+          Array.from(titulosNivel4).includes(titulo)
+        );
+
+        // Si no tiene ni nivel 2 ni nivel 4, excluir el producto
+        if (!tieneNivel2 && !tieneNivel4) {
           return null;
-        } {% endcomment %}
+        }
 
         // Crear el objeto producto
         const producto = {
@@ -1578,33 +1583,26 @@
 
         return {
           producto,
-          titulosProducto
+          titulosColeccionesDelProducto,
+          tieneNivel2,
+          tieneNivel4
         };
       })
-      .filter(Boolean); 
-      // Eliminar productos que no cumplen los requisitos básicos
+      .filter(Boolean);
 
       // Procesar y clasificar productos
-      const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
-        // Verificar nivel 2 y 3
-        if (verificarColecciones(titulosProducto, titulosNivel3)) {
+      const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosColeccionesDelProducto, tieneNivel2, tieneNivel4 }) => {
+        // Si tiene nivel 2, verificar si también tiene nivel 3
+        if (tieneNivel2 && verificarColecciones(titulosColeccionesDelProducto, titulosNivel3)) {
           if (!idsNivel2y3.has(producto.id)) {
             acc.nivel2y3.push(producto);
             idsNivel2y3.add(producto.id);
           }
         }
-        // Verificar si tiene alguna colección de nivel 4
-        else {
-          // Comprobamos la intersección entre los títulos del producto y los títulos de nivel 4
-          const tieneColeccionNivel4 = Array.from(titulosProducto).some(titulo => 
-            Array.from(titulosNivel4).includes(titulo)
-          );
-
-          if (tieneColeccionNivel4 && !idsNivel4.has(producto.id)) {
-            console.log('Producto añadido a nivel4:', producto.title);
-            acc.nivel4.push(producto);
-            idsNivel4.add(producto.id);
-          }
+        // Si tiene nivel 4 (sin importar si tiene nivel 2 o no)
+        if (tieneNivel4 && !idsNivel4.has(producto.id)) {
+          acc.nivel4.push(producto);
+          idsNivel4.add(producto.id);
         }
         return acc;
       }, { nivel2y3: [], nivel4: [] });
