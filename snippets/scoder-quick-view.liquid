@@ -1419,11 +1419,11 @@
 
   // Funcion para la creacion de un producto 
   function createProductObject(node) {
-    console.log('Node:', node);
     return {
         id: node.id,
         title: node.title,
         description: node.description,
+        tags : node.tags
         price: {
             amount: node.priceRange.minVariantPrice.amount / 100,
             currencyCode: node.priceRange.minVariantPrice.currencyCode
@@ -1570,16 +1570,14 @@
         );
     }
 
-
-
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
     coleccionNivel3.forEach((coleccion, indexCN3) => {
 
       const variables = extraerVariablesDescripcion(coleccion.description);
         
-        const {variante,limite,solicitud,tipoSelect} = variables;
+      const {variante,limite,solicitud,tipoSelect} = variables;
         
-        const textoSeleccion = 
+      const textoSeleccion = 
           solicitud == 'Opcional'
           ? limite == 1
             ? 'Selecciona hasta un artículo'
@@ -1588,12 +1586,9 @@
           ? 'Selecciona un artículo'
           : `Selecciona exactamente ${limite} artículos`;
 
-        const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-        {% comment %} const menuItemProducto = document.createElement('div'); {% endcomment %}
-        {% comment %} menuItemProducto.className = 'menu-item-producto'; {% endcomment %}
-        let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
+      const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
+      let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
 
-        // contenidoMainItemsHTML
         let contenidooHTML = `
         <div class="titulo-detalle-oferta-producto">
           <div id="titulo-detalle__comp1">
@@ -1605,8 +1600,6 @@
         <div class="item-menuItem" id="menuItem-${indexCN3}" data-limite="${limite}">
         `;
 
-
-      // contenidoSubItemsHTML esto mismo ira depsues de crear los menuItemProducto
       let subItemProducto =  ``;
 
       // Filtrar productos específicos que son de nivel 3 
@@ -1698,6 +1691,7 @@
           `;
         }
 
+        console.log(productoMainItem);
         // Aqui falta un id mas en este caso seria el subItem de la coleccion seleccionada
         {% comment %} let subItemProducto = ``; {% endcomment %}
 
