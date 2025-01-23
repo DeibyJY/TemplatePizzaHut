@@ -1593,21 +1593,26 @@
             idsNivel2y3.add(producto.id);
           }
         }
-        // Solo verificar si pertenece a nivel 4 sin importar nivel 2
-        else if (titulosProducto.some(titulo => titulosNivel4.has(titulo))) {
-          if (!idsNivel4.has(producto.id)) {
-            acc.nivel4.push(producto); // Cambiado de nivel2y4 a nivel4
+        // Verificar si tiene alguna colección de nivel 4
+        else {
+          // Comprobamos la intersección entre los títulos del producto y los títulos de nivel 4
+          const tieneColeccionNivel4 = Array.from(titulosProducto).some(titulo => 
+            Array.from(titulosNivel4).includes(titulo)
+          );
+
+          if (tieneColeccionNivel4 && !idsNivel4.has(producto.id)) {
+            console.log('Producto añadido a nivel4:', producto.title);
+            acc.nivel4.push(producto);
             idsNivel4.add(producto.id);
           }
         }
         return acc;
-      }, { nivel2y3: [], nivel4: [] }); 
+      }, { nivel2y3: [], nivel4: [] });
 
       productosNivel2y3.push(
         ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
       );
 
-      // Solo productos de nivel 4 sin restricción de nivel 2
       productosNivel4.push(
         ...productosPorNivel.nivel4.sort((a, b) => a.price.amount - b.price.amount)
       );
