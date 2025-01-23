@@ -1669,9 +1669,18 @@
       });
 
       productosEspecificos.forEach((productoMainItem, indexMainItem) => {
-        // Necesito obtener el ID del producto y este es unico para este caso y se encuentra en los Tag's de este mismo producto
-        const idProducto = productoMainItem.tags.find(tag => tag.includes('id:')).split(':')[1].trim();
-        const precioProducto = parseFloat(productoMainItem.price.amount) > 0 ? `+Bs${productoMainItem.price.amount}` : '';
+        // Como siempre será un solo elemento, podemos acceder directamente al primer tag
+        const idProducto = productoMainItem.tags[0].match(/ID\s*:\s*(\d+)/i)?.[1];
+
+        if (!idProducto) {
+          console.warn(`No se encontró un ID válido para el producto: ${productoMainItem.title}`);
+          return;
+        }
+
+        const precioProducto = parseFloat(productoMainItem.price?.amount || 0) > 0 
+          ? `+Bs${productoMainItem.price.amount}` 
+          : '';
+
         console.log('ID del producto:', idProducto);
 
         if(tipoSelect === 'radio'){
