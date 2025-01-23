@@ -1691,7 +1691,7 @@
 
         if(tipoSelect === 'radio'){
           contenidooHTML += `
-          <div class="opcion-principal-detalle-oferta3" menu-item="${indexCN3}" data-limite="${limite}" id-producto="${idProducto}" precio-producto="${precioProducto}">
+          <div class="opcion-principal-detalle-oferta3" data-group="${indexCN3}" data-limite="${limite}" data-producto-id="${idProducto}" data-precio="${precioProducto}">
             <div class="producto-info3">
               <span class="producto-nombre3">${productoMainItem.title}</span>
               ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
@@ -1705,10 +1705,8 @@
                 class="radio-input"
                 data-group="${indexCN3}"
                 data-limite="${limite}"
-                menu-item="${indexCN3}"
-                data-limite="${limite}"
-                id-producto="${idProducto}"
-                precio-producto="${precioProducto}"
+                data-producto-id="${idProducto}"
+                data-precio="${precioProducto}"
                 onchange="validarLimiteRadio(this)"
               >
             </div>
@@ -1723,34 +1721,20 @@
                 <span class="producto-nombre2">${productoMainItem.title}</span>
                 ${productoMainItem.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoMainItem.price.amount}</span>` : ''}
               </div>
-              <div class="controles-cantidad2">
-                <button 
-                  type="button" 
-                  class="btn-cantidad2" 
-                  onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
-                  data-group="${indexCN3}"
-                  data-limite="${limite}"
-                  menu-item="${indexCN3}"
-                  data-limite="${limite}"
-                  id-producto="${idProducto}"
-                  precio-producto="${precioProducto}"
-                >
+
+              <div class="controles-cantidad2" 
+                  data-group="${indexProducto}" 
+                  data-min="${Min}"
+                  data-max="${Max}"
+                  data-variant-id="${varianteActual.id}"
+                  data-precio="${precioVariante}">
+                <button type="button" class="btn-cantidad2" onclick="decrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
                 </button>
-                <p class="cantidad-display2" id="cantidad-${indexCN3}-${indexMainItem}" data-group="${indexCN3}">0</p>
-                <button 
-                  type="button" 
-                  class="btn-cantidad2" 
-                  onclick="incrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
-                  data-group="${indexCN3}"
-                  data-limite="${limite}"
-                   menu-item="${indexCN3}"
-                  data-limite="${limite}"
-                  id-producto="${idProducto}"
-                  precio-producto="${precioProducto}"
-                >
+                <p class="cantidad-display2" id="cantidad-${indexProducto}-${indexItem}">0</p>
+                <button type="button" class="btn-cantidad2" onclick="incrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
@@ -1810,7 +1794,7 @@
 
           const colorSolicitud = Min === 0 ? 'style="color: #B5B6BD !important;"' : '';
           const tipoSolicitud = Min === 0 ? 'OPCIONAL' : 'REQUERIDO';
-          subItemProducto += `<div class="sub-item-producto" menu-item="${idProducto}" sub-item="${indexProducto}" id-producto="${idProducto}">`;
+          subItemProducto += `<div class="sub-item-producto" data-parent-group="${indexCN3}" data-sub-item="${indexProducto}" data-producto-id="${idProducto}">`;
 
           let contenidoHTML = `
             <div class="titulo-detalle-oferta-producto">
@@ -1883,30 +1867,18 @@
                       <span class="producto-nombre2">${productoTrabajo.title}</span>
                       ${precioVariante > 0 ? `<span class="producto-precio2">+Bs${precioVariante}</span>` : ''}
                     </div>
-                    <div class="controles-cantidad2">
-                      <button 
-                        type="button" 
-                        class="btn-cantidad2" 
-                        onclick="decrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
-                        data-group="${indexProducto}"
-                        data-limite="${Max}"
-                        data-variant-id="${varianteActual.id}"
-                        data-variant-price="${precioVariante}"
-                      >
-                        <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                    <div class="controles-cantidad2" 
+                        data-group="${indexCN3}" 
+                        data-limite="${limite}" 
+                        data-producto-id="${idProducto}"
+                        data-precio="${precioProducto}">
+                      <button type="button" class="btn-cantidad2" onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')">
+                         <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                           <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                         </svg>
                       </button>
-                      <p class="cantidad-display2" id="cantidad-${indexProducto}-${indexItem}" data-group="${indexProducto}" data-variant-id="${varianteActual.id}">0</p>
-                      <button 
-                        type="button" 
-                        class="btn-cantidad2" 
-                        onclick="incrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
-                        data-group="${indexProducto}"
-                        data-limite="${Max}"
-                        data-variant-id="${varianteActual.id}"
-                        data-variant-price="${precioVariante}"
-                      >
+                      <p class="cantidad-display2" id="cantidad-${indexCN3}-${indexMainItem}">0</p>
+                      <button type="button" class="btn-cantidad2" onclick="incrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')">
                         <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                           <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                         </svg>
