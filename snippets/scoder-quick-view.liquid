@@ -1436,31 +1436,34 @@
     return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
   }
 
-  function parseProductDescription(descripcion){
-    try{
+  function parseProductDescription(description) {
+    try {
       // Si la descripción está vacía o no es un string, retornar un array vacío
       if (!description || typeof description !== 'string') {
         return [];
       }
-
+  
       // Intentar parsear el string JSON
       const parsed = JSON.parse(description);
-
+      
       // Validar que el resultado sea un array
       if (!Array.isArray(parsed)) {
         return [];
       }
-
-      return {
-        Nivel: Number(item.Nivel) || 0,
-        Titulo: String(item.Titulo || ''),
-        Min: Number(item.Min) || 0,
-        Max: Number(item.Max) || 0,
-        TipoSelect: String(item.TipoSelect || ''),
-        items: Array.isArray(item.items) ? item.items : 
-               // Si items es un número largo, convertirlo a array de números
-               String(item.items).split(',').map(num => Number(num.trim())).filter(num => !isNaN(num))
-      };
+  
+      // Validar y limpiar cada objeto en el array
+      return parsed.map(item => {
+        // Asegurar que todos los campos requeridos existan
+        return {
+          Nivel: Number(item.Nivel) || 0,
+          Titulo: String(item.Titulo || ''),
+          Min: Number(item.Min) || 0,
+          Max: Number(item.Max) || 0,
+          TipoSelect: String(item.TipoSelect || ''),
+          items: Array.isArray(item.items) ? item.items : 
+                 // Si items es un número largo, convertirlo a array de números
+                 String(item.items).split(',').map(num => Number(num.trim())).filter(num => !isNaN(num))
+        };
       }).filter(item => 
         // Filtrar objetos inválidos
         item.Nivel > 0 && 
@@ -1474,6 +1477,7 @@
       return [];
     }
   }
+  
 
   /**
   * Esta función procesa y organiza datos de una tienda Shopify:
