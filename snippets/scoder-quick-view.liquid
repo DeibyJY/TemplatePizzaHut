@@ -1763,7 +1763,8 @@
               ? 'Selecciona un artículo'
               : `Selecciona exactamente ${Max} artículos`;
 
-          const colorSolicitud = Min === 0 ? 'style="color: #B5B6BD !important;"' : '';          
+          const colorSolicitud = Min === 0 ? 'style="color: #B5B6BD !important;"' : '';
+          const tipoSolicitud = Min === 0 ? 'OPCIONAL' : 'REQUERIDO';
           subItemProducto += `<div class="sub-item-producto" id="sub-item-${indexProducto}">`;
 
           let contenidoHTML = `
@@ -1772,7 +1773,7 @@
                 <h2 class="titulo-base1">ELIGE ${Titulo.toUpperCase()}</h2>
                 <span class="titulo-base2">${textoSeleccion}</span>
               </div>
-              <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
+              <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${tipoSolicitud}</span>
             </div>
             <div class="item-menuItem" id="menuItem-${indexProducto}" data-min="${Min}" data-max="${Max}">
             `;
