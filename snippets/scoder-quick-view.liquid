@@ -1978,710 +1978,276 @@
     };
   }
 
-  function getMenuItems() {
-    const menuItems = [
-      {
-        id: '1',
-        titulo: 'Elige tamaño',
-        solicitud: 'Requerido',
-        limite: 1,
-        typeSelect: 'radio',
-        mainItems: [
-          {
-            id: '1a',
-            titulo: 'Personal para 1 persona',
-            precio: 0,
-            sideItems: [],
-          },
-          {
-            id: '1b',
-            titulo: 'Super personal para 2 a 3 personas',
-            precio: 18,
-            sideItems: [
-              {
-                id: '1a1',
-                titulo: 'Elige Extra',
-                solicitud: 'Opcional',
-                limite: 9,
-                typeSelect: 'numberCount',
-                opciones: [
-                  {
-                    id: '1a1a',
-                    titulo: 'Extra Queso',
-                    precio: 12,
-                  },
-                  {
-                    id: '1a1b',
-                    titulo: 'Extra Pepeeroni',
-                    precio: 5,
-                  },
-                  {
-                    id: '1a1c',
-                    titulo: 'Extra Choclo',
-                    precio: 5,
-                  },
-                  {
-                    id: '1a1d',
-                    titulo: 'Extra Tocino',
-                    precio: 5,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: '1c',
-            titulo: 'Mediana para 3 a 4 personas',
-            precio: 61,
-            sideItems: [
-              {
-                id: '1c1',
-                titulo: 'Elige Masa - Borde',
-                solicitud: 'Requerido',
-                limite: 1,
-                typeSelect: 'radio',
-                opciones: [
-                  {
-                    id: '1c1a',
-                    titulo: 'Pan Pizza',
-                    precio: 0,
-                  },
-                  {
-                    id: '1c1b',
-                    titulo: 'Crispy (delgada y crujiente)',
-                    precio: 0,
-                  },
-                  {
-                    id: '1c1c',
-                    titulo: 'Pan pizza + borde catupiry',
-                    precio: 15,
-                  },
-                  {
-                    id: '1c1d',
-                    titulo: 'Pan pizza + border hot chesse',
-                    precio: 12,
-                  },
-                ],
-              },
-              {
-                id: '1c2',
-                titulo: 'Elige Extra',
-                solicitud: 'Opcional',
-                limite: 9,
-                typeSelect: 'numberCount',
-                opciones: [
-                  {
-                    id: '1c2a',
-                    titulo: 'Extra Queso',
-                    precio: 12,
-                  },
-                  {
-                    id: '1c2b',
-                    titulo: 'Extra Pepeeroni',
-                    precio: 5,
-                  },
-                  {
-                    id: '1c2c',
-                    titulo: 'Extra Choclo',
-                    precio: 5,
-                  },
-                  {
-                    id: '1c2d',
-                    titulo: 'Extra Tocino',
-                    precio: 5,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: '1d',
-            titulo: 'Familiar para 4 a 5 personas',
-            precio: 87,
-            sideItems: [
-              {
-                id: '1d1',
-                titulo: 'Elige Masa - Borde',
-                solicitud: 'Requerido',
-                limite: 1,
-                typeSelect: 'radio',
-                opciones: [
-                  {
-                    id: '1d1a',
-                    titulo: 'Pan Pizza',
-                    precio: 0,
-                  },
-                  {
-                    id: '1d1b',
-                    titulo: 'Crispy (delgada y crujiente)',
-                    precio: 0,
-                  },
-                  {
-                    id: '1d1c',
-                    titulo: 'Pan pizza + borde catupiry',
-                    precio: 15,
-                  },
-                  {
-                    id: '1d1d',
-                    titulo: 'Pan pizza + border hot chesse',
-                    precio: 12,
-                  },
-                ],
-              },
-              {
-                id: '1d2',
-                titulo: 'Postres',
-                solicitud: 'Opcional',
-                limite: 9,
-                typeSelect: 'checkbox',
-                opciones: [
-                  {
-                    id: '1d2a',
-                    titulo: '3 Leches',
-                    precio: 17,
-                  },
-                  {
-                    id: '1d2b',
-                    titulo: 'Lemon Hut',
-                    precio: 22,
-                  },
-                  {
-                    id: '1d2c',
-                    titulo: 'Choco Hut Doblon',
-                    precio: 22,
-                  },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        id: '2',
-        titulo: 'GASEOSAS',
-        solicitud: 'Opcional',
-        limite: 4,
-        typeSelect: 'checkbox',
-        mainItems: [
-          {
-            id: '2a',
-            titulo: 'Coca Cola x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '2b',
-            titulo: 'Coca Cola sin azucar x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '2c',
-            titulo: 'Fanta naranja x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '2d',
-            titulo: 'Fanta guarana x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '2e',
-            titulo: 'Fanta papaya x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '2f',
-            titulo: 'Sprite lima limon x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-        ],
-      },
-      {
-        id: '3',
-        titulo: 'Postres',
-        solicitud: 'Opcional',
-        limite: 2,
-        typeSelect: 'checkbox',
-        mainItems: [
-          {
-            id: '3a',
-            titulo: 'Mousse de Maracuya',
-            precio: 17,
-            sideItems: [],
-          },
-          {
-            id: '3b',
-            titulo: '10 Unidades Cinammon Sticks',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '3c',
-            titulo: 'Brownie Chocolate Personal',
-            precio: 17,
-            sideItems: [],
-          },
-        ],
-      },
-      {
-        id: '5',
-        titulo: 'GASEOSAS',
-        solicitud: 'Requerido',
-        limite: 4,
-        typeSelect: 'checkbox',
-        mainItems: [
-          {
-            id: '5a',
-            titulo: 'Coca Cola x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '5b',
-            titulo: 'Coca Cola sin azucar x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '5c',
-            titulo: 'Fanta naranja x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '5d',
-            titulo: 'Fanta guarana x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '5e',
-            titulo: 'Fanta papaya x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-          {
-            id: '5f',
-            titulo: 'Sprite lima limon x 2lt',
-            precio: 22,
-            sideItems: [],
-          },
-        ],
-      },
-      {
-        id: '4',
-        titulo: 'ELIGE 2DO SABOR',
-        solicitud: 'Requerido',
-        limite: 3,
-        typeSelect: 'numberCount',
-        mainItems: [
-          {
-            id: '4a',
-            titulo: 'Pepperoni lovers',
-            precio: 0,
-            sideItems: [],
-          },
-          {
-            id: '4b',
-            titulo: 'Chessy lovers',
-            precio: 0,
-            sideItems: [],
-          },
-          {
-            id: '4c',
-            titulo: 'Veggie lovers',
-            precio: 0,
-            sideItems: [],
-          },
-          {
-            id: '4d',
-            titulo: 'Meat lovers',
-            precio: 0,
-            sideItems: [],
-          },
-          {
-            id: '4e',
-            titulo: 'Hawaian lovers',
-            precio: 0,
-            sideItems: [],
-          },
-        ],
-      },
-    ];
-    // ... lógica para llenar menuItems ...
-    return menuItems;
-  }
-
-  function agregarMenuItems() {
-    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
-
-    getMenuItems().forEach((item, index) => {
-      const textoSeleccion =
-        item.solicitud == 'Opcional'
-          ? item.limite == 1
-            ? 'Selecciona hasta un artículo'
-            : `Selecciona hasta ${item.limite} artículos`
-          : item.limite == 1
-          ? 'Selecciona un artículo'
-          : `Selecciona exactamente ${item.limite} artículos`;
-      const colorSolicitud = item.solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-
-      const menuItemProducto = document.createElement('div');
-      menuItemProducto.className = 'menu-item-producto';
-
-      let contenidoHTML = `
-        <div class="titulo-detalle-oferta-producto">
-          <div id="titulo-detalle__comp1">
-            <h2 class="titulo-base1">${item.titulo}</h2>
-            <span class="titulo-base2">${textoSeleccion}</span>
-          </div>
-          <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${item.solicitud.toUpperCase()}</span>
-        </div>
-        <div class="item-menuItem" id="menuItem-${index}" data-limite="${item.limite}">
-      `;
-
-      item.mainItems.forEach((mainItem, mainIndex) => {
-        if (item.typeSelect == 'radio') {
-          contenidoHTML += `
-            <div class="opcion-principal-detalle-oferta3">
-              <div class="producto-info3">
-                <span class="producto-nombre3">${mainItem.titulo}</span>
-                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
-              </div>
-              <div class="opcion-nombre1">
-                <div class="hover-area1" id="hoverArea-${index}-${mainIndex}"></div>
-                <input
-                  type="radio"
-                  id="item-${index}-${mainIndex}"
-                  name="opcion-grupo-${index}"
-                  class="radio-input"
-                  data-group="${index}"
-                  data-limite="${item.limite}"
-                  onchange="validarLimiteRadio(this)"
-                >
-              </div>
-            </div>
-          `;
-        }
-
-        if (item.typeSelect === 'numberCount') {
-          contenidoHTML += `
-            <div class="opcion-principal-detalle-oferta2">
-              <div class="producto-info2">
-                <span class="producto-nombre2">${mainItem.titulo}</span>
-                ${mainItem.precio > 0 ? `<span class="producto-precio2">+Bs${mainItem.precio}</span>` : ''}
-              </div>
-              <div class="controles-cantidad2">
-                <button 
-                  type="button" 
-                  class="btn-cantidad2" 
-                  onclick="decrementCantidad('${index}-${mainIndex}', '${index}')"
-                  data-group="${index}"
-                  data-limite="${item.limite}"
-                >
-                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                    <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                  </svg>
-                </button>
-                <p class="cantidad-display2" id="cantidad-${index}-${mainIndex}" data-group="${index}">0</p>
-                <button 
-                  type="button" 
-                  class="btn-cantidad2" 
-                  onclick="incrementCantidad('${index}-${mainIndex}', '${index}')"
-                  data-group="${index}"
-                  data-limite="${item.limite}"
-                >
-                  <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                    <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          `;
-        }
-
-        if (item.typeSelect === 'checkbox') {
-          contenidoHTML += `
-            <div class="opcion-principal-detalle-oferta3">
-              <div class="producto-info3">
-                <span class="producto-nombre3">${mainItem.titulo}</span>
-                ${parseFloat(mainItem.precio) > 0 ? `<span class="producto-precio3">+Bs${mainItem.precio}</span>` : ''}
-              </div>
-              <div class="control-checkbox3">
-                <div class="checkbox-container3">
-                  <input
-                    type="checkbox"
-                    id="item-${index}-${mainIndex}"
-                    name="properties[${mainItem.titulo}]"
-                    class="input-checkbox3"
-                    data-group="${index}"
-                    data-limite="${item.limite}"
-                    onchange="validarLimiteCheckbox(this)"
-                  >
-                </div>
-              </div>
-            </div>
-          `;
-        }
-      });
-
-      contenidoHTML += `</div>`;
-      menuItemProducto.innerHTML = contenidoHTML;
-      contendorPrincipal.appendChild(menuItemProducto);
-    });
-  }
-
-  function validarLimiteCheckbox(casilla) {
-    // Obtiene el ID del grupo desde el atributo data-group del checkbox
-    // Ejemplo: si data-group="2", grupoId será "2"
-    const grupoId = casilla.dataset.group;
-
-    // Convierte el límite de string a número
-    // Ejemplo: si data-limite="4", limitePermitido será 4
-    const limitePermitido = parseInt(casilla.dataset.limite);
-
-    // Encuentra el div contenedor del grupo usando el ID
-    // Ejemplo: busca <div id="menuItem-2">
-    const contenedorGrupo = document.getElementById(`menuItem-${grupoId}`);
-
-    // Obtiene todos los checkboxes dentro de ese grupo
-    // Ejemplo: si hay 6 gaseosas, obtiene esos 6 checkboxes
-    const casillasGrupo = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
-
-    // Inicializa contador
-    let totalSeleccionados = 0;
-
-    // Cuenta cuántos checkboxes están marcados en ese grupo
-    // Ejemplo: si marcaste Coca Cola, Fanta y Sprite, totalSeleccionados será 3
-    casillasGrupo.forEach((casilla) => {
-      if (casilla.checked) totalSeleccionados++;
-    });
-
-    // Si excede el límite, desmarca el último checkbox
-    // Ejemplo: si el límite es 4 y intentas marcar un quinto, lo impide
-    if (totalSeleccionados > limitePermitido) {
-      casilla.checked = false;
-    }
-
+  // Control de selecciones y validaciones para menu-item-producto y sub-item-producto
+  function initializeProductMenu() {
+    // Marcar opciones predefinidas cuando es requerido
+    marcarOpcionesRequeridas();
+    // Inicializar visibilidad de sub-items
+    actualizarVisibilidadSubItems();
+    // Verificar estados iniciales
     verificarRequeridos();
   }
 
-  function validarLimiteRadio(radioBoton) {
-    // Obtiene el ID del grupo desde el atributo data-group del radio
-    // Ejemplo: si data-group="1", grupoId será "1" (grupo de tamaños de pizza)
-    const grupoId = radioBoton.dataset.group;
-
-    // Convierte el límite de string a número
-    // Ejemplo: si data-limite="1", limitePermitido será 1 (solo una opción de tamaño)
-    const limitePermitido = parseInt(radioBoton.dataset.limite);
-
-    // Encuentra el contenedor del grupo usando el ID
-    // Ejemplo: busca <div id="menuItem-1"> (contenedor de tamaños)
-    const contenedorGrupo = document.getElementById(`menuItem-${grupoId}`);
-
-    // Obtiene todos los radio buttons MARCADOS dentro de ese grupo
-    // Ejemplo: obtiene todos los radio buttons de tamaño que estén checked
-    const radiosBotones = contenedorGrupo.querySelectorAll('input[type="radio"]:checked');
-
-    // Si hay más seleccionados que el límite permitido, desmarca el último
-    // Ejemplo: si intentas seleccionar un segundo tamaño cuando el límite es 1
-    if (radiosBotones.length > limitePermitido) {
-      radioBoton.checked = false;
-    }
-  }
-
-  function obtenerSumaGrupo(grupo) {
-    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-    const displays = contenedorGrupo.querySelectorAll('.cantidad-display2');
-    let suma = 0;
-    displays.forEach((display) => {
-      suma += parseInt(display.textContent || '0');
-    });
-    return suma;
-  }
-
-  function incrementCantidad(id, grupo) {
-    const display = document.getElementById(`cantidad-${id}`);
-    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-    const limite = parseInt(contenedorGrupo.dataset.limite);
-    const sumaActual = obtenerSumaGrupo(grupo);
-  
-    if (sumaActual < limite) {
-      const valorActual = parseInt(display.textContent || '0');
-      display.textContent = valorActual + 1;
-      // Actualizar estado de todos los botones después de incrementar
-      actualizarBotonesNumberCount(grupo);
-    }
-
-    verificarRequeridos();
-  }
-  
-  function decrementCantidad(id, grupo) {
-    const display = document.getElementById(`cantidad-${id}`);
-    const valorActual = parseInt(display.textContent || '0');
-    
-    if (valorActual > 0) {
-      display.textContent = valorActual - 1;
-      // Actualizar estado de todos los botones después de decrementar
-      actualizarBotonesNumberCount(grupo);
-    }
-    verificarRequeridos();
-  }
-
-  function actualizarBotonesNumberCount(grupo) {
-    const contenedorGrupo = document.getElementById(`menuItem-${grupo}`);
-    const limite = parseInt(contenedorGrupo.dataset.limite);
-    const sumaTotal = obtenerSumaGrupo(grupo);
-    
-    // Obtener todos los pares de botones y sus displays
-    const elementosGrupo = contenedorGrupo.querySelectorAll('.opcion-principal-detalle-oferta2');
-    
-    elementosGrupo.forEach((elemento, index) => {
-      const botonIncremento = elemento.querySelector('button:last-child');
-      const botonDecremento = elemento.querySelector('button:first-child');
-      const display = elemento.querySelector('.cantidad-display2');
-      const cantidad = parseInt(display.textContent || '0');
-      
-      // Manejar botón de incremento
-      if (sumaTotal >= limite) {
-        // Si llegamos al límite, deshabilitamos incremento
-        botonIncremento.style.fill = 'currentColor';
-        botonIncremento.disabled = true;
-      } else {
-        // Si no llegamos al límite, habilitamos incremento
-        botonIncremento.style.fill = '';
-        botonIncremento.disabled = false;
-      }
-      
-      // Manejar botón de decremento
-      if (cantidad === 0) {
-        // Si el valor es 0, deshabilitamos decremento
-        botonDecremento.style.fill = 'currentColor';
-        botonDecremento.disabled = true;
-      } else {
-        // Si el valor es mayor a 0, habilitamos decremento
-        botonDecremento.style.fill = '';
-        botonDecremento.disabled = false;
-      }
-    });
-  }
-
-  {% comment %} MARCAR OPCIONES PREDEFINIDAS CUANDO ES REQUERIDO {% endcomment %}
+  // Marcar opciones predefinidas para elementos requeridos
   function marcarOpcionesRequeridas() {
-    getMenuItems().forEach((item, index) => {
-      if (item.solicitud === 'Requerido') {
-        const contenedorGrupo = document.getElementById(`menuItem-${index}`);
+    // Procesar menu-item-producto
+    document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
+      const isSolicitudRequerida = menuItem.querySelector('.titulo-detalle-seleccion').textContent.trim() === 'REQUERIDO';
+      if (!isSolicitudRequerida) return;
+
+      const itemMenuDiv = menuItem.querySelector('.item-menuItem');
+      const limite = parseInt(itemMenuDiv.getAttribute('data-limite'));
+      const menuItemId = menuItem.getAttribute('menu-item');
+
+      // Detectar el tipo de input
+      if (itemMenuDiv.querySelector('input[type="radio"]')) {
+        // Radio buttons - seleccionar el primero
+        const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
+        primerRadio.checked = true;
+        triggerChange(primerRadio);
+      } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
+        // Checkboxes - seleccionar hasta cumplir el límite
+        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
+        for (let i = 0; i < Math.min(limite, checkboxes.length); i++) {
+          checkboxes[i].checked = true;
+          triggerChange(checkboxes[i]);
+        }
+      } else {
+        // NumberCount - distribuir el límite entre los elementos
+        const items = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
+        const valorBase = Math.floor(limite / items.length);
+        const residuo = limite % items.length;
         
-        // Caso 1: Radio buttons
-        if (item.typeSelect === 'radio') {
-          const primerRadio = contenedorGrupo.querySelector('input[type="radio"]');
-          if (primerRadio) {
-            primerRadio.checked = true;
+        items.forEach((item, index) => {
+          const display = item.querySelector('.cantidad-display2');
+          if (display) {
+            let valor = valorBase;
+            if (index < residuo) valor++;
+            display.textContent = valor;
           }
-        }
-        
-        // Caso 2: Checkbox
-        else if (item.typeSelect === 'checkbox') {
-          const checkboxes = contenedorGrupo.querySelectorAll('input[type="checkbox"]');
-          const limite = parseInt(item.limite);
+        });
+        actualizarBotonesNumberCount(menuItemId);
+      }
+    });
+
+    // Procesar sub-item-producto
+    document.querySelectorAll('.sub-item-producto').forEach(subItem => {
+      const itemMenuDiv = subItem.querySelector('.item-menuItem');
+      const min = parseInt(itemMenuDiv.getAttribute('data-min'));
+      const max = parseInt(itemMenuDiv.getAttribute('data-max'));
+      
+      if (min > 0) { // Es requerido
+        if (itemMenuDiv.querySelector('input[type="radio"]')) {
+          const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
+          primerRadio.checked = true;
+          triggerChange(primerRadio);
+        } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
+          const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
+          for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
+            checkboxes[i].checked = true;
+            triggerChange(checkboxes[i]);
+          }
+        } else {
+          const items = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
+          const valorBase = Math.floor(min / items.length);
+          const residuo = min % items.length;
           
-          // Marcar los primeros checkboxes según el límite
-          checkboxes.forEach((checkbox, i) => {
-            if (i < limite) {
-              checkbox.checked = true;
-            }
-          });
-        }
-        
-        // Caso 3: NumberCount
-        else if (item.typeSelect === 'numberCount') {
-          const cantidadElementos = item.mainItems.length;
-          const limite = parseInt(item.limite);
-          const valorPorElemento = Math.floor(limite / cantidadElementos);
-          const residuo = limite % cantidadElementos;
-          
-          item.mainItems.forEach((_, mainIndex) => {
-            const display = document.getElementById(`cantidad-${index}-${mainIndex}`);
+          items.forEach((item, index) => {
+            const display = item.querySelector('.cantidad-display2');
             if (display) {
-              // Distribuir el límite entre todos los elementos
-              let valor = valorPorElemento;
-              if (mainIndex < residuo) {
-                valor += 1; // Distribuir el residuo entre los primeros elementos
-              }
+              let valor = valorBase;
+              if (index < residuo) valor++;
               display.textContent = valor;
             }
           });
-          
-          // Actualizar estado de los botones después de establecer valores
-          actualizarBotonesNumberCount(index);
         }
       }
     });
+  }
+
+  // Control de visibilidad de sub-items
+  function actualizarVisibilidadSubItems() {
+    // Ocultar todos los sub-items inicialmente
+    document.querySelectorAll('.sub-item-producto').forEach(subItem => {
+      subItem.style.display = 'none';
+    });
+
+    // Mostrar sub-items relacionados con elementos seleccionados
+    document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
+      const menuItemId = menuItem.getAttribute('menu-item');
+
+      // Verificar elementos seleccionados
+      // Radio buttons
+      const radiosSeleccionados = menuItem.querySelectorAll('input[type="radio"]:checked');
+      radiosSeleccionados.forEach(radio => {
+        const idProducto = radio.getAttribute('id-producto');
+        mostrarSubItemsRelacionados(menuItemId, idProducto);
+      });
+
+      // Checkboxes
+      const checkboxesSeleccionados = menuItem.querySelectorAll('input[type="checkbox"]:checked');
+      checkboxesSeleccionados.forEach(checkbox => {
+        const idProducto = checkbox.getAttribute('id-producto');
+        mostrarSubItemsRelacionados(menuItemId, idProducto);
+      });
+
+      // NumberCount
+      const contadoresActivos = menuItem.querySelectorAll('.cantidad-display2');
+      contadoresActivos.forEach(display => {
+        if (parseInt(display.textContent) > 0) {
+          const contenedor = display.closest('.opcion-principal-detalle-oferta2');
+          const idProducto = contenedor.getAttribute('id-producto');
+          mostrarSubItemsRelacionados(menuItemId, idProducto);
+        }
+      });
+    });
+  }
+
+  function mostrarSubItemsRelacionados(menuItemId, idProducto) {
+    document.querySelectorAll(`.sub-item-producto[menu-item="${menuItemId}"][id-producto="${idProducto}"]`)
+      .forEach(subItem => {
+        subItem.style.display = 'block';
+      });
+  }
+
+  // Funciones de validación
+  function validarLimiteCheckbox(casilla) {
+    const contenedor = casilla.closest('.item-menuItem');
+    const menuItemId = casilla.getAttribute('menu-item');
+    const idProducto = casilla.getAttribute('id-producto');
+    
+    // Determinar si es sub-item o menu-item
+    const esSubItem = contenedor.closest('.sub-item-producto') !== null;
+    
+    let limite, min;
+    if (esSubItem) {
+      limite = parseInt(contenedor.getAttribute('data-max'));
+      min = parseInt(contenedor.getAttribute('data-min'));
+    } else {
+      limite = parseInt(contenedor.getAttribute('data-limite'));
+      min = limite; // Para menu-items, el mínimo es igual al límite si es requerido
+    }
+
+    const checkboxes = contenedor.querySelectorAll('input[type="checkbox"]:checked');
+    if (checkboxes.length > limite) {
+      casilla.checked = false;
+    }
+
+    // Actualizar visibilidad de sub-items
+    if (!esSubItem) {
+      if (casilla.checked) {
+        mostrarSubItemsRelacionados(menuItemId, idProducto);
+      } else {
+        ocultarSubItemsRelacionados(menuItemId, idProducto);
+      }
+    }
+
+    verificarRequeridos();
+  }
+
+  function validarLimiteRadio(radio) {
+    const menuItemId = radio.getAttribute('menu-item');
+    const idProducto = radio.getAttribute('id-producto');
+    const contenedor = radio.closest('.item-menuItem');
+    
+    // Gestionar sub-items
+    if (radio.checked) {
+      // Ocultar todos los sub-items del grupo
+      const allSubItems = document.querySelectorAll(`.sub-item-producto[menu-item="${menuItemId}"]`);
+      allSubItems.forEach(item => item.style.display = 'none');
+      
+      // Mostrar sub-items del elemento seleccionado
+      mostrarSubItemsRelacionados(menuItemId, idProducto);
+    }
+
+    verificarRequeridos();
   }
 
   function verificarRequeridos() {
-    getMenuItems().forEach((item, index) => {
-      if (item.solicitud === 'Requerido') {
-        const contenedorGrupo = document.getElementById(`menuItem-${index}`);
-        const tituloBase1 = contenedorGrupo.parentElement.querySelector('.titulo-base1');
-        const tituloBase2 = contenedorGrupo.parentElement.querySelector('.titulo-base2');
-        const tituloSeleccion = contenedorGrupo.parentElement.querySelector('.titulo-detalle-seleccion');
-        
-        let faltaSeleccion = false;
-        
-        if (item.typeSelect === 'checkbox') {
-          const checkboxesSeleccionados = contenedorGrupo.querySelectorAll('input[type="checkbox"]:checked').length;
-          faltaSeleccion = checkboxesSeleccionados < item.limite;
-          
-          // Marcar elementos en rojo si falta selección
-          const checkboxes = contenedorGrupo.querySelectorAll('.producto-nombre3');
-          checkboxes.forEach(elem => {
-            if (faltaSeleccion) {
-              elem.style.setProperty('color', '#FF6565', 'important');
-            } else {
-              elem.style.removeProperty('color');
-            }
-          });
-        }
-        else if (item.typeSelect === 'numberCount') {
-          const sumaTotal = obtenerSumaGrupo(index);
-          faltaSeleccion = sumaTotal < item.limite;
-          
-          // Marcar elementos en rojo si falta selección
-          const elementos = contenedorGrupo.querySelectorAll('.producto-nombre2');
-          elementos.forEach(elem => {
-            if (faltaSeleccion) {
-              elem.style.setProperty('color', '#FF6565', 'important');
-            } else {
-              elem.style.removeProperty('color');
-            }
-          });
-        }
-        
-        // Actualizar colores de los títulos
-        if (faltaSeleccion) {
-          tituloBase1.style.setProperty('color', '#FF6565', 'important');
-          tituloBase2.style.setProperty('color', '#FF6565', 'important');
-          tituloSeleccion.style.setProperty('color', '#FF6565', 'important');
-        } else {
-          tituloBase1.style.removeProperty('color');
-          tituloBase2.style.removeProperty('color');
-          tituloSeleccion.style.removeProperty('color');
-        }
+    document.querySelectorAll('.menu-item-producto, .sub-item-producto').forEach(item => {
+      const esRequerido = item.querySelector('.titulo-detalle-seleccion').textContent.trim() === 'REQUERIDO';
+      if (!esRequerido) return;
+
+      const contenedor = item.querySelector('.item-menuItem');
+      const limite = parseInt(contenedor.getAttribute('data-limite')) || 
+                    parseInt(contenedor.getAttribute('data-min'));
+      
+      let cumpleRequisito = false;
+      
+      // Verificar según tipo de input
+      if (contenedor.querySelector('input[type="radio"]')) {
+        cumpleRequisito = contenedor.querySelector('input[type="radio"]:checked') !== null;
+      } else if (contenedor.querySelector('input[type="checkbox"]')) {
+        const seleccionados = contenedor.querySelectorAll('input[type="checkbox"]:checked').length;
+        cumpleRequisito = seleccionados >= limite;
+      } else {
+        const sumaTotal = Array.from(contenedor.querySelectorAll('.cantidad-display2'))
+          .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
+        cumpleRequisito = sumaTotal >= limite;
       }
+
+      // Aplicar estilos según cumplimiento
+      const colorError = '#FF6565';
+      const elementos = item.querySelectorAll('.titulo-base1, .titulo-base2, .titulo-detalle-seleccion');
+      const nombres = item.querySelectorAll('.producto-nombre2, .producto-nombre3');
+
+      elementos.forEach(elem => {
+        elem.style.color = cumpleRequisito ? '' : colorError;
+      });
+
+      nombres.forEach(elem => {
+        elem.style.color = cumpleRequisito ? '' : colorError;
+      });
     });
   }
 
-  testPrueba()
-    .then(resultado => {
-      console.log('Todo salio bien');
-    })
-    .catch(error => {
-        console.error('Error:', error);
+  // Función auxiliar para disparar eventos
+  function triggerChange(element) {
+    const event = new Event('change', {
+      bubbles: true,
+      cancelable: true,
     });
+    element.dispatchEvent(event);
+  }
+
+  (function() {
+    function initializeShopifyProduct() {
+        return testPrueba()
+            .then(() => {
+                initializeProductMenu();
+                console.log('Producto inicializado correctamente');
+            })
+            .catch(error => {
+                console.error('Error durante la inicialización:', error);
+            });
+    }
+
+    // Función que intenta inicializar
+    function tryInitialize() {
+        // Verificar si el elemento contenedor existe
+        const contenedor = document.querySelector('.sector-general-opciones-producto');
+        if (!contenedor) {
+            console.log('Contenedor no encontrado, reintentando...');
+            setTimeout(tryInitialize, 100); // Reintentar en 100ms
+            return;
+        }
+
+        initializeShopifyProduct();
+    }
+
+    // Manejo de diferentes eventos de carga
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', tryInitialize);
+    } else {
+        tryInitialize();
+    }
+
+    // Backup: Si algo falla, intentar en window.load
+    window.addEventListener('load', function() {
+        const contenedor = document.querySelector('.sector-general-opciones-producto');
+        if (!contenedor) {
+            tryInitialize();
+        }
+    });
+  })();
 </script>
