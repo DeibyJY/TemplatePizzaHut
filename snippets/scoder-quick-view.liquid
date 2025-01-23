@@ -1604,22 +1604,22 @@
       })
       .filter(Boolean);
     
-    // Procesar y clasificar productos
-    const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosColeccionesDelProducto, tieneNivel2, tieneNivel4 }) => {
-      // Si tiene nivel 2, verificar si también tiene nivel 3
-      if (tieneNivel2 && verificarColecciones(titulosColeccionesDelProducto, titulosNivel3)) {
-        if (!idsNivel2y3.has(producto.id)) {
-          acc.nivel2y3.push(producto);
-          idsNivel2y3.add(producto.id);
+      // Procesar y clasificar productos
+      const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosColeccionesDelProducto, tieneNivel2, tieneNivel4 }) => {
+        // Si tiene nivel 2, verificar si también tiene nivel 3
+        if (tieneNivel2 && verificarColecciones(titulosColeccionesDelProducto, titulosNivel3)) {
+          if (!idsNivel2y3.has(producto.id)) {
+            acc.nivel2y3.push(producto);
+            idsNivel2y3.add(producto.id);
+          }
         }
-      }
-      // Si NO tiene nivel 2 pero SÍ tiene nivel 4
-      else if (tieneNivel4 && !idsNivel4.has(producto.id)) {
-        acc.nivel4.push(producto);
-        idsNivel4.add(producto.id);
-      }
-      return acc;
-    }, { nivel2y3: [], nivel4: [] });
+        // Si NO tiene nivel 2 pero SÍ tiene nivel 4
+        else if (tieneNivel4 && !idsNivel4.has(producto.id)) {
+          acc.nivel4.push(producto);
+          idsNivel4.add(producto.id);
+        }
+        return acc;
+      }, { nivel2y3: [], nivel4: [] });
 
       productosNivel2y3.push(
         ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
@@ -1795,101 +1795,121 @@
           // IDs de todos los productos de la coleccion actual
           items.forEach((item, indexItem) => {
             // Buscar el producto que tenga el item (número) en sus tags
-            const productoTrabajo = productosNivel4.find(producto => 
-              producto.tags.some(tag => {
-                // Extraer el número del tag que tiene formato "ID : número"
-                const match = tag.match(/ID\s*:\s*(\d+)/);
-                return match && match[1] === item.toString();
-              })
-            );
+            const productoTrabajo = productosNivel4.find(producto => {
+              try{
+                // Intentar parsear la descripcion de producto que contiene las variantes
+                const variantesData = JSON.parse(producto.description.match(/Variantes\s*:\s*(\[.*?\])/)[1]);
 
-            // Si no se encuentra el producto, saltamos esta iteración
-            if (!productoTrabajo) return;
+                // Buscar si alguna variante coincide con el ID del item actual
+                return variantesData.some(variante => variante.id.toString() === item.toString());
+              }catch(error){
+                // Si hay error en el parseo, este producto no es el correcto
+                return false; 
+              }
+            });
 
-            if(TipoSelect === 'radio'){
-              contenidoHTML += `
-                <div class="opcion-principal-detalle-oferta3">
-                  <div class="producto-info3">
-                    <span class="producto-nombre3">${productoTrabajo.title}</span>
-                    ${parseFloat(productoTrabajo.price.amount) > 0 ? 
-                      `<span class="producto-precio3">+Bs${productoTrabajo.price.amount}</span>` : ''}
-                  </div>
-                  <div class="opcion-nombre1">
-                    <div class="hover-area1" id="hoverArea-${indexProducto}-${indexItem}"></div>
-                    <input
-                      type="radio"
-                      id="item-${indexProducto}-${indexItem}"
-                      name="opcion-grupo-${indexProducto}"
-                      class="radio-input"
-                      data-group="${indexProducto}"
-                      data-limite="${Max}"
-                      onchange="validarLimiteRadio(this)"
-                    >
-                  </div>
-                </div>
-              `;
-            }
+            // Si no se encuentra el producto, saltamos esta iteracion
+            if(!productoTrabajo) return;
 
-            if(TipoSelect === 'numberCount'){
-              contenidoHTML += `
-                <div class="opcion-principal-detalle-oferta2">
-                  <div class="producto-info2">
-                    <span class="producto-nombre2">${productoTrabajo.title}</span>
-                    ${productoTrabajo.price.amount > 0 ? 
-                      `<span class="producto-precio2">+Bs${productoTrabajo.price.amount}</span>` : ''}
-                  </div>
-                  <div class="controles-cantidad2">
-                    <button 
-                      type="button" 
-                      class="btn-cantidad2" 
-                      onclick="decrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
-                      data-group="${indexProducto}"
-                      data-limite="${Max}"
-                    >
-                      <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                        <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                      </svg>
-                    </button>
-                    <p class="cantidad-display2" id="cantidad-${indexProducto}-${indexItem}" data-group="${indexProducto}">0</p>
-                    <button 
-                      type="button" 
-                      class="btn-cantidad2" 
-                      onclick="incrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
-                      data-group="${indexProducto}"
-                      data-limite="${Max}"
-                    >
-                      <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                        <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              `;
-            }
+            // Obtener los detalles de la variante especifica
+            const variantesData = JSON.parse(productoTrabajo.description.match(/Variantes\s*:\s*(\[.*?\])/)[1]);
+            const varianteActual = variantesData.find(variante => variante.id.toString() === item.toString());
 
-            if(TipoSelect === 'checkbox'){
-              contenidoHTML += `
-                <div class="opcion-principal-detalle-oferta3">
-                  <div class="producto-info3">
-                    <span class="producto-nombre3">${productoTrabajo.title}</span>
-                    ${parseFloat(productoTrabajo.price.amount) > 0 ? 
-                      `<span class="producto-precio3">+Bs${productoTrabajo.price.amount}</span>` : ''}
-                  </div>
-                  <div class="control-checkbox3">
-                    <div class="checkbox-container3">
+            //  Solo proceder si la variante esta activa
+            if(varianteActual && varianteActual.estado === "activo"){
+              // Usar el precio de la variante en lugar del precio de producto base 
+              const precioVariante = parseFloat(varianteActual.precio);
+
+              if(TipoSelect === 'radio') {
+                contenidoHTML += `
+                  <div class="opcion-principal-detalle-oferta3">
+                    <div class="producto-info3">
+                      <span class="producto-nombre3">${productoTrabajo.title}</span>
+                      ${precioVariante > 0 ? `<span class="producto-precio3">+Bs${precioVariante}</span>` : ''}
+                    </div>
+                    <div class="opcion-nombre1">
+                      <div class="hover-area1" id="hoverArea-${indexProducto}-${indexItem}"></div>
                       <input
-                        type="checkbox"
+                        type="radio"
                         id="item-${indexProducto}-${indexItem}"
-                        name="properties[${productoTrabajo.title}]"
-                        class="input-checkbox3"
+                        name="opcion-grupo-${indexProducto}"
+                        class="radio-input"
                         data-group="${indexProducto}"
                         data-limite="${Max}"
-                        onchange="validarLimiteCheckbox(this)"
+                        data-variant-id="${varianteActual.id}"
+                        data-variant-price="${precioVariante}"
+                        onchange="validarLimiteRadio(this)"
                       >
                     </div>
                   </div>
-                </div>
-              `;
+                `;
+              }
+          
+              if(TipoSelect === 'numberCount') {
+                contenidoHTML += `
+                  <div class="opcion-principal-detalle-oferta2">
+                    <div class="producto-info2">
+                      <span class="producto-nombre2">${productoTrabajo.title}</span>
+                      ${precioVariante > 0 ? `<span class="producto-precio2">+Bs${precioVariante}</span>` : ''}
+                    </div>
+                    <div class="controles-cantidad2">
+                      <button 
+                        type="button" 
+                        class="btn-cantidad2" 
+                        onclick="decrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
+                        data-group="${indexProducto}"
+                        data-limite="${Max}"
+                        data-variant-id="${varianteActual.id}"
+                        data-variant-price="${precioVariante}"
+                      >
+                        <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                          <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                        </svg>
+                      </button>
+                      <p class="cantidad-display2" id="cantidad-${indexProducto}-${indexItem}" data-group="${indexProducto}" data-variant-id="${varianteActual.id}">0</p>
+                      <button 
+                        type="button" 
+                        class="btn-cantidad2" 
+                        onclick="incrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
+                        data-group="${indexProducto}"
+                        data-limite="${Max}"
+                        data-variant-id="${varianteActual.id}"
+                        data-variant-price="${precioVariante}"
+                      >
+                        <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                          <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                `;
+              }
+          
+              if(TipoSelect === 'checkbox') {
+                contenidoHTML += `
+                  <div class="opcion-principal-detalle-oferta3">
+                    <div class="producto-info3">
+                      <span class="producto-nombre3">${productoTrabajo.title}</span>
+                      ${precioVariante > 0 ? `<span class="producto-precio3">+Bs${precioVariante}</span>` : ''}
+                    </div>
+                    <div class="control-checkbox3">
+                      <div class="checkbox-container3">
+                        <input
+                          type="checkbox"
+                          id="item-${indexProducto}-${indexItem}"
+                          name="properties[${productoTrabajo.title}]"
+                          class="input-checkbox3"
+                          data-group="${indexProducto}"
+                          data-limite="${Max}"
+                          data-variant-id="${varianteActual.id}"
+                          data-variant-price="${precioVariante}"
+                          onchange="validarLimiteCheckbox(this)"
+                        >
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }
             }
           });
 
