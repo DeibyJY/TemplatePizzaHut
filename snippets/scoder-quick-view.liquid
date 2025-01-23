@@ -1658,7 +1658,7 @@
           </div>
           <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
         </div>
-        <div class="item-menuItem" id="menuItem-${indexCN3}" data-limite="${limite}">
+        <div class="item-menuItem">
         `;
 
       let subItemProducto =  ``;
@@ -1672,16 +1672,14 @@
         // Como siempre será un solo elemento, podemos acceder directamente al primer tag
         const idProducto = productoMainItem.tags[0].match(/ID\s*:\s*(\d+)/i)?.[1];
 
+        // Si no hay ID, no se muestra y se va al siguiente producto
         if (!idProducto) {
-          console.warn(`No se encontró un ID válido para el producto: ${productoMainItem.title}`);
           return;
         }
 
         const precioProducto = parseFloat(productoMainItem.price?.amount || 0) > 0 
           ? `+Bs${productoMainItem.price.amount}` 
           : '';
-
-        console.log('ID del producto:', idProducto);
 
         if(tipoSelect === 'radio'){
           contenidooHTML += `
@@ -1804,7 +1802,7 @@
 
           const colorSolicitud = Min === 0 ? 'style="color: #B5B6BD !important;"' : '';
           const tipoSolicitud = Min === 0 ? 'OPCIONAL' : 'REQUERIDO';
-          subItemProducto += `<div class="sub-item-producto" id="sub-item-${indexProducto}">`;
+          subItemProducto += `<div class="sub-item-producto" menu-item="${indexCN3}" sub-item="${indexProducto}" data-min="${Min}" data-max="${Max}">`;
 
           let contenidoHTML = `
             <div class="titulo-detalle-oferta-producto">
@@ -1814,7 +1812,7 @@
               </div>
               <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${tipoSolicitud}</span>
             </div>
-            <div class="item-menuItem" id="menuItem-${indexProducto}" data-min="${Min}" data-max="${Max}">
+            <div class="item-menuItem">
             `;
 
           // IDs de todos los productos de la coleccion actual
