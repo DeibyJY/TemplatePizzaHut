@@ -1635,6 +1635,7 @@
 
       const variables = extraerVariablesDescripcion(coleccion.description);
         
+      // Variables que so obtenudas de la descripcion de la coleccion que se esta iterando
       const {variante,limite,solicitud,tipoSelect} = variables;
         
       const textoSeleccion = 
@@ -1646,8 +1647,8 @@
           ? 'Selecciona un artículo'
           : `Selecciona exactamente ${limite} artículos`;
 
-      const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-      let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}">`;
+        const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
+        let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}" menu-item="${indexCN3}">`;
 
         let contenidooHTML = `
         <div class="titulo-detalle-oferta-producto">
@@ -1668,11 +1669,14 @@
       });
 
       productosEspecificos.forEach((productoMainItem, indexMainItem) => {
-        // ID del producto se encuentra en los TAGS
+        // Necesito obtener el ID del producto y este es unico para este caso y se encuentra en los Tag's de este mismo producto
+        const idProducto = productoMainItem.tags.find(tag => tag.includes('id:')).split(':')[1].trim();
+        const precioProducto = parseFloat(productoMainItem.price.amount) > 0 ? `+Bs${productoMainItem.price.amount}` : '';
+        console.log('ID del producto:', idProducto);
 
         if(tipoSelect === 'radio'){
           contenidooHTML += `
-          <div class="opcion-principal-detalle-oferta3">
+          <div class="opcion-principal-detalle-oferta3" menu-item="${indexCN3}" data-limite="${limite}" id-producto="${idProducto}" precio-producto="${precioProducto}">
             <div class="producto-info3">
               <span class="producto-nombre3">${productoMainItem.title}</span>
               ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
@@ -1686,6 +1690,10 @@
                 class="radio-input"
                 data-group="${indexCN3}"
                 data-limite="${limite}"
+                menu-item="${indexCN3}"
+                data-limite="${limite}"
+                id-producto="${idProducto}"
+                precio-producto="${precioProducto}"
                 onchange="validarLimiteRadio(this)"
               >
             </div>
@@ -1695,7 +1703,7 @@
 
         if(tipoSelect === 'numberCount'){
           contenidooHTML += `
-            <div class="opcion-principal-detalle-oferta2">
+            <div class="opcion-principal-detalle-oferta2" menu-item="${indexCN3}" data-limite="${limite}" id-producto="${idProducto}" precio-producto="${precioProducto}">
               <div class="producto-info2">
                 <span class="producto-nombre2">${productoMainItem.title}</span>
                 ${productoMainItem.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoMainItem.price.amount}</span>` : ''}
@@ -1707,6 +1715,10 @@
                   onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
                   data-group="${indexCN3}"
                   data-limite="${limite}"
+                  menu-item="${indexCN3}"
+                  data-limite="${limite}"
+                  id-producto="${idProducto}"
+                  precio-producto="${precioProducto}"
                 >
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
@@ -1719,6 +1731,10 @@
                   onclick="incrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')"
                   data-group="${indexCN3}"
                   data-limite="${limite}"
+                   menu-item="${indexCN3}"
+                  data-limite="${limite}"
+                  id-producto="${idProducto}"
+                  precio-producto="${precioProducto}"
                 >
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
@@ -1731,7 +1747,7 @@
 
         if(tipoSelect === 'checkbox'){
           contenidooHTML += `
-            <div class="opcion-principal-detalle-oferta3">
+            <div class="opcion-principal-detalle-oferta3" data-limite="${limite}" id-producto="${idProducto}" precio-producto="${precioProducto}">
               <div class="producto-info3">
                 <span class="producto-nombre3">${productoMainItem.title}</span>
                 ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
@@ -1920,177 +1936,7 @@
           // Añadir el contenidoHTML al subItemProducto
           subItemProducto += contenidoHTML + `</div>`;
         });
-      
-
-        {% comment %} const coleccionesProducto = productoMainItem.collections.map(col => col.title);
-        {% comment %} console.log(coleccionesProducto); {% endcomment %}
-
-        if(coleccionesProducto.length > 0){
-           subItemProducto += ``;
-           let atributosSubItemProducto = ``;
-
-          // Iterar sobre las colecciones del producto actual de trabajo
-          coleccionesProducto.forEach((coleccion, indexColeccion) => {
-            // Verificar si es colección nivel 4
-            const esUnaColeccionNivel4 = coleccionNivel4.some(col => col.title === coleccion);
-
-            // Log para debugging
-             {% comment %} console.log(`Verificando colección ${coleccion}:`, 
-                esUnaColeccionNivel4 ? 'Es nivel 4' : 'No es nivel 4');  {% endcomment %}
-
-            // Si no es nivel 4 no se trabaja si va al siguiente
-            if (!esUnaColeccionNivel4) {
-                return;
-            }
-            
-            // Se va poner el id de distincio de la coleccion
-            subItemProducto += `<div class="sub-item-producto" id="menu-item-${indexCN3} tipo-producto-${indexMainItem} sub-item-${indexColeccion}">`;
-
-            // Aquí continúa el código para procesar colecciones nivel 4
-            {% comment %} console.log(`Procesando colección nivel 4: ${coleccion}`); {% endcomment %}
-
-            // Se va obtener mas detalles completos de la colección
-            const detallesCompletoColeccion = coleccionNivel4.find(col => col.title === coleccion);
-
-            // Log para debugging
-            {% comment %} console.log('Detalles completos de la colección:', detallesCompletoColeccion); {% endcomment %}
-
-            // Traer la descripcion de la coleccion nivel 4, de "detallesCompletoColeccion" y obtener las variables
-            const variablesColeccionNivel4 = extraerVariablesDescripcion(detallesCompletoColeccion.description);
-
-            const {atributo,limite,solicitud,tipoSelect} = variablesColeccionNivel4;
-            const textoSeleccion = 
-            solicitud == 'Opcional'
-            ? limite == 1
-              ? 'Selecciona hasta un artículo'
-              : `Selecciona hasta ${limite} artículos`
-            : limite == 1
-            ? 'Selecciona un artículo'
-            : `Selecciona exactamente ${limite} artículos`;
-
-            const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
-            
-            atributosSubItemProducto += `
-            <div class="titulo-detalle-oferta-producto">
-              <div id="titulo-detalle__comp1">
-                <h2 class="titulo-base1">ELIGE ${atributo.toUpperCase()}</h2>
-                <span class="titulo-base2">${textoSeleccion}</span>
-              </div>
-              <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
-            </div>
-            <div class="item-subItem" id="subItem-${indexColeccion}" data-limite="${limite}">
-            `;
-
-            // Se va a iterar sobre los productos de nivel 2 y 4 que fueron preseleccionados, para verificar 
-            // si algunos de ellos pertenecen a la colección nivel 4 actucal, al que se trabaja
-            productosNivel4.forEach((productoNivel2y4, indexProductoNivel2y4) => {
-
-              // Verificar si el producto dentro de sus coleccion se encuentra la coleccion nivel 4 actual de trabajo "coleccion"
-              const esProductoDeColeccionNivel4 = productoNivel2y4.collections.some(col => col.title === coleccion);
-
-              // Verificar si el producto es de la colección nivel 4 actual
-              if (!esProductoDeColeccionNivel4) {
-                return;
-              }
-
-              if(tipoSelect === 'radio'){
-                atributosSubItemProducto += `
-                <div class="opcion-principal-detalle-oferta3">
-                  <div class="producto-info3">
-                    <span class="producto-nombre3">${productoNivel2y4.title}</span>
-                    ${parseFloat(productoNivel2y4.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoNivel2y4.price.amount}</span>` : ''}
-                  </div>
-                  <div class="opcion-nombre1">
-                    <div class="hover-area1" id="hoverArea-${indexColeccion}-${indexProductoNivel2y4}"></div>
-                    <input
-                      type="radio"
-                      id="item-${indexColeccion}-${indexMainItem}"
-                      name="opcion-grupo-${indexColeccion}"
-                      class="radio-input"
-                      data-group="${indexColeccion}"
-                      data-limite="${limite}"
-                      onchange="validarLimiteRadio(this)"
-                    >
-                  </div>
-                </div>
-                `;
-              }
-      
-              if(tipoSelect === 'numberCount'){
-                atributosSubItemProducto += `
-                  <div class="opcion-principal-detalle-oferta2">
-                    <div class="producto-info2">
-                      <span class="producto-nombre2">${productoNivel2y4.title}</span>
-                      ${productoNivel2y4.price.amount > 0 ? `<span class="producto-precio2">+Bs${productoNivel2y4.price.amount}</span>` : ''}
-                    </div>
-                    <div class="controles-cantidad2">
-                      <button 
-                        type="button" 
-                        class="btn-cantidad2" 
-                        onclick="decrementCantidad('${indexColeccion}-${indexProductoNivel2y4}', '${indexColeccion}')"
-                        data-group="${indexColeccion}"
-                        data-limite="${limite}"
-                      >
-                        <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                          <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                        </svg>
-                      </button>
-                      <p class="cantidad-display2" id="cantidad-${indexColeccion}-${indexProductoNivel2y4}" data-group="${indexColeccion}">0</p>
-                      <button 
-                        type="button" 
-                        class="btn-cantidad2" 
-                        onclick="incrementCantidad('${indexColeccion}-${indexProductoNivel2y4}', '${indexColeccion}')"
-                        data-group="${indexColeccion}"
-                        data-limite="${limite}"
-                      >
-                        <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
-                          <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
-                        </svg>
-                      </button>
-                    </div>
-                  </div>
-                `;
-              }
-      
-              if(tipoSelect === 'checkbox'){
-                atributosSubItemProducto += `
-                  <div class="opcion-principal-detalle-oferta3">
-                    <div class="producto-info3">
-                      <span class="producto-nombre3">${productoNivel2y4.title}</span>
-                      ${parseFloat(productoNivel2y4.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoNivel2y4.price.amount}</span>` : ''}
-                    </div>
-                    <div class="control-checkbox3">
-                      <div class="checkbox-container3">
-                        <input
-                          type="checkbox"
-                          id="item-${indexColeccion}-${indexProductoNivel2y4}"
-                          name="properties[${productoNivel2y4.title}]"
-                          class="input-checkbox3"
-                          data-group="${indexColeccion}"
-                          data-limite="${limite}"
-                          onchange="validarLimiteCheckbox(this)"
-                        >
-                      </div>
-                    </div>
-                  </div>
-                `;
-              }
-            });
-
-            // Aquí se debe cerrar el subItemProducto div
-            atributosSubItemProducto += `</div>`;
-            // Aquí se debe añadir el subItemProducto al contenidoSubItemsHTML
-            subItemProducto += `${atributosSubItemProducto} </div>`; 
-          }); 
-
-          // Cerramos el subItemProducto
-          {% comment %} subItemProducto += `${atributosSubItemProducto} </div>`; {% endcomment %}
-        } {% endcomment %}
       });
-
-      {% comment %} contenidooHTML += `</div>`; 
-      menuItemProducto += ` ${contenidooHTML} ${subItemProducto} </div>`; 
-      contendorPrincipal.innerHTML += menuItemProducto; {% endcomment %}
 
       // Primero construir y cerrar el menuItem completo
       contenidooHTML += `</div>`; 
