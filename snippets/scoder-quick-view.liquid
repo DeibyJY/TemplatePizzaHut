@@ -1778,7 +1778,7 @@
               : `Selecciona exactamente ${Max} artículos`;
 
           const colorSolicitud = Min === 0 ? 'style="color: #B5B6BD !important;"' : '';          
-          subItemProducto = `<div class="menu-item-producto" id="menu-item-${indexProducto} ">`;
+          subItemProducto += `<div class="sub-item-producto" id="sub-item-${indexProducto}">`;
 
           let contenidoHTML = `
             <div class="titulo-detalle-oferta-producto">
@@ -1793,17 +1793,115 @@
 
           // IDs de todos los productos de la coleccion actual
           items.forEach((item, indexItem) => {
-            console.log(productosNivel4)
-            
+            // Buscar el producto que tenga el item (número) en sus tags
+            const productoTrabajo = productosNivel4.find(producto => 
+              producto.tags.some(tag => {
+                // Extraer el número del tag que tiene formato "ID : número"
+                const match = tag.match(/ID\s*:\s*(\d+)/);
+                return match && match[1] === item.toString();
+              })
+            );
+
+            // Si no se encuentra el producto, saltamos esta iteración
+            if (!productoTrabajo) return;
+
+            if(TipoSelect === 'radio'){
+              contenidoHTML += `
+                <div class="opcion-principal-detalle-oferta3">
+                  <div class="producto-info3">
+                    <span class="producto-nombre3">${productoTrabajo.title}</span>
+                    ${parseFloat(productoTrabajo.price.amount) > 0 ? 
+                      `<span class="producto-precio3">+Bs${productoTrabajo.price.amount}</span>` : ''}
+                  </div>
+                  <div class="opcion-nombre1">
+                    <div class="hover-area1" id="hoverArea-${indexProducto}-${indexItem}"></div>
+                    <input
+                      type="radio"
+                      id="item-${indexProducto}-${indexItem}"
+                      name="opcion-grupo-${indexProducto}"
+                      class="radio-input"
+                      data-group="${indexProducto}"
+                      data-limite="${Max}"
+                      onchange="validarLimiteRadio(this)"
+                    >
+                  </div>
+                </div>
+              `;
+            }
+
+            if(TipoSelect === 'numberCount'){
+              contenidoHTML += `
+                <div class="opcion-principal-detalle-oferta2">
+                  <div class="producto-info2">
+                    <span class="producto-nombre2">${productoTrabajo.title}</span>
+                    ${productoTrabajo.price.amount > 0 ? 
+                      `<span class="producto-precio2">+Bs${productoTrabajo.price.amount}</span>` : ''}
+                  </div>
+                  <div class="controles-cantidad2">
+                    <button 
+                      type="button" 
+                      class="btn-cantidad2" 
+                      onclick="decrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
+                      data-group="${indexProducto}"
+                      data-limite="${Max}"
+                    >
+                      <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                        <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                      </svg>
+                    </button>
+                    <p class="cantidad-display2" id="cantidad-${indexProducto}-${indexItem}" data-group="${indexProducto}">0</p>
+                    <button 
+                      type="button" 
+                      class="btn-cantidad2" 
+                      onclick="incrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')"
+                      data-group="${indexProducto}"
+                      data-limite="${Max}"
+                    >
+                      <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
+                        <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              `;
+            }
+
+            if(TipoSelect === 'checkbox'){
+              contenidoHTML += `
+                <div class="opcion-principal-detalle-oferta3">
+                  <div class="producto-info3">
+                    <span class="producto-nombre3">${productoTrabajo.title}</span>
+                    ${parseFloat(productoTrabajo.price.amount) > 0 ? 
+                      `<span class="producto-precio3">+Bs${productoTrabajo.price.amount}</span>` : ''}
+                  </div>
+                  <div class="control-checkbox3">
+                    <div class="checkbox-container3">
+                      <input
+                        type="checkbox"
+                        id="item-${indexProducto}-${indexItem}"
+                        name="properties[${productoTrabajo.title}]"
+                        class="input-checkbox3"
+                        data-group="${indexProducto}"
+                        data-limite="${Max}"
+                        onchange="validarLimiteCheckbox(this)"
+                      >
+                    </div>
+                  </div>
+                </div>
+              `;
+            }
           });
 
 
-
+          // Cerrar el contenidoHTML
+          contenidoHTML += `</div>`;
+          
+          // Añadir el contenidoHTML al subItemProducto
+          subItemProducto += contenidoHTML + `</div>`;
         });
       
 
-        // Obtener todas las colecciones solamente el titulo del producto actual
-        const coleccionesProducto = productoMainItem.collections.map(col => col.title);
+        {% comment %} const coleccionesProducto = productoMainItem.collections.map(col => col.title);
         {% comment %} console.log(coleccionesProducto); {% endcomment %}
 
         if(coleccionesProducto.length > 0){
@@ -1966,17 +2064,25 @@
 
           // Cerramos el subItemProducto
           {% comment %} subItemProducto += `${atributosSubItemProducto} </div>`; {% endcomment %}
-        }
+        } {% endcomment %}
       });
 
-      contenidooHTML += `</div>`; 
-      // Aqui es donde se debe a;adir el subItemProducto abajo de los atributos del menu item esto llegara a ser de la forma
-      // menuItemProducto += ` ${contenidooHTML} + ${subItemProducto}</div>`; 
-      
+      {% comment %} contenidooHTML += `</div>`; 
       menuItemProducto += ` ${contenidooHTML} ${subItemProducto} </div>`; 
-      {% comment %} menuItemProducto.innerHTML = contenidooHTML ; {% endcomment %}
-      {% comment %} contendorPrincipal.appendChild(menuItemProducto); {% endcomment %}
+      contendorPrincipal.innerHTML += menuItemProducto; {% endcomment %}
+
+      // Primero construir y cerrar el menuItem completo
+      contenidooHTML += `</div>`; 
+      menuItemProducto += contenidooHTML;
+      menuItemProducto += `</div>`;
+
+      // Añadir el menuItem al contenedor
       contendorPrincipal.innerHTML += menuItemProducto;
+
+      // Añadir los subItems al mismo nivel (si existen)
+      if (subItemProducto) {
+        contendorPrincipal.innerHTML += subItemProducto;
+      }
     });
 
   
@@ -1985,7 +2091,7 @@
     console.log('Colecciones Nivel 3:', coleccionNivel3);
     console.log('Colecciones Nivel 4:', coleccionNivel4);
     console.log('Productos Nivel 2 y 3:', productosNivel2y3);
-    console.log('Productos Nivel 2 y 4:', productosNivel4); 
+    console.log('Productos Nivel 4:', productosNivel4); 
   
     return {
       colecciones: {
