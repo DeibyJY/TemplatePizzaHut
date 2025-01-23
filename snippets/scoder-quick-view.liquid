@@ -1436,6 +1436,45 @@
     return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
   }
 
+  function parseProductDescription(descripcion){
+    try{
+      // Si la descripción está vacía o no es un string, retornar un array vacío
+      if (!description || typeof description !== 'string') {
+        return [];
+      }
+
+      // Intentar parsear el string JSON
+      const parsed = JSON.parse(description);
+
+      // Validar que el resultado sea un array
+      if (!Array.isArray(parsed)) {
+        return [];
+      }
+
+      return {
+        Nivel: Number(item.Nivel) || 0,
+        Titulo: String(item.Titulo || ''),
+        Min: Number(item.Min) || 0,
+        Max: Number(item.Max) || 0,
+        TipoSelect: String(item.TipoSelect || ''),
+        items: Array.isArray(item.items) ? item.items : 
+               // Si items es un número largo, convertirlo a array de números
+               String(item.items).split(',').map(num => Number(num.trim())).filter(num => !isNaN(num))
+      };
+      }).filter(item => 
+        // Filtrar objetos inválidos
+        item.Nivel > 0 && 
+        item.Titulo && 
+        item.TipoSelect && 
+        Array.isArray(item.items) && 
+        item.items.length > 0
+      );
+    } catch (error) {
+      console.error('Error parsing product description:', error);
+      return [];
+    }
+  }
+
   /**
   * Esta función procesa y organiza datos de una tienda Shopify:
   * 1. Clasifica las colecciones existentes en tres niveles (2, 3 y 4)
@@ -1691,13 +1730,28 @@
           `;
         }
 
-        console.log(productoMainItem);
+        {% comment %} console.log(productoMainItem); {% endcomment %}
+        // Sale de la iteración actual si es que la descripcion de producto "productoMainItem" esta vacia
+        if (!productoMainItem.description || productoMainItem.description.trim() === '') {
+          return;
+        }
+
+        // Parsear datos de la descripcion para usar la data de esa informacion 
+        const itemsSubSeccionProducto = parseProductDescription(productoMainItem.description);
+        if (parsedDescription.length === 0) {
+          return;
+        }
+
+        parsedDescription.forEach(item => {
+          console.log(item);
+        });
+      
         // Aqui falta un id mas en este caso seria el subItem de la coleccion seleccionada
         {% comment %} let subItemProducto = ``; {% endcomment %}
 
         // Obtener todas las colecciones solamente el titulo del producto actual
         const coleccionesProducto = productoMainItem.collections.map(col => col.title);
-        console.log(coleccionesProducto);
+        {% comment %} console.log(coleccionesProducto); {% endcomment %}
 
         if(coleccionesProducto.length > 0){
            subItemProducto += ``;
