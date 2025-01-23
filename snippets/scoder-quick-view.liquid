@@ -1566,9 +1566,9 @@
         const titulosProducto = new Set(todasColecciones.map(col => col.title));
 
         // Validar nivel 2 (requerido)
-        if (!verificarColecciones(titulosProducto, titulosNivel2)) {
+        {% comment %} if (!verificarColecciones(titulosProducto, titulosNivel2)) {
           return null;
-        }
+        } {% endcomment %}
 
         // Crear el objeto producto
         const producto = {
