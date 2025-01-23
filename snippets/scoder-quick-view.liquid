@@ -1496,7 +1496,7 @@
     const coleccionNivel4 = [];
     const coleccionNivel3 = [];
     const productosNivel2y3 = [];
-    const productosNivel2y4 = [];
+    const productosNivel4 = [];
   
     // Set para verificación rápida de IDs duplicados
     const idsNivel2y3 = new Set();
@@ -1588,6 +1588,23 @@
       const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
         // Verificar nivel 2 y 3
         if (verificarColecciones(titulosProducto, titulosNivel3)) {
+            if (!idsNivel2y3.has(producto.id)) {
+                acc.nivel2y3.push(producto);
+                idsNivel2y3.add(producto.id);
+            }
+        }
+        // Verificar solo nivel 4
+        else if (titulosProducto.some(titulo => titulosNivel4.has(titulo))) {
+            if (!idsNivel2y4.has(producto.id)) {
+                acc.nivel2y4.push(producto);
+                idsNivel2y4.add(producto.id);
+            }
+        }
+        return acc;
+      }, { nivel2y3: [], nivel2y4: [] });
+      {% comment %} const productosPorNivel = productosProcessados.reduce((acc, { producto, titulosProducto }) => {
+        // Verificar nivel 2 y 3
+        if (verificarColecciones(titulosProducto, titulosNivel3)) {
           if (!idsNivel2y3.has(producto.id)) {
             acc.nivel2y3.push(producto);
             idsNivel2y3.add(producto.id);
@@ -1601,14 +1618,14 @@
           }
         }
           return acc;
-        }, { nivel2y3: [], nivel2y4: [] });
+        }, { nivel2y3: [], nivel2y4: [] }); {% endcomment %}
 
         // Ordenar por precio y asignar a los arrays finales
         productosNivel2y3.push(
           ...productosPorNivel.nivel2y3.sort((a, b) => a.price.amount - b.price.amount)
         );
         
-        productosNivel2y4.push(
+        productosNivel4.push(
           ...productosPorNivel.nivel2y4.sort((a, b) => a.price.amount - b.price.amount)
         );
     }
@@ -1651,6 +1668,8 @@
       });
 
       productosEspecificos.forEach((productoMainItem, indexMainItem) => {
+        // ID del producto se encuentra en los TAGS
+
         if(tipoSelect === 'radio'){
           contenidooHTML += `
           <div class="opcion-principal-detalle-oferta3">
@@ -1734,7 +1753,6 @@
           `;
         }
 
-        {% comment %} console.log(productoMainItem); {% endcomment %}
         // Sale de la iteración actual si es que la descripcion de producto "productoMainItem" esta vacia
         if (!productoMainItem.description || productoMainItem.description.trim() === '') {
           return;
@@ -1746,12 +1764,43 @@
           return;
         }
 
-        itemsSubSeccionProducto.forEach(item => {
-          console.log(item);
+        itemsSubSeccionProducto.forEach((detalleProducto,indexProducto) => {
+          const { Nivel, Titulo, Min, Max, TipoSelect, items } = detalleProducto;
+
+          // Si el Minimo es 1 y Max es (N>0) tons es Requerida 
+          // Si el Minimo es 0 y Max es (N>0) tons es Opcional 
+          const textoSeleccion = Min === 0 
+          ? Max === 1 
+              ? 'Selecciona hasta un artículo'
+              : `Selecciona hasta ${Max} artículos`
+          : Max === 1
+              ? 'Selecciona un artículo'
+              : `Selecciona exactamente ${Max} artículos`;
+
+          const colorSolicitud = Min === 0 ? 'style="color: #B5B6BD !important;"' : '';          
+          subItemProducto = `<div class="menu-item-producto" id="menu-item-${indexProducto} ">`;
+
+          let contenidoHTML = `
+            <div class="titulo-detalle-oferta-producto">
+              <div id="titulo-detalle__comp1">
+                <h2 class="titulo-base1">ELIGE ${Titulo.toUpperCase()}</h2>
+                <span class="titulo-base2">${textoSeleccion}</span>
+              </div>
+              <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
+            </div>
+            <div class="item-menuItem" id="menuItem-${indexProducto}" data-min="${Min}" data-max="${Max}">
+            `;
+
+          // IDs de todos los productos de la coleccion actual
+          items.forEach((item, indexItem) => {
+            console.log(productosNivel4)
+            
+          });
+
+
+
         });
       
-        // Aqui falta un id mas en este caso seria el subItem de la coleccion seleccionada
-        {% comment %} let subItemProducto = ``; {% endcomment %}
 
         // Obtener todas las colecciones solamente el titulo del producto actual
         const coleccionesProducto = productoMainItem.collections.map(col => col.title);
@@ -1815,7 +1864,7 @@
 
             // Se va a iterar sobre los productos de nivel 2 y 4 que fueron preseleccionados, para verificar 
             // si algunos de ellos pertenecen a la colección nivel 4 actucal, al que se trabaja
-            productosNivel2y4.forEach((productoNivel2y4, indexProductoNivel2y4) => {
+            productosNivel4.forEach((productoNivel2y4, indexProductoNivel2y4) => {
 
               // Verificar si el producto dentro de sus coleccion se encuentra la coleccion nivel 4 actual de trabajo "coleccion"
               const esProductoDeColeccionNivel4 = productoNivel2y4.collections.some(col => col.title === coleccion);
@@ -1936,7 +1985,7 @@
     console.log('Colecciones Nivel 3:', coleccionNivel3);
     console.log('Colecciones Nivel 4:', coleccionNivel4);
     console.log('Productos Nivel 2 y 3:', productosNivel2y3);
-    console.log('Productos Nivel 2 y 4:', productosNivel2y4); 
+    console.log('Productos Nivel 2 y 4:', productosNivel4); 
   
     return {
       colecciones: {
@@ -1945,7 +1994,7 @@
         nivel4: coleccionNivel4
       },
       productosNivel2y3,
-      productosNivel2y4
+      productosNivel4
     };
   }
 
