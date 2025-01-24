@@ -2417,7 +2417,7 @@
     return Array.from(displays).reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
   
-    function actualizarControlesNumericos(containerSubItem) {
+    function actualizarBotonesNumberCountSubItem(containerSubItem) {
       const COLORS = obtenerColores();
       const min = parseInt(containerSubItem.getAttribute('data-min') || '0');
       const max = parseInt(containerSubItem.getAttribute('data-max') || '0');
