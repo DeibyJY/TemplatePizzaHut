@@ -2055,7 +2055,7 @@
         if (primerRadio) {
           primerRadio.checked = true;
           triggerChange(primerRadio);
-          verificarRequeridos();
+          // verificarRequeridos();
         }
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
         const displays = itemMenuDiv.querySelectorAll('.cantidad-display2');
@@ -2069,8 +2069,8 @@
             if (index < residuo) valor++;
             display.textContent = valor.toString();
           });
-          actualizarBotonesNumberCount(grupo, max);
-          verificarRequeridos();
+          // actualizarBotonesNumberCount(grupo, max);
+          // verificarRequeridos();
         }
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
         const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
