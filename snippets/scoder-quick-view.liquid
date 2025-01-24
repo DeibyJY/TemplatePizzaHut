@@ -1646,7 +1646,8 @@
       const variables = extraerVariablesDescripcion(coleccion.description);
         
       // Variables que so obtenudas de la descripcion de la coleccion que se esta iterando
-      const {variante,limite,solicitud,tipoSelect} = variables;
+      const {variante,min,max,solicitud,tipoSelect} = variables;
+      console.log(variables);
         
       const textoSeleccion = 
           solicitud == 'Opcional'
@@ -1699,11 +1700,11 @@
               ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
             </div>
             <div class="opcion-nombre1">
-              <div class="hover-area1" id="hoverArea-${indexCN3}-${indexMainItem}"></div>
+              <div class="hover-area1" id="hoverArea-${indexCN3}-${idProducto}"></div>
               <input
                 type="radio"
-                id="item-${indexCN3}-${indexMainItem}"
-                name="opcion-grupo-${indexCN3}"
+                id="item-${indexCN3}-${idProducto}"
+                name="opcion-grupo-${indexCN3}-${idProducto}"
                 class="radio-input"
                 data-group="${indexCN3}"
                 data-limite="${limite}"
@@ -1806,7 +1807,7 @@
               </div>
               <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${tipoSolicitud}</span>
             </div>
-            <div class="item-menuItem">
+            <div class="item-subItem">
             `;
 
           // IDs de todos los productos de la coleccion actual
@@ -2371,7 +2372,6 @@
       }
     });
   }
-  
 
   function esElementoRequerido(elemento) {
     const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
