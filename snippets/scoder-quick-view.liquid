@@ -2158,56 +2158,50 @@
   }
 
   // Funciones de validación
-  function validarLimiteCheckbox(casilla) {
-    const contenedor = casilla.closest('.item-menuItem');
-    const grupo = casilla.getAttribute('data-group');
-    const productoId = casilla.getAttribute('data-producto-id');
+  function validarLimiteCheckbox(checkbox) {
+    const contenedor = checkbox.closest('.item-menuItem, .item-subItem');
+    const min = parseInt(contenedor.getAttribute('data-min'));
+    const max = parseInt(contenedor.getAttribute('data-max'));
+    const checkboxesSeleccionados = contenedor.querySelectorAll('input[type="checkbox"]:checked').length;
     
-    const esSubItem = contenedor.closest('.sub-item-producto') !== null;
-    
-    let limite, min;
-    if (esSubItem) {
-      limite = parseInt(contenedor.getAttribute('data-max'));
-      min = parseInt(contenedor.getAttribute('data-min'));
-    } else {
-      limite = parseInt(contenedor.getAttribute('data-limite'));
-      min = limite;
+    if (checkbox.checked && checkboxesSeleccionados > max) {
+        checkbox.checked = false;
+        return;
     }
 
-    const checkboxes = contenedor.querySelectorAll('input[type="checkbox"]:checked');
-    if (checkboxes.length > limite) {
-      casilla.checked = false;
-    }
-
-    if (!esSubItem) {
-      if (casilla.checked) {
+    const grupo = checkbox.getAttribute('data-group');
+    const productoId = checkbox.getAttribute('data-producto-id');
+    
+    if(checkbox.checked) {
         mostrarSubItemsRelacionados(grupo, productoId);
-      } else {
-        document.querySelectorAll(
-          `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${productoId}"]`
-        ).forEach(subItem => {
-          subItem.style.display = 'none';
-        });
-      }
+    } else {
+        ocultarSubItems(grupo, productoId);
     }
 
-    // verificarRequeridos();
+    verificarRequeridos();
   }
 
   function validarLimiteRadio(radio) {
     const grupo = radio.getAttribute('data-group');
     const productoId = radio.getAttribute('data-producto-id');
-    
+    const contenedor = radio.closest('.item-menuItem, .item-subItem');
+    const min = parseInt(contenedor.getAttribute('data-min'));
+    const max = parseInt(contenedor.getAttribute('data-max'));
+    const radiosSeleccionados = contenedor.querySelectorAll('input[type="radio"]:checked').length;
+
     if (radio.checked) {
-      // Ocultar todos los sub-items del grupo
-      document.querySelectorAll(`.sub-item-producto[data-parent-group="${grupo}"]`)
-        .forEach(item => item.style.display = 'none');
-      
-      // Mostrar sub-items del elemento seleccionado
-      mostrarSubItemsRelacionados(grupo, productoId);
+        if (radiosSeleccionados > max) {
+            radio.checked = false;
+            return;
+        }
+        
+        // Ocultar/mostrar sub-items
+        document.querySelectorAll(`.sub-item-producto[data-parent-group="${grupo}"]`)
+            .forEach(item => item.style.display = 'none');
+        mostrarSubItemsRelacionados(grupo, productoId);
     }
-  
-    verificarRequeridos();
+    
+    verificarRequeridos(); // Actualiza colores según min/max
   }
 
   function verificarRequeridos() {
