@@ -2182,26 +2182,33 @@
   }
 
   function validarLimiteRadio(radio) {
+    const contenedor = radio.closest('.item-menuItem, .item-subItem');
     const grupo = radio.getAttribute('data-group');
     const productoId = radio.getAttribute('data-producto-id');
-    const contenedor = radio.closest('.item-menuItem, .item-subItem');
     const min = parseInt(contenedor.getAttribute('data-min'));
     const max = parseInt(contenedor.getAttribute('data-max'));
-    const radiosSeleccionados = contenedor.querySelectorAll('input[type="radio"]:checked').length;
-
+    
     if (radio.checked) {
-        if (radiosSeleccionados > max) {
-            radio.checked = false;
-            return;
-        }
+        // Desmarca otros radios del mismo grupo
+        contenedor.querySelectorAll('input[type="radio"]:checked').forEach(otherRadio => {
+            if (otherRadio !== radio) {
+                otherRadio.checked = false;
+            }
+        });
         
-        // Ocultar/mostrar sub-items
+        // Oculta/muestra sub-items
         document.querySelectorAll(`.sub-item-producto[data-parent-group="${grupo}"]`)
             .forEach(item => item.style.display = 'none');
         mostrarSubItemsRelacionados(grupo, productoId);
+    } else if (min > 0) {
+        // Si es requerido, asegura que al menos uno esté seleccionado
+        const radiosSeleccionados = contenedor.querySelectorAll('input[type="radio"]:checked').length;
+        if (radiosSeleccionados === 0) {
+            radio.checked = true;
+        }
     }
     
-    verificarRequeridos(); // Actualiza colores según min/max
+    verificarRequeridos();
   }
 
   function verificarRequeridos() {
