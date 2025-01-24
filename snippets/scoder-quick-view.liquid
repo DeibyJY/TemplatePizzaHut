@@ -1645,17 +1645,16 @@
       const variables = extraerVariablesDescripcion(coleccion.description);
         
       // Variables que so obtenudas de la descripcion de la coleccion que se esta iterando
-      const {variante,min,max,solicitud,tipoSelect} = variables;
+      const {variante, min, max, tipoSelect} = variables;
       console.log(variables);
-        
-      const textoSeleccion = 
-          solicitud == 'Opcional'
-          ? limite == 1
-            ? 'Selecciona hasta un artículo'
-            : `Selecciona hasta ${limite} artículos`
-          : limite == 1
-          ? 'Selecciona un artículo'
-          : `Selecciona exactamente ${limite} artículos`;
+      
+      const textoSeleccion = min === 0
+          ? max === 1
+              ? 'Selecciona hasta un artículo'
+              : `Selecciona hasta ${max} artículos`
+          : max === 1
+              ? 'Selecciona un artículo'
+              : `Selecciona exactamente ${max} artículos`;
 
         const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
         let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}" menu-item="${indexCN3}">`;
@@ -1693,7 +1692,7 @@
 
         if(tipoSelect === 'radio'){
           contenidooHTML += `
-          <div class="opcion-principal-detalle-oferta3" data-group="${indexCN3}" data-limite="${limite}" data-producto-id="${idProducto}" data-precio="${precioProducto}">
+          <div class="opcion-principal-detalle-oferta3" data-group="${indexCN3}" data-limite="${limite}" data-producto-id="${idProducto}">
             <div class="producto-info3">
               <span class="producto-nombre3">${productoMainItem.title}</span>
               ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
@@ -1706,7 +1705,8 @@
                 name="opcion-grupo-${indexCN3}-${idProducto}"
                 class="radio-input"
                 data-group="${indexCN3}"
-                data-limite="${limite}"
+                data-min="${min}"
+                data-max="${max}"
                 data-producto-id="${idProducto}"
                 data-precio="${precioProducto}"
                 onchange="validarLimiteRadio(this)"
@@ -1811,6 +1811,8 @@
 
           // IDs de todos los productos de la coleccion actual
           items.forEach((item, indexItem) => {
+            // item es el numero del producto que tiene para escoger
+
             // Buscar el producto que tenga el item (número) en sus tags
             const productoTrabajo = productosNivel4.find(producto => {
               try{
@@ -1852,9 +1854,10 @@
                         name="opcion-grupo-${indexProducto}"
                         class="radio-input"
                         data-group="${indexProducto}"
-                        data-limite="${Max}"
-                        data-variant-id="${varianteActual.id}"
-                        data-variant-price="${precioVariante}"
+                        data-min="${Min}"
+                        data-max="${Max}"
+                        data-producto-id="${item}"
+                        data-producto-price="${precioVariante}"
                         onchange="validarLimiteRadio(this)"
                       >
                     </div>
