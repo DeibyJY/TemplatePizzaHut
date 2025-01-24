@@ -1727,17 +1727,18 @@
               </div>
 
               <div class="controles-cantidad2" 
-                  data-group="${indexProducto}" 
+                  data-group="${indexCN3}" 
+                  data-index="${indexMainItem}"
                   data-min="${minNum}"
                   data-max="${maxNum}"
-                  data-variant-id="${varianteActual.id}"
+                  data-producto-id="${idProducto}"
                   data-precio="${precioVariante}">
                 <button type="button" class="btn-cantidad2" onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
                 </button>
-                <p class="cantidad-display2" id="cantidad-${indexProducto}-${indexItem}">0</p>
+                <p class="cantidad-display2">0</p>
                 <button type="button" class="btn-cantidad2" onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
@@ -1876,17 +1877,19 @@
                       ${precioVariante > 0 ? `<span class="producto-precio2">+Bs${precioVariante}</span>` : ''}
                     </div>
                     <div class="controles-cantidad2" 
-                        data-group="${indexCN3}" 
+                        data-group="${indexCN3}"
+                        data-group-product-id="${idProducto}"
+                        data-subgroup="${indexProducto}"
+                        data-producto-id="${item}"
                         data-min="${Min}"
                         data-max="${Max}"
-                        data-producto-id="${item}"
                         data-precio="${precioProducto}">
                       <button type="button" class="btn-cantidad2" onclick="decrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')">
                          <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                           <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                         </svg>
                       </button>
-                      <p class="cantidad-display2" id="cantidad-${indexCN3}-${indexMainItem}">0</p>
+                      <p class="cantidad-display2" >0</p>
                       <button type="button" class="btn-cantidad2" onclick="decrementCantidad('${indexProducto}-${indexItem}', '${indexProducto}')">
                         <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                           <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
