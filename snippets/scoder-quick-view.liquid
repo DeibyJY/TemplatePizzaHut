@@ -1645,7 +1645,7 @@
       const variables = extraerVariablesDescripcion(coleccion.description);
         
       // Variables que so obtenudas de la descripcion de la coleccion que se esta iterando
-      const {variante, min, max, tipoSelect} = variables;
+      const {variante, min, max,solicitud, tipoSelect} = variables;
       const minNum = parseInt(min) || 0;
       const maxNum = parseInt(max) || 1;
       console.log(variables);
@@ -1656,7 +1656,7 @@
               : `Selecciona hasta ${maxNum} artículos`
           : maxNum === 1
               ? 'Selecciona un artículo'
-              : `Selecciona exactamente ${maxNum} artículos`;
+              : `Selecciona exactamente ${maxNum} aFrtículos`;
 
         const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
         let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}" menu-item="${indexCN3}">`;
