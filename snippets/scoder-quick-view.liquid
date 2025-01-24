@@ -2416,48 +2416,71 @@
   }
   
   function actualizarBotonesNumberCount(grupo, maxLimit = null) {
+    if (!grupo && grupo !== 0) {
+        console.warn('Grupo no válido en actualizarBotonesNumberCount:', grupo);
+        return;
+    }
+
     const COLORS = obtenerColores();
-    const contenedor = document.querySelector(`[data-group="${grupo}"]`);
-    const esSubItem = !!contenedor?.closest('.sub-item-producto');
+    
+    // Buscar todos los controles de cantidad para este grupo
+    const controlesGrupo = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
+    if (!controlesGrupo.length) {
+        console.warn(`No se encontraron controles para el grupo ${grupo}`);
+        return;
+    }
+
+    // Obtener el primer control para extraer los límites
+    const primerControl = controlesGrupo[0];
+    const contenedorPrincipal = primerControl.closest('.opcion-principal-detalle-oferta2');
     
     let minimo, maximo;
-    if (esSubItem) {
-      const itemMenuDiv = contenedor.closest('.item-menuItem');
-      minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      maximo = maxLimit || parseInt(itemMenuDiv.getAttribute('data-max') || '0');
+    if (contenedorPrincipal) {
+        minimo = parseInt(contenedorPrincipal.getAttribute('data-min') || '0');
+        maximo = maxLimit || parseInt(contenedorPrincipal.getAttribute('data-max') || '0');
     } else {
-      maximo = parseInt(contenedor?.getAttribute('data-limite') || maxLimit || '0');
-      minimo = 0;
+        minimo = parseInt(primerControl.getAttribute('data-min') || '0');
+        maximo = maxLimit || parseInt(primerControl.getAttribute('data-max') || '0');
     }
-  
-    const elementos = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
-    const sumaTotal = Array.from(elementos)
-      .reduce((sum, control) => {
+
+    // Calcular suma total actual
+    let sumaTotal = 0;
+    controlesGrupo.forEach(control => {
         const display = control.querySelector('.cantidad-display2');
-        return sum + parseInt(display?.textContent || '0');
-      }, 0);
-  
-    elementos.forEach(controlCantidad => {
-      const botonIncremento = controlCantidad.querySelector('button:last-child');
-      const botonDecremento = controlCantidad.querySelector('button:first-child');
-      const display = controlCantidad.querySelector('.cantidad-display2');
-      const cantidad = parseInt(display.textContent || '0');
-  
-      // Botón incremento
-      if (botonIncremento) {
-        const debeDeshabilitarIncremento = sumaTotal >= maximo;
-        botonIncremento.disabled = debeDeshabilitarIncremento;
-        botonIncremento.style.setProperty('fill', debeDeshabilitarIncremento ? COLORS.OPCIONAL : '', 'important');
-        botonIncremento.style.setProperty('cursor', debeDeshabilitarIncremento ? 'not-allowed' : 'pointer', 'important');
-      }
-  
-      // Botón decremento
-      if (botonDecremento) {
-        const debeDeshabilitarDecremento = cantidad === 0 || (esSubItem && sumaTotal <= minimo);
-        botonDecremento.disabled = debeDeshabilitarDecremento;
-        botonDecremento.style.setProperty('fill', debeDeshabilitarDecremento ? COLORS.OPCIONAL : '', 'important');
-        botonDecremento.style.setProperty('cursor', debeDeshabilitarDecremento ? 'not-allowed' : 'pointer', 'important');
-      }
+        if (display) {
+            sumaTotal += parseInt(display.textContent || '0');
+        }
+    });
+
+    // Actualizar estado de botones para cada control
+    controlesGrupo.forEach(controlCantidad => {
+        const botonIncremento = controlCantidad.querySelector('button:last-child');
+        const botonDecremento = controlCantidad.querySelector('button:first-child');
+        const display = controlCantidad.querySelector('.cantidad-display2');
+        
+        if (!display) return;
+        
+        const cantidad = parseInt(display.textContent || '0');
+
+        // Actualizar botón de incremento
+        if (botonIncremento) {
+            const debeDeshabilitarIncremento = sumaTotal >= maximo;
+            botonIncremento.disabled = debeDeshabilitarIncremento;
+            botonIncremento.style.setProperty('fill', 
+                debeDeshabilitarIncremento ? COLORS.OPCIONAL : '', 'important');
+            botonIncremento.style.setProperty('cursor', 
+                debeDeshabilitarIncremento ? 'not-allowed' : 'pointer', 'important');
+        }
+
+        // Actualizar botón de decremento
+        if (botonDecremento) {
+            const debeDeshabilitarDecremento = cantidad === 0 || sumaTotal <= minimo;
+            botonDecremento.disabled = debeDeshabilitarDecremento;
+            botonDecremento.style.setProperty('fill', 
+                debeDeshabilitarDecremento ? COLORS.OPCIONAL : '', 'important');
+            botonDecremento.style.setProperty('cursor', 
+                debeDeshabilitarDecremento ? 'not-allowed' : 'pointer', 'important');
+        }
     });
   }
 
