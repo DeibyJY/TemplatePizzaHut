@@ -2025,9 +2025,8 @@
             // Determinar si estamos en el menu principal
             const menuItem = controlesNumero[0].closest('.menu-item-producto');
             if (menuItem) {
-                let restante = min;
+                let restante = max;
                 let index = 0;
-                console.log('Marcando menu-item con min:', min, 'max:', max);
                 
                 // Distribuir valores en el menu principal
                 while (restante > 0 && index < controlesNumero.length) {
@@ -2081,7 +2080,7 @@
             // Determinar si estamos en un sub-item
             const subItemElement = controlesNumero[0].closest('.sub-item-producto');
             if (subItemElement) {
-                let restante = min;
+                let restante = max;
                 let index = 0;
                 console.log('Marcando sub-item con min:', min, 'max:', max);
                 
