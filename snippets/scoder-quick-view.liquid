@@ -2218,7 +2218,6 @@
       const itemMenuDiv = esSubItem ? 
         item.querySelector('.item-subItem') : 
         item.querySelector('.item-menuItem');
-      
       const solicitudElement = item.querySelector('.titulo-detalle-seleccion');
       const esRequerido = solicitudElement.textContent.trim() === 'REQUERIDO';
       
@@ -2229,6 +2228,7 @@
   
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
         cantidadSeleccionada = itemMenuDiv.querySelectorAll('input[type="radio"]:checked').length;
+        console.log(cantidadSeleccionada);
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
         cantidadSeleccionada = Array.from(itemMenuDiv.querySelectorAll('.cantidad-display2'))
           .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
@@ -2238,6 +2238,7 @@
   
       const cumpleMinimo = cantidadSeleccionada >= minimo;
       const cumpleMaximo = cantidadSeleccionada <= maximo;
+      console.log(cumpleMinimo, cumpleMaximo);
       
       let colorElementos, colorSolicitud;
       
@@ -2258,6 +2259,8 @@
         colorElementos = COLORS.ERROR;
         colorSolicitud = COLORS.ERROR;
       }
+
+      console.log(colorElementos, colorSolicitud);
   
       const elementosTexto = item.querySelectorAll('.titulo-base1, .titulo-base2');
       const nombresProductos = item.querySelectorAll('.producto-nombre2, .producto-nombre3');
