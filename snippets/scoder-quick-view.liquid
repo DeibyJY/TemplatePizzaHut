@@ -2002,33 +2002,29 @@
 
   // Función corregida para marcar opciones requeridas
   function marcarOpcionesRequeridas() {
-    // Procesar menu-item-producto
+    // Para menu-item-producto
     document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
       const solicitudText = menuItem.querySelector('.titulo-detalle-seleccion').textContent.trim();
       const esRequerido = solicitudText === 'REQUERIDO';
       if (!esRequerido) return;
-
+  
       const itemMenuDiv = menuItem.querySelector('.item-menuItem');
-      const limite = parseInt(itemMenuDiv.querySelector('[data-limite]')?.getAttribute('data-limite') || '0');
-      const menuItemId = menuItem.getAttribute('menu-item');
-
-      // Manejar cada tipo de input para menu-item-producto
+      const limite = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
+      const grupo = menuItem.getAttribute('data-group');
+  
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
-        // Para radio, seleccionar el primero
         const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
         if (primerRadio) {
           primerRadio.checked = true;
           triggerChange(primerRadio);
         }
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        // Para numberCount, poner todo el límite en el primer elemento
         const primerDisplay = itemMenuDiv.querySelector('.cantidad-display2');
         if (primerDisplay) {
           primerDisplay.textContent = limite.toString();
-          actualizarBotonesNumberCount(menuItemId);
+          actualizarBotonesNumberCount(grupo);
         }
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
-        // Para checkbox, seleccionar los primeros hasta cumplir el límite
         const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
         for (let i = 0; i < Math.min(limite, checkboxes.length); i++) {
           checkboxes[i].checked = true;
@@ -2036,35 +2032,31 @@
         }
       }
     });
-
-    // Procesar sub-item-producto
+  
+    // Para sub-item-producto
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
       const solicitudText = subItem.querySelector('.titulo-detalle-seleccion').textContent.trim();
       const esRequerido = solicitudText === 'REQUERIDO';
       if (!esRequerido) return;
-
+  
       const itemMenuDiv = subItem.querySelector('.item-menuItem');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || min.toString());
-      const subItemId = subItem.getAttribute('sub-item');
-
-      // Manejar cada tipo de input para sub-item-producto
+      const grupo = subItem.getAttribute('data-sub-item');
+  
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
-        // Para radio, seleccionar el primero
         const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
         if (primerRadio) {
           primerRadio.checked = true;
           triggerChange(primerRadio);
         }
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        // Para numberCount, poner todo el mínimo requerido en el primer elemento
         const primerDisplay = itemMenuDiv.querySelector('.cantidad-display2');
         if (primerDisplay) {
           primerDisplay.textContent = min.toString();
-          actualizarBotonesNumberCount(subItemId, max);
+          actualizarBotonesNumberCount(grupo, max);
         }
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
-        // Para checkbox, seleccionar los primeros hasta cumplir el mínimo
         const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
         for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
           checkboxes[i].checked = true;
@@ -2072,13 +2064,7 @@
         }
       }
     });
-
-    // Actualizar visibilidad de sub-items después de marcar las opciones
-    actualizarVisibilidadSubItems();
-    // Verificar estados después de marcar las opciones
-    verificarRequeridos();
   }
-
 
   // Control de visibilidad de sub-items
   function actualizarVisibilidadSubItems() {
@@ -2118,20 +2104,20 @@
     });
   }
 
-  function mostrarSubItemsRelacionados(menuItemId, idProducto) {
-    document.querySelectorAll(`.sub-item-producto[menu-item="${menuItemId}"][id-producto="${idProducto}"]`)
-      .forEach(subItem => {
-        subItem.style.display = 'block';
-      });
+  function mostrarSubItemsRelacionados(grupo, productoId) {
+    document.querySelectorAll(
+      `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${productoId}"]`
+    ).forEach(subItem => {
+      subItem.style.display = 'block';
+    });
   }
 
   // Funciones de validación
   function validarLimiteCheckbox(casilla) {
     const contenedor = casilla.closest('.item-menuItem');
-    const menuItemId = casilla.getAttribute('menu-item');
-    const idProducto = casilla.getAttribute('id-producto');
+    const grupo = casilla.getAttribute('data-group');
+    const productoId = casilla.getAttribute('data-producto-id');
     
-    // Determinar si es sub-item o menu-item
     const esSubItem = contenedor.closest('.sub-item-producto') !== null;
     
     let limite, min;
@@ -2140,7 +2126,7 @@
       min = parseInt(contenedor.getAttribute('data-min'));
     } else {
       limite = parseInt(contenedor.getAttribute('data-limite'));
-      min = limite; // Para menu-items, el mínimo es igual al límite si es requerido
+      min = limite;
     }
 
     const checkboxes = contenedor.querySelectorAll('input[type="checkbox"]:checked');
@@ -2148,12 +2134,15 @@
       casilla.checked = false;
     }
 
-    // Actualizar visibilidad de sub-items
     if (!esSubItem) {
       if (casilla.checked) {
-        mostrarSubItemsRelacionados(menuItemId, idProducto);
+        mostrarSubItemsRelacionados(grupo, productoId);
       } else {
-        ocultarSubItemsRelacionados(menuItemId, idProducto);
+        document.querySelectorAll(
+          `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${productoId}"]`
+        ).forEach(subItem => {
+          subItem.style.display = 'none';
+        });
       }
     }
 
@@ -2161,20 +2150,18 @@
   }
 
   function validarLimiteRadio(radio) {
-    const menuItemId = radio.getAttribute('menu-item');
-    const idProducto = radio.getAttribute('id-producto');
-    const contenedor = radio.closest('.item-menuItem');
+    const grupo = radio.getAttribute('data-group');
+    const productoId = radio.getAttribute('data-producto-id');
     
-    // Gestionar sub-items
     if (radio.checked) {
       // Ocultar todos los sub-items del grupo
-      const allSubItems = document.querySelectorAll(`.sub-item-producto[menu-item="${menuItemId}"]`);
-      allSubItems.forEach(item => item.style.display = 'none');
+      document.querySelectorAll(`.sub-item-producto[data-parent-group="${grupo}"]`)
+        .forEach(item => item.style.display = 'none');
       
       // Mostrar sub-items del elemento seleccionado
-      mostrarSubItemsRelacionados(menuItemId, idProducto);
+      mostrarSubItemsRelacionados(grupo, productoId);
     }
-
+  
     verificarRequeridos();
   }
 
@@ -2230,8 +2217,8 @@
     const display = document.getElementById(`cantidad-${itemId}`);
     if (!display) return;
   
-    const itemMenuDiv = display.closest('.item-menuItem');
-    const limite = parseInt(itemMenuDiv?.getAttribute('data-limite') || itemMenuDiv?.getAttribute('data-max') || '0');
+    const controlCantidad = display.closest('.controles-cantidad2');
+    const limite = parseInt(controlCantidad.getAttribute('data-max') || controlCantidad.getAttribute('data-limite') || '0');
     const sumaActual = obtenerSumaGrupo(grupo);
   
     if (sumaActual < limite) {
@@ -2249,30 +2236,35 @@
     const valorActual = parseInt(display.textContent || '0');
     if (valorActual > 0) {
       display.textContent = (valorActual - 1).toString();
-      const itemMenuDiv = display.closest('.item-menuItem');
-      const limite = parseInt(itemMenuDiv?.getAttribute('data-limite') || itemMenuDiv?.getAttribute('data-max') || '0');
+      const controlCantidad = display.closest('.controles-cantidad2');
+      const limite = parseInt(controlCantidad.getAttribute('data-max') || controlCantidad.getAttribute('data-limite') || '0');
       actualizarBotonesNumberCount(grupo, limite);
       verificarRequeridos();
     }
   }
   
   function obtenerSumaGrupo(grupo) {
-    return Array.from(document.querySelectorAll(`[data-group="${grupo}"] .cantidad-display2`))
+    return Array.from(document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"] .cantidad-display2`))
       .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
+  
 
   function actualizarBotonesNumberCount(grupo, maxLimit = null) {
-    const elementos = document.querySelectorAll(`[data-group="${grupo}"] .opcion-principal-detalle-oferta2`);
+    const contenedor = document.querySelector(`[data-group="${grupo}"]`);
+    const elementos = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
     const sumaTotal = obtenerSumaGrupo(grupo);
-    const limite = maxLimit || parseInt(document.querySelector(`[data-group="${grupo}"]`)?.getAttribute('data-limite') || '0');
+    
+    const limite = maxLimit || 
+                   parseInt(contenedor?.getAttribute('data-limite')) || 
+                   parseInt(contenedor?.getAttribute('data-max')) || 0;
   
-    elementos.forEach(elemento => {
-      const botonIncremento = elemento.querySelector('button:last-child');
-      const botonDecremento = elemento.querySelector('button:first-child');
-      const display = elemento.querySelector('.cantidad-display2');
+    elementos.forEach(controlCantidad => {
+      const botonIncremento = controlCantidad.querySelector('.btn-cantidad2:last-child');
+      const botonDecremento = controlCantidad.querySelector('.btn-cantidad2:first-child');
+      const display = controlCantidad.querySelector('.cantidad-display2');
       const cantidad = parseInt(display.textContent || '0');
   
-      // Manejar botones de incremento/decremento
+      // Botón incremento
       if (botonIncremento) {
         const debeDeshabilitarIncremento = sumaTotal >= limite;
         botonIncremento.disabled = debeDeshabilitarIncremento;
@@ -2280,6 +2272,7 @@
         botonIncremento.style.setProperty('cursor', debeDeshabilitarIncremento ? 'not-allowed' : 'pointer', 'important');
       }
   
+      // Botón decremento
       if (botonDecremento) {
         const debeDeshabilitarDecremento = cantidad === 0;
         botonDecremento.disabled = debeDeshabilitarDecremento;
