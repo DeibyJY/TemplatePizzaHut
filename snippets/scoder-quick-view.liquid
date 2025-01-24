@@ -2020,7 +2020,7 @@
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
-      console.log(max,min,grupo);
+      {% comment %} console.log(max,min,grupo); {% endcomment %}
   
       // Radio buttons
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
@@ -2399,8 +2399,6 @@
       }
     });
   }
-
-
 
   // Helper function to trigger change events
   function triggerChange(element) {
