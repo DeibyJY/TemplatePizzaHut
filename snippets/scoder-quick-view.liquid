@@ -2019,7 +2019,7 @@
       const itemMenuDiv = menuItem.querySelector('.item-menuItem');
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      const grupo = menuItem.getAttribute('data-group');
+      const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
       console.log(max,min,grupo);
   
       // Radio buttons
