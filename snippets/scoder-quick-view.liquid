@@ -2003,55 +2003,54 @@
     const minRequerido = parseInt(contenedor.getAttribute('data-min') || '0');
     return esRequeridoExplicito || minRequerido > 0;
   }
-  
+
   function marcarOpcionesRequeridas() {
-    // Para menu-item-producto
-    document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
-        if (!esElementoRequerido(menuItem)) return;
-        
-        const itemMenuDiv = menuItem.querySelector('.item-menuItem');
-        if (!itemMenuDiv) return;
+    document.querySelectorAll('.menu-item-producto, .sub-item-producto').forEach(elemento => {
+        if (!esElementoRequerido(elemento)) return;
 
-        const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
-        const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-        const grupo = itemMenuDiv.getAttribute('data-group');
-        
-        // Caso 1: Radio buttons
-        const radios = itemMenuDiv.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
+        const esSubItem = elemento.classList.contains('sub-item-producto');
+        const contenedor = esSubItem ? 
+            elemento.querySelector('.item-subItem') : 
+            elemento.querySelector('.item-menuItem');
+            
+        if (!contenedor) return;
+
+        const min = parseInt(contenedor.getAttribute('data-min') || '0');
+        const max = parseInt(contenedor.getAttribute('data-max') || min.toString());
+        const grupo = contenedor.getAttribute('data-group');
+
+        // Manejar radio buttons
+        const radios = contenedor.querySelectorAll('input[type="radio"]');
+        if (radios.length > 0 && min > 0) {
             const primerRadio = radios[0];
             if (primerRadio) {
                 primerRadio.checked = true;
                 triggerChange(primerRadio);
             }
-        } 
-        
-        // Caso 2: Controles numéricos
-        const controlesNumero = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
-        if (controlesNumero.length > 0 && min > 0) {
-            // Determinar si estamos en el menu principal
-            const menuItem = controlesNumero[0].closest('.menu-item-producto');
-            if (menuItem) {
-                let restante = max;
+        }
+
+        // Manejar controles numéricos
+        const controlesNumero = contenedor.querySelectorAll('.opcion-principal-detalle-oferta2');
+        if (controlesNumero.length > 0) {
+            if (min > 0) {
+                let restante = min;
                 let index = 0;
                 
-                // Distribuir valores en el menu principal
                 while (restante > 0 && index < controlesNumero.length) {
                     const display = controlesNumero[index].querySelector('.cantidad-display2');
                     if (display) {
                         display.textContent = '1';
                         restante--;
-                        console.log('Menu: Marcando elemento', index, 'con 1, restante:', restante);
                     }
                     index++;
                 }
-                {% comment %} actualizarBotonesNumberCount(grupo, 'menu-item', max); {% endcomment %}
             }
+            actualizarBotonesControlesNumericos(elemento, esSubItem);
         }
-        
-        // Caso 3: Checkboxes
-        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
-        if (checkboxes.length > 0) {
+
+        // Manejar checkboxes
+        const checkboxes = contenedor.querySelectorAll('input[type="checkbox"]');
+        if (checkboxes.length > 0 && min > 0) {
             const cantidadAMarcar = Math.min(min, checkboxes.length);
             for (let i = 0; i < cantidadAMarcar; i++) {
                 checkboxes[i].checked = true;
@@ -2060,68 +2059,59 @@
         }
     });
 
-    // Para sub-item-producto
-    document.querySelectorAll('.sub-item-producto').forEach(subItem => {
-        if (!esElementoRequerido(subItem)) return;
-
-        const itemSubDiv = subItem.querySelector('.item-subItem');
-        if (!itemSubDiv) return;
-
-
-        const min = parseInt(itemSubDiv.getAttribute('data-min') || '0');
-        const max = parseInt(itemSubDiv.getAttribute('data-max') || min.toString());
-        const grupo = itemSubDiv.getAttribute('data-group');
-
-        // Caso 1: Radio buttons
-        const radios = itemSubDiv.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
-            const primerRadio = radios[0];
-            if (primerRadio) {
-                primerRadio.checked = true;
-                triggerChange(primerRadio);
-            }
-        }
-
-        // Caso 2: Controles numéricos
-        const controlesNumero = itemSubDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
-        if (controlesNumero.length > 0 && min > 0) {
-            // Determinar si estamos en un sub-item
-            const subItemElement = controlesNumero[0].closest('.sub-item-producto');
-
-            if (subItemElement) {
-                let restante = max;
-                let index = 0;
-                
-                // Distribuir valores en el sub-item
-                while (restante > 0 && index < controlesNumero.length) {
-                    // Contendor del Button(+) 1 Button(-)
-                    const display = controlesNumero[index].querySelector('.cantidad-display2');
-
-                    if (display) {
-                        display.textContent = '1';
-                        restante--;
-                        console.log('Sub: Marcando elemento', index, 'con 1, restante:', restante);
-                    }
-                    index++;
-                }
-                {% comment %} actualizarBotonesNumberCount(subItem); {% endcomment %}
-                actualizarBotonesNumberCountSubItem(subItem);
-            }
-        }
-
-        // Caso 3: Checkboxes
-        const checkboxes = itemSubDiv.querySelectorAll('input[type="checkbox"]');
-        if (checkboxes.length > 0) {
-            const cantidadAMarcar = Math.min(min, checkboxes.length);
-            for (let i = 0; i < cantidadAMarcar; i++) {
-                checkboxes[i].checked = true;
-                triggerChange(checkboxes[i]);
-            }
-        }
-    });
-
-    // Verificar todos los requeridos al final
     verificarRequeridos();
+  }
+
+  function actualizarBotonesControlesNumericos(contenedor, esSubItem = true) {
+    const COLORES = obtenerColores();
+    
+    // Obtener el contenedor correcto y sus atributos según el tipo
+    const contenedorPrincipal = esSubItem ? 
+        contenedor.querySelector('.item-subItem') : 
+        contenedor.querySelector('.item-menuItem');
+
+    if (!contenedorPrincipal) return;
+
+    const min = parseInt(contenedorPrincipal.getAttribute('data-min') || '0');
+    const max = parseInt(contenedorPrincipal.getAttribute('data-max') || '0');
+    
+    const controlesGrupo = contenedorPrincipal.querySelectorAll('.controles-cantidad2');
+    if (!controlesGrupo.length) return;
+    
+    // Calcular suma total actual
+    let sumaTotal = 0;
+    controlesGrupo.forEach(control => {
+        const display = control.querySelector('.cantidad-display2');
+        if (display) {
+            sumaTotal += parseInt(display.textContent || '0');
+        }
+    });
+
+    // Actualizar cada control
+    controlesGrupo.forEach(control => {
+        const display = control.querySelector('.cantidad-display2');
+        if (!display) return;
+
+        const cantidad = parseInt(display.textContent || '0');
+        
+        // Actualizar botón de incremento (botón +)
+        const botonMas = control.querySelector('button:last-child');
+        if (botonMas) {
+            const deshabilitarMas = sumaTotal >= max;
+            botonMas.disabled = deshabilitarMas;
+            botonMas.style.setProperty('fill', deshabilitarMas ? COLORES.OPCIONAL : '', 'important');
+            botonMas.style.setProperty('cursor', deshabilitarMas ? 'not-allowed' : 'pointer', 'important');
+        }
+
+        // Actualizar botón de decremento (botón -)
+        const botonMenos = control.querySelector('button:first-child');
+        if (botonMenos) {
+            const deshabilitarMenos = cantidad === 0 || (sumaTotal <= min && cantidad > 0);
+            botonMenos.disabled = deshabilitarMenos;
+            botonMenos.style.setProperty('fill', deshabilitarMenos ? COLORES.OPCIONAL : '', 'important');
+            botonMenos.style.setProperty('cursor', deshabilitarMenos ? 'not-allowed' : 'pointer', 'important');
+        }
+    });
   }
 
   function esElementoRequerido(elemento) {
@@ -2417,7 +2407,7 @@
     return Array.from(displays).reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
   
-    function actualizarBotonesNumberCountSubItem(containerSubItem) {
+  function actualizarBotonesNumberCountSubItem(containerSubItem) {
       const COLORS = obtenerColores();
       const min = parseInt(containerSubItem.getAttribute('data-min') || '0');
       const max = parseInt(containerSubItem.getAttribute('data-max') || '0');
@@ -2460,7 +2450,6 @@
     });
     element.dispatchEvent(event);
   }
-  //asdasdas
 
   (function() {
     function initializeShopifyProduct() {
