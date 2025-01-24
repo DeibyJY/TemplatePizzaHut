@@ -2020,6 +2020,7 @@
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const grupo = menuItem.getAttribute('data-group');
+      console.log(max,min.grupo);
   
       // Radio buttons
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
@@ -2099,7 +2100,7 @@
 
   function esElementoRequerido(elemento) {
     const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
-    console.log(solicitudText);
+    //console.log(solicitudText);
     if (solicitudText === 'REQUERIDO') return true;
     
     {% comment %} const itemMenuDiv = elemento.querySelector('.item-menuItem');
@@ -2190,7 +2191,7 @@
       }
     }
 
-    verificarRequeridos();
+    // verificarRequeridos();
   }
 
   function validarLimiteRadio(radio) {
@@ -2206,7 +2207,7 @@
       mostrarSubItemsRelacionados(grupo, productoId);
     }
   
-    verificarRequeridos();
+    // verificarRequeridos();
   }
 
   function verificarRequeridos() {
