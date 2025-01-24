@@ -2012,6 +2012,7 @@
 
   // Función corregida para marcar opciones requeridas
   function marcarOpcionesRequeridas() {
+    // Para menu-item-producto
     document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
       if (!esElementoRequerido(menuItem)) return;
       
@@ -2042,7 +2043,7 @@
             if (index < residuo) valor++;
             display.textContent = valor.toString();
           });
-          // actualizarBotonesNumberCount(grupo, max);
+          actualizarBotonesNumberCount(grupo, max);
           // verificarRequeridos();
         }
       } 
@@ -2064,7 +2065,6 @@
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || min.toString());
       const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
-      console.log(max,min,grupo);
   
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
         const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
@@ -2085,7 +2085,7 @@
             if (index < residuo) valor++;
             display.textContent = valor.toString();
           });
-          // actualizarBotonesNumberCount(grupo, max);
+           actualizarBotonesNumberCount(grupo, max);
           // verificarRequeridos();
         }
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
