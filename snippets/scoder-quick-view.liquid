@@ -2004,10 +2004,8 @@
   function marcarOpcionesRequeridas() {
     // Para menu-item-producto
     document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
-      const solicitudText = menuItem.querySelector('.titulo-detalle-seleccion').textContent.trim();
-      const esRequerido = solicitudText === 'REQUERIDO';
-      if (!esRequerido) return;
-  
+      if (!esElementoRequerido(menuItem)) return;
+      
       const itemMenuDiv = menuItem.querySelector('.item-menuItem');
       const limite = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
       const grupo = menuItem.getAttribute('data-group');
@@ -2035,9 +2033,7 @@
   
     // Para sub-item-producto
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
-      const solicitudText = subItem.querySelector('.titulo-detalle-seleccion').textContent.trim();
-      const esRequerido = solicitudText === 'REQUERIDO';
-      if (!esRequerido) return;
+      if (!esElementoRequerido(subItem)) return;
   
       const itemMenuDiv = subItem.querySelector('.item-menuItem');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
@@ -2049,12 +2045,22 @@
         if (primerRadio) {
           primerRadio.checked = true;
           triggerChange(primerRadio);
+          verificarRequeridos();
         }
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        const primerDisplay = itemMenuDiv.querySelector('.cantidad-display2');
-        if (primerDisplay) {
-          primerDisplay.textContent = min.toString();
+        const displays = itemMenuDiv.querySelectorAll('.cantidad-display2');
+        if (displays.length > 0) {
+          // Distribuir el mínimo entre los elementos
+          const valorBase = Math.floor(min / displays.length);
+          const residuo = min % displays.length;
+          
+          displays.forEach((display, index) => {
+            let valor = valorBase;
+            if (index < residuo) valor++;
+            display.textContent = valor.toString();
+          });
           actualizarBotonesNumberCount(grupo, max);
+          verificarRequeridos();
         }
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
         const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
@@ -2167,34 +2173,46 @@
 
   function verificarRequeridos() {
     document.querySelectorAll('.menu-item-producto, .sub-item-producto').forEach(item => {
-      const solicitudElement = item.querySelector('.titulo-detalle-seleccion');
-      const esRequerido = solicitudElement?.textContent.trim() === 'REQUERIDO';
-      
       const itemMenuDiv = item.querySelector('.item-menuItem');
-      const requerido = esRequerido ? 
-        parseInt(itemMenuDiv.getAttribute('data-min') || itemMenuDiv.getAttribute('data-limite')) : 
-        0;
+      const esSubItem = item.classList.contains('sub-item-producto');
+      
+      let requerido, maximo;
+      if (esSubItem) {
+        requerido = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || requerido.toString());
+      } else {
+        requerido = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
+        maximo = requerido;
+      }
   
       let cumpleRequisito = false;
+      let excedeMaximo = false;
   
-      // Verificar cumplimiento según tipo de input
+      // Verificar según tipo de input
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
-        cumpleRequisito = !!itemMenuDiv.querySelector('input[type="radio"]:checked');
+        const seleccionados = itemMenuDiv.querySelectorAll('input[type="radio"]:checked').length;
+        cumpleRequisito = seleccionados >= requerido;
+        excedeMaximo = seleccionados > maximo;
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
         const sumaTotal = Array.from(itemMenuDiv.querySelectorAll('.cantidad-display2'))
           .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
         cumpleRequisito = sumaTotal >= requerido;
+        excedeMaximo = sumaTotal > maximo;
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
         const seleccionados = itemMenuDiv.querySelectorAll('input[type="checkbox"]:checked').length;
         cumpleRequisito = seleccionados >= requerido;
+        excedeMaximo = seleccionados > maximo;
       }
   
       // Aplicar colores
       const elementosTexto = item.querySelectorAll('.titulo-base1, .titulo-base2');
       const nombresProductos = item.querySelectorAll('.producto-nombre2, .producto-nombre3');
+      const solicitudElement = item.querySelector('.titulo-detalle-seleccion');
       
-      // Color para elementos de texto
-      const colorTexto = cumpleRequisito ? COLORS.DEFAULT : COLORS.ERROR;
+      const colorTexto = excedeMaximo ? COLORS.ERROR : 
+                        cumpleRequisito ? COLORS.DEFAULT : 
+                        COLORS.ERROR;
+  
       elementosTexto.forEach(el => {
         el.style.setProperty('color', colorTexto, 'important');
       });
@@ -2203,11 +2221,14 @@
         el.style.setProperty('color', colorTexto, 'important');
       });
   
-      // Color para el indicador REQUERIDO/OPCIONAL
       if (solicitudElement) {
-        const colorSolicitud = cumpleRequisito ? 
-          (esRequerido ? COLORS.REQUERIDO : COLORS.OPCIONAL) : 
-          COLORS.ERROR;
+        const esRequerido = solicitudElement.textContent.trim() === 'REQUERIDO' ||
+                           (esSubItem && requerido > 0);
+        
+        const colorSolicitud = excedeMaximo ? COLORS.ERROR :
+                              cumpleRequisito ? (esRequerido ? COLORS.REQUERIDO : COLORS.OPCIONAL) :
+                              COLORS.ERROR;
+        
         solicitudElement.style.setProperty('color', colorSolicitud, 'important');
       }
     });
@@ -2248,15 +2269,21 @@
       .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
   
-
   function actualizarBotonesNumberCount(grupo, maxLimit = null) {
-    const contenedor = document.querySelector(`[data-group="${grupo}"]`);
     const elementos = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
     const sumaTotal = obtenerSumaGrupo(grupo);
+    const contenedor = elementos[0]?.closest('.item-menuItem');
     
-    const limite = maxLimit || 
-                   parseInt(contenedor?.getAttribute('data-limite')) || 
-                   parseInt(contenedor?.getAttribute('data-max')) || 0;
+    let limite;
+    if (contenedor) {
+      if (contenedor.closest('.sub-item-producto')) {
+        limite = maxLimit || parseInt(contenedor.getAttribute('data-max') || '0');
+      } else {
+        limite = parseInt(contenedor.getAttribute('data-limite') || '0');
+      }
+    } else {
+      limite = maxLimit || 0;
+    }
   
     elementos.forEach(controlCantidad => {
       const botonIncremento = controlCantidad.querySelector('.btn-cantidad2:last-child');
@@ -2264,7 +2291,6 @@
       const display = controlCantidad.querySelector('.cantidad-display2');
       const cantidad = parseInt(display.textContent || '0');
   
-      // Botón incremento
       if (botonIncremento) {
         const debeDeshabilitarIncremento = sumaTotal >= limite;
         botonIncremento.disabled = debeDeshabilitarIncremento;
@@ -2272,7 +2298,6 @@
         botonIncremento.style.setProperty('cursor', debeDeshabilitarIncremento ? 'not-allowed' : 'pointer', 'important');
       }
   
-      // Botón decremento
       if (botonDecremento) {
         const debeDeshabilitarDecremento = cantidad === 0;
         botonDecremento.disabled = debeDeshabilitarDecremento;
@@ -2280,6 +2305,18 @@
         botonDecremento.style.setProperty('cursor', debeDeshabilitarDecremento ? 'not-allowed' : 'pointer', 'important');
       }
     });
+  }
+
+  function esElementoRequerido(elemento) {
+    const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
+    if (solicitudText === 'REQUERIDO') return true;
+    
+    const itemMenuDiv = elemento.querySelector('.item-menuItem');
+    if (elemento.classList.contains('sub-item-producto')) {
+      const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+      return min > 0;
+    }
+    return false;
   }
 
   // Helper function to trigger change events
