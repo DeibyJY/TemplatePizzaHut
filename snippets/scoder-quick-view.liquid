@@ -2029,98 +2029,109 @@
   function marcarOpcionesRequeridas() {
     // Para menu-item-producto
     document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
-      if (!esElementoRequerido(menuItem)) return;
-      
-      const itemMenuDiv = menuItem.querySelector('.item-menuItem');
-      if (!itemMenuDiv) return;
-      
-      const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
-      const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      const grupo = itemMenuDiv.getAttribute('data-group');
-  
-      // Radio buttons
-      const radios = itemMenuDiv.querySelectorAll('input[type="radio"]');
-      if (radios.length > 0) {
-        radios[0].checked = true;
-        triggerChange(radios[0]);
-      }
-      // Controles numéricos
-      else {
-        const contenedoresCantidad = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
-        if (contenedoresCantidad.length > 0) {
-          let cantidadRestante = min;
-          contenedoresCantidad.forEach((contenedor, index) => {
-            const display = contenedor.querySelector('.cantidad-display2');
-            if (display) {
-              if (index === 0 && cantidadRestante > 0) {
-                display.textContent = cantidadRestante.toString();
-                cantidadRestante = 0;
-              } else {
-                display.textContent = '0';
-              }
+        if (!esElementoRequerido(menuItem)) return;
+        
+        const itemMenuDiv = menuItem.querySelector('.item-menuItem');
+        if (!itemMenuDiv) return;
+
+        const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
+        const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+        const grupo = itemMenuDiv.getAttribute('data-group');
+        
+        // Caso 1: Radio buttons
+        const radios = itemMenuDiv.querySelectorAll('input[type="radio"]');
+        if (radios.length > 0) {
+            const primerRadio = radios[0];
+            if (primerRadio) {
+                primerRadio.checked = true;
+                triggerChange(primerRadio);
             }
-          });
-          actualizarBotonesNumberCount(grupo, max);
+        } 
+        
+        // Caso 2: Controles numéricos
+        const controlesNumero = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
+        if (controlesNumero.length > 0) {
+            if (min > 0) {
+                let restante = min;
+                let index = 0;
+                
+                // Distribuir el mínimo entre los elementos
+                while (restante > 0 && index < controlesNumero.length) {
+                    const display = controlesNumero[index].querySelector('.cantidad-display2');
+                    if (display) {
+                        display.textContent = '1';
+                        restante--;
+                    }
+                    index++;
+                }
+            }
+            actualizarBotonesNumberCount(grupo, max);
         }
-      }
-      // Checkboxes
-      const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
-      if (checkboxes.length > 0) {
-        const cantidadAMarcar = Math.min(min, checkboxes.length);
-        for (let i = 0; i < cantidadAMarcar; i++) {
-          checkboxes[i].checked = true;
-          triggerChange(checkboxes[i]);
+        
+        // Caso 3: Checkboxes
+        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
+        if (checkboxes.length > 0) {
+            const cantidadAMarcar = Math.min(min, checkboxes.length);
+            for (let i = 0; i < cantidadAMarcar; i++) {
+                checkboxes[i].checked = true;
+                triggerChange(checkboxes[i]);
+            }
         }
-      }
     });
-  
+
     // Para sub-item-producto
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
-      if (!esElementoRequerido(subItem)) return;
-  
-      const itemSubDiv = subItem.querySelector('.item-subItem');
-      if (!itemSubDiv) return;
-      
-      const min = parseInt(itemSubDiv.getAttribute('data-min') || '0');
-      const max = parseInt(itemSubDiv.getAttribute('data-max') || min.toString());
-      const grupo = itemSubDiv.getAttribute('data-group');
-  
-      // Radio buttons
-      const radios = itemSubDiv.querySelectorAll('input[type="radio"]');
-      if (radios.length > 0) {
-        radios[0].checked = true;
-        triggerChange(radios[0]);
-      }
-      // Controles numéricos
-      else {
-        const contenedoresCantidad = itemSubDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
-        if (contenedoresCantidad.length > 0) {
-          let cantidadRestante = min;
-          contenedoresCantidad.forEach((contenedor, index) => {
-            const display = contenedor.querySelector('.cantidad-display2');
-            if (display) {
-              if (index === 0 && cantidadRestante > 0) {
-                display.textContent = cantidadRestante.toString();
-                cantidadRestante = 0;
-              } else {
-                display.textContent = '0';
-              }
+        if (!esElementoRequerido(subItem)) return;
+
+        const itemSubDiv = subItem.querySelector('.item-subItem');
+        if (!itemSubDiv) return;
+
+        const min = parseInt(itemSubDiv.getAttribute('data-min') || '0');
+        const max = parseInt(itemSubDiv.getAttribute('data-max') || min.toString());
+        const grupo = itemSubDiv.getAttribute('data-group');
+
+        // Caso 1: Radio buttons
+        const radios = itemSubDiv.querySelectorAll('input[type="radio"]');
+        if (radios.length > 0) {
+            const primerRadio = radios[0];
+            if (primerRadio) {
+                primerRadio.checked = true;
+                triggerChange(primerRadio);
             }
-          });
-          actualizarBotonesNumberCount(grupo, max);
         }
-      }
-      // Checkboxes
-      const checkboxes = itemSubDiv.querySelectorAll('input[type="checkbox"]');
-      if (checkboxes.length > 0) {
-        const cantidadAMarcar = Math.min(min, checkboxes.length);
-        for (let i = 0; i < cantidadAMarcar; i++) {
-          checkboxes[i].checked = true;
-          triggerChange(checkboxes[i]);
+
+        // Caso 2: Controles numéricos
+        const controlesNumero = itemSubDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
+        if (controlesNumero.length > 0) {
+            if (min > 0) {
+                let restante = min;
+                let index = 0;
+                
+                // Distribuir el mínimo entre los elementos
+                while (restante > 0 && index < controlesNumero.length) {
+                    const display = controlesNumero[index].querySelector('.cantidad-display2');
+                    if (display) {
+                        display.textContent = '1';
+                        restante--;
+                    }
+                    index++;
+                }
+            }
+            actualizarBotonesNumberCount(grupo, max);
         }
-      }
+
+        // Caso 3: Checkboxes
+        const checkboxes = itemSubDiv.querySelectorAll('input[type="checkbox"]');
+        if (checkboxes.length > 0) {
+            const cantidadAMarcar = Math.min(min, checkboxes.length);
+            for (let i = 0; i < cantidadAMarcar; i++) {
+                checkboxes[i].checked = true;
+                triggerChange(checkboxes[i]);
+            }
+        }
     });
-  
+
+    // Verificar todos los requeridos al final
     verificarRequeridos();
   }
 
@@ -2302,35 +2313,16 @@
 
   function incrementCantidad(itemId, grupo) {
     const display = document.getElementById(`cantidad-${itemId}`);
-    if (!display) {
-        console.error('Display element not found:', itemId);
-        return;
-    }
+    if (!display) return;
 
-    // Buscar el contenedor padre más cercano (puede ser menu-item o sub-item)
-    const contenedorPadre = display.closest('.menu-item-producto') || display.closest('.sub-item-producto');
-    if (!contenedorPadre) {
-        console.error('Parent container not found');
-        return;
-    }
-
-    // Encontrar el div que contiene los atributos data-min y data-max
-    const itemMenuDiv = contenedorPadre.querySelector('.item-menuItem') || contenedorPadre.querySelector('.item-subItem');
-    if (!itemMenuDiv) {
-        console.error('Menu div not found');
-        return;
-    }
-
-    const esSubItem = contenedorPadre.classList.contains('sub-item-producto');
+    const controlCantidad = display.closest('.controles-cantidad2');
+    const contenedorPrincipal = display.closest('.opcion-principal-detalle-oferta2');
     
-    let maximo;
-    if (esSubItem) {
-        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
-    } else {
-        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
-    }
+    if (!controlCantidad || !contenedorPrincipal) return;
 
+    const maximo = parseInt(contenedorPrincipal.getAttribute('data-max') || '0');
     const sumaActual = obtenerSumaGrupo(grupo);
+    
     if (sumaActual < maximo) {
         const valorActual = parseInt(display.textContent || '0');
         display.textContent = (valorActual + 1).toString();
@@ -2338,121 +2330,73 @@
         verificarRequeridos();
 
         // Actualizar visibilidad de sub-items si es necesario
-        if (!esSubItem) {
-            const contenedorProducto = display.closest('.opcion-principal-detalle-oferta2');
-            if (contenedorProducto) {
-                const idProducto = contenedorProducto.getAttribute('id-producto');
-                if (valorActual === 0) { // Solo cuando cambiamos de 0 a 1
-                    mostrarSubItemsRelacionados(grupo, idProducto);
-                }
-            }
+        const idProducto = contenedorPrincipal.getAttribute('data-producto-id');
+        if (idProducto && valorActual === 0) {
+            mostrarSubItemsRelacionados(grupo, idProducto);
         }
     }
   }
   
   function decrementCantidad(itemId, grupo) {
     const display = document.getElementById(`cantidad-${itemId}`);
-    if (!display) {
-        console.warn(`No se encontró el elemento display para cantidad-${itemId}`);
-        return;
-    }
+    if (!display) return;
 
     const valorActual = parseInt(display.textContent || '0');
     if (valorActual <= 0) return;
 
-    const controlCantidad = display.closest('.controles-cantidad2');
-    if (!controlCantidad) {
-        console.warn('No se encontró el contenedor de controles-cantidad2');
-        return;
-    }
+    const contenedorPrincipal = display.closest('.opcion-principal-detalle-oferta2');
+    if (!contenedorPrincipal) return;
 
-    // Intentar obtener itemMenuDiv ya sea desde item-menuItem o item-subItem
-    const itemMenuDiv = controlCantidad.closest('.item-menuItem') || controlCantidad.closest('.item-subItem');
-    if (!itemMenuDiv) {
-        console.warn('No se encontró el contenedor de item-menuItem o item-subItem');
-        return;
-    }
-
-    const esSubItem = !!controlCantidad.closest('.sub-item-producto');
-    
-    let minimo, maximo;
-    if (esSubItem) {
-        minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
-    } else {
-        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || 
-                         controlCantidad.getAttribute('data-max') || 
-                         itemMenuDiv.getAttribute('data-limite') || '0');
-        minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-    }
-
+    const minimo = parseInt(contenedorPrincipal.getAttribute('data-min') || '0');
     const sumaTotal = obtenerSumaGrupo(grupo);
-    if (valorActual > 0 && (!esSubItem || sumaTotal > minimo)) {
+    
+    // Permitir decrementar siempre que:
+    // 1. El valor actual sea mayor a 0
+    // 2. La suma total después de decrementar no sea menor que el mínimo
+    // 3. O si hay otros elementos que tienen valores que pueden compensar
+    if (valorActual > 0 && (sumaTotal - 1 >= minimo || tieneOtrosElementosConValor(grupo, itemId))) {
         display.textContent = (valorActual - 1).toString();
-        actualizarBotonesNumberCount(grupo, maximo);
+        actualizarBotonesNumberCount(grupo);
         verificarRequeridos();
 
         // Actualizar visibilidad de sub-items si es necesario
-        if (!esSubItem) {
-            const menuItem = controlCantidad.closest('.opcion-principal-detalle-oferta2');
-            if (menuItem) {
-                const idProducto = menuItem.getAttribute('data-producto-id');
-                if (valorActual === 1 && idProducto) {
-                    const subItems = document.querySelectorAll(
-                        `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${idProducto}"]`
-                    );
-                    subItems.forEach(item => {
-                        item.style.display = 'none';
-                    });
-                }
-            }
+        if (valorActual === 1) {
+            const idProducto = contenedorPrincipal.getAttribute('data-producto-id');
+            const subItems = document.querySelectorAll(
+                `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${idProducto}"]`
+            );
+            subItems.forEach(item => item.style.display = 'none');
         }
     }
+  }
+
+  function tieneOtrosElementosConValor(grupo, currentItemId) {
+    const displays = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"] .cantidad-display2`);
+    return Array.from(displays).some(display => {
+        return display.id !== `cantidad-${currentItemId}` && parseInt(display.textContent || '0') > 0;
+    });
   }
   
   function obtenerSumaGrupo(grupo) {
-    return Array.from(document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"] .cantidad-display2`))
-      .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
+    const displays = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"] .cantidad-display2`);
+    return Array.from(displays).reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
   
   function actualizarBotonesNumberCount(grupo, maxLimit = null) {
-    if (!grupo && grupo !== 0) {
-        console.warn('Grupo no válido en actualizarBotonesNumberCount:', grupo);
-        return;
-    }
-
     const COLORS = obtenerColores();
     
-    // Buscar todos los controles de cantidad para este grupo
     const controlesGrupo = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
-    if (!controlesGrupo.length) {
-        console.warn(`No se encontraron controles para el grupo ${grupo}`);
-        return;
-    }
+    if (!controlesGrupo.length) return;
 
-    // Obtener el primer control para extraer los límites
     const primerControl = controlesGrupo[0];
     const contenedorPrincipal = primerControl.closest('.opcion-principal-detalle-oferta2');
     
-    let minimo, maximo;
-    if (contenedorPrincipal) {
-        minimo = parseInt(contenedorPrincipal.getAttribute('data-min') || '0');
-        maximo = maxLimit || parseInt(contenedorPrincipal.getAttribute('data-max') || '0');
-    } else {
-        minimo = parseInt(primerControl.getAttribute('data-min') || '0');
-        maximo = maxLimit || parseInt(primerControl.getAttribute('data-max') || '0');
-    }
+    if (!contenedorPrincipal) return;
 
-    // Calcular suma total actual
-    let sumaTotal = 0;
-    controlesGrupo.forEach(control => {
-        const display = control.querySelector('.cantidad-display2');
-        if (display) {
-            sumaTotal += parseInt(display.textContent || '0');
-        }
-    });
+    const minimo = parseInt(contenedorPrincipal.getAttribute('data-min') || '0');
+    const maximo = maxLimit || parseInt(contenedorPrincipal.getAttribute('data-max') || '0');
+    const sumaTotal = obtenerSumaGrupo(grupo);
 
-    // Actualizar estado de botones para cada control
     controlesGrupo.forEach(controlCantidad => {
         const botonIncremento = controlCantidad.querySelector('button:last-child');
         const botonDecremento = controlCantidad.querySelector('button:first-child');
@@ -2461,6 +2405,7 @@
         if (!display) return;
         
         const cantidad = parseInt(display.textContent || '0');
+        const tieneOtros = tieneOtrosElementosConValor(grupo, display.id.replace('cantidad-', ''));
 
         // Actualizar botón de incremento
         if (botonIncremento) {
@@ -2474,7 +2419,8 @@
 
         // Actualizar botón de decremento
         if (botonDecremento) {
-            const debeDeshabilitarDecremento = cantidad === 0 || sumaTotal <= minimo;
+            const debeDeshabilitarDecremento = cantidad === 0 || 
+                (sumaTotal <= minimo && !tieneOtros);
             botonDecremento.disabled = debeDeshabilitarDecremento;
             botonDecremento.style.setProperty('fill', 
                 debeDeshabilitarDecremento ? COLORS.OPCIONAL : '', 'important');
