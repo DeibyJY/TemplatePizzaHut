@@ -2060,7 +2060,7 @@
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
       if (!esElementoRequerido(subItem)) return;
   
-      const itemMenuDiv = subItem.querySelector('.item-menuItem');
+      const itemMenuDiv = subItem.querySelector('.item-subItem');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || min.toString());
       const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
