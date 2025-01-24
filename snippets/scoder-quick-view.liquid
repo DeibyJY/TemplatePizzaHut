@@ -1645,7 +1645,7 @@
       const variables = extraerVariablesDescripcion(coleccion.description);
         
       // Variables que so obtenudas de la descripcion de la coleccion que se esta iterando
-      const {variante, min, max, tipoSelect} = variables;
+      const {variante, min: parseInt(min) || 0, max: parseInt(max) || 1, tipoSelect} = variables;
       console.log(variables);
       
       const textoSeleccion = min === 0
