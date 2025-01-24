@@ -2082,6 +2082,18 @@
     });
   }
 
+  function esElementoRequerido(elemento) {
+    const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
+    if (solicitudText === 'REQUERIDO') return true;
+    
+    {% comment %} const itemMenuDiv = elemento.querySelector('.item-menuItem');
+    if (elemento.classList.contains('sub-item-producto')) {
+      const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+      return min > 0;
+    } {% endcomment %}
+    return false;
+  }
+
   // Control de visibilidad de sub-items
   function actualizarVisibilidadSubItems() {
     // Ocultar todos los sub-items inicialmente
@@ -2380,17 +2392,7 @@
     });
   }
 
-  function esElementoRequerido(elemento) {
-    const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
-    if (solicitudText === 'REQUERIDO') return true;
-    
-    const itemMenuDiv = elemento.querySelector('.item-menuItem');
-    if (elemento.classList.contains('sub-item-producto')) {
-      const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      return min > 0;
-    }
-    return false;
-  }
+
 
   // Helper function to trigger change events
   function triggerChange(element) {
