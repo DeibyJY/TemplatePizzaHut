@@ -2417,65 +2417,39 @@
     return Array.from(displays).reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
   
-  function actualizarBotonesNumberCountSubItem(containerSubItem) {
+    function actualizarControlesNumericos(containerSubItem) {
       const COLORS = obtenerColores();
+      const min = parseInt(containerSubItem.getAttribute('data-min') || '0');
+      const max = parseInt(containerSubItem.getAttribute('data-max') || '0');
       
-      // Obtener atributos con destructuring
-      const {
-          'data-parent-group': grupo,
-          'data-sub-item': subItem,
-          'data-producto-id': productoId,
-          'data-min': min,
-          'data-max': max
-      } = containerSubItem.attributes;
-  
-      // Buscar controles numéricos
       const controlesGrupo = containerSubItem.querySelectorAll('.controles-cantidad2');
       if (!controlesGrupo.length) return;
       
-      // Calcular suma total
+      // Calcular suma una sola vez
       const sumaTotal = Array.from(controlesGrupo).reduce((sum, control) => {
           const display = control.querySelector('.cantidad-display2');
           return sum + (display ? parseInt(display.textContent || '0') : 0);
       }, 0);
   
-      // Actualizar cada control
-      controlesGrupo.forEach(controlCantidad => {
-          const botonIncremento = controlCantidad.querySelector('button:last-child');
-          const botonDecremento = controlCantidad.querySelector('button:first-child');
-          const display = controlCantidad.querySelector('.cantidad-display2');
-          
+      // Actualizar controles en un solo ciclo
+      controlesGrupo.forEach(control => {
+          const display = control.querySelector('.cantidad-display2');
           if (!display) return;
-          
+  
           const cantidad = parseInt(display.textContent || '0');
           
-          // Verificar otros valores
-          const tieneOtros = Array.from(controlesGrupo).some(control => {
-              const otroDisplay = control.querySelector('.cantidad-display2');
-              return otroDisplay && otroDisplay !== display && 
-                     parseInt(otroDisplay.textContent || '0') > 0;
+          // Actualizar ambos botones a la vez
+          [
+              [control.querySelector('button:last-child'), sumaTotal >= max],
+              [control.querySelector('button:first-child'), cantidad === 0 || sumaTotal <= min]
+          ].forEach(([boton, deshabilitar]) => {
+              if (boton) {
+                  boton.disabled = deshabilitar;
+                  boton.style.setProperty('fill', deshabilitar ? COLORS.OPCIONAL : '', 'important');
+                  boton.style.setProperty('cursor', deshabilitar ? 'not-allowed' : 'pointer', 'important');
+              }
           });
-  
-          // Actualizar botón incremento
-          if (botonIncremento) {
-              const debeDeshabilitarIncremento = sumaTotal >= parseInt(max?.value || '0');
-              actualizarBoton(botonIncremento, debeDeshabilitarIncremento, COLORS);
-          }
-  
-          // Actualizar botón decremento
-          if (botonDecremento) {
-              const debeDeshabilitarDecremento = cantidad === 0 || 
-                  (sumaTotal <= parseInt(min?.value || '0') && !tieneOtros);
-              actualizarBoton(botonDecremento, debeDeshabilitarDecremento, COLORS);
-          }
       });
-  }
-  
-  // Función auxiliar para actualizar botones
-  function actualizarBoton(boton, deshabilitar, COLORS) {
-      boton.disabled = deshabilitar;
-      boton.style.setProperty('fill', deshabilitar ? COLORS.OPCIONAL : '', 'important');
-      boton.style.setProperty('cursor', deshabilitar ? 'not-allowed' : 'pointer', 'important');
   }
 
   // Helper function to trigger change events
