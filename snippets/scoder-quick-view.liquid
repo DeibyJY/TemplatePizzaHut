@@ -2214,24 +2214,19 @@
     const COLORS = obtenerColores();
   
     document.querySelectorAll('.menu-item-producto, .sub-item-producto').forEach(item => {
-      const itemMenuDiv = item.querySelector('.item-menuItem');
       const esSubItem = item.classList.contains('sub-item-producto');
+      const itemMenuDiv = esSubItem ? 
+        item.querySelector('.item-subItem') : 
+        item.querySelector('.item-menuItem');
+      
       const solicitudElement = item.querySelector('.titulo-detalle-seleccion');
       const esRequerido = solicitudElement.textContent.trim() === 'REQUERIDO';
       
-      // Obtener límites según el tipo
-      let minimo, maximo;
-      if (esSubItem) {
-        minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
-      } else {
-        minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
-      }
+      const minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+      const maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
   
       let cantidadSeleccionada = 0;
   
-      // Contar selecciones según tipo de input
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
         cantidadSeleccionada = itemMenuDiv.querySelectorAll('input[type="radio"]:checked').length;
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
@@ -2241,11 +2236,9 @@
         cantidadSeleccionada = itemMenuDiv.querySelectorAll('input[type="checkbox"]:checked').length;
       }
   
-      // Determinar estado
       const cumpleMinimo = cantidadSeleccionada >= minimo;
       const cumpleMaximo = cantidadSeleccionada <= maximo;
       
-      // Colores basados en estado
       let colorElementos, colorSolicitud;
       
       if (esRequerido || minimo > 0) {
@@ -2266,18 +2259,11 @@
         colorSolicitud = COLORS.ERROR;
       }
   
-      // Aplicar colores
       const elementosTexto = item.querySelectorAll('.titulo-base1, .titulo-base2');
       const nombresProductos = item.querySelectorAll('.producto-nombre2, .producto-nombre3');
       
-      elementosTexto.forEach(el => {
-        el.style.setProperty('color', colorElementos, 'important');
-      });
-      
-      nombresProductos.forEach(el => {
-        el.style.setProperty('color', colorElementos, 'important');
-      });
-  
+      elementosTexto.forEach(el => el.style.setProperty('color', colorElementos, 'important'));
+      nombresProductos.forEach(el => el.style.setProperty('color', colorElementos, 'important'));
       solicitudElement.style.setProperty('color', colorSolicitud, 'important');
     });
   }
