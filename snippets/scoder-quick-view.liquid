@@ -2400,7 +2400,7 @@
     function initializeShopifyProduct() {
         return testPrueba()
             .then(() => {
-                initializeProductMenu();
+                {% comment %} initializeProductMenu(); {% endcomment %}
                 console.log('Producto inicializado correctamente');
             })
             .catch(error => {
