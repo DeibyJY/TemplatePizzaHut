@@ -2174,84 +2174,107 @@
   }
 
   function verificarRequeridos() {
-    const COLORS = obtenerColores(); // Obtener colores al inicio
-
+    const COLORS = obtenerColores();
+  
     document.querySelectorAll('.menu-item-producto, .sub-item-producto').forEach(item => {
       const itemMenuDiv = item.querySelector('.item-menuItem');
       const esSubItem = item.classList.contains('sub-item-producto');
+      const solicitudElement = item.querySelector('.titulo-detalle-seleccion');
+      const esRequerido = solicitudElement.textContent.trim() === 'REQUERIDO';
       
-      let requerido, maximo;
+      // Obtener límites según el tipo
+      let minimo, maximo;
       if (esSubItem) {
-        requerido = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || requerido.toString());
+        minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
       } else {
-        requerido = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
-        maximo = requerido;
+        minimo = esRequerido ? parseInt(itemMenuDiv.getAttribute('data-limite') || '0') : 0;
+        maximo = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
       }
   
-      let cumpleRequisito = false;
-      let excedeMaximo = false;
+      let cantidadSeleccionada = 0;
   
-      // Verificar según tipo de input
+      // Contar selecciones según tipo de input
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
-        const seleccionados = itemMenuDiv.querySelectorAll('input[type="radio"]:checked').length;
-        cumpleRequisito = seleccionados >= requerido;
-        excedeMaximo = seleccionados > maximo;
+        cantidadSeleccionada = itemMenuDiv.querySelectorAll('input[type="radio"]:checked').length;
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        const sumaTotal = Array.from(itemMenuDiv.querySelectorAll('.cantidad-display2'))
+        cantidadSeleccionada = Array.from(itemMenuDiv.querySelectorAll('.cantidad-display2'))
           .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
-        cumpleRequisito = sumaTotal >= requerido;
-        excedeMaximo = sumaTotal > maximo;
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
-        const seleccionados = itemMenuDiv.querySelectorAll('input[type="checkbox"]:checked').length;
-        cumpleRequisito = seleccionados >= requerido;
-        excedeMaximo = seleccionados > maximo;
+        cantidadSeleccionada = itemMenuDiv.querySelectorAll('input[type="checkbox"]:checked').length;
+      }
+  
+      // Determinar estado
+      const cumpleMinimo = cantidadSeleccionada >= minimo;
+      const cumpleMaximo = cantidadSeleccionada <= maximo;
+      
+      // Colores basados en estado
+      let colorElementos, colorSolicitud;
+      
+      if (esRequerido || minimo > 0) {
+        if (!cumpleMinimo) {
+          colorElementos = COLORS.ERROR;
+          colorSolicitud = COLORS.ERROR;
+        } else {
+          colorElementos = COLORS.DEFAULT;
+          colorSolicitud = COLORS.REQUERIDO;
+        }
+      } else {
+        colorElementos = COLORS.DEFAULT;
+        colorSolicitud = COLORS.OPCIONAL;
+      }
+  
+      if (!cumpleMaximo) {
+        colorElementos = COLORS.ERROR;
+        colorSolicitud = COLORS.ERROR;
       }
   
       // Aplicar colores
       const elementosTexto = item.querySelectorAll('.titulo-base1, .titulo-base2');
       const nombresProductos = item.querySelectorAll('.producto-nombre2, .producto-nombre3');
-      const solicitudElement = item.querySelector('.titulo-detalle-seleccion');
       
-      const colorTexto = excedeMaximo ? COLORS.ERROR : 
-                        cumpleRequisito ? COLORS.DEFAULT : 
-                        COLORS.ERROR;
-  
       elementosTexto.forEach(el => {
-        el.style.setProperty('color', colorTexto, 'important');
+        el.style.setProperty('color', colorElementos, 'important');
       });
       
       nombresProductos.forEach(el => {
-        el.style.setProperty('color', colorTexto, 'important');
+        el.style.setProperty('color', colorElementos, 'important');
       });
   
-      if (solicitudElement) {
-        const esRequerido = solicitudElement.textContent.trim() === 'REQUERIDO' ||
-                           (esSubItem && requerido > 0);
-        
-        const colorSolicitud = excedeMaximo ? COLORS.ERROR :
-                              cumpleRequisito ? (esRequerido ? COLORS.REQUERIDO : COLORS.OPCIONAL) :
-                              COLORS.ERROR;
-        
-        solicitudElement.style.setProperty('color', colorSolicitud, 'important');
-      }
+      solicitudElement.style.setProperty('color', colorSolicitud, 'important');
     });
   }
-  
 
   function incrementCantidad(itemId, grupo) {
     const display = document.getElementById(`cantidad-${itemId}`);
     if (!display) return;
   
     const controlCantidad = display.closest('.controles-cantidad2');
-    const limite = parseInt(controlCantidad.getAttribute('data-max') || controlCantidad.getAttribute('data-limite') || '0');
-    const sumaActual = obtenerSumaGrupo(grupo);
+    const itemMenuDiv = controlCantidad.closest('.item-menuItem');
+    const esSubItem = !!itemMenuDiv.closest('.sub-item-producto');
+    
+    let maximo;
+    if (esSubItem) {
+      maximo = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
+    } else {
+      maximo = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
+    }
   
-    if (sumaActual < limite) {
+    const sumaActual = obtenerSumaGrupo(grupo);
+    if (sumaActual < maximo) {
       const valorActual = parseInt(display.textContent || '0');
       display.textContent = (valorActual + 1).toString();
-      actualizarBotonesNumberCount(grupo, limite);
+      actualizarBotonesNumberCount(grupo, maximo);
       verificarRequeridos();
+  
+      // Actualizar visibilidad de sub-items si es necesario
+      if (!esSubItem) {
+        const menuItem = controlCantidad.closest('.opcion-principal-detalle-oferta2');
+        const idProducto = menuItem.getAttribute('data-producto-id');
+        if (valorActual === 0) { // Solo cuando cambiamos de 0 a 1
+          mostrarSubItemsRelacionados(grupo, idProducto);
+        }
+      }
     }
   }
   
@@ -2260,12 +2283,41 @@
     if (!display) return;
   
     const valorActual = parseInt(display.textContent || '0');
-    if (valorActual > 0) {
+    if (valorActual <= 0) return;
+  
+    const controlCantidad = display.closest('.controles-cantidad2');
+    const itemMenuDiv = controlCantidad.closest('.item-menuItem');
+    const esSubItem = !!itemMenuDiv.closest('.sub-item-producto');
+    
+    let minimo, maximo;
+    if (esSubItem) {
+      minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+      maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
+    } else {
+      maximo = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
+      minimo = 0;
+    }
+  
+    const sumaTotal = obtenerSumaGrupo(grupo);
+    if (valorActual > 0 && (!esSubItem || sumaTotal > minimo)) {
       display.textContent = (valorActual - 1).toString();
-      const controlCantidad = display.closest('.controles-cantidad2');
-      const limite = parseInt(controlCantidad.getAttribute('data-max') || controlCantidad.getAttribute('data-limite') || '0');
-      actualizarBotonesNumberCount(grupo, limite);
+      actualizarBotonesNumberCount(grupo, maximo);
       verificarRequeridos();
+  
+      // Actualizar visibilidad de sub-items si es necesario
+      if (!esSubItem) {
+        const menuItem = controlCantidad.closest('.opcion-principal-detalle-oferta2');
+        const idProducto = menuItem.getAttribute('data-producto-id');
+        if (valorActual === 1) { // Solo cuando cambiamos de 1 a 0
+          const menuItem = display.closest('.menu-item-producto');
+          const subItems = document.querySelectorAll(
+            `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${idProducto}"]`
+          );
+          subItems.forEach(item => {
+            item.style.display = 'none';
+          });
+        }
+      }
     }
   }
   
@@ -2275,43 +2327,51 @@
   }
   
   function actualizarBotonesNumberCount(grupo, maxLimit = null) {
-    const COLORS = obtenerColores(); // Obtener colores al inicio
-    const elementos = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
-    const sumaTotal = obtenerSumaGrupo(grupo);
-    const contenedor = elementos[0]?.closest('.item-menuItem');
+    const COLORS = obtenerColores();
+    const contenedor = document.querySelector(`[data-group="${grupo}"]`);
+    const esSubItem = !!contenedor?.closest('.sub-item-producto');
     
-    let limite;
-    if (contenedor) {
-      if (contenedor.closest('.sub-item-producto')) {
-        limite = maxLimit || parseInt(contenedor.getAttribute('data-max') || '0');
-      } else {
-        limite = parseInt(contenedor.getAttribute('data-limite') || '0');
-      }
+    let minimo, maximo;
+    if (esSubItem) {
+      const itemMenuDiv = contenedor.closest('.item-menuItem');
+      minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+      maximo = maxLimit || parseInt(itemMenuDiv.getAttribute('data-max') || '0');
     } else {
-      limite = maxLimit || 0;
+      maximo = parseInt(contenedor?.getAttribute('data-limite') || maxLimit || '0');
+      minimo = 0;
     }
   
+    const elementos = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
+    const sumaTotal = Array.from(elementos)
+      .reduce((sum, control) => {
+        const display = control.querySelector('.cantidad-display2');
+        return sum + parseInt(display?.textContent || '0');
+      }, 0);
+  
     elementos.forEach(controlCantidad => {
-      const botonIncremento = controlCantidad.querySelector('.btn-cantidad2:last-child');
-      const botonDecremento = controlCantidad.querySelector('.btn-cantidad2:first-child');
+      const botonIncremento = controlCantidad.querySelector('button:last-child');
+      const botonDecremento = controlCantidad.querySelector('button:first-child');
       const display = controlCantidad.querySelector('.cantidad-display2');
       const cantidad = parseInt(display.textContent || '0');
   
+      // Botón incremento
       if (botonIncremento) {
-        const debeDeshabilitarIncremento = sumaTotal >= limite;
+        const debeDeshabilitarIncremento = sumaTotal >= maximo;
         botonIncremento.disabled = debeDeshabilitarIncremento;
         botonIncremento.style.setProperty('fill', debeDeshabilitarIncremento ? COLORS.OPCIONAL : '', 'important');
         botonIncremento.style.setProperty('cursor', debeDeshabilitarIncremento ? 'not-allowed' : 'pointer', 'important');
       }
   
+      // Botón decremento
       if (botonDecremento) {
-        const debeDeshabilitarDecremento = cantidad === 0;
+        const debeDeshabilitarDecremento = cantidad === 0 || (esSubItem && sumaTotal <= minimo);
         botonDecremento.disabled = debeDeshabilitarDecremento;
         botonDecremento.style.setProperty('fill', debeDeshabilitarDecremento ? COLORS.OPCIONAL : '', 'important');
         botonDecremento.style.setProperty('cursor', debeDeshabilitarDecremento ? 'not-allowed' : 'pointer', 'important');
       }
     });
   }
+  
 
   function esElementoRequerido(elemento) {
     const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
