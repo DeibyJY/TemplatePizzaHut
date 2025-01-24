@@ -2024,36 +2024,35 @@
   
       // Radio buttons
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
-          const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
-          if (primerRadio) {
-              primerRadio.checked = true;
-              triggerChange(primerRadio);
-          }
+        const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
+        if (primerRadio) {
+            primerRadio.checked = true;
+            triggerChange(primerRadio);
+        }
       } 
       // Controles numéricos
       else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
         const displays = itemDiv.querySelectorAll('.cantidad-display2');
-          if (displays.length > 0) {
-              // Asigna el mínimo al primer elemento
-              displays[0].textContent = min.toString();
-              // Resto en 0
-              for(let i = 1; i < displays.length; i++) {
-                  displays[i].textContent = '0';
-              }
-              actualizarBotonesNumberCount(grupo, max);
-              verificarRequeridos();
-          }
+        if (displays.length > 0) {
+            // Asigna el mínimo al primer elemento
+            displays[0].textContent = min.toString();
+            // Resto en 0
+            for(let i = 1; i < displays.length; i++) {
+                displays[i].textContent = '0';
+            }
+            actualizarBotonesNumberCount(grupo, max);
+            verificarRequeridos();
         }
       } 
       // Checkboxes
       else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
-          const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
-          for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
-              checkboxes[i].checked = true;
-              triggerChange(checkboxes[i]);
-          }
+        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
+        for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
+            checkboxes[i].checked = true;
+            triggerChange(checkboxes[i]);
+        }
       }
-     });
+    });
   
     // Para sub-item-producto
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
@@ -2064,32 +2063,34 @@
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || min.toString());
       const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
   
+      // Radio buttons
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
         const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
         if (primerRadio) {
-          primerRadio.checked = true;
-          triggerChange(primerRadio);
-          // verificarRequeridos();
+            primerRadio.checked = true;
+            triggerChange(primerRadio);
         }
-        else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-          const displays = itemDiv.querySelectorAll('.cantidad-display2');
-            if (displays.length > 0) {
-                // Asigna el mínimo al primer elemento
-                displays[0].textContent = min.toString();
-                // Resto en 0
-                for(let i = 1; i < displays.length; i++) {
-                    displays[i].textContent = '0';
-                }
-                actualizarBotonesNumberCount(grupo, max);
-                verificarRequeridos();
+      } 
+      // Controles numéricos
+      else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
+        const displays = itemDiv.querySelectorAll('.cantidad-display2');
+        if (displays.length > 0) {
+            // Asigna el mínimo al primer elemento
+            displays[0].textContent = min.toString();
+            // Resto en 0
+            for(let i = 1; i < displays.length; i++) {
+                displays[i].textContent = '0';
             }
-          }
-        } 
-      } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
+            actualizarBotonesNumberCount(grupo, max);
+            verificarRequeridos();
+        }
+      } 
+      // Checkboxes
+      else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
         const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
         for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
-          checkboxes[i].checked = true;
-          triggerChange(checkboxes[i]);
+            checkboxes[i].checked = true;
+            triggerChange(checkboxes[i]);
         }
       }
     });
