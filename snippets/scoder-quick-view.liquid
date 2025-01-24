@@ -1645,16 +1645,18 @@
       const variables = extraerVariablesDescripcion(coleccion.description);
         
       // Variables que so obtenudas de la descripcion de la coleccion que se esta iterando
-      const {variante, min: parseInt(min) || 0, max: parseInt(max) || 1, tipoSelect} = variables;
+      const {variante, min, max, tipoSelect} = variables;
+      const minNum = parseInt(min) || 0;
+      const maxNum = parseInt(max) || 1;
       console.log(variables);
       
-      const textoSeleccion = min === 0
-          ? max === 1
+      const textoSeleccion = minNum === 0
+          ? maxNum === 1
               ? 'Selecciona hasta un artículo'
-              : `Selecciona hasta ${max} artículos`
-          : max === 1
+              : `Selecciona hasta ${maxNum} artículos`
+          : maxNum === 1
               ? 'Selecciona un artículo'
-              : `Selecciona exactamente ${max} artículos`;
+              : `Selecciona exactamente ${maxNum} artículos`;
 
         const colorSolicitud = solicitud == 'Opcional' ? 'style="color: #B5B6BD !important;"' : '';
         let menuItemProducto = `<div class="menu-item-producto" id="menu-item-${indexCN3}" menu-item="${indexCN3}">`;
@@ -1705,8 +1707,8 @@
                 name="opcion-grupo-${indexCN3}-${idProducto}"
                 class="radio-input"
                 data-group="${indexCN3}"
-                data-min="${min}"
-                data-max="${max}"
+                data-min="${minNum}"
+                data-max="${maxNum}"
                 data-producto-id="${idProducto}"
                 data-precio="${precioProducto}"
                 onchange="validarLimiteRadio(this)"
