@@ -1800,7 +1800,14 @@
 
           const colorSolicitud = Min === 0 ? 'style="color: #B5B6BD !important;"' : '';
           const tipoSolicitud = Min === 0 ? 'OPCIONAL' : 'REQUERIDO';
-          subItemProducto += `<div class="sub-item-producto" data-parent-group="${indexCN3}" data-sub-item="${indexProducto}" data-producto-id="${idProducto}">`;
+          subItemProducto += `<div 
+            class="sub-item-producto" 
+            data-parent-group="${indexCN3}"
+            data-sub-item="${indexProducto}"
+            data-producto-id="${idProducto}"
+            data-min="${Min}"
+            data-max="${Max}"
+          >`;
 
           let contenidoHTML = `
             <div class="titulo-detalle-oferta-producto">
@@ -2038,7 +2045,7 @@
                     }
                     index++;
                 }
-                actualizarBotonesNumberCount(grupo, 'menu-item', max);
+                {% comment %} actualizarBotonesNumberCount(grupo, 'menu-item', max); {% endcomment %}
             }
         }
         
@@ -2060,6 +2067,7 @@
         const itemSubDiv = subItem.querySelector('.item-subItem');
         if (!itemSubDiv) return;
 
+
         const min = parseInt(itemSubDiv.getAttribute('data-min') || '0');
         const max = parseInt(itemSubDiv.getAttribute('data-max') || min.toString());
         const grupo = itemSubDiv.getAttribute('data-group');
@@ -2079,22 +2087,25 @@
         if (controlesNumero.length > 0 && min > 0) {
             // Determinar si estamos en un sub-item
             const subItemElement = controlesNumero[0].closest('.sub-item-producto');
+
             if (subItemElement) {
                 let restante = max;
                 let index = 0;
-                console.log('Marcando sub-item con min:', min, 'max:', max);
                 
                 // Distribuir valores en el sub-item
                 while (restante > 0 && index < controlesNumero.length) {
+                    // Contendor del Button(+) 1 Button(-)
                     const display = controlesNumero[index].querySelector('.cantidad-display2');
+
                     if (display) {
                         display.textContent = '1';
-                        restante--;
+                        restante--;¡
                         console.log('Sub: Marcando elemento', index, 'con 1, restante:', restante);
                     }
                     index++;
                 }
-                actualizarBotonesNumberCount(grupo, 'sub-item', max);
+                {% comment %} actualizarBotonesNumberCount(subItem); {% endcomment %}
+                actualizarBotonesNumberCountSubItem(subItem);
             }
         }
 
@@ -2325,7 +2336,7 @@
       if (sumaActual < maximo) {
           const valorActual = parseInt(display.textContent || '0');
           display.textContent = (valorActual + 1).toString();
-          actualizarBotonesNumberCount(grupo, subItem ? 'sub-item' : 'menu-item');
+          {% comment %} actualizarBotonesNumberCount(grupo, subItem ? 'sub-item' : 'menu-item'); {% endcomment %}
           verificarRequeridos();
 
           // Actualizar visibilidad de sub-items si es necesario
@@ -2379,7 +2390,7 @@
 
     if (valorActual > 0 && (sumaTotal - 1 >= minimo || tieneOtros)) {
         display.textContent = (valorActual - 1).toString();
-        actualizarBotonesNumberCount(grupo, subItem ? 'sub-item' : 'menu-item');
+        {% comment %} actualizarBotonesNumberCount(grupo, subItem ? 'sub-item' : 'menu-item'); {% endcomment %}
         verificarRequeridos();
 
         if (!subItem && valorActual === 1) {
@@ -2394,7 +2405,6 @@
     }
   }
 
-
   function tieneOtrosElementosConValor(grupo, currentItemId) {
     const displays = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"] .cantidad-display2`);
     return Array.from(displays).some(display => {
@@ -2407,71 +2417,65 @@
     return Array.from(displays).reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
   
-  function actualizarBotonesNumberCount(grupo, tipo = 'menu-item', maxLimit = null) {
-    const COLORS = obtenerColores();
-    
-    // Seleccionar elementos según el tipo
-    const selector = tipo === 'sub-item' ? 
-        `.sub-item-producto .controles-cantidad2[data-group="${grupo}"]` :
-        `.menu-item-producto .controles-cantidad2[data-group="${grupo}"]`;
-    
-    const controlesGrupo = document.querySelectorAll(selector);
-    if (!controlesGrupo.length) return;
-
-    // Obtener el contenedor para este grupo específico
-    const primerControl = controlesGrupo[0];
-    const contenedorPrincipal = primerControl.closest('.opcion-principal-detalle-oferta2');
-    if (!contenedorPrincipal) return;
-
-    const minimo = parseInt(contenedorPrincipal.getAttribute('data-min') || '0');
-    const maximo = maxLimit || parseInt(contenedorPrincipal.getAttribute('data-max') || '0');
-    
-    // Calcular suma total solo para este grupo
-    let sumaTotal = 0;
-    controlesGrupo.forEach(control => {
-        const display = control.querySelector('.cantidad-display2');
-        if (display) {
-            sumaTotal += parseInt(display.textContent || '0');
-        }
-    });
-
-    // Actualizar cada control en este grupo específico
-    controlesGrupo.forEach(controlCantidad => {
-        const botonIncremento = controlCantidad.querySelector('button:last-child');
-        const botonDecremento = controlCantidad.querySelector('button:first-child');
-        const display = controlCantidad.querySelector('.cantidad-display2');
-        
-        if (!display) return;
-        
-        const cantidad = parseInt(display.textContent || '0');
-        
-        // Verificar otros elementos solo en este grupo
-        const tieneOtros = Array.from(controlesGrupo).some(control => {
-            const otroDisplay = control.querySelector('.cantidad-display2');
-            return otroDisplay && otroDisplay !== display && 
-                   parseInt(otroDisplay.textContent || '0') > 0;
-        });
-
-        // Actualizar botones
-        if (botonIncremento) {
-            const debeDeshabilitarIncremento = sumaTotal >= maximo;
-            botonIncremento.disabled = debeDeshabilitarIncremento;
-            botonIncremento.style.setProperty('fill', 
-                debeDeshabilitarIncremento ? COLORS.OPCIONAL : '', 'important');
-            botonIncremento.style.setProperty('cursor', 
-                debeDeshabilitarIncremento ? 'not-allowed' : 'pointer', 'important');
-        }
-
-        if (botonDecremento) {
-            const debeDeshabilitarDecremento = cantidad === 0 || 
-                (sumaTotal <= minimo && !tieneOtros);
-            botonDecremento.disabled = debeDeshabilitarDecremento;
-            botonDecremento.style.setProperty('fill', 
-                debeDeshabilitarDecremento ? COLORS.OPCIONAL : '', 'important');
-            botonDecremento.style.setProperty('cursor', 
-                debeDeshabilitarDecremento ? 'not-allowed' : 'pointer', 'important');
-        }
-    });
+  function actualizarBotonesNumberCountSubItem(containerSubItem) {
+      const COLORS = obtenerColores();
+      
+      // Obtener atributos con destructuring
+      const {
+          'data-parent-group': grupo,
+          'data-sub-item': subItem,
+          'data-producto-id': productoId,
+          'data-min': min,
+          'data-max': max
+      } = containerSubItem.attributes;
+  
+      // Buscar controles numéricos
+      const controlesGrupo = containerSubItem.querySelectorAll('.controles-cantidad2');
+      if (!controlesGrupo.length) return;
+      
+      // Calcular suma total
+      const sumaTotal = Array.from(controlesGrupo).reduce((sum, control) => {
+          const display = control.querySelector('.cantidad-display2');
+          return sum + (display ? parseInt(display.textContent || '0') : 0);
+      }, 0);
+  
+      // Actualizar cada control
+      controlesGrupo.forEach(controlCantidad => {
+          const botonIncremento = controlCantidad.querySelector('button:last-child');
+          const botonDecremento = controlCantidad.querySelector('button:first-child');
+          const display = controlCantidad.querySelector('.cantidad-display2');
+          
+          if (!display) return;
+          
+          const cantidad = parseInt(display.textContent || '0');
+          
+          // Verificar otros valores
+          const tieneOtros = Array.from(controlesGrupo).some(control => {
+              const otroDisplay = control.querySelector('.cantidad-display2');
+              return otroDisplay && otroDisplay !== display && 
+                     parseInt(otroDisplay.textContent || '0') > 0;
+          });
+  
+          // Actualizar botón incremento
+          if (botonIncremento) {
+              const debeDeshabilitarIncremento = sumaTotal >= parseInt(max?.value || '0');
+              actualizarBoton(botonIncremento, debeDeshabilitarIncremento, COLORS);
+          }
+  
+          // Actualizar botón decremento
+          if (botonDecremento) {
+              const debeDeshabilitarDecremento = cantidad === 0 || 
+                  (sumaTotal <= parseInt(min?.value || '0') && !tieneOtros);
+              actualizarBoton(botonDecremento, debeDeshabilitarDecremento, COLORS);
+          }
+      });
+  }
+  
+  // Función auxiliar para actualizar botones
+  function actualizarBoton(boton, deshabilitar, COLORS) {
+      boton.disabled = deshabilitar;
+      boton.style.setProperty('fill', deshabilitar ? COLORS.OPCIONAL : '', 'important');
+      boton.style.setProperty('cursor', deshabilitar ? 'not-allowed' : 'pointer', 'important');
   }
 
   // Helper function to trigger change events
