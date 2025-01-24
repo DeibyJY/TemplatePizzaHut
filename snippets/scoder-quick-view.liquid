@@ -2017,29 +2017,35 @@
       if (!esElementoRequerido(menuItem)) return;
       
       const itemMenuDiv = menuItem.querySelector('.item-menuItem');
-      const limite = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
+      const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
+      const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const grupo = menuItem.getAttribute('data-group');
   
+      // Radio buttons
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
-        const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
-        if (primerRadio) {
-          primerRadio.checked = true;
-          triggerChange(primerRadio);
-        }
-      } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        const primerDisplay = itemMenuDiv.querySelector('.cantidad-display2');
-        if (primerDisplay) {
-          primerDisplay.textContent = limite.toString();
-          actualizarBotonesNumberCount(grupo);
-        }
-      } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
-        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
-        for (let i = 0; i < Math.min(limite, checkboxes.length); i++) {
-          checkboxes[i].checked = true;
-          triggerChange(checkboxes[i]);
-        }
+          const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
+          if (primerRadio) {
+              primerRadio.checked = true;
+              triggerChange(primerRadio);
+          }
+      } 
+      // Controles numéricos
+      else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
+          const primerDisplay = itemMenuDiv.querySelector('.cantidad-display2');
+          if (primerDisplay) {
+              primerDisplay.textContent = min.toString();
+              actualizarBotonesNumberCount(grupo, max);
+          }
+      } 
+      // Checkboxes
+      else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
+          const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
+          for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
+              checkboxes[i].checked = true;
+              triggerChange(checkboxes[i]);
+          }
       }
-    });
+     });
   
     // Para sub-item-producto
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
