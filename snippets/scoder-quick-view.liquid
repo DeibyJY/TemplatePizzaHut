@@ -2020,7 +2020,6 @@
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
-      {% comment %} console.log(max,min,grupo); {% endcomment %}
   
       // Radio buttons
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
@@ -2033,6 +2032,7 @@
       // Controles numéricos
       else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
         const displays = itemDiv.querySelectorAll('.cantidad-display2');
+        console.log(min, max, grupo, displays);
         if (displays.length > 0) {
             // Asigna el mínimo al primer elemento
             displays[0].textContent = min.toString();
@@ -2075,6 +2075,7 @@
       else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
         const displays = itemDiv.querySelectorAll('.cantidad-display2');
         if (displays.length > 0) {
+            console.log(min, max, grupo, displays);
             // Asigna el mínimo al primer elemento
             displays[0].textContent = min.toString();
             // Resto en 0
@@ -2098,7 +2099,6 @@
 
   function esElementoRequerido(elemento) {
     const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
-    //console.log(solicitudText);
     if (solicitudText === 'REQUERIDO') return true;
     
     {% comment %} const itemMenuDiv = elemento.querySelector('.item-menuItem');
@@ -2226,7 +2226,6 @@
       const minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
 
-      console.log(minimo, maximo);
   
       let cantidadSeleccionada = 0;
   
@@ -2242,7 +2241,6 @@
   
       const cumpleMinimo = cantidadSeleccionada >= minimo;
       const cumpleMaximo = cantidadSeleccionada <= maximo;
-      console.log(cumpleMinimo, cumpleMaximo);
       
       let colorElementos, colorSolicitud;
       
@@ -2263,8 +2261,6 @@
         colorElementos = COLORS.ERROR;
         colorSolicitud = COLORS.ERROR;
       }
-
-      console.log(colorElementos, colorSolicitud);
   
       const elementosTexto = item.querySelectorAll('.titulo-base1, .titulo-base2');
       const nombresProductos = item.querySelectorAll('.producto-nombre2, .producto-nombre3');
