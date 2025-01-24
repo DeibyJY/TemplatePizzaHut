@@ -2063,7 +2063,7 @@
       const itemMenuDiv = subItem.querySelector('.item-menuItem');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || min.toString());
-      const grupo = subItem.getAttribute('data-sub-item');
+      const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
       console.log(max,min,grupo);
   
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
