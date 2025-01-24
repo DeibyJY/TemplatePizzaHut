@@ -2302,77 +2302,111 @@
 
   function incrementCantidad(itemId, grupo) {
     const display = document.getElementById(`cantidad-${itemId}`);
-    if (!display) return;
-  
-    const controlCantidad = display.closest('.controles-cantidad2');
-    const itemMenuDiv = controlCantidad.closest('.item-menuItem');
-    const esSubItem = !!itemMenuDiv.closest('.sub-item-producto');
+    if (!display) {
+        console.error('Display element not found:', itemId);
+        return;
+    }
+
+    // Buscar el contenedor padre más cercano (puede ser menu-item o sub-item)
+    const contenedorPadre = display.closest('.menu-item-producto') || display.closest('.sub-item-producto');
+    if (!contenedorPadre) {
+        console.error('Parent container not found');
+        return;
+    }
+
+    // Encontrar el div que contiene los atributos data-min y data-max
+    const itemMenuDiv = contenedorPadre.querySelector('.item-menuItem') || contenedorPadre.querySelector('.item-subItem');
+    if (!itemMenuDiv) {
+        console.error('Menu div not found');
+        return;
+    }
+
+    const esSubItem = contenedorPadre.classList.contains('sub-item-producto');
     
     let maximo;
     if (esSubItem) {
-      maximo = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
+        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
     } else {
-      maximo = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
+        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
     }
-  
+
     const sumaActual = obtenerSumaGrupo(grupo);
     if (sumaActual < maximo) {
-      const valorActual = parseInt(display.textContent || '0');
-      display.textContent = (valorActual + 1).toString();
-      actualizarBotonesNumberCount(grupo, maximo);
-      verificarRequeridos();
-  
-      // Actualizar visibilidad de sub-items si es necesario
-      if (!esSubItem) {
-        const menuItem = controlCantidad.closest('.opcion-principal-detalle-oferta2');
-        const idProducto = menuItem.getAttribute('data-producto-id');
-        if (valorActual === 0) { // Solo cuando cambiamos de 0 a 1
-          mostrarSubItemsRelacionados(grupo, idProducto);
+        const valorActual = parseInt(display.textContent || '0');
+        display.textContent = (valorActual + 1).toString();
+        actualizarBotonesNumberCount(grupo, maximo);
+        verificarRequeridos();
+
+        // Actualizar visibilidad de sub-items si es necesario
+        if (!esSubItem) {
+            const contenedorProducto = display.closest('.opcion-principal-detalle-oferta2');
+            if (contenedorProducto) {
+                const idProducto = contenedorProducto.getAttribute('id-producto');
+                if (valorActual === 0) { // Solo cuando cambiamos de 0 a 1
+                    mostrarSubItemsRelacionados(grupo, idProducto);
+                }
+            }
         }
-      }
     }
   }
   
   function decrementCantidad(itemId, grupo) {
     const display = document.getElementById(`cantidad-${itemId}`);
-    if (!display) return;
-  
+    if (!display) {
+        console.warn(`No se encontró el elemento display para cantidad-${itemId}`);
+        return;
+    }
+
     const valorActual = parseInt(display.textContent || '0');
     if (valorActual <= 0) return;
-  
+
     const controlCantidad = display.closest('.controles-cantidad2');
-    const itemMenuDiv = controlCantidad.closest('.item-menuItem');
-    const esSubItem = !!itemMenuDiv.closest('.sub-item-producto');
+    if (!controlCantidad) {
+        console.warn('No se encontró el contenedor de controles-cantidad2');
+        return;
+    }
+
+    // Intentar obtener itemMenuDiv ya sea desde item-menuItem o item-subItem
+    const itemMenuDiv = controlCantidad.closest('.item-menuItem') || controlCantidad.closest('.item-subItem');
+    if (!itemMenuDiv) {
+        console.warn('No se encontró el contenedor de item-menuItem o item-subItem');
+        return;
+    }
+
+    const esSubItem = !!controlCantidad.closest('.sub-item-producto');
     
     let minimo, maximo;
     if (esSubItem) {
-      minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
+        minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
+        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
     } else {
-      maximo = parseInt(itemMenuDiv.getAttribute('data-limite') || '0');
-      minimo = 0;
+        maximo = parseInt(itemMenuDiv.getAttribute('data-max') || 
+                         controlCantidad.getAttribute('data-max') || 
+                         itemMenuDiv.getAttribute('data-limite') || '0');
+        minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
     }
-  
+
     const sumaTotal = obtenerSumaGrupo(grupo);
     if (valorActual > 0 && (!esSubItem || sumaTotal > minimo)) {
-      display.textContent = (valorActual - 1).toString();
-      actualizarBotonesNumberCount(grupo, maximo);
-      verificarRequeridos();
-  
-      // Actualizar visibilidad de sub-items si es necesario
-      if (!esSubItem) {
-        const menuItem = controlCantidad.closest('.opcion-principal-detalle-oferta2');
-        const idProducto = menuItem.getAttribute('data-producto-id');
-        if (valorActual === 1) { // Solo cuando cambiamos de 1 a 0
-          const menuItem = display.closest('.menu-item-producto');
-          const subItems = document.querySelectorAll(
-            `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${idProducto}"]`
-          );
-          subItems.forEach(item => {
-            item.style.display = 'none';
-          });
+        display.textContent = (valorActual - 1).toString();
+        actualizarBotonesNumberCount(grupo, maximo);
+        verificarRequeridos();
+
+        // Actualizar visibilidad de sub-items si es necesario
+        if (!esSubItem) {
+            const menuItem = controlCantidad.closest('.opcion-principal-detalle-oferta2');
+            if (menuItem) {
+                const idProducto = menuItem.getAttribute('data-producto-id');
+                if (valorActual === 1 && idProducto) {
+                    const subItems = document.querySelectorAll(
+                        `.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${idProducto}"]`
+                    );
+                    subItems.forEach(item => {
+                        item.style.display = 'none';
+                    });
+                }
+            }
         }
-      }
     }
   }
   
