@@ -1877,7 +1877,8 @@
                     </div>
                     <div class="controles-cantidad2" 
                         data-group="${indexCN3}" 
-                        data-limite="${limite}" 
+                        data-min="${Min}"
+                        data-max="${Max}"
                         data-producto-id="${idProducto}"
                         data-precio="${precioProducto}">
                       <button type="button" class="btn-cantidad2" onclick="decrementCantidad('${indexCN3}-${indexMainItem}', '${indexCN3}')">
@@ -1911,7 +1912,8 @@
                           name="properties[${productoTrabajo.title}]"
                           class="input-checkbox3"
                           data-group="${indexProducto}"
-                          data-limite="${Max}"
+                          data-min="${Min}"
+                          data-max="${Max}"
                           data-variant-id="${varianteActual.id}"
                           data-variant-price="${precioVariante}"
                           onchange="validarLimiteCheckbox(this)"
