@@ -1289,13 +1289,15 @@
   %}
 {%- endif -%}
 <script>
-  // Constantes de colores
-  const COLORS = {
-    ERROR: '#FF6565',
-    OPCIONAL: '#B5B6BD',
-    REQUERIDO: '#43B02A', // Color verde para requerido
-    DEFAULT: '#000000'
-  };
+  // Función que retorna los colores
+  function obtenerColores() {
+    return {
+        ERROR: '#FF6565',
+        OPCIONAL: '#B5B6BD',
+        REQUERIDO: '#43B02A', 
+        DEFAULT: '#000000'
+    };
+  }
 
   // Obtener de las colecciones de los productos una [handle1,handle2,.....,handleN]
   function coleccionesOfProduct() {
@@ -2172,6 +2174,8 @@
   }
 
   function verificarRequeridos() {
+    const COLORS = obtenerColores(); // Obtener colores al inicio
+
     document.querySelectorAll('.menu-item-producto, .sub-item-producto').forEach(item => {
       const itemMenuDiv = item.querySelector('.item-menuItem');
       const esSubItem = item.classList.contains('sub-item-producto');
@@ -2271,6 +2275,7 @@
   }
   
   function actualizarBotonesNumberCount(grupo, maxLimit = null) {
+    const COLORS = obtenerColores(); // Obtener colores al inicio
     const elementos = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
     const sumaTotal = obtenerSumaGrupo(grupo);
     const contenedor = elementos[0]?.closest('.item-menuItem');
@@ -2307,7 +2312,7 @@
       }
     });
   }
-  
+
   function esElementoRequerido(elemento) {
     const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
     if (solicitudText === 'REQUERIDO') return true;
