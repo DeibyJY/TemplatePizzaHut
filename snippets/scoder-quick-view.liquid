@@ -2031,11 +2031,20 @@
       } 
       // Controles numéricos
       else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-          const primerDisplay = itemMenuDiv.querySelector('.cantidad-display2');
-          if (primerDisplay) {
-              primerDisplay.textContent = min.toString();
-              actualizarBotonesNumberCount(grupo, max);
-          }
+        const displays = itemMenuDiv.querySelectorAll('.cantidad-display2');
+        if (displays.length > 0) {
+          // Distribuir el mínimo entre los elementos
+          const valorBase = Math.floor(min / displays.length);
+          const residuo = min % displays.length;
+          
+          displays.forEach((display, index) => {
+            let valor = valorBase;
+            if (index < residuo) valor++;
+            display.textContent = valor.toString();
+          });
+          // actualizarBotonesNumberCount(grupo, max);
+          // verificarRequeridos();
+        }
       } 
       // Checkboxes
       else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
