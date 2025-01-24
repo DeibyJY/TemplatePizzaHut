@@ -2032,19 +2032,17 @@
       } 
       // Controles numéricos
       else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        const displays = itemMenuDiv.querySelectorAll('.cantidad-display2');
-        if (displays.length > 0) {
-          // Distribuir el mínimo entre los elementos
-          const valorBase = Math.floor(min / displays.length);
-          const residuo = min % displays.length;
-          
-          displays.forEach((display, index) => {
-            let valor = valorBase;
-            if (index < residuo) valor++;
-            display.textContent = valor.toString();
-          });
-          //actualizarBotonesNumberCount(grupo, max);
-          // verificarRequeridos();
+        const displays = itemDiv.querySelectorAll('.cantidad-display2');
+          if (displays.length > 0) {
+              // Asigna el mínimo al primer elemento
+              displays[0].textContent = min.toString();
+              // Resto en 0
+              for(let i = 1; i < displays.length; i++) {
+                  displays[i].textContent = '0';
+              }
+              actualizarBotonesNumberCount(grupo, max);
+              verificarRequeridos();
+          }
         }
       } 
       // Checkboxes
@@ -2073,21 +2071,20 @@
           triggerChange(primerRadio);
           // verificarRequeridos();
         }
-      } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        const displays = itemMenuDiv.querySelectorAll('.cantidad-display2');
-        if (displays.length > 0) {
-          // Distribuir el mínimo entre los elementos
-          const valorBase = Math.floor(min / displays.length);
-          const residuo = min % displays.length;
-          
-          displays.forEach((display, index) => {
-            let valor = valorBase;
-            if (index < residuo) valor++;
-            display.textContent = valor.toString();
-          });
-           // actualizarBotonesNumberCount(grupo, max);
-          // verificarRequeridos();
-        }
+        else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
+          const displays = itemDiv.querySelectorAll('.cantidad-display2');
+            if (displays.length > 0) {
+                // Asigna el mínimo al primer elemento
+                displays[0].textContent = min.toString();
+                // Resto en 0
+                for(let i = 1; i < displays.length; i++) {
+                    displays[i].textContent = '0';
+                }
+                actualizarBotonesNumberCount(grupo, max);
+                verificarRequeridos();
+            }
+          }
+        } 
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
         const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
         for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
@@ -2158,24 +2155,27 @@
   }
 
   // Funciones de validación
-  function validarLimiteCheckbox(checkbox) {
+  function validarLimiteCheckbox(checkbox) {  
     const contenedor = checkbox.closest('.item-menuItem, .item-subItem');
     const min = parseInt(contenedor.getAttribute('data-min'));
     const max = parseInt(contenedor.getAttribute('data-max'));
-    const checkboxesSeleccionados = contenedor.querySelectorAll('input[type="checkbox"]:checked').length;
-    
-    if (checkbox.checked && checkboxesSeleccionados > max) {
-        checkbox.checked = false;
-        return;
-    }
-
     const grupo = checkbox.getAttribute('data-group');
     const productoId = checkbox.getAttribute('data-producto-id');
     
-    if(checkbox.checked) {
+    const checkboxesSeleccionados = contenedor.querySelectorAll('input[type="checkbox"]:checked');
+    
+    // Si está marcando y excede el máximo
+    if (checkbox.checked && checkboxesSeleccionados.length > max) {
+        // Desmarca el primer checkbox seleccionado
+        checkboxesSeleccionados[0].checked = false;
+    }
+
+    // Maneja visibilidad de sub-items
+    if (checkbox.checked) {
         mostrarSubItemsRelacionados(grupo, productoId);
     } else {
-        ocultarSubItems(grupo, productoId);
+        document.querySelectorAll(`.sub-item-producto[data-parent-group="${grupo}"][data-producto-id="${productoId}"]`)
+            .forEach(item => item.style.display = 'none');
     }
 
     verificarRequeridos();
