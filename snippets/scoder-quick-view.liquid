@@ -2011,45 +2011,65 @@
   }
 
   // Función corregida para marcar opciones requeridas
+  function esElementoRequerido(elemento) {
+    const solicitudElement = elemento.querySelector('.titulo-detalle-seleccion');
+    if (!solicitudElement) return false;
+    
+    // Comprueba si es REQUERIDO explícitamente
+    const esRequeridoExplicito = solicitudElement.textContent.trim() === 'REQUERIDO';
+    
+    // También comprueba el mínimo requerido
+    const contenedor = elemento.querySelector('.item-menuItem') || elemento.querySelector('.item-subItem');
+    if (!contenedor) return esRequeridoExplicito;
+    
+    const minRequerido = parseInt(contenedor.getAttribute('data-min') || '0');
+    return esRequeridoExplicito || minRequerido > 0;
+  }
+  
   function marcarOpcionesRequeridas() {
     // Para menu-item-producto
     document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
       if (!esElementoRequerido(menuItem)) return;
       
       const itemMenuDiv = menuItem.querySelector('.item-menuItem');
+      if (!itemMenuDiv) return;
+      
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
+      const grupo = itemMenuDiv.getAttribute('data-group');
   
       // Radio buttons
-      if (itemMenuDiv.querySelector('input[type="radio"]')) {
-        const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
-        if (primerRadio) {
-            primerRadio.checked = true;
-            triggerChange(primerRadio);
-        }
-      } 
+      const radios = itemMenuDiv.querySelectorAll('input[type="radio"]');
+      if (radios.length > 0) {
+        radios[0].checked = true;
+        triggerChange(radios[0]);
+      }
       // Controles numéricos
-      else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        const displays = itemDiv.querySelectorAll('.cantidad-display2');
-        console.log(min, max, grupo, displays);
-        if (displays.length > 0) {
-            // Asigna el mínimo al primer elemento
-            displays[0].textContent = min.toString();
-            // Resto en 0
-            for(let i = 1; i < displays.length; i++) {
-                displays[i].textContent = '0';
+      else {
+        const contenedoresCantidad = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
+        if (contenedoresCantidad.length > 0) {
+          let cantidadRestante = min;
+          contenedoresCantidad.forEach((contenedor, index) => {
+            const display = contenedor.querySelector('.cantidad-display2');
+            if (display) {
+              if (index === 0 && cantidadRestante > 0) {
+                display.textContent = cantidadRestante.toString();
+                cantidadRestante = 0;
+              } else {
+                display.textContent = '0';
+              }
             }
-            actualizarBotonesNumberCount(grupo, max);
-            verificarRequeridos();
+          });
+          actualizarBotonesNumberCount(grupo, max);
         }
-      } 
+      }
       // Checkboxes
-      else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
-        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
-        for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
-            checkboxes[i].checked = true;
-            triggerChange(checkboxes[i]);
+      const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes.length > 0) {
+        const cantidadAMarcar = Math.min(min, checkboxes.length);
+        for (let i = 0; i < cantidadAMarcar; i++) {
+          checkboxes[i].checked = true;
+          triggerChange(checkboxes[i]);
         }
       }
     });
@@ -2058,55 +2078,65 @@
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
       if (!esElementoRequerido(subItem)) return;
   
-      const itemMenuDiv = subItem.querySelector('.item-subItem');
-      const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      const max = parseInt(itemMenuDiv.getAttribute('data-max') || min.toString());
-      const grupo = parseInt(itemMenuDiv.getAttribute('data-group') || '0');
+      const itemSubDiv = subItem.querySelector('.item-subItem');
+      if (!itemSubDiv) return;
+      
+      const min = parseInt(itemSubDiv.getAttribute('data-min') || '0');
+      const max = parseInt(itemSubDiv.getAttribute('data-max') || min.toString());
+      const grupo = itemSubDiv.getAttribute('data-group');
   
       // Radio buttons
-      if (itemMenuDiv.querySelector('input[type="radio"]')) {
-        const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
-        if (primerRadio) {
-            primerRadio.checked = true;
-            triggerChange(primerRadio);
-        }
-      } 
+      const radios = itemSubDiv.querySelectorAll('input[type="radio"]');
+      if (radios.length > 0) {
+        radios[0].checked = true;
+        triggerChange(radios[0]);
+      }
       // Controles numéricos
-      else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
-        const displays = itemDiv.querySelectorAll('.cantidad-display2');
-        if (displays.length > 0) {
-            console.log(min, max, grupo, displays);
-            // Asigna el mínimo al primer elemento
-            displays[0].textContent = min.toString();
-            // Resto en 0
-            for(let i = 1; i < displays.length; i++) {
-                displays[i].textContent = '0';
+      else {
+        const contenedoresCantidad = itemSubDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
+        if (contenedoresCantidad.length > 0) {
+          let cantidadRestante = min;
+          contenedoresCantidad.forEach((contenedor, index) => {
+            const display = contenedor.querySelector('.cantidad-display2');
+            if (display) {
+              if (index === 0 && cantidadRestante > 0) {
+                display.textContent = cantidadRestante.toString();
+                cantidadRestante = 0;
+              } else {
+                display.textContent = '0';
+              }
             }
-            actualizarBotonesNumberCount(grupo, max);
-            verificarRequeridos();
+          });
+          actualizarBotonesNumberCount(grupo, max);
         }
-      } 
+      }
       // Checkboxes
-      else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
-        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
-        for (let i = 0; i < Math.min(min, checkboxes.length); i++) {
-            checkboxes[i].checked = true;
-            triggerChange(checkboxes[i]);
+      const checkboxes = itemSubDiv.querySelectorAll('input[type="checkbox"]');
+      if (checkboxes.length > 0) {
+        const cantidadAMarcar = Math.min(min, checkboxes.length);
+        for (let i = 0; i < cantidadAMarcar; i++) {
+          checkboxes[i].checked = true;
+          triggerChange(checkboxes[i]);
         }
       }
     });
+  
+    verificarRequeridos();
   }
 
   function esElementoRequerido(elemento) {
-    const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
-    if (solicitudText === 'REQUERIDO') return true;
+    const solicitudElement = elemento.querySelector('.titulo-detalle-seleccion');
+    if (!solicitudElement) return false;
     
-    {% comment %} const itemMenuDiv = elemento.querySelector('.item-menuItem');
-    if (elemento.classList.contains('sub-item-producto')) {
-      const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-      return min > 0;
-    } {% endcomment %}
-    return false;
+    // Comprueba si es REQUERIDO explícitamente
+    const esRequeridoExplicito = solicitudElement.textContent.trim() === 'REQUERIDO';
+    
+    // También comprueba el mínimo requerido
+    const contenedor = elemento.querySelector('.item-menuItem') || elemento.querySelector('.item-subItem');
+    if (!contenedor) return esRequeridoExplicito;
+    
+    const minRequerido = parseInt(contenedor.getAttribute('data-min') || '0');
+    return esRequeridoExplicito || minRequerido > 0;
   }
 
   // Control de visibilidad de sub-items
@@ -2231,7 +2261,6 @@
   
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
         cantidadSeleccionada = itemMenuDiv.querySelectorAll('input[type="radio"]:checked').length;
-        console.log(cantidadSeleccionada);
       } else if (itemMenuDiv.querySelector('.controles-cantidad2')) {
         cantidadSeleccionada = Array.from(itemMenuDiv.querySelectorAll('.cantidad-display2'))
           .reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
