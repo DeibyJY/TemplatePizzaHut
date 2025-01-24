@@ -2043,7 +2043,7 @@
             if (index < residuo) valor++;
             display.textContent = valor.toString();
           });
-          actualizarBotonesNumberCount(grupo, max);
+          //actualizarBotonesNumberCount(grupo, max);
           // verificarRequeridos();
         }
       } 
@@ -2085,7 +2085,7 @@
             if (index < residuo) valor++;
             display.textContent = valor.toString();
           });
-           actualizarBotonesNumberCount(grupo, max);
+           // actualizarBotonesNumberCount(grupo, max);
           // verificarRequeridos();
         }
       } else if (itemMenuDiv.querySelector('input[type="checkbox"]')) {
@@ -2223,6 +2223,8 @@
       
       const minimo = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const maximo = parseInt(itemMenuDiv.getAttribute('data-max') || minimo.toString());
+
+      console.log(minimo, maximo);
   
       let cantidadSeleccionada = 0;
   
