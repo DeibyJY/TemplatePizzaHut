@@ -2017,25 +2017,26 @@
         } 
         
         // Caso 2: Controles numéricos
-        const controlesNumero = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
-        if (controlesNumero.length > 0) {
-            if (min > 0) {
-                let restante = min;
-                let index = 0;
-                console.log(controlesNumero.lenght, restante)
-                
-                // Distribuir el mínimo entre los elementos
-                while (restante > 0 && index < controlesNumero.length) {
-                    const display = controlesNumero[index].querySelector('.cantidad-display2');
-                    if (display) {
-                        display.textContent = '1';
-                        restante--;
-                    }
-                    index++;
-                }
-            }
-            actualizarBotonesNumberCount(grupo, esSubItem ? 'sub-item' : 'menu-item', max);
-
+        if (controlesNumero.length > 0 && min > 0) {
+          // Determinar si estamos en el menu principal
+          const menuItem = controlesNumero[0].closest('.menu-item-producto');
+          if (menuItem) {
+              let restante = min;
+              let index = 0;
+              console.log('Marcando menu-item con min:', min, 'max:', max);
+              
+              // Distribuir valores en el menu principal
+              while (restante > 0 && index < controlesNumero.length) {
+                  const display = controlesNumero[index].querySelector('.cantidad-display2');
+                  if (display) {
+                      display.textContent = '1';
+                      restante--;
+                      console.log('Menu: Marcando elemento', index, 'con 1, restante:', restante);
+                  }
+                  index++;
+              }
+              actualizarBotonesNumberCount(grupo, 'menu-item', max);
+          }
         }
         
         // Caso 3: Checkboxes
@@ -2070,19 +2071,29 @@
             }
         }
 
-      // Caso 2: Controles numéricos
-      const controlesNumero = itemSubDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
+        // Caso 2: Controles numéricos
+        const controlesNumero = itemSubDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
 
-      if (controlesNumero.length > 0 && min > 0) {
-          // Marcar los primeros 'min' elementos con 1
-          for (let i = 0; i < max && i < controlesNumero.length; i++) {
-              console.log('Elemento', i, 'de', controlesNumero.length, 'con max', max);
-              const display = controlesNumero[i].querySelector('.cantidad-display2');
-              console.log(display);
-              if (display) display.textContent = '1';
+        if (controlesNumeroSub.length > 0 && minSub > 0) {
+          // Determinar si estamos en un sub-item
+          const subItem = controlesNumeroSub[0].closest('.sub-item-producto');
+          if (subItem) {
+              let restante = minSub;
+              let index = 0;
+              console.log('Marcando sub-item con min:', minSub, 'max:', maxSub);
+              
+              // Distribuir valores en el sub-item
+              while (restante > 0 && index < controlesNumeroSub.length) {
+                  const display = controlesNumeroSub[index].querySelector('.cantidad-display2');
+                  if (display) {
+                      display.textContent = '1';
+                      restante--;
+                      console.log('Sub: Marcando elemento', index, 'con 1, restante:', restante);
+                  }
+                  index++;
+              }
+              actualizarBotonesNumberCount(subGrupo, 'sub-item', maxSub);
           }
-          
-          actualizarBotonesNumberCount(grupo, esSubItem ? 'sub-item' : 'menu-item', max);
         }
 
         // Caso 3: Checkboxes
