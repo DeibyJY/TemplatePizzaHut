@@ -1669,7 +1669,7 @@
           </div>
           <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
         </div>
-        <div class="item-menuItem">
+        <div class="item-menuItem" data-group="${indexCN3}" data-min="${minNum}" data-max="${maxNum}">
         `;
 
       let subItemProducto =  ``;
@@ -1809,7 +1809,7 @@
               </div>
               <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${tipoSolicitud}</span>
             </div>
-            <div class="item-subItem">
+            <div class="item-subItem" data-group="${indexProducto}" data-min="${Min}" data-max="${Max}">
             `;
 
           // IDs de todos los productos de la coleccion actual
