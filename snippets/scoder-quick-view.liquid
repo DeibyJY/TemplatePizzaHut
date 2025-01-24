@@ -2020,7 +2020,7 @@
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const grupo = menuItem.getAttribute('data-group');
-      console.log(max,min.grupo);
+      console.log(max,min,grupo);
   
       // Radio buttons
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
@@ -2065,6 +2065,7 @@
       const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
       const max = parseInt(itemMenuDiv.getAttribute('data-max') || min.toString());
       const grupo = subItem.getAttribute('data-sub-item');
+      console.log(max,min,grupo);
   
       if (itemMenuDiv.querySelector('input[type="radio"]')) {
         const primerRadio = itemMenuDiv.querySelector('input[type="radio"]');
