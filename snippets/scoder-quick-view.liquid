@@ -1973,9 +1973,9 @@
     // Marcar opciones predefinidas cuando es requerido
     marcarOpcionesRequeridas();
     // Inicializar visibilidad de sub-items
-    actualizarVisibilidadSubItems();
+    //actualizarVisibilidadSubItems();
     // Verificar estados iniciales
-    verificarRequeridos();
+    // verificarRequeridos();
   }
 
   function actualizarBotonesNumberCount(grupo, maxLimit = null) {
@@ -2084,6 +2084,7 @@
 
   function esElementoRequerido(elemento) {
     const solicitudText = elemento.querySelector('.titulo-detalle-seleccion').textContent.trim();
+    console.log(solicitudText);
     if (solicitudText === 'REQUERIDO') return true;
     
     {% comment %} const itemMenuDiv = elemento.querySelector('.item-menuItem');
@@ -2407,7 +2408,7 @@
     function initializeShopifyProduct() {
         return testPrueba()
             .then(() => {
-                {% comment %} initializeProductMenu(); {% endcomment %}
+                 initializeProductMenu(); 
                 console.log('Producto inicializado correctamente');
             })
             .catch(error => {
