@@ -2025,7 +2025,7 @@
 
         // Procesar controles numéricos si existen y son requeridos
         if (controles.numero.length > 0 && min > 0) {
-            let restante = max;
+            let restante = min;
             let index = 0;
 
             while (restante > 0 && index < controles.numero.length) {
@@ -2131,23 +2131,29 @@
   }
   
   // Función para decrementar cantidad en controles numéricos
-   function decrementCantidad(elemento) {
-      const controlCantidad = elemento.closest('.controles-cantidad2');
-      const display = controlCantidad?.querySelector('.cantidad-display2');
-      if (!display) return;
-  
-      const valorActual = parseInt(display.textContent || '0');
-      if (valorActual <= 0) return; // Solo evita números negativos
-  
-      const contenedor = elemento.closest('.sub-item-producto') || elemento.closest('.menu-item-producto');
-      if (!contenedor) return;
-  
-      // Decrementar siempre que sea mayor a 0
-      display.textContent = (valorActual - 1).toString();
-      
-      // Actualizar botones y verificar requeridos (esto marcará en rojo si está bajo el mínimo)
-      actualizarBotonesNumberCount(contenedor);
-      verificarRequeridos();
+  function decrementCantidad(elemento) {
+    const controlCantidad = elemento.closest('.controles-cantidad2');
+    const display = controlCantidad?.querySelector('.cantidad-display2');
+    if (!display) return;
+
+    const valorActual = parseInt(display.textContent || '0');
+    if (valorActual <= 0) return;
+
+    const contenedor = elemento.closest('.sub-item-producto') || elemento.closest('.menu-item-producto');
+    if (!contenedor) return;
+
+    const contenedorPrincipal = controlCantidad.closest('.opcion-principal-detalle-oferta2');
+    const min = parseInt(contenedorPrincipal?.dataset.min || '0');
+    let sumaActual = 0;
+    contenedor.querySelectorAll('.cantidad-display2').forEach(d => 
+        sumaActual += parseInt(d.textContent || '0')
+    );
+
+    if (sumaActual > min) {
+        display.textContent = (valorActual - 1).toString();
+        actualizarBotonesNumberCount(contenedor);
+        verificarRequeridos();
+    }
   }
 
   // Función corregida para marcar opciones requeridas
