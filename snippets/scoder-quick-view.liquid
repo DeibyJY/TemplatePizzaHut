@@ -2110,97 +2110,50 @@
   }
 
   function incrementarCantidad(elemento) {
-      // Obtener el contenedor de controles donde está el botón clickeado
-      const controlCantidad = elemento.closest('.controles-cantidad2');
-      if (!controlCantidad) return;
-  
-      const display = controlCantidad.querySelector('.cantidad-display2');
-      if (!display) return;
-  
-      const valorActual = parseInt(display.textContent || '0');
-  
-      // Determinar si estamos en sub-item o menu-item
-      const subItem = controlCantidad.closest('.sub-item-producto');
-      const menuItem = controlCantidad.closest('.menu-item-producto');
-      const contenedor = subItem || menuItem;
-      if (!contenedor) return;
-  
-      // Obtener el grupo del control
-      const grupo = controlCantidad.getAttribute('data-group');
-      
-      // Obtener los controles del mismo grupo
-      const controlesGrupo = subItem ? 
-          subItem.querySelectorAll(`.controles-cantidad2`) :
-          menuItem.querySelectorAll(`.controles-cantidad2`);
+    const controlCantidad = elemento.closest('.controles-cantidad2');
+    const display = controlCantidad?.querySelector('.cantidad-display2');
+    if (!display) return;
 
-  
-      // Calcular suma actual
-      let sumaActual = 0;
-      controlesGrupo.forEach(control => {
-          const displayControl = control.querySelector('.cantidad-display2');
-          console.log(displayControl);
-          if (displayControl) {
-              sumaActual += parseInt(displayControl.textContent || '0');
-          }
-      });
+    const contenedor = elemento.closest('.sub-item-producto') || elemento.closest('.menu-item-producto');
+    if (!contenedor) return;
 
-      console.log(sumaActual);
-  
-      // Obtener el contenedor principal y sus límites
-      const contenedorPrincipal = controlCantidad.closest('.controles-cantidad2');
-      const max = parseInt(contenedorPrincipal?.getAttribute('data-max') || '0');
-  
-      if (sumaActual < max) {
-          display.textContent = (valorActual + 1).toString();
-          actualizarBotonesNumberCount(contenedor);
-          verificarRequeridos();
-      }
+    const max = parseInt(controlCantidad?.dataset.max || '0');
+    let sumaActual = 0;
+    contenedor.querySelectorAll('.cantidad-display2').forEach(d => 
+        sumaActual += parseInt(d.textContent || '0')
+    );
+
+    if (sumaActual < max) {
+        display.textContent = (parseInt(display.textContent || '0') + 1).toString();
+        actualizarBotonesNumberCount(contenedor);
+        verificarRequeridos();
+    }
   }
   
   // Función para decrementar cantidad en controles numéricos
   function decrementCantidad(elemento) {
-      // Obtener el contenedor de controles donde está el botón clickeado
-      const controlCantidad = elemento.closest('.controles-cantidad2');
-      if (!controlCantidad) return;
-  
-      const display = controlCantidad.querySelector('.cantidad-display2');
-      if (!display) return;
-  
-      const valorActual = parseInt(display.textContent || '0');
-      if (valorActual <= 0) return;
-  
-      // Determinar si estamos en sub-item o menu-item
-      const subItem = controlCantidad.closest('.sub-item-producto');
-      const menuItem = controlCantidad.closest('.menu-item-producto');
-      const contenedor = subItem || menuItem;
-      if (!contenedor) return;
-  
-      // Obtener el grupo del control
-      const grupo = controlCantidad.getAttribute('data-group');
-      
-      // Obtener los controles del mismo grupo
-      const controlesGrupo = subItem ? 
-          subItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`) :
-          menuItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
-  
-      // Calcular suma actual
-      let sumaActual = 0;
-      controlesGrupo.forEach(control => {
-          const displayControl = control.querySelector('.cantidad-display2');
-          if (displayControl) {
-              sumaActual += parseInt(displayControl.textContent || '0');
-          }
-      });
-  
-      // Obtener el contenedor principal y sus límites
-      const contenedorPrincipal = controlCantidad.closest('.opcion-principal-detalle-oferta2');
-      const min = parseInt(contenedorPrincipal?.getAttribute('data-min') || '0');
-  
-      if (sumaActual > min) {
-          display.textContent = (valorActual - 1).toString();
-          actualizarBotonesNumberCount(contenedor);
-          verificarRequeridos();
-      }
+    const controlCantidad = elemento.closest('.controles-cantidad2');
+    const display = controlCantidad?.querySelector('.cantidad-display2');
+    if (!display) return;
+
+    const valorActual = parseInt(display.textContent || '0');
+    if (valorActual <= 0) return;
+
+    const contenedor = elemento.closest('.sub-item-producto') || elemento.closest('.menu-item-producto');
+    if (!contenedor) return;
+
+    const contenedorPrincipal = controlCantidad.closest('.opcion-principal-detalle-oferta2');
+    const min = parseInt(contenedorPrincipal?.dataset.min || '0');
+    let sumaActual = 0;
+    contenedor.querySelectorAll('.cantidad-display2').forEach(d => 
+        sumaActual += parseInt(d.textContent || '0')
+    );
+
+    if (sumaActual > min) {
+        display.textContent = (valorActual - 1).toString();
+        actualizarBotonesNumberCount(contenedor);
+        verificarRequeridos();
+    }
   }
 
   // Función corregida para marcar opciones requeridas
