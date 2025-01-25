@@ -2060,28 +2060,29 @@
     const controles = containerTrabajo.querySelectorAll('.controles-cantidad2');
     if (!controles.length) return;
     
-    let sumaTotal = 0;
+    const sumaTotal = Array.from(containerTrabajo.querySelectorAll('.cantidad-display2'))
+        .reduce((sum, display) => sum + parseInt(display?.textContent || '0'), 0);
+
     controles.forEach(control => {
-        const display = control.querySelector('.cantidad-display2');
-        const cantidad = parseInt(display?.textContent || '0');
-        sumaTotal += cantidad;
-        
-        const botonMas = control.querySelector('button:last-child');
-        const botonMenos = control.querySelector('button:first-child');
-        
-        if (botonMas) {
-            const deshabilitarMas = sumaTotal >= max;
-            botonMas.disabled = deshabilitarMas;
-            botonMas.style.setProperty('fill', deshabilitarMas ? COLORS.OPCIONAL : '', 'important');
-            botonMas.style.setProperty('cursor', deshabilitarMas ? 'not-allowed' : 'pointer', 'important');
-        }
-        
-        if (botonMenos) {
-            const deshabilitarMenos = cantidad === 0;
-            botonMenos.disabled = deshabilitarMenos;
-            botonMenos.style.setProperty('fill', deshabilitarMenos ? COLORS.OPCIONAL : '', 'important');
-            botonMenos.style.setProperty('cursor', deshabilitarMenos ? 'not-allowed' : 'pointer', 'important');
-        }
+        const cantidad = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+        const [botonMenos, botonMas] = [
+            control.querySelector('button:first-child'),
+            control.querySelector('button:last-child')
+        ];
+
+        const deshabilitarMas = sumaTotal >= max;
+        const deshabilitarMenos = cantidad === 0;
+
+        [
+            [botonMas, deshabilitarMas],
+            [botonMenos, deshabilitarMenos]
+        ].forEach(([boton, deshabilitar]) => {
+            if (boton) {
+                boton.disabled = deshabilitar;
+                boton.style.setProperty('fill', deshabilitar ? COLORS.OPCIONAL : '', 'important');
+                boton.style.setProperty('cursor', deshabilitar ? 'not-allowed' : 'pointer', 'important');
+            }
+        });
     });
   }
 
