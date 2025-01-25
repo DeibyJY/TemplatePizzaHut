@@ -1983,7 +1983,7 @@
     // Marcar opciones predefinidas cuando es requerido
     marcarOpcionesRequeridas();
     // Inicializar visibilidad de sub-items
-    //actualizarVisibilidadSubItems();
+    actualizarVisibilidadSubItems();
     // Verificar estados iniciales
     // verificarRequeridos();
   }
@@ -2005,123 +2005,65 @@
   }
   
   function marcarOpcionesRequeridas() {
-    // Para menu-item-producto
-    document.querySelectorAll('.menu-item-producto').forEach(menuItem => {
-        if (!esElementoRequerido(menuItem)) return;
+    // Procesar todos los elementos en una sola pasada
+    document.querySelectorAll('.menu-item-producto, .sub-item-producto').forEach(elemento => {
+        const esSubItem = elemento.classList.contains('sub-item-producto');
         
-        const itemMenuDiv = menuItem.querySelector('.item-menuItem');
-        if (!itemMenuDiv) return;
-
-        const max = parseInt(itemMenuDiv.getAttribute('data-max') || '0');
-        const min = parseInt(itemMenuDiv.getAttribute('data-min') || '0');
-        const grupo = itemMenuDiv.getAttribute('data-group');
-        
-        // Caso 1: Radio buttons
-        const radios = itemMenuDiv.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
-            const primerRadio = radios[0];
-            if (primerRadio) {
-                primerRadio.checked = true;
-                triggerChange(primerRadio);
-            }
-        } 
-        
-        // Caso 2: Controles numéricos
-        const controlesNumero = itemMenuDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
-        if (controlesNumero.length > 0 && min > 0) {
-            // Determinar si estamos en el menu principal
-            const menuItem = controlesNumero[0].closest('.menu-item-producto');
-            if (menuItem) {
-                let restante = max;
-                let index = 0;
-                
-                // Distribuir valores en el menu principal
-                while (restante > 0 && index < controlesNumero.length) {
-                    const display = controlesNumero[index].querySelector('.cantidad-display2');
-                    if (display) {
-                        display.textContent = '1';
-                        restante--;
-                        console.log('Menu: Marcando elemento', index, 'con 1, restante:', restante);
-                    }
-                    index++;
-                }
-            }
+        // Actualizar botones incluso si no es requerido
+        if (!esElementoRequerido(elemento)) {
+          actualizarBotonesNumberCount(elemento);
+            return;
         }
-        
-        // Caso 3: Checkboxes
-        const checkboxes = itemMenuDiv.querySelectorAll('input[type="checkbox"]');
-        if (checkboxes.length > 0) {
-            const cantidadAMarcar = Math.min(min, checkboxes.length);
-            for (let i = 0; i < cantidadAMarcar; i++) {
-                checkboxes[i].checked = true;
-                triggerChange(checkboxes[i]);
-            }
-        }
-    });
 
-    // Para sub-item-producto
-    document.querySelectorAll('.sub-item-producto').forEach(subItem => {
-        if (!esElementoRequerido(subItem)){
-          actualizarBotonesNumberCountSubItem(subItem);
-          return;
+        // Obtener el contenedor y atributos una sola vez
+        const contenedor = esSubItem ? 
+            elemento.querySelector('.item-subItem') : 
+            elemento.querySelector('.item-menuItem');
+            
+        if (!contenedor) return;
+
+        const min = parseInt(contenedor.getAttribute('data-min') || '0');
+        const max = parseInt(contenedor.getAttribute('data-max') || min);
+
+        // Procesar todos los tipos de controles
+        const controles = {
+            radio: contenedor.querySelectorAll('input[type="radio"]'),
+            numero: contenedor.querySelectorAll('.opcion-principal-detalle-oferta2'),
+            checkbox: contenedor.querySelectorAll('input[type="checkbox"]')
         };
 
-        const itemSubDiv = subItem.querySelector('.item-subItem');
-        if (!itemSubDiv) return;
-
-
-        const min = parseInt(itemSubDiv.getAttribute('data-min') || '0');
-        const max = parseInt(itemSubDiv.getAttribute('data-max') || min.toString());
-        const grupo = itemSubDiv.getAttribute('data-group');
-
-        // Caso 1: Radio buttons
-        const radios = itemSubDiv.querySelectorAll('input[type="radio"]');
-        if (radios.length > 0) {
-            const primerRadio = radios[0];
-            if (primerRadio) {
-                primerRadio.checked = true;
-                triggerChange(primerRadio);
-            }
+        // Procesar radio buttons si existen y son requeridos
+        if (controles.radio.length > 0 && min > 0) {
+            controles.radio[0].checked = true;
+            triggerChange(controles.radio[0]);
         }
 
-        // Caso 2: Controles numéricos
-        const controlesNumero = itemSubDiv.querySelectorAll('.opcion-principal-detalle-oferta2');
-        if (controlesNumero.length > 0 && min > 0) {
-            // Determinar si estamos en un sub-item
-            const subItemElement = controlesNumero[0].closest('.sub-item-producto');
+        // Procesar controles numéricos si existen y son requeridos
+        if (controles.numero.length > 0 && min > 0) {
+            let restante = max;
+            let index = 0;
 
-            if (subItemElement) {
-                let restante = max;
-                let index = 0;
-                
-                // Distribuir valores en el sub-item
-                while (restante > 0 && index < controlesNumero.length) {
-                    // Contendor del Button(+) 1 Button(-)
-                    const display = controlesNumero[index].querySelector('.cantidad-display2');
-
-                    if (display) {
-                        display.textContent = '1';
-                        restante--;
-                    }
-                    index++;
+            while (restante > 0 && index < controles.numero.length) {
+                const display = controles.numero[index].querySelector('.cantidad-display2');
+                if (display) {
+                    display.textContent = '1';
+                    restante--;
                 }
-                {% comment %} actualizarBotonesNumberCount(subItem); {% endcomment %}
-                actualizarBotonesNumberCountSubItem(subItem);
+                index++;
             }
+            actualizarBotonesNumberCount(elemento);
         }
 
-        // Caso 3: Checkboxes
-        const checkboxes = itemSubDiv.querySelectorAll('input[type="checkbox"]');
-        if (checkboxes.length > 0) {
-            const cantidadAMarcar = Math.min(min, checkboxes.length);
+        // Procesar checkboxes si existen y son requeridos
+        if (controles.checkbox.length > 0 && min > 0) {
+            const cantidadAMarcar = Math.min(min, controles.checkbox.length);
             for (let i = 0; i < cantidadAMarcar; i++) {
-                checkboxes[i].checked = true;
-                triggerChange(checkboxes[i]);
+                controles.checkbox[i].checked = true;
+                triggerChange(controles.checkbox[i]);
             }
         }
     });
 
-    // Verificar todos los requeridos al final
     verificarRequeridos();
   }
 
@@ -2419,38 +2361,59 @@
   }
   
   function actualizarBotonesNumberCount(containerTrabajo) {
-      const COLORS = obtenerColores();
-      const min = parseInt(containerTrabajo.getAttribute('data-min') || '0');
-      const max = parseInt(containerTrabajo.getAttribute('data-max') || '0');
-      
-      const controlesGrupo = containerTrabajo.querySelectorAll('.controles-cantidad2');
-      if (!controlesGrupo.length) return;
-      
-      // Calcular suma una sola vez
-      const sumaTotal = Array.from(controlesGrupo).reduce((sum, control) => {
-          const display = control.querySelector('.cantidad-display2');
-          return sum + (display ? parseInt(display.textContent || '0') : 0);
-      }, 0);
-  
-      // Actualizar controles en un solo ciclo
-      controlesGrupo.forEach(control => {
-          const display = control.querySelector('.cantidad-display2');
-          if (!display) return;
-  
-          const cantidad = parseInt(display.textContent || '0');
-          
-          // Actualizar ambos botones a la vez
-          [
-              [control.querySelector('button:last-child'), sumaTotal >= max],
-              [control.querySelector('button:first-child'), cantidad === 0 || sumaTotal <= min]
-          ].forEach(([boton, deshabilitar]) => {
-              if (boton) {
-                  boton.disabled = deshabilitar;
-                  boton.style.setProperty('fill', deshabilitar ? COLORS.OPCIONAL : '', 'important');
-                  boton.style.setProperty('cursor', deshabilitar ? 'not-allowed' : 'pointer', 'important');
-              }
-          });
-      });
+    const COLORS = obtenerColores();
+    const min = parseInt(containerTrabajo.getAttribute('data-min') || '0');
+    const max = parseInt(containerTrabajo.getAttribute('data-max') || '0');
+    
+    // Consultar DOM una sola vez y convertir a array para mejor rendimiento
+    const controles = Array.from(containerTrabajo.querySelectorAll('.controles-cantidad2'));
+    if (!controles.length) return;
+    
+    // Preparar datos en un solo recorrido
+    const datosControles = controles.map(control => {
+        const display = control.querySelector('.cantidad-display2');
+        const cantidad = display ? parseInt(display.textContent || '0') : 0;
+        const botonMas = control.querySelector('button:last-child');
+        const botonMenos = control.querySelector('button:first-child');
+        return { display, cantidad, botonMas, botonMenos };
+    });
+
+    // Calcular suma total usando los datos ya obtenidos
+    const sumaTotal = datosControles.reduce((sum, { cantidad }) => sum + cantidad, 0);
+
+    // Aplicar estilos una sola vez por botón
+    const estilosDeshabilitado = {
+        disabled: true,
+        fill: COLORS.OPCIONAL,
+        cursor: 'not-allowed'
+    };
+    
+    const estilosHabilitado = {
+        disabled: false,
+        fill: '',
+        cursor: 'pointer'
+    };
+
+    // Actualizar todos los controles con los datos preparados
+    datosControles.forEach(({ cantidad, botonMas, botonMenos }) => {
+        const deshabilitarMas = sumaTotal >= max;
+        const deshabilitarMenos = cantidad === 0 || sumaTotal <= min;
+
+        // Aplicar estilos usando los objetos preparados
+        if (botonMas) {
+            const estilos = deshabilitarMas ? estilosDeshabilitado : estilosHabilitado;
+            botonMas.disabled = estilos.disabled;
+            botonMas.style.setProperty('fill', estilos.fill, 'important');
+            botonMas.style.setProperty('cursor', estilos.cursor, 'important');
+        }
+
+        if (botonMenos) {
+            const estilos = deshabilitarMenos ? estilosDeshabilitado : estilosHabilitado;
+            botonMenos.disabled = estilos.disabled;
+            botonMenos.style.setProperty('fill', estilos.fill, 'important');
+            botonMenos.style.setProperty('cursor', estilos.cursor, 'important');
+        }
+    });
   }
 
   // Helper function to trigger change events
