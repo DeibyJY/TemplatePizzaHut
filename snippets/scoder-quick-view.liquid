@@ -1739,7 +1739,7 @@
                   </svg>
                 </button>
                 <p class="cantidad-display2">0</p>
-                <button type="button" class="btn-cantidad2" onclick="incrementarCantidad('${indexMainItem}', '${indexCN3}')">
+                <button type="button" class="btn-cantidad2" onclick="incrementarCantidad(this, '${indexCN3}')">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
@@ -1897,7 +1897,7 @@
                         </svg>
                       </button>
                       <p class="cantidad-display2" >0</p>
-                      <button type="button" class="btn-cantidad2" onclick="incrementarCantidad('${indexProducto}-${indexItem}', '${indexProducto}')">
+                     <button type="button" class="btn-cantidad2" onclick="incrementarCantidad(this, '${indexProducto}')">
                         <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                           <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                         </svg>
@@ -2110,54 +2110,51 @@
   }
 
   // Función para incrementar cantidad en controles numéricos
-  function incrementarCantidad(itemId, grupo) {
-    // 1. Obtener el control de cantidad correcto usando el itemId y grupo
-    const controlCantidad = document.querySelector(`.controles-cantidad2[data-group="${grupo}"]${
-        itemId.includes('-') ? `[data-subgroup="${itemId.split('-')[0]}"]` : `[data-index="${itemId}"]`
-    }`);
-    console.log(controlCantidad);
+  function incrementarCantidad(elemento, grupo) {
+    // Obtener el contenedor de controles donde está el botón clickeado
+    const controlCantidad = elemento.closest('.controles-cantidad2');
     if (!controlCantidad) return;
 
-    // 2. Obtener display y valor actual
     const display = controlCantidad.querySelector('.cantidad-display2');
     if (!display) return;
-    
+
     const valorActual = parseInt(display.textContent || '0');
 
-    // 3. Determinar tipo de contenedor y obtener límites
+    // Determinar si estamos en sub-item o menu-item
     const subItem = controlCantidad.closest('.sub-item-producto');
     const menuItem = controlCantidad.closest('.menu-item-producto');
     const contenedor = subItem || menuItem;
     if (!contenedor) return;
 
-    // 4. Obtener todos los controles del mismo grupo
-    const controlesGrupo = contenedor.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
-    
-    // 5. Calcular suma actual del grupo
-    const sumaActual = Array.from(controlesGrupo).reduce((sum, control) => {
+    // Obtener los controles del mismo grupo
+    const controlesGrupo = subItem ? 
+        subItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`) :
+        menuItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
+
+    // Calcular suma actual
+    let sumaActual = 0;
+    controlesGrupo.forEach(control => {
         const displayControl = control.querySelector('.cantidad-display2');
-        return sum + (displayControl ? parseInt(displayControl.textContent || '0') : 0);
-    }, 0);
+        if (displayControl) {
+            sumaActual += parseInt(displayControl.textContent || '0');
+        }
+    });
 
-    // 6. Obtener max/min según el tipo de control
+    // Obtener el contenedor principal y sus límites
     const contenedorPrincipal = controlCantidad.closest('.opcion-principal-detalle-oferta2');
-    const max = parseInt(controlCantidad.getAttribute('data-max') || contenedorPrincipal?.getAttribute('data-max') || '0');
-    const min = parseInt(controlCantidad.getAttribute('data-min') || contenedorPrincipal?.getAttribute('data-min') || '0');
+    const max = parseInt(contenedorPrincipal?.getAttribute('data-max') || '0');
 
-    // 7. Validar si podemos incrementar
     if (sumaActual < max) {
-        // Incrementar valor
         display.textContent = (valorActual + 1).toString();
-
-        // 8. Actualizar estados
+        
+        // Actualizar botones
         actualizarBotonesControlesNumericos(contenedor, Boolean(subItem));
         verificarRequeridos();
 
-        // 9. Manejar visibilidad de sub-items en caso de menu principal
-        if (!subItem && valorActual === 0) {
-            const idProducto = controlCantidad.getAttribute('data-producto-id') || 
-                             contenedorPrincipal?.getAttribute('id-producto');
-            if (idProducto) {
+        // Manejar sub-items si estamos en menu principal
+        if (!subItem) {
+            const idProducto = contenedorPrincipal?.getAttribute('id-producto');
+            if (idProducto && valorActual === 0) {
                 mostrarSubItemsRelacionados(grupo, idProducto);
             }
         }
