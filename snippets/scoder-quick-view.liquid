@@ -2062,7 +2062,10 @@
 
     // Para sub-item-producto
     document.querySelectorAll('.sub-item-producto').forEach(subItem => {
-        if (!esElementoRequerido(subItem)) return;
+        if (!esElementoRequerido(subItem)){
+          actualizarBotonesNumberCountSubItem(subItem);
+          return;
+        };
 
         const itemSubDiv = subItem.querySelector('.item-subItem');
         if (!itemSubDiv) return;
