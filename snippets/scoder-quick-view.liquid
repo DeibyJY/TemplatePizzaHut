@@ -2054,61 +2054,56 @@
 
   // Función para actualizar botones de controles numéricos
   function actualizarBotonesNumberCount(containerTrabajo) {
-    const COLORS = obtenerColores();
-    const min = parseInt(containerTrabajo.getAttribute('data-min') || '0');
-    const max = parseInt(containerTrabajo.getAttribute('data-max') || '0');
-    
-    // Consultar DOM una sola vez y convertir a array para mejor rendimiento
-    const controles = Array.from(containerTrabajo.querySelectorAll('.controles-cantidad2'));
-    if (!controles.length) return;
-    
-    // Preparar datos en un solo recorrido
-    const datosControles = controles.map(control => {
-        const display = control.querySelector('.cantidad-display2');
-        const cantidad = display ? parseInt(display.textContent || '0') : 0;
-        const botonMas = control.querySelector('button:last-child');
-        const botonMenos = control.querySelector('button:first-child');
-        return { display, cantidad, botonMas, botonMenos };
-    });
-
-    // Calcular suma total usando los datos ya obtenidos
-    const sumaTotal = datosControles.reduce((sum, { cantidad }) => sum + cantidad, 0);
-
-    // Aplicar estilos una sola vez por botón
-    const estilosDeshabilitado = {
-        disabled: true,
-        fill: COLORS.OPCIONAL,
-        cursor: 'not-allowed'
-    };
-    
-    const estilosHabilitado = {
-        disabled: false,
-        fill: '',
-        cursor: 'pointer'
-    };
-
-    // Actualizar todos los controles con los datos preparados
-    datosControles.forEach(({ cantidad, botonMas, botonMenos }) => {
-        const deshabilitarMas = sumaTotal >= max;
-        const deshabilitarMenos = cantidad === 0 || sumaTotal <= min;
-
-        // Aplicar estilos usando los objetos preparados
-        if (botonMas) {
-            const estilos = deshabilitarMas ? estilosDeshabilitado : estilosHabilitado;
-            botonMas.disabled = estilos.disabled;
-            botonMas.style.setProperty('fill', estilos.fill, 'important');
-            botonMas.style.setProperty('cursor', estilos.cursor, 'important');
-        }
-
-        if (botonMenos) {
-            const estilos = deshabilitarMenos ? estilosDeshabilitado : estilosHabilitado;
-            botonMenos.disabled = estilos.disabled;
-            botonMenos.style.setProperty('fill', estilos.fill, 'important');
-            botonMenos.style.setProperty('cursor', estilos.cursor, 'important');
-        }
-    });
+      const COLORS = obtenerColores();
+      const min = parseInt(containerTrabajo.getAttribute('data-min') || '0');
+      const max = parseInt(containerTrabajo.getAttribute('data-max') || '0');
+      
+      const controles = Array.from(containerTrabajo.querySelectorAll('.controles-cantidad2'));
+      if (!controles.length) return;
+      
+      const datosControles = controles.map(control => {
+          const display = control.querySelector('.cantidad-display2');
+          const cantidad = display ? parseInt(display.textContent || '0') : 0;
+          const botonMas = control.querySelector('button:last-child');
+          const botonMenos = control.querySelector('button:first-child');
+          return { display, cantidad, botonMas, botonMenos };
+      });
+  
+      const sumaTotal = datosControles.reduce((sum, { cantidad }) => sum + cantidad, 0);
+  
+      const estilosDeshabilitado = {
+          disabled: true,
+          fill: COLORS.OPCIONAL,
+          cursor: 'not-allowed'
+      };
+      
+      const estilosHabilitado = {
+          disabled: false,
+          fill: '',
+          cursor: 'pointer'
+      };
+  
+      datosControles.forEach(({ cantidad, botonMas, botonMenos }) => {
+          const deshabilitarMas = sumaTotal >= max;
+          // Cambio aquí: solo deshabilitar el botón menos cuando cantidad es 0
+          const deshabilitarMenos = cantidad === 0;
+  
+          if (botonMas) {
+              const estilos = deshabilitarMas ? estilosDeshabilitado : estilosHabilitado;
+              botonMas.disabled = estilos.disabled;
+              botonMas.style.setProperty('fill', estilos.fill, 'important');
+              botonMas.style.setProperty('cursor', estilos.cursor, 'important');
+          }
+  
+          if (botonMenos) {
+              const estilos = deshabilitarMenos ? estilosDeshabilitado : estilosHabilitado;
+              botonMenos.disabled = estilos.disabled;
+              botonMenos.style.setProperty('fill', estilos.fill, 'important');
+              botonMenos.style.setProperty('cursor', estilos.cursor, 'important');
+          }
+      });
   }
-
+  
   function incrementarCantidad(elemento) {
     const controlCantidad = elemento.closest('.controles-cantidad2');
     const display = controlCantidad?.querySelector('.cantidad-display2');
