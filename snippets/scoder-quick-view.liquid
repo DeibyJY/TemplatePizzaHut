@@ -1739,7 +1739,7 @@
                   </svg>
                 </button>
                 <p class="cantidad-display2">0</p>
-                <button type="button" class="btn-cantidad2" onclick="incrementarCantidad(this, '${indexCN3}')">
+                <button type="button" class="btn-cantidad2" onclick="incrementarCantidad(this)">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                   </svg>
@@ -1897,7 +1897,7 @@
                         </svg>
                       </button>
                       <p class="cantidad-display2" >0</p>
-                     <button type="button" class="btn-cantidad2" onclick="incrementarCantidad(this, '${indexProducto}')">
+                     <button type="button" class="btn-cantidad2" onclick="incrementarCantidad(this)">
                         <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                           <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7zm-1-5C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
                         </svg>
@@ -2110,7 +2110,7 @@
   }
 
   // Función para incrementar cantidad en controles numéricos
-  function incrementarCantidad(elemento, grupo) {
+  function incrementarCantidad(elemento) {
     // Obtener el contenedor de controles donde está el botón clickeado
     const controlCantidad = elemento.closest('.controles-cantidad2');
     if (!controlCantidad) return;
@@ -2126,10 +2126,6 @@
     const contenedor = subItem || menuItem;
     if (!contenedor) return;
 
-    // Obtener los controles del mismo grupo
-    const controlesGrupo = subItem ? 
-        subItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`) :
-        menuItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
 
     // Calcular suma actual
     let sumaActual = 0;
@@ -2141,23 +2137,14 @@
     });
 
     // Obtener el contenedor principal y sus límites
-    const contenedorPrincipal = controlCantidad.closest('.opcion-principal-detalle-oferta2');
+    const contenedorPrincipal = controlCantidad.closest('.cantidad-display2');
     const max = parseInt(contenedorPrincipal?.getAttribute('data-max') || '0');
 
     if (sumaActual < max) {
         display.textContent = (valorActual + 1).toString();
-        
         // Actualizar botones
         actualizarBotonesControlesNumericos(contenedor, Boolean(subItem));
         verificarRequeridos();
-
-        // Manejar sub-items si estamos en menu principal
-        if (!subItem) {
-            const idProducto = contenedorPrincipal?.getAttribute('id-producto');
-            if (idProducto && valorActual === 0) {
-                mostrarSubItemsRelacionados(grupo, idProducto);
-            }
-        }
     }
   }
   
@@ -2410,8 +2397,6 @@
     });
   }
 
-
-
   function tieneOtrosElementosConValor(grupo, currentItemId) {
     const displays = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"] .cantidad-display2`);
     return Array.from(displays).some(display => {
@@ -2423,8 +2408,6 @@
     const displays = document.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"] .cantidad-display2`);
     return Array.from(displays).reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
-  
-
 
   // Helper function to trigger change events
   function triggerChange(element) {
