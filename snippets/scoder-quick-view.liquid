@@ -2109,43 +2109,48 @@
     });
   }
 
-  // Función para incrementar cantidad en controles numéricos
   function incrementarCantidad(elemento) {
-    // Obtener el contenedor de controles donde está el botón clickeado
-    const controlCantidad = elemento.closest('.controles-cantidad2');
-    if (!controlCantidad) return;
-
-    const display = controlCantidad.querySelector('.cantidad-display2');
-    if (!display) return;
-
-    const valorActual = parseInt(display.textContent || '0');
-
-    // Determinar si estamos en sub-item o menu-item
-    const subItem = controlCantidad.closest('.sub-item-producto');
-    const menuItem = controlCantidad.closest('.menu-item-producto');
-    const contenedor = subItem || menuItem;
-    if (!contenedor) return;
-
-
-    // Calcular suma actual
-    let sumaActual = 0;
-    controlesGrupo.forEach(control => {
-        const displayControl = control.querySelector('.cantidad-display2');
-        if (displayControl) {
-            sumaActual += parseInt(displayControl.textContent || '0');
-        }
-    });
-
-    // Obtener el contenedor principal y sus límites
-    const contenedorPrincipal = controlCantidad.closest('.cantidad-display2');
-    const max = parseInt(contenedorPrincipal?.getAttribute('data-max') || '0');
-
-    if (sumaActual < max) {
-        display.textContent = (valorActual + 1).toString();
-        // Actualizar botones
-        actualizarBotonesControlesNumericos(contenedor, Boolean(subItem));
-        verificarRequeridos();
-    }
+      // Obtener el contenedor de controles donde está el botón clickeado
+      const controlCantidad = elemento.closest('.controles-cantidad2');
+      if (!controlCantidad) return;
+  
+      const display = controlCantidad.querySelector('.cantidad-display2');
+      if (!display) return;
+  
+      const valorActual = parseInt(display.textContent || '0');
+  
+      // Determinar si estamos en sub-item o menu-item
+      const subItem = controlCantidad.closest('.sub-item-producto');
+      const menuItem = controlCantidad.closest('.menu-item-producto');
+      const contenedor = subItem || menuItem;
+      if (!contenedor) return;
+  
+      // Obtener el grupo del control
+      const grupo = controlCantidad.getAttribute('data-group');
+      
+      // Obtener los controles del mismo grupo
+      const controlesGrupo = subItem ? 
+          subItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`) :
+          menuItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
+  
+      // Calcular suma actual
+      let sumaActual = 0;
+      controlesGrupo.forEach(control => {
+          const displayControl = control.querySelector('.cantidad-display2');
+          if (displayControl) {
+              sumaActual += parseInt(displayControl.textContent || '0');
+          }
+      });
+  
+      // Obtener el contenedor principal y sus límites
+      const contenedorPrincipal = controlCantidad.closest('.opcion-principal-detalle-oferta2');
+      const max = parseInt(contenedorPrincipal?.getAttribute('data-max') || '0');
+  
+      if (sumaActual < max) {
+          display.textContent = (valorActual + 1).toString();
+          actualizarBotonesNumberCount(contenedor);
+          verificarRequeridos();
+      }
   }
   
   // Función para decrementar cantidad en controles numéricos
