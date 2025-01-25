@@ -2123,7 +2123,6 @@
       const subItem = controlCantidad.closest('.sub-item-producto');
       const menuItem = controlCantidad.closest('.menu-item-producto');
       const contenedor = subItem || menuItem;
-      console.log(contenedor);
       if (!contenedor) return;
   
       // Obtener el grupo del control
@@ -2131,8 +2130,10 @@
       
       // Obtener los controles del mismo grupo
       const controlesGrupo = subItem ? 
-          subItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`) :
-          menuItem.querySelectorAll(`.controles-cantidad2[data-group="${grupo}"]`);
+          subItem.querySelectorAll(`.cantidad-display2`) :
+          menuItem.querySelectorAll(`.cantidad-display2`);
+
+      console.log(controlesGrupo);
   
       // Calcular suma actual
       let sumaActual = 0;
@@ -2142,6 +2143,8 @@
               sumaActual += parseInt(displayControl.textContent || '0');
           }
       });
+
+      console.log(sumaActual);
   
       // Obtener el contenedor principal y sus límites
       const contenedorPrincipal = controlCantidad.closest('.opcion-principal-detalle-oferta2');
