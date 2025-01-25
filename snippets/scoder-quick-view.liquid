@@ -2110,14 +2110,11 @@
   }
 
   function incrementarCantidad(elemento) {
-    
       // Obtener el contenedor de controles donde está el botón clickeado
       const controlCantidad = elemento.closest('.controles-cantidad2');
-      console.log(controlCantidad);
       if (!controlCantidad) return;
   
       const display = controlCantidad.querySelector('.cantidad-display2');
-      console.log(display);
       if (!display) return;
   
       const valorActual = parseInt(display.textContent || '0');
@@ -2126,6 +2123,7 @@
       const subItem = controlCantidad.closest('.sub-item-producto');
       const menuItem = controlCantidad.closest('.menu-item-producto');
       const contenedor = subItem || menuItem;
+      console.log(contenedor);
       if (!contenedor) return;
   
       // Obtener el grupo del control
