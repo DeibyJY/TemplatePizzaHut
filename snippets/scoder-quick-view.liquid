@@ -2130,15 +2130,15 @@
       
       // Obtener los controles del mismo grupo
       const controlesGrupo = subItem ? 
-          subItem.querySelectorAll(`.cantidad-display2`) :
-          menuItem.querySelectorAll(`.cantidad-display2`);
+          subItem.querySelectorAll(`.controles-cantidad2`) :
+          menuItem.querySelectorAll(`.controles-cantidad2`);
 
-      console.log(controlesGrupo);
   
       // Calcular suma actual
       let sumaActual = 0;
       controlesGrupo.forEach(control => {
           const displayControl = control.querySelector('.cantidad-display2');
+          console.log(displayControl);
           if (displayControl) {
               sumaActual += parseInt(displayControl.textContent || '0');
           }
