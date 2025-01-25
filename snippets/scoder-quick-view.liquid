@@ -2045,7 +2045,6 @@
                     }
                     index++;
                 }
-                {% comment %} actualizarBotonesNumberCount(grupo, 'menu-item', max); {% endcomment %}
             }
         }
         
@@ -2103,7 +2102,6 @@
                     if (display) {
                         display.textContent = '1';
                         restante--;
-                        console.log('Sub: Marcando elemento', index, 'con 1, restante:', restante);
                     }
                     index++;
                 }
@@ -2420,12 +2418,12 @@
     return Array.from(displays).reduce((sum, display) => sum + parseInt(display.textContent || '0'), 0);
   }
   
-  function actualizarBotonesNumberCountSubItem(containerSubItem) {
+  function actualizarBotonesNumberCount(containerTrabajo) {
       const COLORS = obtenerColores();
-      const min = parseInt(containerSubItem.getAttribute('data-min') || '0');
-      const max = parseInt(containerSubItem.getAttribute('data-max') || '0');
+      const min = parseInt(containerTrabajo.getAttribute('data-min') || '0');
+      const max = parseInt(containerTrabajo.getAttribute('data-max') || '0');
       
-      const controlesGrupo = containerSubItem.querySelectorAll('.controles-cantidad2');
+      const controlesGrupo = containerTrabajo.querySelectorAll('.controles-cantidad2');
       if (!controlesGrupo.length) return;
       
       // Calcular suma una sola vez
