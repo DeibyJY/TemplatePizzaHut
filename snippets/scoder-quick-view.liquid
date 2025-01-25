@@ -1764,6 +1764,7 @@
                     name="properties[${productoMainItem.title}]"
                     class="input-checkbox3"
                     data-group="${indexCN3}"
+                    data-producto-id="${idProducto}"
                     data-min="${minNum}"
                     data-max="${maxNum}"
                     onchange="validarLimiteCheckbox(this)"
@@ -1924,8 +1925,8 @@
                           data-group="${indexProducto}"
                           data-min="${Min}"
                           data-max="${Max}"
-                          data-variant-id="${varianteActual.id}"
-                          data-variant-price="${precioVariante}"
+                          data-producto-id="${item}"
+                          data-producto-price="${precioVariante}"
                           onchange="validarLimiteCheckbox(this)"
                         >
                       </div>
