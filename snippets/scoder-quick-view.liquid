@@ -2115,6 +2115,7 @@
     const controlCantidad = document.querySelector(`.controles-cantidad2[data-group="${grupo}"]${
         itemId.includes('-') ? `[data-subgroup="${itemId.split('-')[0]}"]` : `[data-index="${itemId}"]`
     }`);
+    console.log(controlCantidad);
     if (!controlCantidad) return;
 
     // 2. Obtener display y valor actual
