@@ -2110,11 +2110,14 @@
   }
 
   function incrementarCantidad(elemento) {
+    
       // Obtener el contenedor de controles donde está el botón clickeado
       const controlCantidad = elemento.closest('.controles-cantidad2');
+      console.log(controlCantidad);
       if (!controlCantidad) return;
   
       const display = controlCantidad.querySelector('.cantidad-display2');
+      console.log(display);
       if (!display) return;
   
       const valorActual = parseInt(display.textContent || '0');
@@ -2153,7 +2156,7 @@
       }
   }
 
-  
+
   
   // Función para decrementar cantidad en controles numéricos
   function decrementCantidad(itemId, grupo) {
