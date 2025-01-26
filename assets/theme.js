@@ -3213,7 +3213,7 @@
                     }
 
                     if (window.review.show_quick_view && $('.shopify-product-reviews-badge').length > 0) {
-                        return window.SPR.registerCallbacks(), window.SPR.initRatingHandler(), window.SPR.initDomEls(), window.SPR.loadProducts(), window.SPR.loadBadges();
+                        // return window.SPR.registerCallbacks(), window.SPR.initRatingHandler(), window.SPR.initDomEls(), window.SPR.loadProducts(), window.SPR.loadBadges();
                     }
                 }
             });
