@@ -1196,6 +1196,9 @@
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
                           {%- endif -%}
+                          <div style="text-align: center !important; font-size: 14px !important; color: #666666 !important; margin-top: 5px !important;">
+                            Este es el valor
+                          </div>
                         </button>
                       {%- else -%}
                         <button
@@ -1237,9 +1240,6 @@
                       style="--bin-color: #232323;--bin-bg-color: #ffffff;--bin-border-color: #acacac;--bin-color-hover: #ffffff;--bin-bg-color-hover: #232323;--bin-border-color-hover: #232323"
                     >
                       {{ form | payment_button }}
-                      <div style="text-align: center !important; font-size: 14px !important; color: #666666 !important; margin-top: 5px !important;">
-                        Este es el valor
-                      </div>
                     </div>
                   </div>
                 </div>
