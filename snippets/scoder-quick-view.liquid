@@ -1289,6 +1289,8 @@
   %}
 {%- endif -%}
 <script>
+
+
   // Función que retorna los colores
   function obtenerColores() {
     return {
@@ -1370,7 +1372,7 @@
         });
         
         const data = await response.json();
-        {% comment %} console.log('Respuesta:', data); {% endcomment %}
+        console.log('Respuesta:', data); 
         return data; // Añadimos el return aquí
     } catch (error) {
         console.error('Error:', error);
