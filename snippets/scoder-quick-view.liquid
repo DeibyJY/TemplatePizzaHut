@@ -2241,6 +2241,7 @@
     verificarRequeridos();
   }
 
+  // Función para validar radio buttons
   function validarLimiteRadio(radio) {
     const contenedor = radio.closest('.item-menuItem, .item-subItem');
     const grupo = radio.getAttribute('data-group');
@@ -2378,6 +2379,28 @@
     .catch((error) => {
       console.error('Error al agregar al carrito:', error);
     });
+  }
+
+  // Funcion Recolectar datos seleccionados
+  function recolectarDatosSeleccionados(){
+    // Objeto para almacenar los items 
+    let items = [];
+
+    // Buscar el contendor principal
+    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    if(!contendorPrincipal) return;
+
+    // Buscar todos los menu-item-producto
+    const menuItemsProducto = contendorPrincipal.querySelectorAll('.menu-item-producto');
+
+    menuItemsProducto.forEach(menuItemProducto => {
+      // Buscar solo el elemento
+      const menuItems = menuItemProducto.querySelector('.item-menuItem');
+      if(!menuItems) return;
+
+
+    });
+      
   }
   
 
