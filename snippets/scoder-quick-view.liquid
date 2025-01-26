@@ -2350,11 +2350,43 @@
     element.dispatchEvent(event);
   }
 
+  function agregarAlCarrito() {
+    let formData = {
+      'items': [{
+        'id': 10026208035100,
+        'quantity': 1
+      }]
+    };
+  
+    console.log('Datos a enviar:', formData);
+  
+    fetch(window.Shopify.routes.root + 'cart/add.js', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      console.log('Respuesta cruda:', response);
+      return response.json();
+    })
+    .then(data => {
+      console.log('Datos del producto agregado:', data);
+      return data;
+    })
+    .catch((error) => {
+      console.error('Error al agregar al carrito:', error);
+    });
+  }
+  
+
   (function() {
     function initializeShopifyProduct() {
         return testPrueba()
             .then(() => {
                  initializeProductMenu(); 
+                  agregarAlCarrito(3); 
                 console.log('Producto inicializado correctamente');
             })
             .catch(error => {
