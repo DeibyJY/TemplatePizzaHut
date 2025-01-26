@@ -2398,7 +2398,7 @@
     menuItemsProducto.forEach(menuItemProducto => {
       // Buscar solo el elemento
       const menuItem = menuItemProducto.querySelector('.item-menuItem');
-      if(!menuItems) return;
+      if(!menuItem) return;
 
       const tipoSelect = menuItem.getAttribute('tipo-select'); 
 
@@ -2456,21 +2456,28 @@
     const buyButton = document.querySelector('.shopify-payment-button__button.shopify-payment-button__button--unbranded');
     
     if (!buyButton) {
-      console.log('No se encontró el botón de Comprar Ahora');
-      return;
+        console.log('No se encontró el botón de Comprar Ahora');
+        return;
     }
-  
+
     // Crear el elemento div con el texto del valor
     const valorDiv = document.createElement('div');
-    valorDiv.style.textAlign = 'center';
-    valorDiv.style.fontSize = '14px';
-    valorDiv.style.color = '#666666';
-    valorDiv.style.marginTop = '5px';
+    valorDiv.setAttribute('style', `
+        text-align: center !important;
+        font-size: 14px !important;
+        color: #666666 !important;
+        margin-top: 5px !important;
+    `);
     valorDiv.textContent = 'Este es el valor';
-  
-    // Insertar el div después del botón
-    buyButton.parentNode.insertBefore(valorDiv, buyButton.nextSibling);
+
+    // Insertar el div dentro del botón al final
+    buyButton.appendChild(valorDiv);
   }
+
+// Para asegurarte de que el DOM está cargado
+document.addEventListener('DOMContentLoaded', function() {
+    agregarValorDebajoBuyButton();
+});
 
   (function() {
     function initializeShopifyProduct() {

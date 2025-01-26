@@ -3209,7 +3209,7 @@
                                 item = $(document.getElementById(optionId));
 
                             item.trigger('click');
-                        });q
+                        });
                     }
 
                     if (window.review.show_quick_view && $('.shopify-product-reviews-badge').length > 0) {
