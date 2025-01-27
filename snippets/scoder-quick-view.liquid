@@ -2594,13 +2594,13 @@
         // Actualizar botón "Agregar al carrito"
         const elementoBotonAgregarCarrito = document.querySelector('.etiqueta-agregar-carrito');
         if (elementoBotonAgregarCarrito) {
-            elementoBotonAgregarCarrito.textContent = `Bs${(Number(precioCarrito) + (Number(precioProductoActual) * cantidadProductoActual) + Number(precioMenuSubItemsProducto)).toFixed(2)}`;
+            elementoBotonAgregarCarrito.textContent = `Bs${(Number(precioCarrito) + (Number(precioProductoActual) * cantidadProductoActual) + (Number(precioMenuSubItemsProducto)).toFixed(2)* cantidadProductoActual)}`;
         }
 
         // Actualizar etiqueta "Comprar Ahora"
         const etiquetaPrecioComprarAhora = document.querySelector('.etiqueta-comprar-ahora');
         if (etiquetaPrecioComprarAhora) {
-            etiquetaPrecioComprarAhora.textContent = `Bs${((Number(precioProductoActual) * cantidadProductoActual) + Number(precioMenuSubItemsProducto)).toFixed(2)}`;
+            etiquetaPrecioComprarAhora.textContent = `Bs${((Number(precioProductoActual) * cantidadProductoActual) + (Number(precioMenuSubItemsProducto)).toFixed(2)* cantidadProductoActual)}`;
         }
     }, 10); // Pequeño delay de 10ms
   }
@@ -2629,10 +2629,6 @@
     }
   }
 
-  // Para asegurarte de que el DOM está cargado
-  //document.addEventListener('DOMContentLoaded', function() {
-  //    agregarValorDebajoBuyButton();
-  //});
   (function() {
     function initializeShopifyProduct() {
         return testPrueba()
