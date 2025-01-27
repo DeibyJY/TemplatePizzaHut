@@ -1436,7 +1436,7 @@
   // Funcion para la creacion de un producto 
   function createProductObject(node) {
     return {
-        id: node.id,
+        id: parseInt(node.variants.edges[0].node.legacyResourceId),
         title: node.title,
         description: node.description,
         tags: node.tags,
@@ -1446,7 +1446,7 @@
         }
     };
   }
-
+  
   // Funcion para verificar colecciones
   function verificarColecciones(colecciones,titulosRequeridos){
     return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
