@@ -1850,7 +1850,7 @@
             //  Solo proceder si la variante esta activa
             if(varianteActual && varianteActual.estado === "activo"){
               // Usar el precio de la variante en lugar del precio de producto base 
-              const precioVariante = parseFloat(varianteActual.precio);
+              const precioVariante = parseFloat(varianteActual.precio.amount);
               console.log(precioVariante);
 
               if(TipoSelect === 'radio') {
