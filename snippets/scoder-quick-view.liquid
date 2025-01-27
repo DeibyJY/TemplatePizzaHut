@@ -1313,9 +1313,8 @@
   }
 
   // Creacion del Query para la consulta 
-  function createQuery(){
+  function createQuery() {
     let query = '{\n';
-
     coleccionesOfProduct().forEach((handle, index) => {
         query += `  coleccion${index + 1}: collectionByHandle(handle: "${handle}") {
             title
@@ -1327,6 +1326,13 @@
                         title
                         description
                         tags
+                        variants(first: 1) {
+                            edges {
+                                node {
+                                    id
+                                }
+                            }
+                        }
                         priceRange {
                             minVariantPrice {
                                 amount
@@ -1346,7 +1352,6 @@
             }
         }\n`; 
     });
-
     query += '}';
     return query;
   }
@@ -1985,7 +1990,7 @@
     // Inicializar visibilidad de sub-items
     actualizarVisibilidadSubItems();
     // Verificar estados iniciales
-    // verificarRequeridos();
+    verificarRequeridos();
   }
 
   // Funcion para marcar opciones requeridas
