@@ -95,8 +95,6 @@
     assign customization_option_2 = settings.customization_option_2
   endif
   assign show_quick_view_variant_image_group = settings.show_quick_view_variant_image_group
-
-  assign precio_producto = 1200
 -%}
 <style type="text/css">
   .quickView .productView-thumbnail .productView-thumbnail-link:after{
@@ -1199,7 +1197,7 @@
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
                           {%- endif -%}
-                          <p>{{ product.price }}</p>
+                          <p class="etiqueta-agregar-carrito"></p>
                         </button>
                       {%- else -%}
                         <button
@@ -1691,7 +1689,7 @@
         }
 
         const precioProducto = parseFloat(productoMainItem.price?.amount || 0) > 0 
-          ? `+Bs${productoMainItem.price.amount}` 
+          ? `+Bs ${productoMainItem.price.amount}` 
           : '';
 
         if(tipoSelect === 'radio'){
@@ -2452,21 +2450,17 @@
       return formData;
   }
 
-  function agregarValorDebajoBuyButton() {
-    // Buscar el botón de Comprar Ahora
-    const buyButton = document.querySelector('.shopify-payment-button__button.shopify-payment-button__button--unbranded');
-    
-    if (!buyButton) {
-        console.log('No se encontró el botón de Comprar Ahora');
-        return;
-    }
+  function updateValoresDeBajoOpciones(){}
 
-    // Crear el elemento p con el texto del valor
-    const valorText = document.createElement('p');
-    valorText.textContent = 'Este es el valor';
+  function agregarValoresDeBajoOpciones() {
+    // Boton de "Agregar al carrito"
+    // <p class="etiqueta-agregar-carrito"></p>
 
-    // Insertar el p dentro del botón al final
-    buyButton.appendChild(valorText);
+    console.log({{cart | json}});
+
+
+    // Boton de Compra Ahora
+    // <p class="etiqueta-comprar-ahora"></p>
   }
 
   // Para asegurarte de que el DOM está cargado
@@ -2480,7 +2474,7 @@
             .then(() => {
                  initializeProductMenu(); 
                   {% comment %} agregarAlCarrito(3); {% endcomment %}
-                  agregarValorDebajoBuyButton(); 
+                  agregarValoresDeBajoOpciones(); 
                 console.log('Producto inicializado correctamente');
             })
             .catch(error => {
