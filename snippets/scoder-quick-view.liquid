@@ -1433,9 +1433,9 @@
         id: node.id,
         title: node.title,
         description: node.description,
-        tags : node.tags,
+        tags: node.tags,
         price: {
-            amount: node.priceRange.minVariantPrice.amount / 100,
+            amount: (node.priceRange.minVariantPrice.amount / 100).toFixed(2),
             currencyCode: node.priceRange.minVariantPrice.currencyCode
         }
     };
@@ -2450,16 +2450,25 @@
       return formData;
   }
 
+  function precioValoresSeleccionados(){
+    let precioTotal = 0;
+
+
+
+    return precioTotal;
+  }
+
   function updateValoresDeBajoOpciones(){}
 
   function agregarValoresDeBajoOpciones() {
     const precioCarrito = {{cart | json}}.total_price / 100;
     const precioProductoActual = {{ product.price}} / 100; 
+    const precioMenuSubItemsProducto= obtenerV
 
     // Boton de "Agregar al carrito"
     const elementoBotonAgregarCarrito = document.querySelector('.etiqueta-agregar-carrito');
     if (elementoBotonAgregarCarrito) {
-        elementoBotonAgregarCarrito.textContent = `Bs ${precioCarrito + precioProductoActual}`;
+        elementoBotonAgregarCarrito.textContent = `Bs${precioCarrito + precioProductoActual}`;
     }
 
     // Boton de Comprar Ahora
@@ -2468,7 +2477,7 @@
         // Crear el elemento p
         const etiquetaPrecio = document.createElement('p');
         etiquetaPrecio.classList.add('etiqueta-comprar-ahora');
-        etiquetaPrecio.textContent = `Bs ${precioProductoActual}`;
+        etiquetaPrecio.textContent = `Bs${precioProductoActual}`;
 
         // Agregar el elemento p dentro del botón
         botonComprarAhora.appendChild(etiquetaPrecio);
