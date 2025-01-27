@@ -2584,8 +2584,10 @@
     const quantityContainer = document.querySelector('.quantity__container');
     if(quantityContainer) {
         const quantityInput = quantityContainer.querySelector('.form-input.quantity__input.quantity');
+        console.log(quantityInput);
         if(quantityInput) {
             const valorInput = parseInt(quantityInput.value);
+            console.log(valorInput);
             // Asegurarse que el valor sea al menos 1 y sea un número válido
             cantidadProductoActual = !isNaN(valorInput) && valorInput >= 1 ? valorInput : 1;
             
