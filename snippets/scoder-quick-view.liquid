@@ -1199,7 +1199,7 @@
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
                           {%- endif -%}
-                          <p>{{ precio_producto | money }}</p>
+                          <p>{{ product.price }}</p>
                         </button>
                       {%- else -%}
                         <button
