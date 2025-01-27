@@ -96,7 +96,7 @@
   endif
   assign show_quick_view_variant_image_group = settings.show_quick_view_variant_image_group
 
-  assign precioProucto = current_variant.price | money
+  assign precio_producto = current_variant.price | money
 -%}
 <style type="text/css">
   .quickView .productView-thumbnail .productView-thumbnail-link:after{
@@ -1199,7 +1199,7 @@
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
                           {%- endif -%}
-                          <p>{{ precioProucto }}</p>
+                          <p>{{ precio_producto | plus: 5000 | money }}</p>
                         </button>
                       {%- else -%}
                         <button
