@@ -2411,6 +2411,29 @@
                 'id': parseInt(idProducto),
                 'quantity': 1
               });
+
+              // Buscar todos los .sub-item-producto con data-producto-id="idProducto"
+              const subItemsProducto = contendorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              subItemsProducto.forEach(subItemProducto => {
+                const subItem = subItemProducto.querySelector('.item-subItem');
+                if(!subItem) return;
+
+                const tipoSelect = subItem.getAttribute('tipo-select');
+
+                if(tipoSelect === 'radio'){
+                  // Buscar input radios seleccionados para el sub-item
+                  const radiosSubSeleccionados = subItem.querySelectorAll('input[type="radio"]:checked');
+                  radiosSubSeleccionados.forEach(radioSub => {
+                    const idSubProducto = radioSub.getAttribute('data-producto-id');
+                    if(idSubProducto){
+                      items.push({
+                        'id': parseInt(idSubProducto),
+                        'quantity': 1
+                      });
+                    }
+                  });
+                }
+              });
             }
           });
         }else if (tipoSelect === 'checkbox'){
@@ -2423,6 +2446,29 @@
                 'id': parseInt(idProducto),
                 'quantity': 1
               });
+
+              // Buscar sub-items para checkbox seleccionado
+              const subItemsProducto = contendorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              subItemsProducto.forEach(subItemProducto => {
+                const subItem = subItemProducto.querySelector('.item-subItem');
+                if(!subItem) return;
+
+                const tipoSelect = subItem.getAttribute('tipo-select');
+
+                if(tipoSelect === 'checkbox'){
+                  // Buscar input checkbox seleccionados para el sub-item
+                  const checkboxesSubSeleccionados = subItem.querySelectorAll('input[type="checkbox"]:checked');
+                  checkboxesSubSeleccionados.forEach(checkboxSub => {
+                    const idSubProducto = checkboxSub.getAttribute('data-producto-id');
+                    if(idSubProducto){
+                      items.push({
+                        'id': parseInt(idSubProducto),
+                        'quantity': 1
+                      });
+                    }
+                  });
+                }
+              });
             }
           });
         }else if (tipoSelect === 'numberCount'){
@@ -2431,23 +2477,48 @@
           controlesCantidad.forEach(control => {
             const cantidad = parseInt(control.querySelector('.cantidad-display2').textContent || '0');
             const idProducto = control.getAttribute('id-producto');
-            if(idProducto){
+            if(idProducto && cantidad > 0){
               items.push({
                 'id': parseInt(idProducto),
                 'quantity': cantidad
               });
+
+              // Buscar sub-items para numberCount seleccionado
+              const subItemsProducto = contendorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              subItemsProducto.forEach(subItemProducto => {
+                const subItem = subItemProducto.querySelector('.item-subItem');
+                if(!subItem) return;
+
+                const tipoSelect = subItem.getAttribute('tipo-select');
+
+                if(tipoSelect === 'numberCount'){
+                  // Buscar controles de cantidad para el sub-item
+                  const controlesCantidadSub = subItem.querySelectorAll('.controles-cantidad2');
+                  controlesCantidadSub.forEach(controlSub => {
+                    const cantidadSub = parseInt(controlSub.querySelector('.cantidad-display2').textContent || '0');
+                    const idSubProducto = controlSub.getAttribute('id-producto');
+                    if(idSubProducto && cantidadSub > 0){
+                      items.push({
+                        'id': parseInt(idSubProducto),
+                        'quantity': cantidadSub
+                      });
+                    }
+                  });
+                }
+              });
             }
           });
         }
-      });
-      // Crear el objeto formData
-      const formData = {
-        'items': items
-      };
+    });
 
-      // Imprimir en consola
-      console.log('FormData recolectado:', formData);
-      return formData;
+    // Crear el objeto formData
+    const formData = {
+        'items': items
+    };
+
+    // Imprimir en consola
+    console.log('FormData recolectado:', formData);
+    return formData;
   }
 
   function precioValoresSeleccionados(){
