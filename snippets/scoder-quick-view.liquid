@@ -2453,11 +2453,13 @@
   function updateValoresDeBajoOpciones(){}
 
   function agregarValoresDeBajoOpciones() {
+    const precioCarrito = {{cart | json}}.total_price / 100;
+    const precioProductoActual = {{ product.price}} / 100; 
+
     // Boton de "Agregar al carrito"
     // <p class="etiqueta-agregar-carrito"></p>
 
-    console.log({{cart | json}});
-
+    console.log(precioCarrito, precioProductoActual);
 
     // Boton de Compra Ahora
     // <p class="etiqueta-comprar-ahora"></p>
