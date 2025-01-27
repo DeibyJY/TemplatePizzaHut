@@ -1846,12 +1846,11 @@
             // Obtener los detalles de la variante especifica
             const variantesData = JSON.parse(productoTrabajo.description.match(/Variantes\s*:\s*(\[.*?\])/)[1]);
             const varianteActual = variantesData.find(variante => variante.id.toString() === item.toString());
-
+            console.log(varianteActual);
             //  Solo proceder si la variante esta activa
             if(varianteActual && varianteActual.estado === "activo"){
               // Usar el precio de la variante en lugar del precio de producto base 
               const precioVariante = parseFloat(varianteActual.precio.amount);
-              console.log(precioVariante);
 
               if(TipoSelect === 'radio') {
                 contenidoSubItemHTML += `
