@@ -2457,19 +2457,28 @@
     const precioProductoActual = {{ product.price}} / 100; 
 
     // Boton de "Agregar al carrito"
-    // <p class="etiqueta-agregar-carrito"></p>
+    const elementoBotonAgregarCarrito = document.querySelector('.etiqueta-agregar-carrito');
+    if (elementoBotonAgregarCarrito) {
+        elementoBotonAgregarCarrito.textContent = `Bs ${precioCarrito + precioProductoActual}`;
+    }
 
-    console.log(precioCarrito+precioProductoActual);
+    // Boton de Comprar Ahora
+    const botonComprarAhora = document.querySelector('.shopify-payment-button__button.shopify-payment-button__button--unbranded');
+    if (botonComprarAhora) {
+        // Crear el elemento p
+        const etiquetaPrecio = document.createElement('p');
+        etiquetaPrecio.classList.add('etiqueta-comprar-ahora');
+        etiquetaPrecio.textContent = `Bs ${precioProductoActual}`;
 
-    // Boton de Compra Ahora
-    // <p class="etiqueta-comprar-ahora"></p>
+        // Agregar el elemento p dentro del botón
+        botonComprarAhora.appendChild(etiquetaPrecio);
+    }
   }
 
   // Para asegurarte de que el DOM está cargado
   //document.addEventListener('DOMContentLoaded', function() {
   //    agregarValorDebajoBuyButton();
   //});
-
   (function() {
     function initializeShopifyProduct() {
         return testPrueba()
