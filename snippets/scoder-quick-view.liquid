@@ -1437,7 +1437,7 @@
         description: node.description,
         tags : node.tags,
         price: {
-            amount: node.priceRange.minVariantPrice.amount / 100,
+            amount: node.priceRange.minVariantPrice.amount,
             currencyCode: node.priceRange.minVariantPrice.currencyCode
         }
     };
@@ -1694,12 +1694,14 @@
           ? `+Bs${productoMainItem.price.amount}` 
           : '';
 
+        const precioShopify = {{  productoMainItem.price.amount | money }}
+
         if(tipoSelect === 'radio'){
           contenidoMenuItemHTML += `
           <div class="opcion-principal-detalle-oferta3" data-group="${indexCN3}" data-min="${minNum}" data-max="${maxNum}" data-producto-id="${idProducto}">
             <div class="producto-info3">
               <span class="producto-nombre3">${productoMainItem.title}</span>
-              ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+Bs${productoMainItem.price.amount}</span>` : ''}
+              ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+ ${precioShopify}</span>` : ''}
             </div>
             <div class="opcion-nombre1">
               <div class="hover-area1" id="hoverArea-${indexCN3}-${idProducto}"></div>
