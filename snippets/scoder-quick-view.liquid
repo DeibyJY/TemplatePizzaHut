@@ -1446,7 +1446,7 @@
         }
     };
   }
-  
+
   // Funcion para verificar colecciones
   function verificarColecciones(colecciones,titulosRequeridos){
     return Array.from(titulosRequeridos).every(titulo => colecciones.has(titulo));
@@ -2110,8 +2110,9 @@
     if (sumaActual < max) {
         display.textContent = (parseInt(display.textContent || '0') + 1).toString();
         actualizarBotonesNumberCount(contenedor);
-        updateValoresDeBajoOpciones()
         verificarRequeridos();
+        updateValoresDeBajoOpciones()
+        console.log("SI incremento")
     }
   }
   
