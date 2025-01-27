@@ -256,25 +256,27 @@
       {% endif %}
     </ul>
     <div class="previewCartAction text-left">
-      {%- if settings.show_global_checkbox -%}
-        <div class="previewCartCheckbox global-checkbox">
-          <input
-            class="global-checkbox--input"
-            type="checkbox"
-            name="conditions"
-            id="sidebar_cart_conditions"
-            data-target="#cart-sidebar-checkout"
-          >
-          <label class="global-checkbox--label form-label--checkbox" for="sidebar_cart_conditions">
-            {{ settings.global_checkbox_text }}
-          </label>
-          {%- if settings.global_checkbox_link_text != blank -%}
-            <button type="button" title="{{ settings.global_checkbox_link_text | escape }}" data-term-condition>
-              {{ settings.global_checkbox_link_text | escape }}
-            </button>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+      {% comment %}
+        {%- if settings.show_global_checkbox -%}
+          <div class="previewCartCheckbox global-checkbox">
+            <input
+              class="global-checkbox--input"
+              type="checkbox"
+              name="conditions"
+              id="sidebar_cart_conditions"
+              data-target="#cart-sidebar-checkout"
+            >
+            <label class="global-checkbox--label form-label--checkbox" for="sidebar_cart_conditions">
+              {{ settings.global_checkbox_text }}
+            </label>
+            {%- if settings.global_checkbox_link_text != blank -%}
+              <button type="button" title="{{ settings.global_checkbox_link_text | escape }}" data-term-condition>
+                {{ settings.global_checkbox_link_text | escape }}
+              </button>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      {% endcomment %}
       <div class="previewCartGroup">
         <button
           class="button button-1 button-checkout"
