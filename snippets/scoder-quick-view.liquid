@@ -2414,6 +2414,7 @@
 
               // Buscar todos los .sub-item-producto con data-producto-id="idProducto"
               const subItemsProducto = contendorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              console.log(subItemsProducto);
               subItemsProducto.forEach(subItemProducto => {
                 const subItem = subItemProducto.querySelector('.item-subItem');
                 if(!subItem) return;
@@ -2447,9 +2448,10 @@
                 } else if(tipoSelect === 'numberCount') {
                   // Buscar controles de cantidad para el sub-item
                   const controlesCantidadSub = subItem.querySelectorAll('.controles-cantidad2');
+                  console.log(controlesCantidadSub);
                   controlesCantidadSub.forEach(controlSub => {
                     const cantidadSub = parseInt(controlSub.querySelector('.cantidad-display2').textContent || '0');
-                    const idSubProducto = controlSub.getAttribute('id-producto');
+                    const idSubProducto = controlSub.getAttribute('data-producto-id');
                     if(idSubProducto && cantidadSub > 0){
                       items.push({
                         'id': parseInt(idSubProducto),
@@ -2478,7 +2480,7 @@
           const controlesCantidad = menuItem.querySelectorAll('.controles-cantidad2');
           controlesCantidad.forEach(control => {
             const cantidad = parseInt(control.querySelector('.cantidad-display2').textContent || '0');
-            const idProducto = control.getAttribute('id-producto');
+            const idProducto = control.getAttribute('data-producto-id');
             if(idProducto && cantidad > 0){
               items.push({
                 'id': parseInt(idProducto),
