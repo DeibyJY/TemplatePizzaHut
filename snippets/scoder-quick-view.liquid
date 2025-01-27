@@ -1694,11 +1694,11 @@
           ? `+Bs${productoMainItem.price.amount}` 
           : '';
 
-    {% if productoMainItem.price %}
-        const precioFormateado = "{{ productoMainItem.price.amount | money }}";
-      {% else %}
-        const precioFormateado = "0.00";
-      {% endif %}
+        {% if productoMainItem.price.amount %}
+          const precioFormateado = "{{ productoMainItem.price.amount | money }}";
+        {% else %}
+          const precioFormateado = "0.00";
+        {% endif %}
 
         if(tipoSelect === 'radio'){
           contenidoMenuItemHTML += `
