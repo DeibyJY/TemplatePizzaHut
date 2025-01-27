@@ -2463,12 +2463,12 @@
   function agregarValoresDeBajoOpciones() {
     const precioCarrito = {{cart | json}}.total_price / 100;
     const precioProductoActual = {{ product.price}} / 100; 
-    const precioMenuSubItemsProducto= obtenerV
+    const precioMenuSubItemsProducto= precioValoresSeleccionados();
 
     // Boton de "Agregar al carrito"
     const elementoBotonAgregarCarrito = document.querySelector('.etiqueta-agregar-carrito');
     if (elementoBotonAgregarCarrito) {
-        elementoBotonAgregarCarrito.textContent = `Bs${precioCarrito + precioProductoActual}`;
+        elementoBotonAgregarCarrito.textContent = `Bs${precioCarrito + precioProductoActual + precioMenuSubItemsProducto}`;
     }
 
     // Boton de Comprar Ahora
@@ -2477,7 +2477,7 @@
         // Crear el elemento p
         const etiquetaPrecio = document.createElement('p');
         etiquetaPrecio.classList.add('etiqueta-comprar-ahora');
-        etiquetaPrecio.textContent = `Bs${precioProductoActual}`;
+        etiquetaPrecio.textContent = `Bs${precioProductoActual + precioMenuSubItemsProducto}`;
 
         // Agregar el elemento p dentro del botón
         botonComprarAhora.appendChild(etiquetaPrecio);
