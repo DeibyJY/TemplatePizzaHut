@@ -2585,16 +2585,23 @@
     if(quantityContainer) {
         const quantityInput = quantityContainer.querySelector('.form-input.quantity__input.quantity');
         if(quantityInput) {
-            cantidadProductoActual = Math.max(0, parseInt(quantityInput.value) || 1);
+            const valorInput = parseInt(quantityInput.value);
+            // Asegurarse que el valor sea al menos 1 y sea un número válido
+            cantidadProductoActual = !isNaN(valorInput) && valorInput >= 1 ? valorInput : 1;
+            
+            // Si el valor es menor a 1, actualizar el input a 1
+            if(valorInput < 1) {
+                quantityInput.value = 1;
+            }
         }
     }
- 
+
     // Actualizar el texto del botón "Agregar al carrito"
     const elementoBotonAgregarCarrito = document.querySelector('.etiqueta-agregar-carrito');
     if (elementoBotonAgregarCarrito) {
         elementoBotonAgregarCarrito.textContent = `Bs${(Number(precioCarrito) + (Number(precioProductoActual) * cantidadProductoActual) + Number(precioMenuSubItemsProducto)).toFixed(2)}`;
     }
- 
+
     // Actualizar el texto de la etiqueta de precio en el botón "Comprar Ahora"
     const etiquetaPrecioComprarAhora = document.querySelector('.etiqueta-comprar-ahora');
     if (etiquetaPrecioComprarAhora) {
