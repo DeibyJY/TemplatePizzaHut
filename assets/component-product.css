@@ -496,7 +496,8 @@
   opacity: 0.7;
 }
 .productView-payment .shopify-payment-button .shopify-payment-button__button {
-  display: block;
+  /* READ  : HICE CAMBIOS AQUI */
+  /* display: block; */
   width: 100%;
   padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
   overflow: hidden;
@@ -516,6 +517,10 @@
   border-color: var(--bin-border-color);
   box-shadow: unset;
   border: 1px solid;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 .productView-payment .shopify-payment-button [data-testid="Checkout-button"] {
   display: block;
