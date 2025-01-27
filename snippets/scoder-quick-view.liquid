@@ -2414,9 +2414,9 @@
 
               // Buscar todos los .sub-item-producto con data-producto-id="idProducto"
               const subItemsProducto = contendorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
-              console.log(subItemsProducto);
               subItemsProducto.forEach(subItemProducto => {
                 const subItem = subItemProducto.querySelector('.item-subItem');
+                console.log(subItem);
                 if(!subItem) return;
 
                 const tipoSelect = subItem.getAttribute('tipo-select');
