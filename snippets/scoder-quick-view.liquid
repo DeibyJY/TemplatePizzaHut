@@ -1710,7 +1710,7 @@
                 data-min="${minNum}"
                 data-max="${maxNum}"
                 data-producto-id="${idProducto}"
-                data-precio="${precioProducto}"
+                data-precio="${parseFloat(productoMainItem.price.amount)}"
                 onchange="validarLimiteRadio(this)"
               >
             </div>
@@ -1851,6 +1851,7 @@
             if(varianteActual && varianteActual.estado === "activo"){
               // Usar el precio de la variante en lugar del precio de producto base 
               const precioVariante = parseFloat(varianteActual.precio);
+              console.log(precioVariante);
 
               if(TipoSelect === 'radio') {
                 contenidoSubItemHTML += `
@@ -1892,7 +1893,7 @@
                         data-producto-id="${item}"
                         data-min="${Min}"
                         data-max="${Max}"
-                        data-precio="${precioProducto}">
+                        data-precio="${precioVariante}">
                       <button type="button" class="btn-cantidad2" onclick="decrementCantidad(this)">
                          <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                           <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
@@ -2501,7 +2502,6 @@
 
   function precioValoresSeleccionados(){
     let precioTotal = 0;
-
 
 
     return precioTotal;
