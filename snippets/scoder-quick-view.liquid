@@ -1846,11 +1846,10 @@
             // Obtener los detalles de la variante especifica
             const variantesData = JSON.parse(productoTrabajo.description.match(/Variantes\s*:\s*(\[.*?\])/)[1]);
             const varianteActual = variantesData.find(variante => variante.id.toString() === item.toString());
-            console.log(varianteActual);
             //  Solo proceder si la variante esta activa
             if(varianteActual && varianteActual.estado === "activo"){
               // Usar el precio de la variante en lugar del precio de producto base 
-              const precioVariante = parseFloat(varianteActual.precio.amount);
+              const precioVariante = parseFloat(varianteActual.precio);
 
               if(TipoSelect === 'radio') {
                 contenidoSubItemHTML += `
@@ -1937,7 +1936,6 @@
               }
             }
           });
-
 
           // Cerrar el contenidoSubItemHTML
           contenidoSubItemHTML += `</div>`;
@@ -2499,10 +2497,76 @@
     return formData;
   }
 
-  function precioValoresSeleccionados(){
+  function precioValoresSeleccionados() {
     let precioTotal = 0;
-
-
+    
+    // Buscar el contendor principal
+    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    if(!contendorPrincipal) return precioTotal;
+    
+    // Buscar todos los menu-item-producto
+    const menuItemsProducto = contendorPrincipal.querySelectorAll('.menu-item-producto');
+    
+    menuItemsProducto.forEach(menuItemProducto => {
+        const menuItem = menuItemProducto.querySelector('.item-menuItem');
+        if(!menuItem) return;
+        
+        const tipoSelect = menuItem.getAttribute('tipo-select');
+        
+        if(tipoSelect === 'radio') {
+            const radiosSeleccionados = menuItem.querySelectorAll('input[type="radio"]:checked');
+            radiosSeleccionados.forEach(radio => {
+                const precio = parseFloat(radio.getAttribute('data-precio') || 0);
+                const idProducto = radio.getAttribute('data-producto-id');
+                precioTotal += precio;
+                
+                if(idProducto) {
+                    const subItemsProducto = contendorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+                    subItemsProducto.forEach(subItemProducto => {
+                        const subItem = subItemProducto.querySelector('.item-subItem');
+                        if(!subItem) return;
+                        
+                        const tipoSelectSub = subItem.getAttribute('tipo-select');
+                        
+                        if(tipoSelectSub === 'radio') {
+                            const radiosSubSeleccionados = subItem.querySelectorAll('input[type="radio"]:checked');
+                            radiosSubSeleccionados.forEach(radioSub => {
+                                const precioSub = parseFloat(radioSub.getAttribute('data-producto-price') || 0);
+                                precioTotal += precioSub;
+                            });
+                        } else if(tipoSelectSub === 'checkbox') {
+                            const checkboxesSubSeleccionados = subItem.querySelectorAll('input[type="checkbox"]:checked');
+                            checkboxesSubSeleccionados.forEach(checkboxSub => {
+                                const precioSub = parseFloat(checkboxSub.getAttribute('data-producto-price') || 0);
+                                precioTotal += precioSub;
+                            });
+                        } else if(tipoSelectSub === 'numberCount') {
+                            const controlesCantidadSub = subItem.querySelectorAll('.controles-cantidad2');
+                            controlesCantidadSub.forEach(controlSub => {
+                                const cantidadSub = parseInt(controlSub.querySelector('.cantidad-display2').textContent || '0');
+                                const precioSub = parseFloat(controlSub.getAttribute('data-producto-price') || 0);
+                                precioTotal += precioSub * cantidadSub;
+                            });
+                        }
+                    });
+                }
+            });
+        } else if(tipoSelect === 'checkbox') {
+            const checkboxesSeleccionados = menuItem.querySelectorAll('input[type="checkbox"]:checked');
+            checkboxesSeleccionados.forEach(checkbox => {
+                const precio = parseFloat(checkbox.getAttribute('data-precio') || 0);
+                precioTotal += precio;
+            });
+        } else if(tipoSelect === 'numberCount') {
+            const controlesCantidad = menuItem.querySelectorAll('.controles-cantidad2');
+            controlesCantidad.forEach(control => {
+                const cantidad = parseInt(control.querySelector('.cantidad-display2').textContent || '0');
+                const precio = parseFloat(control.getAttribute('data-precio') || 0);
+                precioTotal += precio * cantidad;
+            });
+        }
+    });
+    
     return precioTotal;
   }
 
