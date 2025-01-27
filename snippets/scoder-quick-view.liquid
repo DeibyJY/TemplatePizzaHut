@@ -865,7 +865,7 @@
                   {{- 'products.product.quantity.label__2' | t -}}
                 </label>
                 <div class="quantity__container">
-                  <button type="button" name="minus" class="minus btn-quantity">
+                  <button type="button" name="minus" class="minus btn-quantity" onClick="updateValoresDeBajoOpciones()">
                     <span class="visually-hidden">
                       {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
                     </span>
@@ -883,7 +883,7 @@
                     data-price="{{ current_variant.price }}"
                     data-inventory-quantity="{{ current_variant.inventory_quantity }}"
                   >
-                  <button type="button" name="plus" class="plus btn-quantity">
+                  <button type="button" name="plus" class="plus btn-quantity" onClick="updateValoresDeBajoOpciones()">
                     <span class="visually-hidden">
                       {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
                     </span>
@@ -2104,6 +2104,7 @@
     if (sumaActual < max) {
         display.textContent = (parseInt(display.textContent || '0') + 1).toString();
         actualizarBotonesNumberCount(contenedor);
+        updateValoresDeBajoOpciones()
         verificarRequeridos();
     }
   }
@@ -2130,6 +2131,7 @@
     if (sumaActual > min) {
         display.textContent = (valorActual - 1).toString();
         actualizarBotonesNumberCount(contenedor);
+        updateValoresDeBajoOpciones()
         verificarRequeridos();
     }
   }
@@ -2235,6 +2237,8 @@
             .forEach(item => item.style.display = 'none');
     }
 
+
+    updateValoresDeBajoOpciones()
     verificarRequeridos();
   }
 
@@ -2258,13 +2262,13 @@
         document.querySelectorAll(`.sub-item-producto[data-parent-group="${grupo}"]`)
             .forEach(item => item.style.display = 'none');
         mostrarSubItemsRelacionados(grupo, productoId);
-        recolectarDatosSeleccionados();
+        updateValoresDeBajoOpciones()
     } else if (min > 0) {
         // Si es requerido, asegura que al menos uno esté seleccionado
         const radiosSeleccionados = contenedor.querySelectorAll('input[type="radio"]:checked').length;
         if (radiosSeleccionados === 0) {
             radio.checked = true;
-            recolectarDatosSeleccionados();
+            updateValoresDeBajoOpciones()
         }
     }
     
@@ -2570,7 +2574,33 @@
     return precioTotal;
   }
 
-  function updateValoresDeBajoOpciones(){}
+  function updateValoresDeBajoOpciones() {
+    const precioCarrito = ({{ cart.total_price | json }} / 100).toFixed(2);
+    const precioProductoActual = ({{ product.price | json }} / 100).toFixed(2); 
+    const precioMenuSubItemsProducto = precioValoresSeleccionados().toFixed(2);
+    
+    // Obtener la cantidad del producto actual
+    let cantidadProductoActual = 1;
+    const quantityContainer = document.querySelector('.quantity__container');
+    if(quantityContainer) {
+        const quantityInput = quantityContainer.querySelector('.form-input.quantity__input.quantity');
+        if(quantityInput) {
+            cantidadProductoActual = Math.max(0, parseInt(quantityInput.value) || 1);
+        }
+    }
+ 
+    // Actualizar el texto del botón "Agregar al carrito"
+    const elementoBotonAgregarCarrito = document.querySelector('.etiqueta-agregar-carrito');
+    if (elementoBotonAgregarCarrito) {
+        elementoBotonAgregarCarrito.textContent = `Bs${(Number(precioCarrito) + (Number(precioProductoActual) * cantidadProductoActual) + Number(precioMenuSubItemsProducto)).toFixed(2)}`;
+    }
+ 
+    // Actualizar el texto de la etiqueta de precio en el botón "Comprar Ahora"
+    const etiquetaPrecioComprarAhora = document.querySelector('.etiqueta-comprar-ahora');
+    if (etiquetaPrecioComprarAhora) {
+        etiquetaPrecioComprarAhora.textContent = `Bs${((Number(precioProductoActual) * cantidadProductoActual) + Number(precioMenuSubItemsProducto)).toFixed(2)}`;
+    }
+  }
 
   function agregarValoresDeBajoOpciones() {
     const precioCarrito = ({{ cart.total_price | json }} / 100).toFixed(2);
