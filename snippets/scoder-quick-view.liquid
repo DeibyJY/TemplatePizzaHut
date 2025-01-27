@@ -2112,7 +2112,6 @@
         actualizarBotonesNumberCount(contenedor);
         verificarRequeridos();
         updateValoresDeBajoOpciones()
-        console.log("SI incremento")
     }
   }
   
@@ -2555,7 +2554,7 @@
                             const controlesCantidadSub = subItem.querySelectorAll('.controles-cantidad2');
                             controlesCantidadSub.forEach(controlSub => {
                                 const cantidadSub = parseInt(controlSub.querySelector('.cantidad-display2').textContent || '0');
-                                const precioSub = parseFloat(controlSub.getAttribute('data-producto-price') || 0);
+                                const precioSub = parseFloat(controlSub.getAttribute('data-precio') || 0);
                                 precioTotal += precioSub * cantidadSub;
                             });
                         }
