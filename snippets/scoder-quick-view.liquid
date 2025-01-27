@@ -1694,16 +1694,18 @@
           ? `+Bs${productoMainItem.price.amount}` 
           : '';
 
-          const precioShopify = {{ productoMainItem.price.amount | json }};
-          // O si necesitas el formato de moneda:
-          const precioFormateado = "{{ productoMainItem.price.amount | money }}";
+    {% if productoMainItem.price %}
+        const precioFormateado = "{{ productoMainItem.price.amount | money }}";
+      {% else %}
+        const precioFormateado = "0.00";
+      {% endif %}
 
         if(tipoSelect === 'radio'){
           contenidoMenuItemHTML += `
           <div class="opcion-principal-detalle-oferta3" data-group="${indexCN3}" data-min="${minNum}" data-max="${maxNum}" data-producto-id="${idProducto}">
             <div class="producto-info3">
               <span class="producto-nombre3">${productoMainItem.title}</span>
-              ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+ ${precioFormateado}</span>` : ''}
+                      ${parseFloat(productoMainItem.price.amount) > 0 ? `<span class="producto-precio3">+ ${precioFormateado}</span>` : ''}
             </div>
             <div class="opcion-nombre1">
               <div class="hover-area1" id="hoverArea-${indexCN3}-${idProducto}"></div>
