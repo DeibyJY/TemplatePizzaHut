@@ -2364,7 +2364,10 @@
     let formData = {
       'items': [{
         'id': 51079772569884,
-        'quantity': 1
+        'quantity': 1,
+        'properties' : {
+          'First name': 'Caroline'
+        }
       }]
     };
   
@@ -2640,7 +2643,7 @@
         return testPrueba()
             .then(() => {
                  initializeProductMenu(); 
-                  {% comment %} agregarAlCarrito(3); {% endcomment %}
+                 agregarAlCarrito(3); 
                   agregarValoresDeBajoOpciones(); 
                 console.log('Producto inicializado correctamente');
             })
