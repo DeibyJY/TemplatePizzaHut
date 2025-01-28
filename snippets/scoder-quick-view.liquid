@@ -1183,9 +1183,9 @@
                           name="add"
                           data-btn-addToCart
                           style="
-                            display: flex !important; 
-                            flex-direction : column !important; 
-                            justify-content: center !important; 
+                            display: flex !important;
+                            flex-direction : column !important;
+                            justify-content: center !important;
                             align-items: center !important;
                           "
                           data-available="{{ allowOutStockSale }}"
@@ -1680,7 +1680,12 @@
           </div>
           <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${solicitud.toUpperCase()}</span>
         </div>
-        <div class="item-menuItem" data-group="${indexCN3}" data-min="${minNum}" data-max="${maxNum}" tipo-select="${tipoSelect}">
+        <div class="item-menuItem" 
+        data-group="${indexCN3}" 
+        data-min="${minNum}" 
+        data-max="${maxNum}" 
+        tipo-select="${tipoSelect}" 
+        tipo-grupo="${variante.toUpperCase()}">
         `;
 
       let subItemProducto =  ``;
@@ -1819,7 +1824,6 @@
             data-producto-id="${idProducto}"
             data-min="${Min}"
             data-max="${Max}"
-            
           >`;
 
           let contenidoSubItemHTML = `
@@ -1830,7 +1834,13 @@
               </div>
               <span class="titulo-detalle-seleccion text" ${colorSolicitud}>${tipoSolicitud}</span>
             </div>
-            <div class="item-subItem" data-group="${indexProducto}" data-min="${Min}" data-max="${Max}" tipo-select="${TipoSelect}">
+            <div class="item-subItem" 
+            data-group="${indexProducto}" 
+            data-min="${Min}" 
+            data-max="${Max}" 
+            tipo-select="${TipoSelect}"
+            tipo-grupo="${Titulo.toUpperCase()}">
+            >
             `;
 
           // IDs de todos los productos de la coleccion actual
