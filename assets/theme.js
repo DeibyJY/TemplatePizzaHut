@@ -1914,12 +1914,6 @@
         },
 
         actionAddToCart: function($target, variantId, qty, input){
-            console.log('🎯 Target:', $target);
-            console.log('🆔 Variant ID:', variantId);
-            console.log('📦 Cantidad:', qty);
-            console.log('📝 Input:', input);
-
-
             var originalMessage = window.variantStrings.submit,
                 waitMessage = window.variantStrings.addingToCart,
                 successMessage = window.variantStrings.addedToCart;
