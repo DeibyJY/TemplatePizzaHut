@@ -180,28 +180,26 @@
               z-index: 9999;
             "
           >
-            {% comment %}
-              <button
-                type="button"
-                class="previewCartItem-remove"
-                data-cart-remove
-                data-cart-remove-id="{{ item.id }}"
-                data-line="{{ item.key }}"
-                title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-              >
-                {% render 'icon-close' %}
-              </button>
-              <button
-                type="button"
-                class="previewCartItem-remove"
-                data-cart-remove
-                data-cart-remove-id="{{ item.id }}"
-                data-line="{{ item.key }}"
-                title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-              >
-                {% render 'icon-close' %}
-              </button>
-            {% endcomment %}
+            <button
+              type="button"
+              class="previewCartItem-remove"
+              data-cart-remove
+              data-cart-remove-id="{{ item.id }}"
+              data-line="{{ item.key }}"
+              title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+            >
+              {% render 'icon-close' %}
+            </button>
+            <button
+              type="button"
+              class="previewCartItem-remove"
+              data-cart-remove
+              data-cart-remove-id="{{ item.id }}"
+              data-line="{{ item.key }}"
+              title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+            >
+              {% render 'icon-close' %}
+            </button>
           </div>
         </li>
       {%- endfor -%}
