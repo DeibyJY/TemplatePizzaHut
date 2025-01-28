@@ -2284,12 +2284,14 @@
             .forEach(item => item.style.display = 'none');
         mostrarSubItemsRelacionados(grupo, productoId);
         updateValoresDeBajoOpciones()
+        jsonOpcionesSeleccionadas()
     } else if (min > 0) {
         // Si es requerido, asegura que al menos uno esté seleccionado
         const radiosSeleccionados = contenedor.querySelectorAll('input[type="radio"]:checked').length;
         if (radiosSeleccionados === 0) {
             radio.checked = true;
             updateValoresDeBajoOpciones()
+            jsonOpcionesSeleccionadas()
         }
     }
     
@@ -2570,6 +2572,118 @@
     return formData;
   }
 
+  // Funcion para recolectar datos seleccionados en un JSON
+  function jsonOpcionesSeleccionadas() {
+    let jsonItems = "[";
+    const contenedorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    if (!contenedorPrincipal) return "[]";
+  
+    contenedorPrincipal.querySelectorAll('.menu-item-producto').forEach(menuItemProducto => {
+      const menuItem = menuItemProducto.querySelector('.item-menuItem');
+      if (!menuItem) return;
+  
+      const tipoSelect = menuItem.getAttribute('tipo-select');
+      const tipoGrupo = menuItem.getAttribute('tipo-grupo');
+      let itemsIds = [];
+  
+      switch (tipoSelect) {
+        case 'radio':
+        case 'checkbox':
+          menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
+            const idProducto = input.getAttribute('data-producto-id');
+            if (idProducto) {
+              // Procesamos los subItems directamente aquí
+              const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              
+              subItemsProducto.forEach(subItemProducto => {
+                const subItem = subItemProducto.querySelector('.item-subItem');
+                if (!subItem) return;
+  
+                const tipoSelectSub = subItem.getAttribute('tipo-select');
+                const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
+                let subItemsIds = [];
+  
+                switch (tipoSelectSub) {
+                  case 'radio':
+                  case 'checkbox':
+                    subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
+                      const idSubProducto = input.getAttribute('data-producto-id');
+                      if (idSubProducto) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                  case 'numberCount':
+                    subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+                      const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+                      const idSubProducto = control.getAttribute('data-producto-id');
+                      if (idSubProducto && cantidadSub > 0) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                }
+  
+                if (subItemsIds.length > 0) {
+                  jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
+                }
+              });
+            }
+          });
+          break;
+        case 'numberCount':
+          menuItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+            const cantidad = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+            const idProducto = control.getAttribute('data-producto-id');
+            if (idProducto && cantidad > 0) {
+              // Repetimos el mismo proceso para los subItems
+              const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              
+              subItemsProducto.forEach(subItemProducto => {
+                const subItem = subItemProducto.querySelector('.item-subItem');
+                if (!subItem) return;
+  
+                const tipoSelectSub = subItem.getAttribute('tipo-select');
+                const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
+                let subItemsIds = [];
+  
+                switch (tipoSelectSub) {
+                  case 'radio':
+                  case 'checkbox':
+                    subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
+                      const idSubProducto = input.getAttribute('data-producto-id');
+                      if (idSubProducto) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                  case 'numberCount':
+                    subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+                      const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+                      const idSubProducto = control.getAttribute('data-producto-id');
+                      if (idSubProducto && cantidadSub > 0) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                }
+  
+                if (subItemsIds.length > 0) {
+                  jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
+                }
+              });
+            }
+          });
+          break;
+      }
+    });
+  
+    // Removemos la última coma si existe y cerramos el array
+    jsonItems = jsonItems.replace(/,\s*$/, "") + "]";
+    console.log('JSONItems:', jsonItems);
+    return jsonItems;
+  }
+
   function precioValoresSeleccionados() {
     let precioTotal = 0;
     
@@ -2697,6 +2811,8 @@
         botonComprarAhora.appendChild(etiquetaPrecio);
     }
   }
+
+
 
   (function() {
     function initializeShopifyProduct() {
