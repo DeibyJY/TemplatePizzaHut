@@ -1892,7 +1892,6 @@
                         }
                           
                         scoder.actionAddToCart($target, variantId, qty, input);
-                        scoder.pruebaTest();
                     } else if($target.hasClass('is-notify-me')){
                         scoder.notifyInStockPopup($target);
                     }
