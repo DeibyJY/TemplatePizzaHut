@@ -1881,9 +1881,9 @@
                     var productForm = $target.closest('form');
                     scoder.actionAddToCart2($target, productForm);
                 } else {
-                    console.log('Estoy hacieendo esto');
-
+                    
                     if(!$target.hasClass('is-notify-me') && !$target.hasClass('is-soldout')){
+                        console.log('Estoy hacieendo esto');
                         var form = $target.parents('form'),
                             variantId = form.find('[name="id"]').val(),
                             qty = form.find('[name="quantity"]').val();
