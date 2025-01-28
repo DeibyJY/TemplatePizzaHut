@@ -198,7 +198,7 @@
         {% endcomment %}
         <div style="width: 460px; display: flex; flex-direction: row; padding-bottom: 25px; border-bottom: 1px solid var(--form-input-border); margin-top: 19px;">
           <!-- Contenedor de imagen - mantenemos el 18% original -->
-          <div style="flex: 0 0 18%; background-color: #FFE5E5; display: flex; align-items: center;">
+          <div style="flex: 0 0 16%; background-color: #FFE5E5; display: flex; align-items: center;">
             <a href="{{ item.url }}" class="previewCartItem-image" style="display: block; width: 100%;">
               <img
                 srcset="{{ item.image | img_url: '110x' }}"
@@ -211,7 +211,7 @@
           </div>
 
           <!-- Contenedor de información - mantenemos el 76% original -->
-          <div style="flex: 0 0 76%; padding: 0 20px; background-color: #E5FFE5; display: flex; flex-direction: column;">
+          <div style="flex: 0 0 80%; padding: 0 20px; background-color: #E5FFE5; display: flex; flex-direction: column;">
             <a class="previewCartItem-name link-underline" href="{{ item.url }}">
               <span class="text" style="font-weight: var(--font-heading-weight) !important;">
                 {{- item.product.title -}}
@@ -286,7 +286,7 @@
           </div>
 
           <!-- Contenedor de botones - el porcentaje restante, aproximadamente 6% -->
-          <div style="flex: 0 0 6%; background-color: chocolate; display: flex; flex-direction: column; gap: 10px;">
+          <div style="flex: 0 0 4%; background-color: chocolate; display: flex; flex-direction: column; gap: 10px;">
             <button
               type="button"
               class="previewCartItem-remove"
