@@ -200,7 +200,8 @@
 }
 
 .previewCartItem-remove {
-  position: absolute;
+  /* READ : HICE CAMBIOS AQUI */
+  /* position: absolute; */
   right: 0;
   top: 2px;
 }
