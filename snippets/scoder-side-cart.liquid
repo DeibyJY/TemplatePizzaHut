@@ -228,7 +228,7 @@
                 {{- item.product.title -}}
               </span>
             </a>
-            <div class="previewCartItem-change" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
+            <div class="previewCartItem-change" style="display: flex; flex-wrap: wrap; align-items: center;">
               {%- liquid
                 if item.original_price != item.final_price
                   assign price_to_display = item.final_price
