@@ -1869,6 +1869,8 @@
 
         initAddToCart: function() {
             $doc.off('click.addToCart').on('click.addToCart', '[data-btn-addtocart]', (event) => {
+                console.log('Estoy hacieendo esto 3');
+
                 event.preventDefault();
                 event.stopPropagation();
 
@@ -1881,6 +1883,7 @@
                     console.log('Estoy hacieendo esto');
                     scoder.actionAddToCart2($target, productForm);
                 } else {
+                    console.log('Estoy hacieendo esto 2');
                     if(!$target.hasClass('is-notify-me') && !$target.hasClass('is-soldout')){
                         var form = $target.parents('form'),
                             variantId = form.find('[name="id"]').val(),
