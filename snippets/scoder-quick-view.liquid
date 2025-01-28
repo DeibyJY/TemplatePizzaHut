@@ -2371,58 +2371,65 @@
     console.log('🔍 Iniciando verificación - Producto ID:', productoId);
     console.log('⏰ Tiempo inicio:', new Date().toLocaleTimeString());
 
-    while (intentos < maxIntentos) {
+    // Usando promesas tradicionales en lugar de async/await
+    function checkCart() {
+        if (intentos >= maxIntentos) {
+            const tiempoFinal = performance.now();
+            console.log('❌ Tiempo agotado: producto no encontrado después de 4 intentos');
+            console.log(`⏱️ Tiempo total: ${((tiempoFinal - tiempoInicio)/1000).toFixed(2)} segundos`);
+            return;
+        }
+
         console.log(`🔄 Intento ${intentos + 1} de ${maxIntentos}`);
 
-        try {
-            const cartResponse = await fetch(window.Shopify.routes.root + 'cart.js');
-            const cart = await cartResponse.json();
-            
-            const item = cart.items.find(item => item.id === productoId);
-            const lineItem = cart.items.findIndex(item => item.id === productoId) + 1;
+        fetch(window.Shopify.routes.root + 'cart.js')
+            .then(response => response.json())
+            .then(cart => {
+                const item = cart.items.find(item => item.id === productoId);
+                const lineItem = cart.items.findIndex(item => item.id === productoId) + 1;
 
-            if (lineItem) {
-                console.log('✅ Producto encontrado en línea:', lineItem);
-                console.log('📝 Propiedades actuales:', item.properties);
+                if (lineItem) {
+                    console.log('✅ Producto encontrado en línea:', lineItem);
+                    console.log('📝 Propiedades actuales:', item.properties);
 
-                const updateResponse = await fetch(window.Shopify.routes.root + 'cart/change.js', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        line: lineItem,
-                        properties: {
-                            'Hola': 'Mundo',
-                            'Prueba': 'añadida'
-                        }
-                    })
-                });
+                    return fetch(window.Shopify.routes.root + 'cart/change.js', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            line: lineItem,
+                            properties: {
+                                'Hola': 'Mundo',
+                                'Prueba': 'añadida'
+                            }
+                        })
+                    });
+                }
 
-                const updatedCart = await updateResponse.json();
-                const updatedItem = updatedCart.items.find(item => item.id === productoId);
-                const tiempoFinal = performance.now();
-                
-                console.log('✨ Producto actualizado exitosamente!');
-                console.log('📊 Nuevas propiedades:', updatedItem.properties);
-                console.log('⏰ Tiempo fin:', new Date().toLocaleTimeString());
-                console.log(`⏱️ Tiempo total: ${((tiempoFinal - tiempoInicio)/1000).toFixed(2)} segundos`);
-                return;
-            }
-
-            console.log(`⏳ Producto no encontrado en intento ${intentos + 1}, esperando...`);
-            await new Promise(resolve => setTimeout(resolve, intervalo));
-            intentos++;
-        } catch (error) {
-            console.error('❌ Error:', error);
-            await new Promise(resolve => setTimeout(resolve, intervalo));
-            intentos++;
-        }
+                console.log(`⏳ Producto no encontrado en intento ${intentos + 1}, esperando...`);
+                intentos++;
+                setTimeout(checkCart, intervalo);
+            })
+            .then(response => response && response.json())
+            .then(updatedCart => {
+                if (updatedCart) {
+                    const tiempoFinal = performance.now();
+                    const updatedItem = updatedCart.items.find(item => item.id === productoId);
+                    console.log('✨ Producto actualizado exitosamente!');
+                    console.log('📊 Nuevas propiedades:', updatedItem.properties);
+                    console.log('⏰ Tiempo fin:', new Date().toLocaleTimeString());
+                    console.log(`⏱️ Tiempo total: ${((tiempoFinal - tiempoInicio)/1000).toFixed(2)} segundos`);
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error:', error);
+                intentos++;
+                setTimeout(checkCart, intervalo);
+            });
     }
 
-    const tiempoFinal = performance.now();
-    console.log('❌ Tiempo agotado: producto no encontrado después de 4 intentos');
-    console.log(`⏱️ Tiempo total: ${((tiempoFinal - tiempoInicio)/1000).toFixed(2)} segundos`);
+    checkCart();
   }
   
   function verificarProductoAgregado() {
