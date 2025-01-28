@@ -229,12 +229,69 @@
               </span>
             </a>
             <div class="previewCartItem-change" style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center;">
-              <!-- Contenido del precio se mantiene igual -->
-              <div class="previewCartItem-price" style="flex: 1; min-width: 120px;">
-                <!-- ... resto del código de precios ... -->
+              {%- liquid
+                if item.original_price != item.final_price
+                  assign price_to_display = item.final_price
+                else
+                  assign price_to_display = item.original_price
+                endif
+              -%}
+              <div
+                class="previewCartItem-price"
+                data-price="{{ price_to_display }}"
+                data-original-price="{{ item.original_price }}"
+              >
+                <span class="price">
+                  {%- assign current_variant = item.variant -%}
+                  {% if item.original_price != item.final_price %}
+                    <span class="previewCartItem-saving-price">
+                      <s class="before-discount-price" data-item-original-price-display>
+                        {{ item.original_price | money }}
+                      </s>
+                      <span class="discounted-price" data-item-final-price-display>
+                        {{ item.final_price | money }}
+                      </span>
+                    </span>
+                  {% elsif current_variant.compare_at_price > current_variant.price %}
+                    <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
+                      <s class="before-discount-price">
+                        {{ current_variant.compare_at_price | money }}
+                      </s>
+                      <span class="discounted-price">
+                        {{ current_variant.price | money }}
+                      </span>
+                    </span>
+                  {% else %}
+                    <span data-item-final-price-display>
+                      {{ item.price | money }}
+                    </span>
+                  {% endif %}
+                </span>
               </div>
-              <cart-update-quantity class="previewCartItem-qty" style="display: flex; align-items: center; gap: 5px;">
-                <!-- ... resto del código de cantidad ... -->
+              <cart-update-quantity
+                class="previewCartItem-qty"
+                data-product="{{ item.product_id }}"
+                data-variant="{{ item.variant.id }}"
+              >
+                <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
+                  {{ 'sections.cart.heading.quantity' | t }}
+                </label>
+                <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                <input
+                  class="form-input quantity"
+                  name="quantity"
+                  id="upsell-update-{{ item.id }}"
+                  data-qtt-id1="quantity{{ item.id }}"
+                  value="{{ item.quantity }}"
+                  type="number"
+                  {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
+                    data-inventory-quantity="{{ item.variant.inventory_quantity }}"
+                  {% endif %}
+                  data-cart-quantity
+                  data-cart-quantity-id="{{ item.id }}"
+                  data-line="{{ item.key }}"
+                >
+                <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
               </cart-update-quantity>
             </div>
           </div>
