@@ -2362,6 +2362,9 @@
   }
 
   function agregarAlCarrito() {
+    console.log('Antes del cambio :', {{cart | json}});
+
+
     const productoId = {{ product.selected_or_first_available_variant.id | json }};
     let intentos = 0;
     const maxIntentos = 4;
@@ -2396,6 +2399,8 @@
                 console.log('Producto no encontrado en el carrito');
             }
         });
+    
+    console.log('Despues del cambio :', {{cart | json}});
   }
   
   function verificarProductoAgregado() {
