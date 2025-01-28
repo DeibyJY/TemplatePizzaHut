@@ -372,7 +372,7 @@ function pruebaTest(){
 }
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
-    pruebaTest();
+    this.pruebaTest();
     console.log('🎯 Callback', callback);
             console.log('🆔 Variant ID:', variant_id);
             console.log('📦 Cantidad:', quantity);
