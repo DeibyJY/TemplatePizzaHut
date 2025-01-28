@@ -38,8 +38,8 @@
                   {%endfor%}
               };
             </script>
-            <a class="previewCartItem-name link-underline title" href="{{ item.url }}">
-              <span class="text">{{ item.product.title }}</span>
+            <a class="previewCartItem-name link-underline " href="{{ item.url }}">
+              <span class="title">{{ item.product.title }}</span>
             </a>
             {%- if item.product.variants.size != 0 -%}
               {%- unless item.variant.title contains 'Default' -%}
