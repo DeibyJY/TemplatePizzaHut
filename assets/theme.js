@@ -1890,7 +1890,6 @@
                         if(qty == undefined){
                             qty = 1;
                         }
-                          
                         scoder.actionAddToCart($target, variantId, qty, input);
                     } else if($target.hasClass('is-notify-me')){
                         scoder.notifyInStockPopup($target);
