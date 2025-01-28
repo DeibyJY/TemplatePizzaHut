@@ -2362,45 +2362,65 @@
   }
 
   function agregarAlCarrito() {
-    console.log('Antes del cambio :', {{cart | json}});
-
-
     const productoId = {{ product.selected_or_first_available_variant.id | json }};
     let intentos = 0;
     const maxIntentos = 4;
-  
-    fetch(window.Shopify.routes.root + 'cart.js')
-        .then(response => response.json())
-        .then(cart => {
-            // Encontrar el ítem en el carrito
-            const lineItem = cart.items.findIndex(item => item.id === productoId) + 1;
-            
-            if(lineItem) {
-                // Actualizar propiedades
-                fetch(window.Shopify.routes.root + 'cart/change.js', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        line: lineItem,
-                        properties: {
-                            'Hola': 'Mundo',
-                            'Prueba': 'añadida'
-                        }
+    const intervalo = 1000; // 1 segundo
+
+    console.log('🔍 Iniciando búsqueda del producto ID:', productoId);
+
+    function verificarYActualizar() {
+        if (intentos >= maxIntentos) {
+            console.log('❌ Tiempo agotado: producto no encontrado después de 4 intentos');
+            return;
+        }
+
+        console.log(`🔄 Intento ${intentos + 1} de ${maxIntentos}`);
+
+        fetch(window.Shopify.routes.root + 'cart.js')
+            .then(response => response.json())
+            .then(cart => {
+                const item = cart.items.find(item => item.id === productoId);
+                const lineItem = cart.items.findIndex(item => item.id === productoId) + 1;
+
+                if (lineItem) {
+                    console.log('✅ Producto encontrado en línea:', lineItem);
+                    console.log('📝 Propiedades actuales:', item.properties);
+
+                    fetch(window.Shopify.routes.root + 'cart/change.js', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            line: lineItem,
+                            properties: {
+                                'Hola': 'Mundo',
+                                'Prueba': 'añadida'
+                            }
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(updatedCart => {
-                    console.log('Producto actualizado:', updatedCart);
-                })
-                .catch(error => console.error('Error:', error));
-            } else {
-                console.log('Producto no encontrado en el carrito');
-            }
-        });
-    
-    console.log('Despues del cambio :', {{cart | json}});
+                    .then(response => response.json())
+                    .then(updatedCart => {
+                        const updatedItem = updatedCart.items.find(item => item.id === productoId);
+                        console.log('✨ Producto actualizado exitosamente!');
+                        console.log('📊 Nuevas propiedades:', updatedItem.properties);
+                    })
+                    .catch(error => {
+                        console.error('❌ Error al actualizar propiedades:', error);
+                    });
+                } else {
+                    console.log(`⏳ Producto no encontrado en intento ${intentos + 1}, esperando...`);
+                    intentos++;
+                    setTimeout(verificarYActualizar, intervalo);
+                }
+            })
+            .catch(error => {
+                console.error('❌ Error al obtener el carrito:', error);
+                intentos++;
+                setTimeout(verificarYActualizar, intervalo);
+            });
+    }
   }
   
   function verificarProductoAgregado() {
