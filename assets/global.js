@@ -463,7 +463,14 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     var params = {
         type: 'POST',
         url: '/cart/add.js',
-        data: 'quantity=' + quantity + '&id=' + variant_id,
+        data: JSON.stringify({
+            items: [
+                {
+                    id: variant_id,
+                    quantity: quantity
+                }
+            ]
+        }),
         dataType: 'json',
         success: function(line_item) {
             if ((typeof callback) === 'function') {
