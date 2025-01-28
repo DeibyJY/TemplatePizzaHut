@@ -453,10 +453,6 @@ Shopify.recolectarDatosSeleccionados = function() {
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
     this.recolectarDatosSeleccionados();
-    console.log('🎯 Callback', callback);
-    console.log('🆔 Variant ID:', variant_id);
-    console.log('📦 Cantidad:', quantity);
-    console.log('📝 Input:', input);
     
     var quantity = quantity || 1;
     var target = document.querySelector('[data-quickshop] .is-loading') || document.querySelector('[data-btn-addtocart].is-loading');
@@ -464,8 +460,33 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
      var formData = 'quantity=' + quantity + 
      '&id=' + variant_id + 
      '&properties[Mensaje]=' + encodeURIComponent('Hola Mundo desde mis pruebas');
-
+     var items = [
+        {
+            id: variant_id,
+            quantity: 1,
+            properties: {
+                'Mensaje': 'Hola Mundo 1'
+            }
+        },
+        {
+            id: variant_id,
+            quantity: 1,
+            properties: {
+                'Mensaje': 'Hola Mundo 2'
+            }
+        }
+    ];
     
+    var formData = '';
+    items.forEach(function(item, index) {
+        if (index > 0) formData += '&';
+        formData += 'items[' + index + '][id]=' + item.id;
+        formData += '&items[' + index + '][quantity]=' + item.quantity;
+        for (var key in item.properties) {
+            formData += '&items[' + index + '][properties][' + key + ']=' + encodeURIComponent(item.properties[key]);
+        }
+    });
+
     var params = {
         type: 'POST',
         url: '/cart/add.js',
