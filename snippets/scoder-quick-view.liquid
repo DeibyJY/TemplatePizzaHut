@@ -1186,6 +1186,7 @@
                           data-available="{{ allowOutStockSale }}"
                           class="product-form__submit button button--primary{% if first_inventory == 0 %} button-text-change{% else %}{% if show_subtotal_text %} button-text-change{% endif %}{% endif %}"
                           id="product-add-to-cart"
+                          onClick="verificarProductoAgregado()"
                         >
                           {%- if first_inventory > 0 -%}
                             {%- if show_subtotal_text and subtotal_style == '2' -%}
@@ -2392,6 +2393,44 @@
       console.error('Error al agregar al carrito:', error);
     });
   }
+  
+  function verificarProductoAgregado() {
+    let intentos = 0;
+    const maxIntentos = 3;
+    const intervalo = 500;
+    const productoId = {{ product.id | json }};
+  
+    // Obtener cantidad inicial del producto en carrito
+    fetch(window.Shopify.routes.root + 'cart.js')
+      .then(response => response.json())
+      .then(cartInicial => {
+        const cantidadInicial = cartInicial.items.find(item => item.id === productoId)?.quantity || 0;
+        
+        function verificar() {
+          if (intentos >= maxIntentos) {
+            console.log('Verificación completada: producto no encontrado después de 3 intentos');
+            return;
+          }
+  
+          fetch(window.Shopify.routes.root + 'cart.js')
+            .then(response => response.json())
+            .then(cart => {
+              const cantidadActual = cart.items.find(item => item.id === productoId)?.quantity || 0;
+              
+              if (cantidadActual > cantidadInicial) {
+                console.log('Producto agregado exitosamente');
+                return true;
+              } else {
+                intentos++;
+                console.log(`Intento ${intentos}: Verificando...`);
+                setTimeout(verificar, intervalo);
+              }
+            });
+        }
+  
+        verificar();
+      });
+  }
 
   // Funcion Recolectar datos seleccionados
   function recolectarDatosSeleccionados() {
@@ -2578,7 +2617,7 @@
         const etiquetaPrecioComprarAhora = document.querySelector('.etiqueta-comprar-ahora');
         if (etiquetaPrecioComprarAhora) {
             etiquetaPrecioComprarAhora.textContent = `Bs${((Number(precioProductoActual) * cantidadProductoActual) + (Number(precioMenuSubItemsProducto)).toFixed(2)* cantidadProductoActual)}`;
-        }
+        } 
     }, 10); // Pequeño delay de 10ms
   }
 
