@@ -136,7 +136,9 @@
   display: inline-block;
   vertical-align: middle;
   width: 94px;
-  margin-top: 15px;
+  /* READ : HICE CAMBIOS AQUI */
+  /* margin-top: 15px; */
+  margin-top: 10px;
   position: relative;
 }
 
