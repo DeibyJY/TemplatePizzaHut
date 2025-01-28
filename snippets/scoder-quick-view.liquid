@@ -2398,7 +2398,8 @@
     let intentos = 0;
     const maxIntentos = 4;
     const intervalo = 1000;
-    const productoId = {{ product.id | json }};
+    const productoId = {{ product.selected_or_first_available_variant.id | json }};
+    console.log(productoId);
   
     // Obtener cantidad inicial del producto en carrito
     fetch(window.Shopify.routes.root + 'cart.js')
