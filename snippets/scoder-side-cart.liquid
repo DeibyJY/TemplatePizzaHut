@@ -196,7 +196,7 @@
             </div>
           </li>
         {% endcomment %}
-        <div style="width: 460px; height: 116px; border-bottom: 3px solid #000; display: flex; flex-direction: row;">
+        <div style="width: 460px; height: 116px; border-bottom: 1px solid var(--form-input-border); display: flex; flex-direction: row; padding-bottom: 25px;">
           <div style="flex: 0 0 18%; height: 116px; background-color: #FFE5E5;">
             <a href="{{ item.url }}" class="previewCartItem-image">
               <img
@@ -211,7 +211,10 @@
             </a>
           </div>
           <div
-            style="flex: 0 0 76%; height: 116px; background-color: #E5FFE5; diplay: flex; flex-direction: column;"
+            style="
+                      width: calc(100% - 80px); padding: 0 20px; position: relative;
+              flex: 0 0 76%; height: 116px; background-color: #E5FFE5; diplay: flex; flex-direction: column;
+            "
           >
             <a class="previewCartItem-name link-underline " href="{{ item.url }}">
               <span class="text" style="font-weight: var(--font-heading-weight) !important;">
