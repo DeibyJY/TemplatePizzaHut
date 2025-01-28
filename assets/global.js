@@ -460,17 +460,16 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     
     var quantity = quantity || 1;
     var target = document.querySelector('[data-quickshop] .is-loading') || document.querySelector('[data-btn-addtocart].is-loading');
+     // Construimos los datos incluyendo la propiedad personalizada
+     var formData = 'quantity=' + quantity + 
+     '&id=' + variant_id + 
+     '&properties[Mensaje]=' + encodeURIComponent('Hola Mundo desde mis pruebas');
+
+    
     var params = {
         type: 'POST',
         url: '/cart/add.js',
-        data: JSON.stringify({
-            items: [
-                {
-                    id: variant_id,
-                    quantity: quantity
-                }
-            ]
-        }),
+        data: formData,
         dataType: 'json',
         success: function(line_item) {
             if ((typeof callback) === 'function') {
