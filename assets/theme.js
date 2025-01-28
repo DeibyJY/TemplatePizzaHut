@@ -1879,9 +1879,10 @@
                     ProductQuickShopShown_Option_2 = $doc.find('.quickshop-popup-show');
                 if($target.closest('product-form').length > 0){
                     var productForm = $target.closest('form');
-                    console.log('Estoy hacieendo esto');
                     scoder.actionAddToCart2($target, productForm);
                 } else {
+                    console.log('Estoy hacieendo esto');
+
                     if(!$target.hasClass('is-notify-me') && !$target.hasClass('is-soldout')){
                         var form = $target.parents('form'),
                             variantId = form.find('[name="id"]').val(),
