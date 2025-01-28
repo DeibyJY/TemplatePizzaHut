@@ -367,8 +367,17 @@ Shopify.addItem = function(variant_id, quantity, callback, input = null) {
     $.ajax(params);
 }
 
-Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
+function pruebaTest(){
     console.log('Hola es mi funcon custom la cual es nueva');
+}
+
+Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
+    pruebaTest();
+    console.log('🎯 Callback', callback);
+            console.log('🆔 Variant ID:', variant_id);
+            console.log('📦 Cantidad:', quantity);
+            console.log('📝 Input:', input);
+    
     var quantity = quantity || 1;
     var target = document.querySelector('[data-quickshop] .is-loading') || document.querySelector('[data-btn-addtocart].is-loading');
     var params = {

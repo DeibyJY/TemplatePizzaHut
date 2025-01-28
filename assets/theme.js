@@ -2119,9 +2119,6 @@
                 $target.removeClass('is-loading');
             })
         },
-        pruebaTest: function(){
-            console.log('Hola Mundo desde la funcion prueba test');
-        },
 
         checkSufficientStock: function(productForm) {
             const maxValidQuantity = productForm.find('[data-inventory-quantity]').data('inventory-quantity')
