@@ -173,6 +173,7 @@
               background-color: chocolate;
               display: flex;
               flex-direction: column;
+              gap: 10px;
             "
           >
             <button
@@ -183,7 +184,6 @@
               data-line="{{ item.key }}"
               title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
             >
-              {% comment %} asdasdasd {% endcomment %}
               {% render 'icon-arrow-back-test1' %}
             </button>
             <button
