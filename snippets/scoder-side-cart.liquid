@@ -196,7 +196,17 @@
             </div>
           </li>
         {% endcomment %}
-        <div style="width: 100%; max-width: 460px; display: flex; flex-direction: column; padding-bottom: 25px; border-bottom: 1px solid var(--form-input-border); margin-top: 19px; gap: 10px;">
+        <div
+          style="
+            width: 100%;
+            max-width: 460px;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 5px;
+            border-bottom: 1px solid var(--form-input-border);
+            gap: 10px;
+          "
+        >
           <!-- Movemos el input al inicio del contenedor principal para que funcione el selector -->
           <input type="checkbox" id="toggle-{{ item.id }}" style="display: none;">
           <div class="auxiliar-test" style="width: 100%; height: 100%; display: flex; flex-direction: row; gap: 10px;">
