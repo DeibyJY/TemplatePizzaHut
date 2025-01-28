@@ -1918,6 +1918,9 @@
         },
 
         actionAddToCart: function($target, variantId, qty, input){
+            console.log('Estoy hacieendo esto 4');
+
+
             var originalMessage = window.variantStrings.submit,
                 waitMessage = window.variantStrings.addingToCart,
                 successMessage = window.variantStrings.addedToCart;
@@ -1995,6 +1998,8 @@
         },
 
         actionAddToCart2: function($target, productForm) {
+            console.log('Estoy hacieendo esto 3');
+
             const config = fetchConfig('javascript');
             var originalMessage = window.variantStrings.submit,
                 waitMessage = window.variantStrings.addingToCart,
