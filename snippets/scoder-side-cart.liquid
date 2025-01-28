@@ -313,8 +313,8 @@
               {% comment %}
                 <button
                   type="button"
-                  class="previewCartItem-remove"
                   title="Mostrar Detalles"
+                  class="previewCartItem-remove"
                   style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
                 >
                   {% render 'icon-arrow-back-test1' %}
@@ -322,7 +322,9 @@
               {% endcomment %}
               <label
                 for="toggle-{{ item.id }}"
-                style="cursor: pointer; padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
+                title="Mostrar Detalles"
+                class="previewCartItem-remove"
+                style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
               >
                 <span style="transition: transform 0.3s ease; display: flex;">
                   {% render 'icon-arrow-back-test1' %}
