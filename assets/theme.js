@@ -1905,7 +1905,6 @@
                 $body.removeClass('add-to-cart-show');
             });
 
-
             $doc.on('click', (event) => {
                 if($body.hasClass('add-to-cart-show')){
                     if (($(event.target).closest('[data-add-to-cart-popup]').length === 0)) {
