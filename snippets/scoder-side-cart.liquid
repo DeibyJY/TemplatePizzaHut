@@ -167,27 +167,41 @@
               </cart-update-quantity>
             </div>
           </div>
-          <div class="pruebas-test">
-            <button
-              type="button"
-              class="previewCartItem-remove"
-              data-cart-remove
-              data-cart-remove-id="{{ item.id }}"
-              data-line="{{ item.key }}"
-              title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-            >
-              {% render 'icon-close' %}
-            </button>
-            <button
-              type="button"
-              class="previewCartItem-remove"
-              data-cart-remove
-              data-cart-remove-id="{{ item.id }}"
-              data-line="{{ item.key }}"
-              title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-            >
-              {% render 'icon-close' %}
-            </button>
+          <div
+            class="pruebas-test"
+            style="
+              display: none;
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(67, 14, 224, 0.5);
+              z-index: 9999;
+            "
+          >
+            {% comment %}
+              <button
+                type="button"
+                class="previewCartItem-remove"
+                data-cart-remove
+                data-cart-remove-id="{{ item.id }}"
+                data-line="{{ item.key }}"
+                title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+              >
+                {% render 'icon-close' %}
+              </button>
+              <button
+                type="button"
+                class="previewCartItem-remove"
+                data-cart-remove
+                data-cart-remove-id="{{ item.id }}"
+                data-line="{{ item.key }}"
+                title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+              >
+                {% render 'icon-close' %}
+              </button>
+            {% endcomment %}
           </div>
         </li>
       {%- endfor -%}
