@@ -288,7 +288,36 @@
               </cart-update-quantity>
             </div>
           </div>
-          <div style="flex: 0 0 6%; height: 116px; background-color: #E5E5FF;"></div>
+          <div
+            style="
+              flex: 0 0 6%; height: 116px; background-color: #E5E5FF;
+              background-color: chocolate;
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+            "
+          >
+            <button
+              type="button"
+              class="previewCartItem-remove"
+              data-cart-remove
+              data-cart-remove-id="{{ item.id }}"
+              data-line="{{ item.key }}"
+              title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+            >
+              {% render 'icon-arrow-back-test1' %}
+            </button>
+            <button
+              type="button"
+              class="previewCartItem-remove"
+              data-cart-remove
+              data-cart-remove-id="{{ item.id }}"
+              data-line="{{ item.key }}"
+              title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+            >
+              {% render 'icon-close' %}
+            </button>
+          </div>
         </div>
       {%- endfor -%}
     </ul>
