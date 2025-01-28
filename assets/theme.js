@@ -1883,7 +1883,6 @@
                 } else {
                     
                     if(!$target.hasClass('is-notify-me') && !$target.hasClass('is-soldout')){
-                        console.log('Estoy hacieendo esto');
                         var form = $target.parents('form'),
                             variantId = form.find('[name="id"]').val(),
                             qty = form.find('[name="quantity"]').val();
@@ -1893,7 +1892,7 @@
                         }
                           
                         scoder.actionAddToCart($target, variantId, qty, input);
-                    
+                        scoder.pruebaTest();
                     } else if($target.hasClass('is-notify-me')){
                         scoder.notifyInStockPopup($target);
                     }
@@ -1917,7 +1916,10 @@
         },
 
         actionAddToCart: function($target, variantId, qty, input){
-            console.log('Estoy hacieendo esto 4');
+            console.log('🎯 Target:', $target);
+            console.log('🆔 Variant ID:', variantId);
+            console.log('📦 Cantidad:', qty);
+            console.log('📝 Input:', input);
 
 
             var originalMessage = window.variantStrings.submit,
@@ -1931,7 +1933,7 @@
             $target.addClass('is-loading');
 
             if($body.hasClass('quick-view-show')){
-                Shopify.addItem(variantId, qty, () => {
+                Shopify.addItemCustomCarrito(variantId, qty, () => {
                     if (window.after_add_to_cart.type == 'cart') {
                         scoder.redirectTo(window.routes.cart);
                     } else {
@@ -2116,6 +2118,9 @@
             }).finally(() => {
                 $target.removeClass('is-loading');
             })
+        },
+        pruebaTest: function(){
+            console.log('Hola Mundo desde la funcion prueba test');
         },
 
         checkSufficientStock: function(productForm) {

@@ -367,6 +367,38 @@ Shopify.addItem = function(variant_id, quantity, callback, input = null) {
     $.ajax(params);
 }
 
+Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
+    console.log('Hola es mi funcon custom la cual es nueva');
+    var quantity = quantity || 1;
+    var target = document.querySelector('[data-quickshop] .is-loading') || document.querySelector('[data-btn-addtocart].is-loading');
+    var params = {
+        type: 'POST',
+        url: '/cart/add.js',
+        data: 'quantity=' + quantity + '&id=' + variant_id,
+        dataType: 'json',
+        success: function(line_item) {
+            if ((typeof callback) === 'function') {
+                callback(line_item);
+            } else {
+                Shopify.onItemAdded(line_item);
+            }
+        },
+        error: function(XMLHttpRequest, textStatus) {
+            var message = window.cartStrings.addProductOutQuantity2;
+            if (input.length > 0) {
+                var maxValue = parseInt(input.attr('data-inventory-quantity'));
+                message = getInputMessage(maxValue)
+                input.val(maxValue)
+            } 
+            
+            Shopify.onError(XMLHttpRequest, textStatus, message);
+            target?.classList.remove('is-loading');
+        }
+    };
+    $.ajax(params);
+}
+
+
 Shopify.onItemAdded = function(line_item) {
     alert(line_item.title + ' was added to your shopping cart.');
 }
