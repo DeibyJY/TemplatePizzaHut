@@ -367,9 +367,9 @@ Shopify.addItem = function(variant_id, quantity, callback, input = null) {
     $.ajax(params);
 }
 
-function pruebaTest(){
-    console.log('Hola es mi funcon custom la cual es nueva');
-}
+Shopify.pruebaTest = function() {
+    console.log('Hola es mi funcion custom la cual es nueva');
+};
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
     this.pruebaTest();
