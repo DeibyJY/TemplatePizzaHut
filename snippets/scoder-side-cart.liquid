@@ -334,56 +334,12 @@
           </div>
           <div
             class="details-container-{{ item.id }}"
-            style="width: 100%; height: auto; background-color: #f3f3f3; overflow: hidden; transition: height 0.3s ease-in-out; padding: 20px; border-radius: 8px;"
-          >
-            <div style="max-width: 600px; margin: 0 auto;">
-              <!-- TAMAÑO -->
-              <div style="margin-bottom: 20px;">
-                <h3 style="color: #333; font-size: 18px; margin-bottom: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 5px;">
-                  TAMAÑO
-                </h3>
-                <div style="padding: 10px; background-color: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                  <p style="margin: 0; font-weight: bold; color: #444;">
-                    Super personal para 2 a 3 personas
-                    <span style="float: right; color: #d32f2f;">9bs</span>
-                  </p>
-                </div>
-              </div>
-
-              <!-- EXTRA -->
-              <div style="margin-bottom: 20px;">
-                <h3 style="color: #333; font-size: 18px; margin-bottom: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 5px;">
-                  EXTRA
-                </h3>
-                <div style="padding: 10px; background-color: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                  <p style="margin: 0 0 8px 0; color: #444;">
-                    Extra Jamón
-                    <span style="float: right; color: #d32f2f;">5bs</span>
-                  </p>
-                  <p style="margin: 0; color: #444;">
-                    Extra Choclo
-                    <span style="float: right; color: #d32f2f;">12bs</span>
-                  </p>
-                </div>
-              </div>
-
-              <!-- BORDE Y MASA -->
-              <div style="margin-bottom: 20px;">
-                <h3 style="color: #333; font-size: 18px; margin-bottom: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 5px;">
-                  BORDE Y MASA
-                </h3>
-                <div style="padding: 10px; background-color: white; border-radius: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                  <p style="margin: 0; font-weight: bold; color: #444;">
-                    PAN PIZZA + BORDE HOT CHESSE
-                    <span style="float: right; color: #d32f2f;">12bs</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+            style="width: 100%; height: 0; background-color: chocolate; overflow: hidden; transition: height 0.3s ease-in-out;"
+          ></div>
         </div>
       {%- endfor -%}
     </ul>
+
     {%- if settings.show_quick_cart_popular_product -%}
       {%- liquid
         assign collection = collections[settings.quick_cart_popular_product_collection]
@@ -541,18 +497,25 @@
     }
   }
 
-  /* Cambiamos el selector para que funcione con la estructura actual */
-  input[type='checkbox']:checked + span {
+  /* Para rotar el ícono - ajustamos el selector para llegar al span dentro del label */
+  input[type='checkbox']:checked ~ .auxiliar-test label span {
     transform: rotate(180deg);
   }
 
-  /* Este es el cambio principal */
+  /* Para el contenedor de detalles - ajustamos la altura específica */
   input[type='checkbox']:checked ~ div[class^='details-container-'] {
-    height: 100px !important;
+    height: 400px !important; /* o el valor que necesites */
   }
 
-  /* Para el contenedor */
+  /* Para el contenedor - mantenemos la transición */
   div[class^='details-container-'] {
+    height: 0 !important; /* Aseguramos que empiece cerrado */
+    padding: 0 !important; /* Quitamos el padding cuando está cerrado */
     transition: height 0.3s ease-in-out;
+  }
+
+  /* Cuando está abierto, restauramos el padding */
+  input[type='checkbox']:checked ~ div[class^='details-container-'] {
+    padding: 20px !important;
   }
 </style>
