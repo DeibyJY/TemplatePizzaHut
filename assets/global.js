@@ -367,16 +367,96 @@ Shopify.addItem = function(variant_id, quantity, callback, input = null) {
     $.ajax(params);
 }
 
-Shopify.pruebaTest = function() {
-    console.log('Hola es mi funcion custom la cual es nueva');
+Shopify.recolectarDatosSeleccionados = function() {
+    const items = [];
+    const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    if (!contendorPrincipal) return { items: [] };
+  
+    function procesarSubItems(idProducto) {
+      const subItemsProducto = contendorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+      
+      subItemsProducto.forEach(subItemProducto => {
+        const subItem = subItemProducto.querySelector('.item-subItem');
+        if (!subItem) return;
+  
+        const tipoSelect = subItem.getAttribute('tipo-select');
+        
+        switch (tipoSelect) {
+          case 'radio':
+          case 'checkbox':
+            subItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
+              const idSubProducto = input.getAttribute('data-producto-id');
+              if (idSubProducto) {
+                items.push({
+                  id: parseInt(idSubProducto),
+                  quantity: 1
+                });
+              }
+            });
+            break;
+          case 'numberCount':
+            subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+              const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+              const idSubProducto = control.getAttribute('data-producto-id');
+              if (idSubProducto && cantidadSub > 0) {
+                items.push({
+                  id: parseInt(idSubProducto),
+                  quantity: cantidadSub
+                });
+              }
+            });
+            break;
+        }
+      });
+    }
+  
+    contendorPrincipal.querySelectorAll('.menu-item-producto').forEach(menuItemProducto => {
+      const menuItem = menuItemProducto.querySelector('.item-menuItem');
+      if (!menuItem) return;
+  
+      const tipoSelect = menuItem.getAttribute('tipo-select');
+      
+      switch (tipoSelect) {
+        case 'radio':
+        case 'checkbox':
+          menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
+            const idProducto = input.getAttribute('data-producto-id');
+            if (idProducto) {
+              items.push({
+                id: parseInt(idProducto),
+                quantity: 1
+              });
+              procesarSubItems(idProducto);
+            }
+          });
+          break;
+        case 'numberCount':
+          menuItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+            const cantidad = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+            const idProducto = control.getAttribute('data-producto-id');
+            if (idProducto && cantidad > 0) {
+              items.push({
+                id: parseInt(idProducto),
+                quantity: cantidad
+              });
+              procesarSubItems(idProducto);
+            }
+          });
+          break;
+      }
+    });
+  
+    const formData = { items };
+    console.log('FormData recolectado:', formData);
+    return formData;
 };
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
-    this.pruebaTest();
+    this.recolectarDatosSeleccionados();
     console.log('🎯 Callback', callback);
-            console.log('🆔 Variant ID:', variant_id);
-            console.log('📦 Cantidad:', quantity);
-            console.log('📝 Input:', input);
+    console.log('🆔 Variant ID:', variant_id);
+    console.log('📦 Cantidad:', quantity);
+    console.log('📝 Input:', input);
     
     var quantity = quantity || 1;
     var target = document.querySelector('[data-quickshop] .is-loading') || document.querySelector('[data-btn-addtocart].is-loading');

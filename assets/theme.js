@@ -1991,7 +1991,6 @@
         },
 
         actionAddToCart2: function($target, productForm) {
-            console.log('Estoy hacieendo esto 3');
 
             const config = fetchConfig('javascript');
             var originalMessage = window.variantStrings.submit,
@@ -2115,7 +2114,6 @@
         checkSufficientStock: function(productForm) {
             const maxValidQuantity = productForm.find('[data-inventory-quantity]').data('inventory-quantity')
             const inputQuantity = parseInt(productForm.find('[data-inventory-quantity]').val())
-            
             return maxValidQuantity >= inputQuantity
         }, 
 
