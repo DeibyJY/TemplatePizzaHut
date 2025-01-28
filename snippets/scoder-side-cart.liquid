@@ -184,7 +184,7 @@
               data-line="{{ item.key }}"
               title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
             >
-              {% render 'icon-arrow-nav' %}
+              {% render 'icon-arrow-back-test1' %}
             </button>
             <button
               type="button"
@@ -193,7 +193,9 @@
               data-cart-remove-id="{{ item.id }}"
               data-line="{{ item.key }}"
               title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-            ></button>
+            >
+              {% render 'icon-arrow-back-test2' %}
+            </button>
           </div>
         </li>
       {%- endfor -%}
