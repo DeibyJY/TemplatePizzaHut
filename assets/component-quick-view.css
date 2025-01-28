@@ -71,9 +71,9 @@ body.quick-view-show .scoder-quick-view-popup .scoder-popup-content {
 }
 .productView.quickView .productView-quantity {
   /* READ : HICE CAMBIOS AQUI */
-  /* display: flex; */
-  /* flex-wrap: wrap; */
-  /* align-items: center; */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   /* padding-bottom: 15px; */
 }
 .productView.quickView .productView-checkbox {
