@@ -2362,36 +2362,40 @@
   }
 
   function agregarAlCarrito() {
-    let formData = {
-      'items': [{
-        'id': 51079772569884,
-        'quantity': 1,
-        'properties' : {
-          'First name': 'Caroline'
-        }
-      }]
-    };
+    const productoId = {{ product.selected_or_first_available_variant.id | json }};
+    let intentos = 0;
+    const maxIntentos = 4;
   
-    console.log('Datos a enviar:', formData);
-  
-    fetch(window.Shopify.routes.root + 'cart/add.js', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
-    .then(response => {
-      console.log('Respuesta cruda:', response);
-      return response.json();
-    })
-    .then(data => {
-      console.log('Datos del producto agregado:', data);
-      return data;
-    })
-    .catch((error) => {
-      console.error('Error al agregar al carrito:', error);
-    });
+    fetch(window.Shopify.routes.root + 'cart.js')
+        .then(response => response.json())
+        .then(cart => {
+            // Encontrar el ítem en el carrito
+            const lineItem = cart.items.findIndex(item => item.id === productoId) + 1;
+            
+            if(lineItem) {
+                // Actualizar propiedades
+                fetch(window.Shopify.routes.root + 'cart/change.js', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        line: lineItem,
+                        properties: {
+                            'Hola': 'Mundo',
+                            'Prueba': 'añadida'
+                        }
+                    })
+                })
+                .then(response => response.json())
+                .then(updatedCart => {
+                    console.log('Producto actualizado:', updatedCart);
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                console.log('Producto no encontrado en el carrito');
+            }
+        });
   }
   
   function verificarProductoAgregado() {
