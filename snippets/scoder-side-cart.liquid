@@ -810,7 +810,7 @@
             contenedorItemProducto += `
                   </span>
                     </div>
-                    <cart-update-quantity class="previewCartItem-qty" data-product="${ productoTrabajo.product_id }" data-variant="{{ productoTrabajo.variant.id }}">
+                    <cart-update-quantity class="previewCartItem-qty" data-product="${ productoTrabajo.product_id }" data-variant="${ current_variant.id }">
                       <label class="form-label hiddenLabels" for="upsell-update-${ productoTrabajo.id }">
                           ${window.theme.strings.quantityLabel}
                       </label>
@@ -897,10 +897,9 @@
         `;
       });
 
-      itemSecundarios.forEach(productoTSecundario => {
+      {% comment %} itemSecundarios.forEach(productoTSecundario => {
         const precio = productoTSecundario.properties.Precio;
         const cantidad = productoTSecundario.quantity;
-
 
         contenedorItemProducto += `
           <div class="dc-contenedor-base">
@@ -924,7 +923,7 @@
           </div>
         `;
       });
-        
+         {% endcomment %}
       contenedorItemProducto += `
         ${itemSecundarios.length > 0 ? `</div>` : ''}
         </div>`;
