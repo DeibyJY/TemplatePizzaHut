@@ -1887,6 +1887,8 @@
                             variantId = form.find('[name="id"]').val(),
                             qty = form.find('[name="quantity"]').val();
                             input = form.find('[name="quantity"]').eq(0);
+
+                        console.log("Hola 2",qty);
                         if(qty == undefined){
                             qty = 1;
                         }
