@@ -729,7 +729,9 @@
       properties?.ProductoBase === productoBase && 
       properties?.Cuerpo === undefined
       );
-      const productoContruccionCuerpo = JSON.parse(productoTrabajo.properties.Cuerpo);
+
+      const jsonString = productoTrabajo.properties.Cuerpo.replace(/'/g, '"');
+      const productoContruccionCuerpo = JSON.parse(jsonString);
 
       contenedorItemProducto += `
       <div class="itemProducto-principal">
