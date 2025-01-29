@@ -643,7 +643,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 
     // Añadimos los items seleccionados después del producto principal
     if (itemsSeleccionados && itemsSeleccionados.items) {
-      itemsSeleccionados.items.forEach(item => {
+      itemsSeleccionados.forEach(item => {
         console.log('Item:', item);
         items.push(item);
       });
