@@ -793,7 +793,7 @@
                     </span>
                     `;
                 }else{
-                  const price = {{  productoTrabajo.price | money }};
+                  const price = formatPrice(productoTrabajo.price);
                   contenedorItemProducto += `
                     <span data-item-final-price-display>
                       ${ price }
