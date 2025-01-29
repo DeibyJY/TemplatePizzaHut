@@ -401,6 +401,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
   const contendorPrincipal = document.querySelector(
     ".sector-general-opciones-producto"
   );
+  
   if (!contendorPrincipal) return { items: [] };
 
   function procesarSubItems(idProducto) {
