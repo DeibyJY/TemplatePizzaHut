@@ -1868,6 +1868,7 @@
         },
 
         initAddToCart: function() {
+            console.log('initAddToCart');
             $doc.off('click.addToCart').on('click.addToCart', '[data-btn-addtocart]', (event) => {
 
                 event.preventDefault();
@@ -1916,7 +1917,6 @@
         },
 
         actionAddToCart: function($target, variantId, qty, input){
-            console.log("actionAddToCart");
             var originalMessage = window.variantStrings.submit,
                 waitMessage = window.variantStrings.addingToCart,
                 successMessage = window.variantStrings.addedToCart;

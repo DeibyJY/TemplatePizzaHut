@@ -850,62 +850,75 @@
               {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
             </div>
           {% endcomment %}
-          {%- if show_quick_view_qty -%}
-            <div
-              class="quantity_selector productView-groupTop"
-              style="
-                display: flex !important;
-                flex-direction: row !important;
-                flex-wrap: wrap !important;
-                align-items: end !important;
-              "
-            >
-              <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--1 quantity__style--1 clearfix ">
-                <label class="form-label quantity__label" for="quantity-{{ product.id }}">
-                  {{- 'products.product.quantity.label__2' | t -}}
-                </label>
-                <div class="quantity__container">
-                  <button type="button" name="minus" class="minus btn-quantity" onClick="updateValoresDeBajoOpciones()">
-                    <span class="visually-hidden">
-                      {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
-                    </span>
-                  </button>
-                  <input
-                    class="form-input quantity__input quantity"
-                    type="number"
-                    name="quantity"
-                    min="1"
-                    value="1"
-                    inputmode="numeric"
-                    pattern="[0-9]*"
-                    id="quantity-{{ product.id }}"
-                    data-product="{{ product.id }}"
-                    data-price="{{ current_variant.price }}"
-                    data-inventory-quantity="{{ current_variant.inventory_quantity }}"
-                  >
-                  <button type="button" name="plus" class="plus btn-quantity" onClick="updateValoresDeBajoOpciones()">
-                    <span class="visually-hidden">
-                      {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
-                    </span>
-                  </button>
-                </div>
-              </quantity-quick-view-input>
-              {%- if settings.show_wishlist -%}
-                <div class="productView-wishlist clearfix">
-                  <a
-                    data-wishlist
-                    href="#"
-                    data-wishlist-handle="{{ product.handle }}"
-                    data-product-id="{{ product.id }}"
-                    ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
-                  </a>
-                </div>
-              {%- endif -%}
-              {%- if show_quick_view_share -%}
-                {% render 'scoder-share', product: product, share_layout: '2' %}
-              {%- endif -%}
-            </div>
-          {%- endif -%}
+          {%- form 'product',
+            product,
+            id: product_form_id,
+            class: 'form productView-action',
+            novalidate: 'novalidate',
+            data-type: 'add-to-cart-form'
+          -%}
+            {%- if show_quick_view_qty -%}
+              <div
+                class="quantity_selector productView-groupTop"
+                style="
+                  display: flex !important;
+                  flex-direction: row !important;
+                  flex-wrap: wrap !important;
+                  align-items: end !important;
+                "
+              >
+                <quantity-quick-view-input class="productView-quantity quantity__group quantity__group--1 quantity__style--1 clearfix ">
+                  <label class="form-label quantity__label" for="quantity-{{ product.id }}">
+                    {{- 'products.product.quantity.label__2' | t -}}
+                  </label>
+                  <div class="quantity__container">
+                    <button
+                      type="button"
+                      name="minus"
+                      class="minus btn-quantity"
+                      onClick="updateValoresDeBajoOpciones()"
+                    >
+                      <span class="visually-hidden">
+                        {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
+                      </span>
+                    </button>
+                    <input
+                      class="form-input quantity__input quantity"
+                      type="number"
+                      name="quantity"
+                      min="1"
+                      value="1"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
+                      id="quantity-{{ product.id }}"
+                      data-product="{{ product.id }}"
+                      data-price="{{ current_variant.price }}"
+                      data-inventory-quantity="{{ current_variant.inventory_quantity }}"
+                    >
+                    <button type="button" name="plus" class="plus btn-quantity" onClick="updateValoresDeBajoOpciones()">
+                      <span class="visually-hidden">
+                        {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
+                      </span>
+                    </button>
+                  </div>
+                </quantity-quick-view-input>
+                {%- if settings.show_wishlist -%}
+                  <div class="productView-wishlist clearfix">
+                    <a
+                      data-wishlist
+                      href="#"
+                      data-wishlist-handle="{{ product.handle }}"
+                      data-product-id="{{ product.id }}"
+                      ><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span> {% render 'icon-heart' -%}
+                    </a>
+                  </div>
+                {%- endif -%}
+                {%- if show_quick_view_share -%}
+                  {% render 'scoder-share', product: product, share_layout: '2' %}
+                {%- endif -%}
+              </div>
+            {%- endif -%}
+          {%- endform -%}
         </div>
         {% comment %} READ : DETALLE DE PRODUCTO FIN {% endcomment %}
       </div>
@@ -1708,6 +1721,7 @@
           ? `+Bs ${productoMainItem.price.amount}` 
           : '';
 
+          
         if(tipoSelect === 'radio'){
           contenidoMenuItemHTML += `
           <div class="opcion-principal-detalle-oferta3" data-group="${indexCN3}" data-min="${minNum}" data-max="${maxNum}" data-producto-id="${idProducto}">
