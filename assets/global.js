@@ -634,15 +634,15 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     }];
 
     // Añadimos los items seleccionados de forma segura
-    itemsSeleccionados.forEach(item => {
-        if (item && item.id) {
-            items.push({
-                id: item.id,
-                quantity: item.quantity || 1,
-                properties: item.properties || {}
-            });
-        }
-    });
+    // itemsSeleccionados.forEach(item => {
+    //     if (item && item.id) {
+    //         items.push({
+    //             id: item.id,
+    //             quantity: item.quantity || 1,
+    //             properties: item.properties || {}
+    //         });
+    //     }
+    // });
 
     console.log('Items a enviar:', items);
 
