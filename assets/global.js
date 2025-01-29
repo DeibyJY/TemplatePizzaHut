@@ -506,18 +506,129 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
     });
 
   // const formData = { items };
-  console.log("FormData recolectado:", items);
+  console.log("FormData recolectado:", {items});
   return items;
 };
 
+Shopify.jsonOpcionesSeleccionadas = function () {
+    let jsonItems = "[";
+    const contenedorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    if (!contenedorPrincipal) return "[]";
+  
+    contenedorPrincipal.querySelectorAll('.menu-item-producto').forEach(menuItemProducto => {
+      const menuItem = menuItemProducto.querySelector('.item-menuItem');
+      if (!menuItem) return;
+  
+      const tipoSelect = menuItem.getAttribute('tipo-select');
+      const tipoGrupo = menuItem.getAttribute('tipo-grupo');
+      let itemsIds = [];
+  
+      switch (tipoSelect) {
+        case 'radio':
+        case 'checkbox':
+          menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
+            const idProducto = input.getAttribute('data-producto-id');
+            if (idProducto) {
+              // Procesamos los subItems directamente aquí
+              const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              
+              subItemsProducto.forEach(subItemProducto => {
+                const subItem = subItemProducto.querySelector('.item-subItem');
+                if (!subItem) return;
+  
+                const tipoSelectSub = subItem.getAttribute('tipo-select');
+                const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
+                let subItemsIds = [];
+  
+                switch (tipoSelectSub) {
+                  case 'radio':
+                  case 'checkbox':
+                    subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
+                      const idSubProducto = input.getAttribute('data-producto-id');
+                      if (idSubProducto) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                  case 'numberCount':
+                    subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+                      const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+                      const idSubProducto = control.getAttribute('data-producto-id');
+                      if (idSubProducto && cantidadSub > 0) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                }
+  
+                if (subItemsIds.length > 0) {
+                  jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
+                }
+              });
+            }
+          });
+          break;
+        case 'numberCount':
+          menuItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+            const cantidad = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+            const idProducto = control.getAttribute('data-producto-id');
+            if (idProducto && cantidad > 0) {
+              // Repetimos el mismo proceso para los subItems
+              const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+              
+              subItemsProducto.forEach(subItemProducto => {
+                const subItem = subItemProducto.querySelector('.item-subItem');
+                if (!subItem) return;
+  
+                const tipoSelectSub = subItem.getAttribute('tipo-select');
+                const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
+                let subItemsIds = [];
+  
+                switch (tipoSelectSub) {
+                  case 'radio':
+                  case 'checkbox':
+                    subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
+                      const idSubProducto = input.getAttribute('data-producto-id');
+                      if (idSubProducto) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                  case 'numberCount':
+                    subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+                      const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+                      const idSubProducto = control.getAttribute('data-producto-id');
+                      if (idSubProducto && cantidadSub > 0) {
+                        subItemsIds.push(idSubProducto);
+                      }
+                    });
+                    break;
+                }
+  
+                if (subItemsIds.length > 0) {
+                  jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
+                }
+              });
+            }
+          });
+          break;
+      }
+    });
+  
+    // Removemos la última coma si existe y cerramos el array
+    jsonItems = jsonItems.replace(/,\s*$/, "") + "]";
+    console.log('JSONItems:', jsonItems);
+    return jsonItems;
+}
+
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
     var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id);
-    var jsonCuerpoSeleccionados = jsonOpcionesSeleccionadas(); // Parseamos el string a objeto
+    var jsonCuerpoSeleccionados = jsonOpcionesSeleccionadas(); 
     var quantity = quantity || 1;
     var target = document.querySelector("[data-quickshop] .is-loading") || 
                  document.querySelector("[data-btn-addtocart].is-loading");
   
-    // Creamos el array base con el producto principal
+    // Creamos el array base con el producto principal y añadimos los itemsSeleccionados
     var items = [
       {
         id: variant_id,
@@ -528,27 +639,17 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
         }
       }
     ];
-  
-    // Añadimos los items seleccionados del cuerpo
-    if (Array.isArray(jsonCuerpoSeleccionados)) {
-      jsonCuerpoSeleccionados.forEach(grupo => {
-        if (grupo.items && Array.isArray(grupo.items)) {
-          grupo.items.forEach(itemId => {
-            items.push({
-              id: itemId,
-              quantity: 1,
-              properties: {
-                ParentId: variant_id,
-                Grupo: grupo.titulo
-              }
-            });
-          });
-        }
+
+    // Añadimos los items seleccionados después del producto principal
+    if (itemsSeleccionados && itemsSeleccionados.items) {
+      itemsSeleccionados.items.forEach(item => {
+        items.push(item);
       });
     }
   
     // Log para ver la estructura completa
     console.log('Items a enviar:', items);
+   
   
     var formData = items.map((item, index) => {
       let itemData = [
@@ -567,7 +668,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
   
     // Log para ver el formData final
     console.log('FormData generado:', formData);
-  
+ 
     var params = {
       type: "POST",
       url: "/cart/add.js",
