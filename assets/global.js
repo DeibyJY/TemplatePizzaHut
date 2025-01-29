@@ -561,7 +561,7 @@ Shopify.jsonOpcionesSeleccionadas = function () {
 
         // Añadir itemsIds del menuItem si hay
         if (itemsIds.length > 0) {
-            jsonItems += `{'titulo':'${tipoGrupo}', 'items':[${itemsIds.join(',')}]},`;
+            jsonItems += `{"titulo":"${tipoGrupo}", "items":[${itemsIds.join(',')}]},`;
         }
 
         // Procesar subItems
@@ -602,7 +602,7 @@ Shopify.jsonOpcionesSeleccionadas = function () {
                     }
 
                     if (subItemsIds.length > 0) {
-                        jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
+                        jsonItems += `{"titulo":"${tipoGrupoSub}", "items":[${subItemsIds.join(',')}]},`;
                     }
                 });
             }
