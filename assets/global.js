@@ -510,72 +510,92 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
   return formData;
 };
 
-Shopify.addItemCustomCarrito = function (
-  variant_id,
-  quantity,
-  callback,
-  input = null
-) {
-  var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id);
-  var jsonCuerpoSeleccionados = jsonOpcionesSeleccionadas();
-  var quantity = quantity || 1;
-  var target =
-    document.querySelector("[data-quickshop] .is-loading") ||
-    document.querySelector("[data-btn-addtocart].is-loading");
-
-  var items = [
-    {
-      id: variant_id,
-      quantity: quantity,
-      properties: {
-        ProductoBase: `Producto-${variant_id}`,
-        Cuerpo: jsonCuerpoSeleccionados,
-      },
-    },
-  ];
-
-  var formData = "";
-  items.forEach(function (item, index) {
-    if (index > 0) formData += "&";
-    formData += "items[" + index + "][id]=" + item.id;
-    formData += "&items[" + index + "][quantity]=" + item.quantity;
-    for (var key in item.properties) {
-      formData +=
-        "&items[" +
-        index +
-        "][properties][" +
-        key +
-        "]=" +
-        encodeURIComponent(item.properties[key]);
+Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
+    var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id);
+    var jsonCuerpoSeleccionados = jsonOpcionesSeleccionadas(); // Parseamos el string a objeto
+    var quantity = quantity || 1;
+    var target = document.querySelector("[data-quickshop] .is-loading") || 
+                 document.querySelector("[data-btn-addtocart].is-loading");
+  
+    // Creamos el array base con el producto principal
+    var items = [
+      {
+        id: variant_id,
+        quantity: quantity,
+        properties: {
+          ProductoBase: `Producto-${variant_id}`,
+          Cuerpo: jsonCuerpoSeleccionados 
+        }
+      }
+    ];
+  
+    // Añadimos los items seleccionados del cuerpo
+    if (Array.isArray(jsonCuerpoSeleccionados)) {
+      jsonCuerpoSeleccionados.forEach(grupo => {
+        if (grupo.items && Array.isArray(grupo.items)) {
+          grupo.items.forEach(itemId => {
+            items.push({
+              id: itemId,
+              quantity: 1,
+              properties: {
+                ParentId: variant_id,
+                Grupo: grupo.titulo
+              }
+            });
+          });
+        }
+      });
     }
-  });
-
-  var params = {
-    type: "POST",
-    url: "/cart/add.js",
-    data: formData,
-    dataType: "json",
-    success: function (line_item) {
-      if (typeof callback === "function") {
-        callback(line_item);
-      } else {
-        Shopify.onItemAdded(line_item);
+  
+    // Log para ver la estructura completa
+    console.log('Items a enviar:', items);
+  
+    var formData = items.map((item, index) => {
+      let itemData = [
+        `items[${index}][id]=${item.id}`,
+        `items[${index}][quantity]=${item.quantity}`
+      ];
+  
+      if (item.properties) {
+        Object.entries(item.properties).forEach(([key, value]) => {
+          itemData.push(`items[${index}][properties][${key}]=${encodeURIComponent(value)}`);
+        });
       }
-    },
-    error: function (XMLHttpRequest, textStatus) {
-      var message = window.cartStrings.addProductOutQuantity2;
-      if (input.length > 0) {
-        var maxValue = parseInt(input.attr("data-inventory-quantity"));
-        message = getInputMessage(maxValue);
-        input.val(maxValue);
+  
+      return itemData.join('&');
+    }).join('&');
+  
+    // Log para ver el formData final
+    console.log('FormData generado:', formData);
+  
+    var params = {
+      type: "POST",
+      url: "/cart/add.js",
+      data: formData,
+      dataType: "json",
+      success: function(line_item) {
+        if (typeof callback === "function") {
+          callback(line_item);
+        } else {
+          Shopify.onItemAdded(line_item);
+        }
+      },
+      error: function(XMLHttpRequest, textStatus) {
+        var message = window.cartStrings?.addProductOutQuantity2 || "Error adding product";
+        
+        if (input?.length > 0) {
+          var maxValue = parseInt(input.attr("data-inventory-quantity"));
+          message = getInputMessage(maxValue);
+          input.val(maxValue);
+        }
+  
+        Shopify.onError(XMLHttpRequest, textStatus, message);
+        target?.classList.remove("is-loading");
       }
-
-      Shopify.onError(XMLHttpRequest, textStatus, message);
-      target?.classList.remove("is-loading");
-    },
+    };
+  
+    $.ajax(params);
   };
-  $.ajax(params);
-};
 
 Shopify.onItemAdded = function (line_item) {
   alert(line_item.title + " was added to your shopping cart.");
