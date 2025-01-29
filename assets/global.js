@@ -441,7 +441,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
             //   const idSubProducto = control.getAttribute("data-producto-id");
-              const idVariante = input.getAttribute("data-variante-id");
+              const idVariante = control.getAttribute("data-variante-id");
 
               if (idVariante && cantidadSub > 0) {
                 items.push({
@@ -495,7 +495,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
               const idProducto = control.getAttribute("data-producto-id");
-              const idVariante = input.getAttribute("data-variante-id");
+              const idVariante = control.getAttribute("data-variante-id");
 
               if (idVariante && cantidad > 0) {
                 items.push({
