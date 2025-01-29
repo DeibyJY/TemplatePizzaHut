@@ -709,7 +709,7 @@
   window.theme = window.theme || {};
   window.theme.strings = {
     quantityLabel: {{ 'sections.cart.heading.quantity' | t | json }},
-    removeTitle: {{ 'sections.cart.remove_title' | t: title: productoTrabajo.title }}
+    removeTitle: {{ 'sections.cart.remove_title' | t | json }}
   };
 
   function initListaProductos(){
@@ -840,7 +840,7 @@
               data-cart-remove
               data-cart-remove-id="${ productoTrabajo.id }"
               data-line="${ productoTrabajo.key }"
-              title="${window.theme.strings.removeTitle}"
+              title="${window.theme.strings.removeTitle} ${ productoTrabajo.title }"
               style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
             >
               {% render 'icon-close' %}
