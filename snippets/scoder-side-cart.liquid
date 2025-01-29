@@ -733,27 +733,27 @@
 
         const jsonString = productoTrabajo.properties.Cuerpo.replace(/'/g, '"');
         const productoContruccionCuerpo = JSON.parse(jsonString);
-        console.log(productoTrabajo);
 
-        // Cálculos de precios
-        const price_to_display = productoTrabajo.original_price !== productoTrabajo.final_price 
-            ? productoTrabajo.final_price 
-            : productoTrabajo.original_price;
-
+        // Cálculos de precios con validaciones
         let priceHTML = '';
-        const current_variant = productoTrabajo.variant;
+        const current_variant = productoTrabajo.variant || {};
+        const original_price = productoTrabajo.original_price || 0;
+        const final_price = productoTrabajo.final_price || 0;
+        const price = productoTrabajo.price || 0;
 
-        if (productoTrabajo.original_price !== productoTrabajo.final_price) {
+        if (original_price !== final_price) {
             priceHTML = `
                 <span class="previewCartItem-saving-price">
                     <s class="before-discount-price" data-item-original-price-display>
-                        ${formatMoney(productoTrabajo.original_price)}
+                        ${formatMoney(original_price)}
                     </s>
                     <span class="discounted-price" data-item-final-price-display>
-                        ${formatMoney(productoTrabajo.final_price)}
+                        ${formatMoney(final_price)}
                     </span>
                 </span>`;
-        } else if (current_variant.compare_at_price > current_variant.price) {
+        } else if (current_variant && current_variant.compare_at_price && 
+                  current_variant.price && 
+                  current_variant.compare_at_price > current_variant.price) {
             priceHTML = `
                 <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
                     <s class="before-discount-price">
@@ -766,7 +766,7 @@
         } else {
             priceHTML = `
                 <span data-item-final-price-display>
-                    ${formatMoney(productoTrabajo.price)}
+                    ${formatMoney(price)}
                 </span>`;
         }
 
@@ -791,7 +791,7 @@
                         <span class="text ci-text-titulo">${productoTrabajo.title}</span>
                     </a>
                     <div class="previewCartItem-change ci-detalle-precio">
-                        <div class="previewCartItem-price" data-price="${price_to_display}" data-original-price="${productoTrabajo.original_price}">
+                        <div class="previewCartItem-price" data-price="${final_price}" data-original-price="${original_price}">
                             <span class="price">
                                 ${priceHTML}
                             </span>
@@ -810,7 +810,7 @@
                                 data-qtt-id1="quantity${productoTrabajo.id}"
                                 value="${productoTrabajo.quantity}"
                                 type="number"
-                                ${productoTrabajo.variant.inventory_management && productoTrabajo.variant.inventory_quantity > 0 
+                                ${productoTrabajo.variant?.inventory_management && productoTrabajo.variant?.inventory_quantity > 0 
                                     ? `data-inventory-quantity="${productoTrabajo.variant.inventory_quantity}"` 
                                     : ''}
                                 data-cart-quantity
@@ -852,20 +852,51 @@
             ${itemSecundarios.length > 0 ? `<div class="details-container-${productoTrabajo.id}">` : ''}
         `;
 
-        // Continúa con el resto del código...
-        // (El resto del código se mantiene igual ya que ya está en JavaScript)
+        productoContruccionCuerpo.forEach(grupo => {
+            const { titulo, items } = grupo;
+            contenedorItemProducto += `
+            <div class="dc-contenedor-base">
+             <div class="contenedor-items-dc">
+              <h3 class="text dc-titulo">${titulo}</h3>
+              <div class="items-dc">
+            `;
 
+            items.forEach(item => {
+                const productoEncontrado = itemSecundarios.find(itemSecundario => 
+                    itemSecundario.variant_id === item 
+                );            
+
+                if (productoEncontrado) {
+                    contenedorItemProducto += `
+                        <p style="margin: 0;">
+                            ${productoEncontrado.title}
+                            <span style="float: right;">${productoEncontrado.properties.Precio * productoTrabajo.quantity}bs</span>
+                        </p>
+                    `;
+                }
+            });
+
+            contenedorItemProducto += `    
+                </div>
+               </div>
+              </div>
+            `;
+        });
+        
+        contenedorItemProducto += `
+            ${itemSecundarios.length > 0 ? `</div>` : ''}
+            </div>`;
     });
 
     elementoContenedor.innerHTML = contenedorItemProducto;
   }
 
-  // Función auxiliar para formatear moneda (deberás adaptarla según tus necesidades)
   function formatMoney(amount) {
       return new Intl.NumberFormat('es-BO', {
           style: 'currency',
-          currency: 'BOB'
-      }).format(amount);
+          currency: 'BOB',
+          minimumFractionDigits: 2
+      }).format(amount/100);
   }
 
   {% comment %} const contenedorItemProducto= `
