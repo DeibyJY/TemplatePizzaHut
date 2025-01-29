@@ -650,7 +650,6 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
         }
     });
 
-    console.log('FormData:', formData);
 
     // Hacemos la llamada AJAX
     $.ajax({

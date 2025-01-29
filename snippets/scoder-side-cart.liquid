@@ -566,6 +566,17 @@
 {% endunless %}
 {% comment %} asdasda {% endcomment %}
 <style>
+  .itemProducto-principal {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 5px;
+    margin-top: 19px;
+    border-bottom: 1px solid var(--form-input-border);
+    gap: 10px;
+  }
+
   @media screen and (max-width: 767px) {
     .previewCartItem-change {
       flex-direction: column;
@@ -601,3 +612,18 @@
     padding: 15px !important;
   }
 </style>
+<script>
+  function initListaProductos(){
+    const itemsCart = {{ cart.items | json }};
+    console.log(itemsCart);
+
+
+    const contenedorItemProducto= `
+      <div class="itemProducto-principal">
+        <input type="checkbox" id="toggle-{{ item.id }}" style="display: none;">
+      </div>
+    `;
+  }
+
+  initListaProductos();
+</script>
