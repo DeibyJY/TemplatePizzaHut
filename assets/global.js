@@ -631,19 +631,25 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
             ProductoBase: `Producto-${variant_id}`,
             Cuerpo: jsonCuerpoSeleccionados 
         }
+    },{
+        id: "51072154730780",
+        quantity: quantity,
+        properties: {
+            ProductoBase: `Producto-${variant_id}`,
+        }
     }];
 
     // Añadimos los items seleccionados de forma segura
-    itemsSeleccionados.forEach(item => {
-        console.log('Item a añadir:', item);
-        if (item && item.id) {
-            items.push({
-                id: item.id,
-                quantity: item.quantity || 1,
-                properties: item.properties || {}
-            });
-        }
-    });
+    // itemsSeleccionados.forEach(item => {
+    //     console.log('Item a añadir:', item);
+    //     if (item && item.id) {
+    //         items.push({
+    //             id: item.id,
+    //             quantity: item.quantity || 1,
+    //             properties: item.properties || {}
+    //         });
+    //     }
+    // });
 
     console.log('Items a enviar:', items);
 
