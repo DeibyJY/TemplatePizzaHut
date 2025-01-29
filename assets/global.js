@@ -617,7 +617,7 @@ Shopify.jsonOpcionesSeleccionadas = function () {
   
     // Removemos la última coma si existe y cerramos el array
     jsonItems = jsonItems.replace(/,\s*$/, "") + "]";
-    console.log('JSONItems:', jsonItems);
+    // console.log('JSONItems:', jsonItems);
     return jsonItems;
 }
 
@@ -643,6 +643,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     // Añadimos los items seleccionados después del producto principal
     if (itemsSeleccionados && itemsSeleccionados.items) {
       itemsSeleccionados.items.forEach(item => {
+        console.log('Item:', item);
         items.push(item);
       });
     }
@@ -667,7 +668,6 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     }).join('&');
   
     // Log para ver el formData final
-    console.log('FormData generado:', formData);
  
     var params = {
       type: "POST",
