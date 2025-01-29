@@ -420,10 +420,11 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
           subItem
             .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
             .forEach((input) => {
-              const idSubProducto = input.getAttribute("data-producto-id");
-              if (idSubProducto) {
+              const idVariante = input.getAttribute("data-variante-id");
+
+              if (idVariante) {
                 items.push({
-                  id: idSubProducto,
+                  id: idVariante,
                   quantity: 1,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -439,10 +440,12 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               const cantidadSub = parseInt(
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
-              const idSubProducto = control.getAttribute("data-producto-id");
-              if (idSubProducto && cantidadSub > 0) {
+            //   const idSubProducto = control.getAttribute("data-producto-id");
+              const idVariante = input.getAttribute("data-variante-id");
+
+              if (idVariante && cantidadSub > 0) {
                 items.push({
-                  id: idSubProducto,
+                  id: idVariante,
                   quantity: cantidadSub,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -469,10 +472,12 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
           menuItem
             .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
             .forEach((input) => {
-              const idProducto = input.getAttribute("data-producto-id");
-              if (idProducto) {
+            //   const idProducto = input.getAttribute("data-producto-id");
+              const idVariante = input.getAttribute("data-variante-id");
+
+              if (idVariante) {
                 items.push({
-                  id: idProducto,
+                  id: idVariante,
                   quantity: 1,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -489,10 +494,12 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               const cantidad = parseInt(
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
-              const idProducto = control.getAttribute("data-producto-id");
-              if (idProducto && cantidad > 0) {
+            //   const idProducto = control.getAttribute("data-producto-id");
+              const idVariante = input.getAttribute("data-variante-id");
+
+              if (idVariante && cantidad > 0) {
                 items.push({
-                  id: idProducto,
+                  id: idVariante,
                   quantity: cantidad,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -514,112 +521,94 @@ Shopify.jsonOpcionesSeleccionadas = function () {
     let jsonItems = "[";
     const contenedorPrincipal = document.querySelector('.sector-general-opciones-producto');
     if (!contenedorPrincipal) return "[]";
-  
+
     contenedorPrincipal.querySelectorAll('.menu-item-producto').forEach(menuItemProducto => {
-      const menuItem = menuItemProducto.querySelector('.item-menuItem');
-      if (!menuItem) return;
-  
-      const tipoSelect = menuItem.getAttribute('tipo-select');
-      const tipoGrupo = menuItem.getAttribute('tipo-grupo');
-      let itemsIds = [];
-  
-      switch (tipoSelect) {
-        case 'radio':
-        case 'checkbox':
-          menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
+        const menuItem = menuItemProducto.querySelector('.item-menuItem');
+        if (!menuItem) return;
+
+        const tipoSelect = menuItem.getAttribute('tipo-select');
+        const tipoGrupo = menuItem.getAttribute('tipo-grupo');
+        let itemsIds = [];
+
+        // Procesar el menuItem
+        switch (tipoSelect) {
+            case 'radio':
+            case 'checkbox':
+                menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
+                    const idProducto = input.getAttribute('data-producto-id');
+                    const idVariante = input.getAttribute('data-variante-id');
+                    if (idProducto && idVariante) {
+                        itemsIds.push(idVariante);
+                    }
+                });
+                break;
+            case 'numberCount':
+                menuItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+                    const cantidad = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+                    const idProducto = control.getAttribute('data-producto-id');
+                    const idVariante = control.getAttribute('data-variante-id');
+                    if (idProducto && idVariante && cantidad > 0) {
+                        itemsIds.push(idVariante);
+                    }
+                });
+                break;
+        }
+
+        // Añadir itemsIds del menuItem si hay
+        if (itemsIds.length > 0) {
+            jsonItems += `{'titulo':'${tipoGrupo}', 'items':[${itemsIds.join(',')}]},`;
+        }
+
+        // Procesar subItems
+        menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
             const idProducto = input.getAttribute('data-producto-id');
             if (idProducto) {
-              // Procesamos los subItems directamente aquí
-              const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
-              
-              subItemsProducto.forEach(subItemProducto => {
-                const subItem = subItemProducto.querySelector('.item-subItem');
-                if (!subItem) return;
-  
-                const tipoSelectSub = subItem.getAttribute('tipo-select');
-                const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
-                let subItemsIds = [];
-  
-                switch (tipoSelectSub) {
-                  case 'radio':
-                  case 'checkbox':
-                    subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
-                      const idSubProducto = input.getAttribute('data-producto-id');
-                      if (idSubProducto) {
-                        subItemsIds.push(idSubProducto);
-                      }
-                    });
-                    break;
-                  case 'numberCount':
-                    subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
-                      const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
-                      const idSubProducto = control.getAttribute('data-producto-id');
-                      if (idSubProducto && cantidadSub > 0) {
-                        subItemsIds.push(idSubProducto);
-                      }
-                    });
-                    break;
-                }
-  
-                if (subItemsIds.length > 0) {
-                  jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
-                }
-              });
+                const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
+                
+                subItemsProducto.forEach(subItemProducto => {
+                    const subItem = subItemProducto.querySelector('.item-subItem');
+                    if (!subItem) return;
+
+                    const tipoSelectSub = subItem.getAttribute('tipo-select');
+                    const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
+                    let subItemsIds = [];
+
+                    switch (tipoSelectSub) {
+                        case 'radio':
+                        case 'checkbox':
+                            subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
+                                const idSubProducto = input.getAttribute('data-producto-id');
+                                const idVariante = input.getAttribute('data-variante-id');
+                                if (idSubProducto && idVariante) {
+                                    subItemsIds.push(idVariante);
+                                }
+                            });
+                            break;
+                        case 'numberCount':
+                            subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
+                                const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
+                                const idSubProducto = control.getAttribute('data-producto-id');
+                                const idVariante = control.getAttribute('data-variante-id');
+                                if (idSubProducto && idVariante && cantidadSub > 0) {
+                                    subItemsIds.push(idVariante);
+                                }
+                            });
+                            break;
+                    }
+
+                    if (subItemsIds.length > 0) {
+                        jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
+                    }
+                });
             }
-          });
-          break;
-        case 'numberCount':
-          menuItem.querySelectorAll('.controles-cantidad2').forEach(control => {
-            const cantidad = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
-            const idProducto = control.getAttribute('data-producto-id');
-            if (idProducto && cantidad > 0) {
-              // Repetimos el mismo proceso para los subItems
-              const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
-              
-              subItemsProducto.forEach(subItemProducto => {
-                const subItem = subItemProducto.querySelector('.item-subItem');
-                if (!subItem) return;
-  
-                const tipoSelectSub = subItem.getAttribute('tipo-select');
-                const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
-                let subItemsIds = [];
-  
-                switch (tipoSelectSub) {
-                  case 'radio':
-                  case 'checkbox':
-                    subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
-                      const idSubProducto = input.getAttribute('data-producto-id');
-                      if (idSubProducto) {
-                        subItemsIds.push(idSubProducto);
-                      }
-                    });
-                    break;
-                  case 'numberCount':
-                    subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
-                      const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
-                      const idSubProducto = control.getAttribute('data-producto-id');
-                      if (idSubProducto && cantidadSub > 0) {
-                        subItemsIds.push(idSubProducto);
-                      }
-                    });
-                    break;
-                }
-  
-                if (subItemsIds.length > 0) {
-                  jsonItems += `{'titulo':'${tipoGrupoSub}', 'items':[${subItemsIds.join(',')}]},`;
-                }
-              });
-            }
-          });
-          break;
-      }
+        });
     });
-  
+
     // Removemos la última coma si existe y cerramos el array
     jsonItems = jsonItems.replace(/,\s*$/, "") + "]";
-    // console.log('JSONItems:', jsonItems);
+    console.log('JSONItems:', jsonItems);
     return jsonItems;
-}
+};
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
     var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id);

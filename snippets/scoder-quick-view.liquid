@@ -1727,6 +1727,7 @@
                 data-min="${minNum}"
                 data-max="${maxNum}"
                 data-producto-id="${idProducto}"
+                data-variante-id="${productoMainItem.id}"
                 data-precio="${parseFloat(productoMainItem.price.amount)}"
                 onchange="validarLimiteRadio(this)"
               >
@@ -1749,6 +1750,7 @@
                   data-min="${minNum}"
                   data-max="${maxNum}"
                   data-producto-id="${idProducto}"
+                  data-variante-id="${productoMainItem.id}"
                   data-precio="${precioVariante}">
                 <button type="button" class="btn-cantidad2" onclick="decrementCantidad(this)">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
@@ -1782,6 +1784,7 @@
                     class="input-checkbox3"
                     data-group="${indexCN3}"
                     data-producto-id="${idProducto}"
+                    data-variante-id="${productoMainItem.id}"
                     data-min="${minNum}"
                     data-max="${maxNum}"
                     onchange="validarLimiteCheckbox(this)"
@@ -1889,7 +1892,8 @@
                         data-group="${indexProducto}"
                         data-min="${Min}"
                         data-max="${Max}"
-                        data-producto-id="${productoTrabajo.id}"
+                        data-producto-id="${item}"
+                        data-variante-id="${productoTrabajo.id}"
                         data-producto-price="${precioVariante}"
                         onchange="validarLimiteRadio(this)"
                       >
@@ -1910,6 +1914,7 @@
                         data-group-product-id="${idProducto}"
                         data-subgroup="${indexProducto}"
                         data-producto-id="${item}"
+                        data-variante-id="${productoTrabajo.id}"
                         data-min="${Min}"
                         data-max="${Max}"
                         data-precio="${precioVariante}">
@@ -1947,6 +1952,7 @@
                           data-min="${Min}"
                           data-max="${Max}"
                           data-producto-id="${item}"
+                          data-variante-id="${productoTrabajo.id}"
                           data-producto-price="${precioVariante}"
                           onchange="validarLimiteCheckbox(this)"
                         >
