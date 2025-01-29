@@ -623,7 +623,7 @@ Shopify.jsonOpcionesSeleccionadas = function () {
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
     var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id);
-    var jsonCuerpoSeleccionados = jsonOpcionesSeleccionadas(); 
+    var jsonCuerpoSeleccionados = this.jsonOpcionesSeleccionadas(); 
     var quantity = quantity || 1;
     var target = document.querySelector("[data-quickshop] .is-loading") || 
                  document.querySelector("[data-btn-addtocart].is-loading");

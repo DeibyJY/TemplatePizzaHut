@@ -2283,14 +2283,14 @@
             .forEach(item => item.style.display = 'none');
         mostrarSubItemsRelacionados(grupo, productoId);
         updateValoresDeBajoOpciones()
-        jsonOpcionesSeleccionadas()
+        {% comment %} jsonOpcionesSeleccionadas() {% endcomment %}
     } else if (min > 0) {
         // Si es requerido, asegura que al menos uno esté seleccionado
         const radiosSeleccionados = contenedor.querySelectorAll('input[type="radio"]:checked').length;
         if (radiosSeleccionados === 0) {
             radio.checked = true;
             updateValoresDeBajoOpciones()
-            jsonOpcionesSeleccionadas()
+            {% comment %} jsonOpcionesSeleccionadas() {% endcomment %}
         }
     }
     
