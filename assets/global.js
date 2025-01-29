@@ -637,16 +637,9 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
           ProductoBase: `Producto-${variant_id}`,
           Cuerpo: jsonCuerpoSeleccionados 
         }
-      }
+      },
+      ...itemsSeleccionados
     ];
-
-    // Añadimos los items seleccionados después del producto principal
-    if (itemsSeleccionados && itemsSeleccionados.items) {
-      itemsSeleccionados.forEach(item => {
-        console.log('Item:', item);
-        items.push(item);
-      });
-    }
   
     // Log para ver la estructura completa
     console.log('Items a enviar:', items);
