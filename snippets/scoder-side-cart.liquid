@@ -738,18 +738,20 @@
         ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${productoTrabajo.id}" style="display: none;">` : ''}
         <div class="view-cliente-producto">
           <div class="contendor-imagen">
-            <a href="{{ productoTrabajo.url }}" class="previewCartItem-imagen">
+            <a href="${productoTrabajo.url}" class="previewCartItem-imagen">
               <img 
-                srcset="{{ productoTrabajo.image | img_url: '110x' }}"
-                src="{{ productoTrabajo.image | img_url: '110x' }}"
-                alt="{{ productoTrabajo.title | escape }}"
-                loading="lazy"
+                  srcset="${productoTrabajo.image_url}"
+                  src="${productoTrabajo.image_url}"
+                  alt="${productoTrabajo.title}"
+                  width="110"
+                  height="110"
+                  loading="lazy"
               >
             </a>
           </div>
           <div class="contenedor-informacion">
-            <a class="previewCartItem-name link-underline ci-link-titulo" href="{{ productoTrabajo.url }}">
-              <span class="text ci-text-titulo">${{{- productoTrabajo.product.title -}}}a</span>
+            <a class="previewCartItem-name link-underline ci-link-titulo" href="${productoTrabajo.url}">
+              <span class="text ci-text-titulo">${productoTrabajo.product.title}a</span>
             </a>
             <div class="previewCartItem-change ci-detalle-precio">
               {%- liquid
