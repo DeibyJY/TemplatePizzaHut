@@ -632,7 +632,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
             Cuerpo: jsonCuerpoSeleccionados 
         }
     },{
-        id: "51072154730780",
+        id: 51072154730780,
         quantity: quantity,
         properties: {
             ProductoBase: `Producto-${variant_id}`,
