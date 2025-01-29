@@ -667,7 +667,6 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
       return itemData.join('&');
     }).join('&');
   
-    // Log para ver el formData final
  
     var params = {
       type: "POST",
