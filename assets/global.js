@@ -507,7 +507,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
 
   // const formData = { items };
   console.log("FormData recolectado:", items);
-  return formData;
+  return items;
 };
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
