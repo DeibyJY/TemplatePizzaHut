@@ -800,29 +800,28 @@
                     </span>
                   `;
                 }
-                  
 
             contenedorItemProducto += `
                   </span>
                     </div>
-                    <cart-update-quantity class="previewCartItem-qty" data-product="{{ productoTrabajo.product_id }}" data-variant="{{ productoTrabajo.variant.id }}">
-                      <label class="form-label hiddenLabels" for="upsell-update-{{ productoTrabajo.id }}">
-                        {{ 'sections.cart.heading.quantity' | t }}
+                    <cart-update-quantity class="previewCartItem-qty" data-product="${ productoTrabajo.product_id }" data-variant="{{ productoTrabajo.variant.id }}">
+                      <label class="form-label hiddenLabels" for="upsell-update-${ productoTrabajo.id }">
+                          ${window.theme.strings.quantityLabel}
                       </label>
                       <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
                       <input
                         class="form-input quantity"
                         name="quantity"
-                        id="upsell-update-{{ productoTrabajo.id }}"
-                        data-qtt-id1="quantity{{ productoTrabajo.id }}"
-                        value="{{ productoTrabajo.quantity }}"
+                        id="upsell-update-${ productoTrabajo.id }"
+                        data-qtt-id1="quantity${ productoTrabajo.id }"
+                        value="${ productoTrabajo.quantity }"
                         type="number"
                         {% if productoTrabajo.variant.inventory_management != null and productoTrabajo.variant.inventory_quantity > 0 %}
                           data-inventory-quantity="{{ productoTrabajo.variant.inventory_quantity }}"
                         {% endif %}
                         data-cart-quantity
-                        data-cart-quantity-id="{{ productoTrabajo.id }}"
-                        data-line="{{ productoTrabajo.key }}"
+                        data-cart-quantity-id="${ productoTrabajo.id }"
+                        data-line="${ productoTrabajo.key }"
                       >
                       <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
                     </cart-update-quantity>
@@ -833,15 +832,15 @@
               type="button"
               class="previewCartItem-remove"
               data-cart-remove
-              data-cart-remove-id="{{ productoTrabajo.id }}"
-              data-line="{{ productoTrabajo.key }}"
+              data-cart-remove-id="${ productoTrabajo.id }"
+              data-line="${ productoTrabajo.key }"
               title="{{ 'sections.cart.remove_title' | t: title: productoTrabajo.title }}"
               style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
             >
               {% render 'icon-close' %}
             </button>
             <label
-              for="toggle-{{ productoTrabajo.id }}"
+              for="toggle-${ productoTrabajo.id }"
               title="Mostrar Detalles"
               class="previewCartItem-remove"
               style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer;"
