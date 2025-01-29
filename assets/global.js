@@ -401,7 +401,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
   const contendorPrincipal = document.querySelector(
     ".sector-general-opciones-producto"
   );
-  
+
   if (!contendorPrincipal) return { items: [] };
 
   function procesarSubItems(idProducto) {
@@ -616,7 +616,7 @@ Shopify.jsonOpcionesSeleccionadas = function () {
 };
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
-    var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id) || [];
+    var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id,quantity) || [];
     var jsonCuerpoSeleccionados = this.jsonOpcionesSeleccionadas(); 
     var quantity = quantity || 1;
     var target = document.querySelector("[data-quickshop] .is-loading") || 
