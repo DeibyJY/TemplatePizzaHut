@@ -733,7 +733,6 @@
       const jsonString = productoTrabajo.properties.Cuerpo.replace(/'/g, '"');
       const productoContruccionCuerpo = JSON.parse(jsonString);
 
-      console.log({{ productoTrabajo.product.title }});
       contenedorItemProducto += `
       {{- productoTrabajo.product.title -}
       <div class="itemProducto-principal">
@@ -751,7 +750,7 @@
           </div>
           <div class="contenedor-informacion">
             <a class="previewCartItem-name link-underline ci-link-titulo" href="{{ productoTrabajo.url }}">
-              <span class="text ci-text-titulo">{{- productoTrabajo.product.title -}}</span>
+              <span class="text ci-text-titulo">${{{- productoTrabajo.product.title -}}}</span>
             </a>
             <div class="previewCartItem-change ci-detalle-precio">
               {%- liquid
