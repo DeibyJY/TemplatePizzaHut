@@ -710,193 +710,209 @@
   function initListaProductos(){
     const itemsCart = {{ cart.items | json }};
     const productosBase = itemsCart.filter(item => {
+        // Verificar si el item tiene properties y las propiedades específicas
         return item.properties && 
                item.properties.ProductoBase !== undefined && 
                item.properties.Cuerpo !== undefined;
     });
+    {% comment %} console.log('Productos Base encontrados:', productosBase); {% endcomment %}
 
     const elementoContenedor = document.querySelector('.previewCartList.list-unstyled');
-    if (!elementoContenedor) {
-        console.error('No se encontró el contenedor');
-        return;
-    }
 
     let contenedorItemProducto = '';
 
-    productosBase.forEach(productoTrabajo => {
-        const productoBase = productoTrabajo.properties.ProductoBase;
-        const cuerpo = productoTrabajo.properties.Cuerpo;
-        const itemSecundarios = itemsCart.filter(({ properties }) => 
-            properties?.ProductoBase === productoBase && 
-            properties?.Cuerpo === undefined
-        );
+    productosBase.forEach(productoTrabajo =>{
+      const productoBase = productoTrabajo.properties.ProductoBase;
+      const cuerpo = productoTrabajo.properties.Cuerpo;
+      // Solamente producto con una sola propiedad que sea igual a la productoBase
+      const itemSecundarios = itemsCart.filter(({ properties }) => 
+      properties?.ProductoBase === productoBase && 
+      properties?.Cuerpo === undefined
+      );
 
-        const jsonString = productoTrabajo.properties.Cuerpo.replace(/'/g, '"');
-        const productoContruccionCuerpo = JSON.parse(jsonString);
+      const jsonString = productoTrabajo.properties.Cuerpo.replace(/'/g, '"');
+      const productoContruccionCuerpo = JSON.parse(jsonString);
+      console.log(productoTrabajo);
 
-        // Cálculos de precios con validaciones
-        let priceHTML = '';
-        const current_variant = productoTrabajo.variant || {};
-        const original_price = productoTrabajo.original_price || 0;
-        const final_price = productoTrabajo.final_price || 0;
-        const price = productoTrabajo.price || 0;
+      
 
-        if (original_price !== final_price) {
-            priceHTML = `
-                <span class="previewCartItem-saving-price">
-                    <s class="before-discount-price" data-item-original-price-display>
-                        ${formatMoney(original_price)}
-                    </s>
-                    <span class="discounted-price" data-item-final-price-display>
-                        ${formatMoney(final_price)}
+      contenedorItemProducto += `
+      <div class="itemProducto-principal">
+        ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${productoTrabajo.id}" style="display: none;">` : ''}
+        <div class="view-cliente-producto">
+          <div class="contendor-imagen">
+            <a href="${productoTrabajo.url}" class="previewCartItem-imagen">
+              <img 
+                  srcset="${productoTrabajo.image}"
+                  src="${productoTrabajo.image}"
+                  alt="${productoTrabajo.title}"
+                  width="110"
+                  height="110"
+                  loading="lazy"
+              >
+            </a>
+          </div>
+          <div class="contenedor-informacion">
+            <a class="previewCartItem-name link-underline ci-link-titulo" href="${productoTrabajo.url}">
+              <span class="text ci-text-titulo">${productoTrabajo.title}</span>
+            </a>
+            <div class="previewCartItem-change ci-detalle-precio">
+              {%- liquid
+                if productoTrabajo.original_price != productoTrabajo.final_price
+                  assign price_to_display = productoTrabajo.final_price
+                else
+                  assign price_to_display = productoTrabajo.original_price
+                endif
+              -%}
+              <div class="previewCartItem-price" data-price="{{ price_to_display }}" data-original-price="{{ productoTrabajo.original_price }}">
+                <span class="price">
+                  {%- assign current_variant = item.variant -%}
+                  {% if item.original_price != item.final_price %}
+                    <span  class="previewCartItem-saving-price">
+                      <s class="before-discount-price" data-item-original-price-display>
+                        {{ item.original_price | money }}
+                      </s>
+                      <span class="discounted-price" data-item-final-price-display>
+                        {{ item.final_price | money }}
+                      </span>
                     </span>
-                </span>`;
-        } else if (current_variant && current_variant.compare_at_price && 
-                  current_variant.price && 
-                  current_variant.compare_at_price > current_variant.price) {
-            priceHTML = `
-                <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
-                    <s class="before-discount-price">
-                        ${formatMoney(current_variant.compare_at_price)}
-                    </s>
-                    <span class="discounted-price">
-                        ${formatMoney(current_variant.price)}
+                    {% elsif current_variant.compare_at_price > current_variant.price %}
+                    <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
+                      <s class="before-discount-price">
+                        {{ current_variant.compare_at_price | money }}
+                      </s>
+                      <span class="discounted-price">
+                        {{ current_variant.price | money }}
+                      </span>
                     </span>
-                </span>`;
-        } else {
-            priceHTML = `
-                <span data-item-final-price-display>
-                    ${formatMoney(price)}
-                </span>`;
-        }
-
-        contenedorItemProducto += `
-        <div class="itemProducto-principal">
-            ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${productoTrabajo.id}" style="display: none;">` : ''}
-            <div class="view-cliente-producto">
-                <div class="contendor-imagen">
-                    <a href="${productoTrabajo.url}" class="previewCartItem-imagen">
-                        <img 
-                            srcset="${productoTrabajo.image}"
-                            src="${productoTrabajo.image}"
-                            alt="${productoTrabajo.title}"
-                            width="110"
-                            height="110"
-                            loading="lazy"
-                        >
-                    </a>
-                </div>
-                <div class="contenedor-informacion">
-                    <a class="previewCartItem-name link-underline ci-link-titulo" href="${productoTrabajo.url}">
-                        <span class="text ci-text-titulo">${productoTrabajo.title}</span>
-                    </a>
-                    <div class="previewCartItem-change ci-detalle-precio">
-                        <div class="previewCartItem-price" data-price="${final_price}" data-original-price="${original_price}">
-                            <span class="price">
-                                ${priceHTML}
-                            </span>
-                        </div>
-                        <cart-update-quantity class="previewCartItem-qty" 
-                            data-product="${productoTrabajo.product_id}" 
-                            data-variant="${productoTrabajo.variant.id}">
-                            <label class="form-label hiddenLabels" for="upsell-update-${productoTrabajo.id}">
-                                Cantidad
-                            </label>
-                            <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                            <input
-                                class="form-input quantity"
-                                name="quantity"
-                                id="upsell-update-${productoTrabajo.id}"
-                                data-qtt-id1="quantity${productoTrabajo.id}"
-                                value="${productoTrabajo.quantity}"
-                                type="number"
-                                ${productoTrabajo.variant?.inventory_management && productoTrabajo.variant?.inventory_quantity > 0 
-                                    ? `data-inventory-quantity="${productoTrabajo.variant.inventory_quantity}"` 
-                                    : ''}
-                                data-cart-quantity
-                                data-cart-quantity-id="${productoTrabajo.id}"
-                                data-line="${productoTrabajo.key}"
-                            >
-                            <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                        </cart-update-quantity>
+                    {% else %}
+                    <span data-item-final-price-display>
+                      {{ item.price | money }}
+                    </span>
+                  {% endif %}
+                  </span>
                     </div>
-                </div>
-                <div class="contenedor-botones">
-                    <button
-                        type="button"
-                        class="previewCartItem-remove"
-                        data-cart-remove
-                        data-cart-remove-id="${productoTrabajo.id}"
-                        data-line="${productoTrabajo.key}"
-                        title="Eliminar ${productoTrabajo.title}"
-                        style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
-                    >
-                        <svg class="icon icon-close" aria-hidden="true" focusable="false">
-                            <use href="#icon-close" />
-                        </svg>
-                    </button>
-                    <label
-                        for="toggle-${productoTrabajo.id}"
-                        title="Mostrar Detalles"
-                        class="previewCartItem-remove"
-                        style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer;"
-                    >
-                        <span style="transition: transform 0.3s ease; display: flex;">
-                            <svg class="icon icon-arrow-back" aria-hidden="true" focusable="false">
-                                <use href="#icon-arrow-back-test1" />
-                            </svg>
-                        </span>
-                    </label>
-                </div>
-            </div>
-            ${itemSecundarios.length > 0 ? `<div class="details-container-${productoTrabajo.id}">` : ''}
-        `;
+                    <cart-update-quantity class="previewCartItem-qty" data-product="{{ productoTrabajo.product_id }}" data-variant="{{ productoTrabajo.variant.id }}">
+                      <label class="form-label hiddenLabels" for="upsell-update-{{ productoTrabajo.id }}">
+                        {{ 'sections.cart.heading.quantity' | t }}
+                      </label>
+                      <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                      <input
+                        class="form-input quantity"
+                        name="quantity"
+                        id="upsell-update-{{ productoTrabajo.id }}"
+                        data-qtt-id1="quantity{{ productoTrabajo.id }}"
+                        value="{{ productoTrabajo.quantity }}"
+                        type="number"
+                        {% if productoTrabajo.variant.inventory_management != null and productoTrabajo.variant.inventory_quantity > 0 %}
+                          data-inventory-quantity="{{ productoTrabajo.variant.inventory_quantity }}"
+                        {% endif %}
+                        data-cart-quantity
+                        data-cart-quantity-id="{{ productoTrabajo.id }}"
+                        data-line="{{ productoTrabajo.key }}"
+                      >
+                      <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+                    </cart-update-quantity>
+                  </div>
+          </div>
+          <div class="contenedor-botones">
+            <button
+              type="button"
+              class="previewCartItem-remove"
+              data-cart-remove
+              data-cart-remove-id="{{ productoTrabajo.id }}"
+              data-line="{{ productoTrabajo.key }}"
+              title="{{ 'sections.cart.remove_title' | t: title: productoTrabajo.title }}"
+              style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
+            >
+              {% render 'icon-close' %}
+            </button>
+            <label
+              for="toggle-{{ productoTrabajo.id }}"
+              title="Mostrar Detalles"
+              class="previewCartItem-remove"
+              style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+            >
+              <span style="transition: transform 0.3s ease; display: flex;">
+                {% render 'icon-arrow-back-test1' %}
+              </span>
+            </label>
+          </div>
+        </div>
+        ${itemSecundarios.length > 0 ? `<div class="details-container-${productoTrabajo.id}">` : ''}
+      `;
 
-        productoContruccionCuerpo.forEach(grupo => {
-            const { titulo, items } = grupo;
+      productoContruccionCuerpo.forEach(grupo => {
+          const { titulo, items } = grupo;
+          contenedorItemProducto += `
+          <div class="dc-contenedor-base">
+           <div class="contenedor-items-dc">
+            <h3 class="text dc-titulo">${titulo}</h3>
+            <div class="items-dc">
+          `;
+
+          items.forEach(item => {
+            const productoEncontrado = itemSecundarios.find(itemSecundario => 
+              itemSecundario.variant_id === item 
+            );            
+
             contenedorItemProducto += `
-            <div class="dc-contenedor-base">
-             <div class="contenedor-items-dc">
-              <h3 class="text dc-titulo">${titulo}</h3>
-              <div class="items-dc">
+              <p style="margin: 0;">
+                ${productoEncontrado.title}
+                <span style="float: right;">${productoEncontrado.properties.Precio * productoTrabajo.quantity}bs</span>
+              </p>
+              <p style="margin: 0;">
+                Extra Jamón
+                <span style="float: right;">5bs</span>
+              </p>
+              <p style="margin: 0;">
+                Extra Choclo
+                <span style="float: right;">12bs</span>
+              </p>
             `;
+          });
 
-            items.forEach(item => {
-                const productoEncontrado = itemSecundarios.find(itemSecundario => 
-                    itemSecundario.variant_id === item 
-                );            
+          contenedorItemProducto += `    
+            </div>
+           </div>
+          </div>
+        `;
+      });
 
-                if (productoEncontrado) {
-                    contenedorItemProducto += `
-                        <p style="margin: 0;">
-                            ${productoEncontrado.title}
-                            <span style="float: right;">${productoEncontrado.properties.Precio * productoTrabajo.quantity}bs</span>
-                        </p>
-                    `;
-                }
-            });
+      itemSecundarios.forEach(productoTSecundario => {
+        const precio = productoTSecundario.properties.Precio;
+        const cantidad = productoTSecundario.quantity;
 
-            contenedorItemProducto += `    
-                </div>
-               </div>
-              </div>
-            `;
-        });
-        
+
         contenedorItemProducto += `
-            ${itemSecundarios.length > 0 ? `</div>` : ''}
-            </div>`;
+          <div class="dc-contenedor-base">
+           <div class="contenedor-items-dc">
+            <h3 class="text dc-titulo">TAMAÑO</h3>
+            <div class="items-dc">
+              <p style="margin: 0;">
+                Super personal para 2 a 3 personas
+                <span style="float: right;">9bs</span>
+              </p>
+              <p style="margin: 0;">
+                Extra Jamón
+                <span style="float: right;">5bs</span>
+              </p>
+              <p style="margin: 0;">
+                Extra Choclo
+                <span style="float: right;">12bs</span>
+              </p>
+            </div>
+           </div>
+          </div>
+        `;
+      });
+        
+      contenedorItemProducto += `
+        ${itemSecundarios.length > 0 ? `</div>` : ''}
+        </div>`;
+
+        elementoContenedor.innerHTML = contenedorItemProducto;
     });
-
-    elementoContenedor.innerHTML = contenedorItemProducto;
-  }
-
-  function formatMoney(amount) {
-      return new Intl.NumberFormat('es-BO', {
-          style: 'currency',
-          currency: 'BOB',
-          minimumFractionDigits: 2
-      }).format(amount/100);
   }
 
   {% comment %} const contenedorItemProducto= `
