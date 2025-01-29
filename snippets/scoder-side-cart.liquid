@@ -727,7 +727,8 @@
 
       // Solamente producto con una sola propiedad que sea igual a la productoBase
       const itemSecundarios = itemsCart.filter(({ properties }) => 
-        properties?.ProductoBase === productoBase && !properties?.Cuerpo
+          properties?.ProductoBase === productoBase && 
+          properties?.Cuerpo === undefined
       );
 
       console.log('Productos Secundarios encontrados:', itemSecundarios);
