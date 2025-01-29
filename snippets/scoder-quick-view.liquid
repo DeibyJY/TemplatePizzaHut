@@ -850,6 +850,7 @@
               {%- render 'price', product: product, use_variant: true, price_class: 'price--medium' -%}
             </div>
           {% endcomment %}
+          {%- assign product_form_id = 'product-quick-view-form-' | append: product.id -%}
           {%- form 'product',
             product,
             id: product_form_id,
