@@ -422,7 +422,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
             .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
             .forEach((input) => {
               const idVariante = input.getAttribute("data-variante-id");
-              const precioProducto = control.getAttribute("data-precio");
+              const precioProducto = input.getAttribute("data-precio");
 
               if (idVariante) {
                 items.push({
