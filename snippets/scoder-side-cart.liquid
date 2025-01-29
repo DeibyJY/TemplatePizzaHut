@@ -196,6 +196,7 @@
             </div>
           </li>
         {% endcomment %}
+        {{ item | json }}
         {% comment %}
           <div
             style="
@@ -734,7 +735,7 @@
       const productoContruccionCuerpo = JSON.parse(jsonString);
       console.log(productoTrabajo);
 
-      
+
 
       contenedorItemProducto += `
       <div class="itemProducto-principal">
