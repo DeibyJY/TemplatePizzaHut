@@ -423,7 +423,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               const idSubProducto = input.getAttribute("data-producto-id");
               if (idSubProducto) {
                 items.push({
-                  id: parseInt(idSubProducto),
+                  id: idSubProducto,
                   quantity: 1,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -442,7 +442,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               const idSubProducto = control.getAttribute("data-producto-id");
               if (idSubProducto && cantidadSub > 0) {
                 items.push({
-                  id: parseInt(idSubProducto),
+                  id: idSubProducto,
                   quantity: cantidadSub,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -472,7 +472,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               const idProducto = input.getAttribute("data-producto-id");
               if (idProducto) {
                 items.push({
-                  id: parseInt(idProducto),
+                  id: idProducto,
                   quantity: 1,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -492,7 +492,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               const idProducto = control.getAttribute("data-producto-id");
               if (idProducto && cantidad > 0) {
                 items.push({
-                  id: parseInt(idProducto),
+                  id: idProducto,
                   quantity: cantidad,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
@@ -623,7 +623,7 @@ Shopify.jsonOpcionesSeleccionadas = function () {
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
     var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id);
-    console.log('Items seleccionados:', itemsSeleccionados);
+    // console.log('Items seleccionados:', itemsSeleccionados);
     var jsonCuerpoSeleccionados = this.jsonOpcionesSeleccionadas(); 
     var quantity = quantity || 1;
     var target = document.querySelector("[data-quickshop] .is-loading") || 
