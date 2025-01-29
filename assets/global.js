@@ -634,8 +634,6 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     },
     ...itemsSeleccionados];
 
-    // Añadimos los items seleccionados de forma segura
-
     console.log('Items a enviar:', items);
 
     // Construimos el formData de manera más segura
