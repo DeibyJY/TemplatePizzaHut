@@ -714,9 +714,24 @@
                item.properties.ProductoBase !== undefined && 
                item.properties.Cuerpo !== undefined;
     });
-    console.log('Productos Base encontrados:', productosBase);
+    {% comment %} console.log('Productos Base encontrados:', productosBase); {% endcomment %}
 
     const elementoContenedor = document.querySelector('.previewCartList list-unstyled');
+
+    productosBase.forEach(producto =>{
+      const productoBase = producto.properties.ProductoBase;
+      const cuerpo = producto.properties.Cuerpo;
+
+      console.log('Producto Base:', productoBase);
+      console.log('Cuerpo:', cuerpo);
+
+      // Solamente producto con una sola propiedad que sea igual a la productoBase
+      const itemSecundarios = itemsCart.filter(item => {
+        return item.properties && item.properties.ProductoBase === productoBase 
+      });
+
+      console.log('Productos Secundarios encontrados:', itemSecundarios);
+    });
 
     const contenedorItemProducto= `
       <div class="itemProducto-principal">
