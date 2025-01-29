@@ -883,7 +883,7 @@
                         {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
                       </span>
                     </button>
-                    <input
+                    <input 
                       class="form-input quantity__input quantity"
                       type="number"
                       name="quantity"
@@ -895,7 +895,7 @@
                       data-product="{{ product.id }}"
                       data-price="{{ current_variant.price }}"
                       data-inventory-quantity="{{ current_variant.inventory_quantity }}"
-                    >
+                  >
                     <button type="button" name="plus" class="plus btn-quantity" onClick="updateValoresDeBajoOpciones()">
                       <span class="visually-hidden">
                         {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
@@ -1181,6 +1181,19 @@
                   style="--atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323"
                 >
                   <input type="hidden" name="id" value="{{ current_variant.id }}">
+                  <input
+                    class="form-input quantity__input quantity hidden"
+                    type="number"
+                    name="quantity"
+                    min="1"
+                    value="1"
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    id="quantity-{{ product.id }}"
+                    data-product="{{ product.id }}"
+                    data-price="{{ current_variant.price }}"
+                    data-inventory-quantity="{{ current_variant.inventory_quantity }}"
+                  >
                   <div class="product-form__buttons">
                     {%- if current_variant.available -%}
                       {%- if current_variant.inventory_management -%}
@@ -2874,4 +2887,39 @@
         }
     });
   })();
+
+
+  if (!customElements.get('quantity-sync')) {
+    class QuantitySync extends HTMLElement {
+        constructor() {
+            super();
+            
+            this.visibleInput = document.querySelector('.quantity__input:not(.hidden)');
+            this.hiddenInput = document.querySelector('.quantity__input.hidden');
+            
+            if (!this.visibleInput || !this.hiddenInput) return;
+            
+            this.init();
+        }
+
+        init() {
+            this.visibleInput.addEventListener('input', () => {
+                this.hiddenInput.value = this.visibleInput.value;
+            });
+            
+            this.hiddenInput.addEventListener('input', () => {
+                this.visibleInput.value = this.hiddenInput.value;
+            });
+        }
+    }
+
+    customElements.define('quantity-sync', QuantitySync);
+}
+
+// Inicializar cuando el documento esté listo
+document.addEventListener('DOMContentLoaded', () => {
+    if (customElements.get('quantity-sync')) {
+        new (customElements.get('quantity-sync'))();
+    }
+});
 </script>
