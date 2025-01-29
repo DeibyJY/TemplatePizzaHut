@@ -883,7 +883,7 @@
                         {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
                       </span>
                     </button>
-                    <input 
+                    <input
                       class="form-input quantity__input quantity"
                       type="number"
                       name="quantity"
@@ -895,7 +895,7 @@
                       data-product="{{ product.id }}"
                       data-price="{{ current_variant.price }}"
                       data-inventory-quantity="{{ current_variant.inventory_quantity }}"
-                  >
+                    >
                     <button type="button" name="plus" class="plus btn-quantity" onClick="updateValoresDeBajoOpciones()">
                       <span class="visually-hidden">
                         {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
@@ -2889,37 +2889,32 @@
   })();
 
 
-  if (!customElements.get('quantity-sync')) {
-    class QuantitySync extends HTMLElement {
-        constructor() {
-            super();
-            
-            this.visibleInput = document.querySelector('.quantity__input:not(.hidden)');
-            this.hiddenInput = document.querySelector('.quantity__input.hidden');
-            
-            if (!this.visibleInput || !this.hiddenInput) return;
-            
-            this.init();
-        }
-
-        init() {
-            this.visibleInput.addEventListener('input', () => {
-                this.hiddenInput.value = this.visibleInput.value;
-            });
-            
-            this.hiddenInput.addEventListener('input', () => {
-                this.visibleInput.value = this.hiddenInput.value;
-            });
-        }
+  document.addEventListener('DOMContentLoaded', () => {
+    const visibleInput = document.querySelector('.quantity__input:not(.hidden)');
+    const hiddenInput = document.querySelector('.quantity__input.hidden');
+    
+    console.log('Visible Input encontrado:', !!visibleInput);
+    console.log('Hidden Input encontrado:', !!hiddenInput);
+    
+    if (!visibleInput || !hiddenInput) {
+        console.log('⚠️ Uno o ambos inputs no fueron encontrados');
+        return;
     }
+    
+    visibleInput.addEventListener('input', () => {
+        console.log('Valor del input visible cambió a:', visibleInput.value);
+        hiddenInput.value = visibleInput.value;
+        console.log('Valor del input oculto actualizado a:', hiddenInput.value);
+    });
+    
+    hiddenInput.addEventListener('input', () => {
+        console.log('Valor del input oculto cambió a:', hiddenInput.value);
+        visibleInput.value = hiddenInput.value;
+        console.log('Valor del input visible actualizado a:', visibleInput.value);
+    });
 
-    customElements.define('quantity-sync', QuantitySync);
-}
-
-// Inicializar cuando el documento esté listo
-document.addEventListener('DOMContentLoaded', () => {
-    if (customElements.get('quantity-sync')) {
-        new (customElements.get('quantity-sync'))();
-    }
+    // Valores iniciales
+    console.log('Valor inicial input visible:', visibleInput.value);
+    console.log('Valor inicial input oculto:', hiddenInput.value);
 });
 </script>
