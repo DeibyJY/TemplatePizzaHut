@@ -640,6 +640,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
             Cuerpo: jsonCuerpoSeleccionados 
         }
     }];
+    
 
     // Añadimos los items seleccionados de forma segura
     // itemsSeleccionados.forEach(item => {
