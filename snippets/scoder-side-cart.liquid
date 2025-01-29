@@ -708,7 +708,8 @@
 <script>
   window.theme = window.theme || {};
   window.theme.strings = {
-    quantityLabel: {{ 'sections.cart.heading.quantity' | t | json }}
+    quantityLabel: {{ 'sections.cart.heading.quantity' | t | json }},
+    removeTitle: {{ 'sections.cart.remove_title' | t | json }}
   };
 
   function initListaProductos(){
@@ -823,9 +824,7 @@
                         type="number"
                         data-prueba-test1="${current_variant.inventory_management}"
                         data-prueba-test2="${current_variant.inventory_quantity}"
-                        {% if productoTrabajo.variant.inventory_management != null and productoTrabajo.variant.inventory_quantity > 0 %}
-                          data-inventory-quantity="{{ productoTrabajo.variant.inventory_quantity }}"
-                        {% endif %}
+                        ${current_variant.inventory_management != null && current_variant.inventory_quantity > 0 ? `data-inventory-quantity="${current_variant.inventory_quantity}"` : ''}
                         data-cart-quantity
                         data-cart-quantity-id="${ productoTrabajo.id }"
                         data-line="${ productoTrabajo.key }"
@@ -839,9 +838,9 @@
               type="button"
               class="previewCartItem-remove"
               data-cart-remove
-              data-cart-remove-id="${ productoTrabajo.id }"
-              data-line="${ productoTrabajo.key }"
-              title="{{ 'sections.cart.remove_title' | t: title: productoTrabajo.title }}"
+              data-cart-remove-id="${productoTrabajo.id}"
+              data-line="${productoTrabajo.key}"
+              title="${window.theme.strings.removeTitle.replace('[title]', productoTrabajo.title)}"
               style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
             >
               {% render 'icon-close' %}
