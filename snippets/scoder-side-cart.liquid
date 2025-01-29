@@ -196,228 +196,230 @@
             </div>
           </li>
         {% endcomment %}
-        <div
-          style="
-            width: 100%;
-            max-width: 460px;
-            display: flex;
-            flex-direction: column;
-            padding-bottom: 5px;
-            margin-top: 19px;
-            border-bottom: 1px solid var(--form-input-border);
-            gap: 10px;
-          "
-        >
-          <!-- Movemos el input al inicio del contenedor principal para que funcione el selector -->
-          <input type="checkbox" id="toggle-{{ item.id }}" style="display: none;">
-          <div class="auxiliar-test" style="width: 100%; height: 100%; display: flex; flex-direction: row; gap: 10px;">
-            <!-- Contenedor de imagen -->
-            <div style="flex: 0 0 16%; min-width: 70px; display: flex; align-items: center; justify-content: center;">
-              <a
-                href="{{ item.url }}"
-                class="previewCartItem-image"
-                style="display: flex; align-items: center; justify-content: center; width: 100%;"
-              >
-                <img
-                  srcset="{{ item.image | img_url: '110x' }}"
-                  src="{{ item.image | img_url: '110x' }}"
-                  alt="{{ item.title | escape }}"
-                  style="width: 100%; height: auto; object-fit: contain; display: block; max-width: 100%;"
-                  loading="lazy"
-                >
-              </a>
-            </div>
-            <!-- Contenedor de información -->
-            <div style="flex: 1; min-width: 0; padding: 0 10px; display: flex; flex-direction: column; justify-content: space-between;">
-              <a
-                class="previewCartItem-name link-underline"
-                href="{{ item.url }}"
-                style="display: block; margin-bottom: 10px;"
-              >
-                <span
-                  class="text"
-                  style="font-weight: var(--font-heading-weight) !important; font-size: clamp(14px, 2vw, 16px);"
-                >
-                  {{- item.product.title -}}
-                </span>
-              </a>
-              <div class="previewCartItem-change" style="display: flex; flex-wrap: wrap; align-items: center;">
-                {%- liquid
-                  if item.original_price != item.final_price
-                    assign price_to_display = item.final_price
-                  else
-                    assign price_to_display = item.original_price
-                  endif
-                -%}
-                <div
-                  class="previewCartItem-price"
-                  data-price="{{ price_to_display }}"
-                  data-original-price="{{ item.original_price }}"
-                >
-                  <span class="price">
-                    {%- assign current_variant = item.variant -%}
-                    {% if item.original_price != item.final_price %}
-                      <span class="previewCartItem-saving-price">
-                        <s class="before-discount-price" data-item-original-price-display>
-                          {{ item.original_price | money }}
-                        </s>
-                        <span class="discounted-price" data-item-final-price-display>
-                          {{ item.final_price | money }}
-                        </span>
-                      </span>
-                    {% elsif current_variant.compare_at_price > current_variant.price %}
-                      <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
-                        <s class="before-discount-price">
-                          {{ current_variant.compare_at_price | money }}
-                        </s>
-                        <span class="discounted-price">
-                          {{ current_variant.price | money }}
-                        </span>
-                      </span>
-                    {% else %}
-                      <span data-item-final-price-display>
-                        {{ item.price | money }}
-                      </span>
-                    {% endif %}
-                  </span>
-                </div>
-                <cart-update-quantity
-                  class="previewCartItem-qty"
-                  data-product="{{ item.product_id }}"
-                  data-variant="{{ item.variant.id }}"
-                >
-                  <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
-                    {{ 'sections.cart.heading.quantity' | t }}
-                  </label>
-                  <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                  <input
-                    class="form-input quantity"
-                    name="quantity"
-                    id="upsell-update-{{ item.id }}"
-                    data-qtt-id1="quantity{{ item.id }}"
-                    value="{{ item.quantity }}"
-                    type="number"
-                    {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
-                      data-inventory-quantity="{{ item.variant.inventory_quantity }}"
-                    {% endif %}
-                    data-cart-quantity
-                    data-cart-quantity-id="{{ item.id }}"
-                    data-line="{{ item.key }}"
-                  >
-                  <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                </cart-update-quantity>
-              </div>
-            </div>
-            <!-- Contenedor de botones -->
-            <div style="flex: 0 0 auto; max-width: 40px; min-width: 30px; display: flex; flex-direction: column; gap: 10px;">
-              <button
-                type="button"
-                class="previewCartItem-remove"
-                data-cart-remove
-                data-cart-remove-id="{{ item.id }}"
-                data-line="{{ item.key }}"
-                title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-                style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
-              >
-                {% render 'icon-close' %}
-              </button>
-              <label
-                for="toggle-{{ item.id }}"
-                title="Mostrar Detalles"
-                class="previewCartItem-remove"
-                style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer;"
-              >
-                <span style="transition: transform 0.3s ease; display: flex;">
-                  {% render 'icon-arrow-back-test1' %}
-                </span>
-              </label>
-            </div>
-          </div>
+        {% comment %}
           <div
-            class="details-container-{{ item.id }}"
             style="
               width: 100%;
-              height: 0;
-              background-color: #f3f3f3;
-              overflow: hidden;
-              transition: all 0.3s ease-in-out;
-              padding: 0;
-              border-radius: 4px !important;
-              margin: 0;
+              max-width: 460px;
+              display: flex;
+              flex-direction: column;
+              padding-bottom: 5px;
+              margin-top: 19px;
+              border-bottom: 1px solid var(--form-input-border);
+              gap: 10px;
             "
           >
-            <div style="max-width: 600px; margin: 0 auto;">
-              <!-- TAMAÑO -->
-              <div style="margin-bottom: 8px;">
-                <h3
-                  class="text"
-                  style="
-                    font-weight: var(--font-heading-weight) !important;
-                    font-size: clamp(14px, 2vw, 16px);
-                    margin-bottom: 8px;
-                    border-bottom: 1px solid #e0e0e0;
-                    padding-bottom: 4px;
-                  "
+            <!-- Movemos el input al inicio del contenedor principal para que funcione el selector -->
+            <input type="checkbox" id="toggle-{{ item.id }}" style="display: none;">
+            <div class="auxiliar-test" style="width: 100%; height: 100%; display: flex; flex-direction: row; gap: 10px;">
+              <!-- Contenedor de imagen -->
+              <div style="flex: 0 0 16%; min-width: 70px; display: flex; align-items: center; justify-content: center;">
+                <a
+                  href="{{ item.url }}"
+                  class="previewCartItem-image"
+                  style="display: flex; align-items: center; justify-content: center; width: 100%;"
                 >
-                  TAMAÑO
-                </h3>
-                <div style="padding: 8px; background-color: white; border-radius: 5px; ">
-                  <p style="margin: 0;">
-                    Super personal para 2 a 3 personas
-                    <span style="float: right;">9bs</span>
-                  </p>
+                  <img
+                    srcset="{{ item.image | img_url: '110x' }}"
+                    src="{{ item.image | img_url: '110x' }}"
+                    alt="{{ item.title | escape }}"
+                    style="width: 100%; height: auto; object-fit: contain; display: block; max-width: 100%;"
+                    loading="lazy"
+                  >
+                </a>
+              </div>
+              <!-- Contenedor de información -->
+              <div style="flex: 1; min-width: 0; padding: 0 10px; display: flex; flex-direction: column; justify-content: space-between;">
+                <a
+                  class="previewCartItem-name link-underline"
+                  href="{{ item.url }}"
+                  style="display: block; margin-bottom: 10px;"
+                >
+                  <span
+                    class="text"
+                    style="font-weight: var(--font-heading-weight) !important; font-size: clamp(14px, 2vw, 16px);"
+                  >
+                    {{- item.product.title -}}
+                  </span>
+                </a>
+                <div class="previewCartItem-change" style="display: flex; flex-wrap: wrap; align-items: center;">
+                  {%- liquid
+                    if item.original_price != item.final_price
+                      assign price_to_display = item.final_price
+                    else
+                      assign price_to_display = item.original_price
+                    endif
+                  -%}
+                  <div
+                    class="previewCartItem-price"
+                    data-price="{{ price_to_display }}"
+                    data-original-price="{{ item.original_price }}"
+                  >
+                    <span class="price">
+                      {%- assign current_variant = item.variant -%}
+                      {% if item.original_price != item.final_price %}
+                        <span class="previewCartItem-saving-price">
+                          <s class="before-discount-price" data-item-original-price-display>
+                            {{ item.original_price | money }}
+                          </s>
+                          <span class="discounted-price" data-item-final-price-display>
+                            {{ item.final_price | money }}
+                          </span>
+                        </span>
+                      {% elsif current_variant.compare_at_price > current_variant.price %}
+                        <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
+                          <s class="before-discount-price">
+                            {{ current_variant.compare_at_price | money }}
+                          </s>
+                          <span class="discounted-price">
+                            {{ current_variant.price | money }}
+                          </span>
+                        </span>
+                      {% else %}
+                        <span data-item-final-price-display>
+                          {{ item.price | money }}
+                        </span>
+                      {% endif %}
+                    </span>
+                  </div>
+                  <cart-update-quantity
+                    class="previewCartItem-qty"
+                    data-product="{{ item.product_id }}"
+                    data-variant="{{ item.variant.id }}"
+                  >
+                    <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
+                      {{ 'sections.cart.heading.quantity' | t }}
+                    </label>
+                    <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                    <input
+                      class="form-input quantity"
+                      name="quantity"
+                      id="upsell-update-{{ item.id }}"
+                      data-qtt-id1="quantity{{ item.id }}"
+                      value="{{ item.quantity }}"
+                      type="number"
+                      {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
+                        data-inventory-quantity="{{ item.variant.inventory_quantity }}"
+                      {% endif %}
+                      data-cart-quantity
+                      data-cart-quantity-id="{{ item.id }}"
+                      data-line="{{ item.key }}"
+                    >
+                    <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+                  </cart-update-quantity>
                 </div>
               </div>
-              <!-- EXTRA -->
-              <div style="margin-bottom: 15px;">
-                <h3
-                  class="text"
-                  style="
-                    font-weight: var(--font-heading-weight) !important;
-                    font-size: clamp(14px, 2vw, 16px);
-                    margin-bottom: 8px;
-                    border-bottom: 1px solid #e0e0e0;
-                    padding-bottom: 4px;
-                  "
+              <!-- Contenedor de botones -->
+              <div style="flex: 0 0 auto; max-width: 40px; min-width: 30px; display: flex; flex-direction: column; gap: 10px;">
+                <button
+                  type="button"
+                  class="previewCartItem-remove"
+                  data-cart-remove
+                  data-cart-remove-id="{{ item.id }}"
+                  data-line="{{ item.key }}"
+                  title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+                  style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
                 >
-                  EXTRA
-                </h3>
-                <div style="padding: 8px; background-color: white; border-radius: 5px;">
-                  <p style="margin: 0;">
-                    Extra Jamón
-                    <span style="float: right;">5bs</span>
-                  </p>
+                  {% render 'icon-close' %}
+                </button>
+                <label
+                  for="toggle-{{ item.id }}"
+                  title="Mostrar Detalles"
+                  class="previewCartItem-remove"
+                  style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+                >
+                  <span style="transition: transform 0.3s ease; display: flex;">
+                    {% render 'icon-arrow-back-test1' %}
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div
+              class="details-container-{{ item.id }}"
+              style="
+                width: 100%;
+                height: 0;
+                background-color: #f3f3f3;
+                overflow: hidden;
+                transition: all 0.3s ease-in-out;
+                padding: 0;
+                border-radius: 4px !important;
+                margin: 0;
+              "
+            >
+              <div style="max-width: 600px; margin: 0 auto;">
+                <!-- TAMAÑO -->
+                <div style="margin-bottom: 8px;">
+                  <h3
+                    class="text"
+                    style="
+                      font-weight: var(--font-heading-weight) !important;
+                      font-size: clamp(14px, 2vw, 16px);
+                      margin-bottom: 8px;
+                      border-bottom: 1px solid #e0e0e0;
+                      padding-bottom: 4px;
+                    "
+                  >
+                    TAMAÑO
+                  </h3>
+                  <div style="padding: 8px; background-color: white; border-radius: 5px; ">
+                    <p style="margin: 0;">
+                      Super personal para 2 a 3 personas
+                      <span style="float: right;">9bs</span>
+                    </p>
+                  </div>
+                </div>
+                <!-- EXTRA -->
+                <div style="margin-bottom: 15px;">
+                  <h3
+                    class="text"
+                    style="
+                      font-weight: var(--font-heading-weight) !important;
+                      font-size: clamp(14px, 2vw, 16px);
+                      margin-bottom: 8px;
+                      border-bottom: 1px solid #e0e0e0;
+                      padding-bottom: 4px;
+                    "
+                  >
+                    EXTRA
+                  </h3>
+                  <div style="padding: 8px; background-color: white; border-radius: 5px;">
+                    <p style="margin: 0;">
+                      Extra Jamón
+                      <span style="float: right;">5bs</span>
+                    </p>
 
-                  <p style="margin: 0;">
-                    Extra Choclo
-                    <span style="float: right;">12bs</span>
-                  </p>
+                    <p style="margin: 0;">
+                      Extra Choclo
+                      <span style="float: right;">12bs</span>
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <!-- BORDE Y MASA -->
-              <div style="margin-bottom: 15px;">
-                <h3
-                  class="text"
-                  style="
-                    font-weight: var(--font-heading-weight) !important;
-                    font-size: clamp(14px, 2vw, 16px);
-                    margin-bottom: 8px;
-                    border-bottom: 1px solid #e0e0e0;
-                    padding-bottom: 4px;
-                  "
-                >
-                  BORDE Y MASA
-                </h3>
-                <div style="padding: 8px; background-color: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-                  <p style="margin: 0;">
-                    PAN PIZZA + BORDE HOT CHESSE
-                    <span style="float: right;">12bs</span>
-                  </p>
+                <!-- BORDE Y MASA -->
+                <div style="margin-bottom: 15px;">
+                  <h3
+                    class="text"
+                    style="
+                      font-weight: var(--font-heading-weight) !important;
+                      font-size: clamp(14px, 2vw, 16px);
+                      margin-bottom: 8px;
+                      border-bottom: 1px solid #e0e0e0;
+                      padding-bottom: 4px;
+                    "
+                  >
+                    BORDE Y MASA
+                  </h3>
+                  <div style="padding: 8px; background-color: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                    <p style="margin: 0;">
+                      PAN PIZZA + BORDE HOT CHESSE
+                      <span style="float: right;">12bs</span>
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        {% endcomment %}
       {%- endfor -%}
     </ul>
 
@@ -718,58 +720,54 @@
 
     const elementoContenedor = document.querySelector('.previewCartList list-unstyled');
 
-    productosBase.forEach(producto =>{
-      const productoBase = producto.properties.ProductoBase;
-      const cuerpo = producto.properties.Cuerpo;
+    let contenedorItemProducto = '';
 
-      console.log('Producto Base:', productoBase);
-      console.log('Cuerpo:', cuerpo);
-
+    productosBase.forEach(productoTrabajo =>{
+      const productoBase = productoTrabajo.properties.ProductoBase;
+      const cuerpo = productoTrabajo.properties.Cuerpo;
       // Solamente producto con una sola propiedad que sea igual a la productoBase
       const itemSecundarios = itemsCart.filter(({ properties }) => 
-          properties?.ProductoBase === productoBase && 
-          properties?.Cuerpo === undefined
+      properties?.ProductoBase === productoBase && 
+      properties?.Cuerpo === undefined
       );
+      const productoContruccionCuerpo = JSON.parse(productoTrabajo.properties.ProductoBase);
 
-      console.log('Productos Secundarios encontrados:', itemSecundarios);
-    });
-
-    const contenedorItemProducto= `
+      contenedorItemProducto += `
       <div class="itemProducto-principal">
-        <input type="checkbox" id="toggle-{{ item.id }}" style="display: none;">
+        ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${productoTrabajo.id}" style="display: none;">` : ''}
         <div class="view-cliente-producto">
           <div class="contendor-imagen">
-            <a href="{{ item.url }}" class="previewCartItem-imagen">
+            <a href="{{ productoTrabajo.url }}" class="previewCartItem-imagen">
               <img 
-                srcset="{{ item.image | img_url: '110x' }}"
-                src="{{ item.image | img_url: '110x' }}"
-                alt="{{ item.title | escape }}"
+                srcset="{{ productoTrabajo.image | img_url: '110x' }}"
+                src="{{ productoTrabajo.image | img_url: '110x' }}"
+                alt="{{ productoTrabajo.title | escape }}"
                 loading="lazy"
               >
             </a>
           </div>
           <div class="contenedor-informacion">
-            <a class="previewCartItem-name link-underline ci-link-titulo" href="{{ item.url }}">
-              <span class="text ci-text-titulo">{{- item.product.title -}}</span>
+            <a class="previewCartItem-name link-underline ci-link-titulo" href="{{ productoTrabajo.url }}">
+              <span class="text ci-text-titulo">{{- productoTrabajo.product.title -}}</span>
             </a>
             <div class="previewCartItem-change ci-detalle-precio">
               {%- liquid
-                if item.original_price != item.final_price
-                  assign price_to_display = item.final_price
+                if productoTrabajo.original_price != productoTrabajo.final_price
+                  assign price_to_display = productoTrabajo.final_price
                 else
-                  assign price_to_display = item.original_price
+                  assign price_to_display = productoTrabajo.original_price
                 endif
               -%}
               <div class="previewCartItem-price" data-price="{{ price_to_display }}" data-original-price="{{ item.original_price }}">
                 <span class="price">
-                  {%- assign current_variant = item.variant -%}
-                  {% if item.original_price != item.final_price %}
+                  {%- assign current_variant = productoTrabajo.variant -%}
+                  {% if productoTrabajo.original_price != productoTrabajo.final_price %}
                   <span  class="previewCartItem-saving-price">
                     <s class="before-discount-price" data-item-original-price-display>
-                      {{ item.original_price | money }}
+                      {{ productoTrabajo.original_price | money }}
                     </s>
                     <span class="discounted-price" data-item-final-price-display>
-                      {{ item.final_price | money }}
+                      {{ productoTrabajo.final_price | money }}
                     </span>
                   </span>
                   {% elsif current_variant.compare_at_price > current_variant.price %}
@@ -783,29 +781,29 @@
                     </span>
                   {% else %}
                     <span data-item-final-price-display>
-                      {{ item.price | money }}
+                      {{ productoTrabajo.price | money }}
                     </span>
                   {% endif %}
                 </span>
               </div>
-              <cart-update-quantity class="previewCartItem-qty" data-product="{{ item.product_id }}" data-variant="{{ item.variant.id }}">
-                <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
+              <cart-update-quantity class="previewCartItem-qty" data-product="{{ productoTrabajo.product_id }}" data-variant="{{ productoTrabajo.variant.id }}">
+                <label class="form-label hiddenLabels" for="upsell-update-{{ productoTrabajo.id }}">
                   {{ 'sections.cart.heading.quantity' | t }}
                 </label>
                 <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
                 <input
                   class="form-input quantity"
                   name="quantity"
-                  id="upsell-update-{{ item.id }}"
-                  data-qtt-id1="quantity{{ item.id }}"
-                  value="{{ item.quantity }}"
+                  id="upsell-update-{{ productoTrabajo.id }}"
+                  data-qtt-id1="quantity{{ productoTrabajo.id }}"
+                  value="{{ productoTrabajo.quantity }}"
                   type="number"
-                  {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
-                    data-inventory-quantity="{{ item.variant.inventory_quantity }}"
+                  {% if productoTrabajo.variant.inventory_management != null and productoTrabajo.variant.inventory_quantity > 0 %}
+                    data-inventory-quantity="{{ productoTrabajo.variant.inventory_quantity }}"
                   {% endif %}
                   data-cart-quantity
-                  data-cart-quantity-id="{{ item.id }}"
-                  data-line="{{ item.key }}"
+                  data-cart-quantity-id="{{ productoTrabajo.id }}"
+                  data-line="{{ productoTrabajo.key }}"
                 >
                 <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
               </cart-update-quantity>
@@ -816,15 +814,15 @@
               type="button"
               class="previewCartItem-remove"
               data-cart-remove
-              data-cart-remove-id="{{ item.id }}"
-              data-line="{{ item.key }}"
-              title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+              data-cart-remove-id="{{ productoTrabajo.id }}"
+              data-line="{{ productoTrabajo.key }}"
+              title="{{ 'sections.cart.remove_title' | t: title: productoTrabajo.title }}"
               style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
             >
               {% render 'icon-close' %}
             </button>
             <label
-              for="toggle-{{ item.id }}"
+              for="toggle-{{ productoTrabajo.id }}"
               title="Mostrar Detalles"
               class="previewCartItem-remove"
               style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer;"
@@ -835,7 +833,56 @@
             </label>
           </div>
         </div>
-        <div class="details-container-{{ item.id }}">
+        ${itemSecundarios.length > 0 ? `<div class="details-container-{{ productoTrabajo.id }}">` : ''}
+      `;
+
+      // Ahora puedes iterar sobre el array de objetos
+      productoContruccionCuerpo.forEach(grupo => {
+          const { titulo, items } = grupo;
+          console.log('Título:', titulo);
+          console.log('Items:', items);
+
+          contenedorItemProducto += `
+          <div class="dc-contenedor-base">
+           <div class="contenedor-items-dc">
+            <h3 class="text dc-titulo">${titulo}</h3>
+            <div class="items-dc">
+          `;
+
+          items.forEach(item => {
+            const productoEncontrado = itemSecundarios.find(itemSecundario => 
+              itemSecundario.variant_id === item && 
+            );            
+
+            contenedorItemProducto += `
+              <p style="margin: 0;">
+                ${productoEncontrado.title}
+                <span style="float: right;">${productoEncontrado.properties.Precio * productoTrabajo.quantity}bs</span>
+              </p>
+              <p style="margin: 0;">
+                Extra Jamón
+                <span style="float: right;">5bs</span>
+              </p>
+              <p style="margin: 0;">
+                Extra Choclo
+                <span style="float: right;">12bs</span>
+              </p>
+            `;
+          });
+
+          contenedorItemProducto += `    
+            </div>
+           </div>
+          </div>
+        `;
+      });
+
+      itemSecundarios.forEach(productoTSecundario => {
+        const precio = productoTSecundario.properties.Precio;
+        const cantidad = productoTSecundario.quantity;
+
+
+        contenedorItemProducto += `
           <div class="dc-contenedor-base">
            <div class="contenedor-items-dc">
             <h3 class="text dc-titulo">TAMAÑO</h3>
@@ -855,10 +902,142 @@
             </div>
            </div>
           </div>
+        `;
+      });
+        
+      contenedorItemProducto += `
+        ${itemSecundarios.length > 0 ? `</div>` : ''}
+        </div>`;
+
+        elementoContenedor.innerHTML = contenedorItemProducto;
+    });
+
+  }
+
+  {% comment %} const contenedorItemProducto= `
+  <div class="itemProducto-principal">
+    <input type="checkbox" id="toggle-{{ item.id }}" style="display: none;">
+    <div class="view-cliente-producto">
+      <div class="contendor-imagen">
+        <a href="{{ item.url }}" class="previewCartItem-imagen">
+          <img 
+            srcset="{{ item.image | img_url: '110x' }}"
+            src="{{ item.image | img_url: '110x' }}"
+            alt="{{ item.title | escape }}"
+            loading="lazy"
+          >
+        </a>
+      </div>
+      <div class="contenedor-informacion">
+        <a class="previewCartItem-name link-underline ci-link-titulo" href="{{ item.url }}">
+          <span class="text ci-text-titulo">{{- item.product.title -}}</span>
+        </a>
+        <div class="previewCartItem-change ci-detalle-precio">
+          {%- liquid
+            if item.original_price != item.final_price
+              assign price_to_display = item.final_price
+            else
+              assign price_to_display = item.original_price
+            endif
+          -%}
+          <div class="previewCartItem-price" data-price="{{ price_to_display }}" data-original-price="{{ item.original_price }}">
+            <span class="price">
+              {%- assign current_variant = item.variant -%}
+              {% if item.original_price != item.final_price %}
+              <span  class="previewCartItem-saving-price">
+                <s class="before-discount-price" data-item-original-price-display>
+                  {{ item.original_price | money }}
+                </s>
+                <span class="discounted-price" data-item-final-price-display>
+                  {{ item.final_price | money }}
+                </span>
+              </span>
+              {% elsif current_variant.compare_at_price > current_variant.price %}
+                <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
+                  <s class="before-discount-price">
+                    {{ current_variant.compare_at_price | money }}
+                  </s>
+                  <span class="discounted-price">
+                    {{ current_variant.price | money }}
+                  </span>
+                </span>
+              {% else %}
+                <span data-item-final-price-display>
+                  {{ item.price | money }}
+                </span>
+              {% endif %}
+            </span>
+          </div>
+          <cart-update-quantity class="previewCartItem-qty" data-product="{{ item.product_id }}" data-variant="{{ item.variant.id }}">
+            <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
+              {{ 'sections.cart.heading.quantity' | t }}
+            </label>
+            <a href="#" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+            <input
+              class="form-input quantity"
+              name="quantity"
+              id="upsell-update-{{ item.id }}"
+              data-qtt-id1="quantity{{ item.id }}"
+              value="{{ item.quantity }}"
+              type="number"
+              {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
+                data-inventory-quantity="{{ item.variant.inventory_quantity }}"
+              {% endif %}
+              data-cart-quantity
+              data-cart-quantity-id="{{ item.id }}"
+              data-line="{{ item.key }}"
+            >
+            <a href="#" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+          </cart-update-quantity>
         </div>
       </div>
-    `;
-  }
+      <div class="contenedor-botones">
+        <button
+          type="button"
+          class="previewCartItem-remove"
+          data-cart-remove
+          data-cart-remove-id="{{ item.id }}"
+          data-line="{{ item.key }}"
+          title="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+          style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center;"
+        >
+          {% render 'icon-close' %}
+        </button>
+        <label
+          for="toggle-{{ item.id }}"
+          title="Mostrar Detalles"
+          class="previewCartItem-remove"
+          style="padding: 5px; width: 100%; display: flex; align-items: center; justify-content: center; cursor: pointer;"
+        >
+          <span style="transition: transform 0.3s ease; display: flex;">
+            {% render 'icon-arrow-back-test1' %}
+          </span>
+        </label>
+      </div>
+    </div>
+    <div class="details-container-{{ item.id }}">
+      <div class="dc-contenedor-base">
+       <div class="contenedor-items-dc">
+        <h3 class="text dc-titulo">TAMAÑO</h3>
+        <div class="items-dc">
+          <p style="margin: 0;">
+            Super personal para 2 a 3 personas
+            <span style="float: right;">9bs</span>
+          </p>
+          <p style="margin: 0;">
+            Extra Jamón
+            <span style="float: right;">5bs</span>
+          </p>
+          <p style="margin: 0;">
+            Extra Choclo
+            <span style="float: right;">12bs</span>
+          </p>
+        </div>
+       </div>
+      </div>
+    </div>
+  </div>
+`; {% endcomment %}
 
   initListaProductos();
 </script>
