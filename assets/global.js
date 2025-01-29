@@ -629,7 +629,6 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     var target = document.querySelector("[data-quickshop] .is-loading") || 
                  document.querySelector("[data-btn-addtocart].is-loading");
   
-    // Creamos el array base con el producto principal y añadimos los itemsSeleccionados
     var items = [
       {
         id: variant_id,
