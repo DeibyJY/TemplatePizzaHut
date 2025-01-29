@@ -637,6 +637,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
         quantity: quantity,
         properties: {
             ProductoBase: `Producto-${variant_id}`,
+            Cuerpo: jsonCuerpoSeleccionados 
         }
     }];
 
