@@ -642,6 +642,8 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     //             properties: item.properties || {}
     //         });
     //     }
+
+    
     // });
 
     console.log('Items a enviar:', items);
