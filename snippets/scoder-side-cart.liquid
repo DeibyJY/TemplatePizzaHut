@@ -706,6 +706,11 @@
   }
 </style>
 <script>
+  window.theme = window.theme || {};
+  window.theme.strings = {
+    quantityLabel: {{ 'sections.cart.heading.quantity' | t | json }}
+  };
+
   function initListaProductos(){
     const itemsCart = {{ cart.items | json }};
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
