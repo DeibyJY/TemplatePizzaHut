@@ -1888,8 +1888,14 @@
                             variantId = form.find('[name="id"]').val(),
                             qty = form.find('[name="quantity"]').val();
                             input = form.find('[name="quantity"]').eq(0);
+                        
+                        
+                        console.log('Formulario:', form);
+                        console.log('ID de variante:', variantId);
+                        console.log('Cantidad:', qty);
+                        console.log('Input de cantidad:', input);
 
-                        console.log("Hola 2",qty);
+
                         if(qty == undefined){
                             qty = 1;
                         }
