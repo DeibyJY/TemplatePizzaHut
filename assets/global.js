@@ -624,6 +624,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     }
 
     // Creamos el array de items manualmente
+    console.log(variant_id);
     var items = [{
         id: variant_id,
         quantity: quantity,
