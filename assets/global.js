@@ -472,7 +472,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
           menuItem
             .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
             .forEach((input) => {
-            //   const idProducto = input.getAttribute("data-producto-id");
+              const idProducto = input.getAttribute("data-producto-id");
               const idVariante = input.getAttribute("data-variante-id");
 
               if (idVariante) {
@@ -494,7 +494,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               const cantidad = parseInt(
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
-            //   const idProducto = control.getAttribute("data-producto-id");
+              const idProducto = control.getAttribute("data-producto-id");
               const idVariante = input.getAttribute("data-variante-id");
 
               if (idVariante && cantidad > 0) {
