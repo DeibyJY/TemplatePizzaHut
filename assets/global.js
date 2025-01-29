@@ -396,7 +396,7 @@ Shopify.addItem = function (variant_id, quantity, callback, input = null) {
   $.ajax(params);
 };
 
-Shopify.recolectarDatosSeleccionados = function (varianteID) {
+Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
   const items = [];
   const contendorPrincipal = document.querySelector(
     ".sector-general-opciones-producto"
@@ -421,13 +421,15 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
             .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
             .forEach((input) => {
               const idVariante = input.getAttribute("data-variante-id");
+              const precioProducto = control.getAttribute("data-precio");
 
               if (idVariante) {
                 items.push({
                   id: idVariante,
-                  quantity: 1,
+                  quantity: quantityProducto,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
+                    Precio : precioProducto
                   },
                 });
               }
@@ -442,13 +444,15 @@ Shopify.recolectarDatosSeleccionados = function (varianteID) {
               );
             //   const idSubProducto = control.getAttribute("data-producto-id");
               const idVariante = control.getAttribute("data-variante-id");
+              const precioProducto = control.getAttribute("data-precio");
 
               if (idVariante && cantidadSub > 0) {
                 items.push({
                   id: idVariante,
-                  quantity: cantidadSub,
+                  quantity:  cantidadSub * quantityProducto,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
+                    Precio : precioProducto
                   },
                 });
               }
