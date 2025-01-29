@@ -732,7 +732,7 @@
 
       const jsonString = productoTrabajo.properties.Cuerpo.replace(/'/g, '"');
       const productoContruccionCuerpo = JSON.parse(jsonString);
-
+      console.log(productoTrabajo);
       contenedorItemProducto += `
       <div class="itemProducto-principal">
         ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${productoTrabajo.id}" style="display: none;">` : ''}
