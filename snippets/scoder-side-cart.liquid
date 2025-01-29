@@ -734,7 +734,6 @@
       const productoContruccionCuerpo = JSON.parse(jsonString);
 
       contenedorItemProducto += `
-      {{- productoTrabajo.product.title -}
       <div class="itemProducto-principal">
         ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${productoTrabajo.id}" style="display: none;">` : ''}
         <div class="view-cliente-producto">
@@ -750,7 +749,7 @@
           </div>
           <div class="contenedor-informacion">
             <a class="previewCartItem-name link-underline ci-link-titulo" href="{{ productoTrabajo.url }}">
-              <span class="text ci-text-titulo">${{{- productoTrabajo.product.title -}}}</span>
+              <span class="text ci-text-titulo">${{{- productoTrabajo.product.title -}}}a</span>
             </a>
             <div class="previewCartItem-change ci-detalle-precio">
               {%- liquid
