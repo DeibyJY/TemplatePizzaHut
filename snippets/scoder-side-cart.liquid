@@ -708,7 +708,7 @@
 <script>
   function initListaProductos(){
     const itemsCart = {{ cart.items | json }};
-    const itemsWithProducts = {{ cart.items | map: 'product' | json }};
+    const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     
     console.log(itemsCart);
     console.log(itemsWithProducts);
