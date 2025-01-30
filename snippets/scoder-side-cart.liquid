@@ -912,21 +912,34 @@
     });
   }
 
-   initListaProductos();
-  console.log('Hola Mundo');
-   fetch('/cart/clear.js', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Carrito limpiado:', data);
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  });
+  function clearCartWithRetry(retries = 3, delay = 1000) {
+    return new Promise((resolve, reject) => {
+      fetch('/cart/clear.js', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        if (response.status === 429 && retries > 0) {
+          console.log(`Reintentando en ${delay}ms...`);
+          setTimeout(() => {
+            clearCartWithRetry(retries - 1, delay * 2)
+              .then(resolve)
+              .catch(reject);
+          }, delay);
+        } else {
+          return response.json().then(resolve);
+        }
+      })
+      .catch(reject);
+    });
+  }
+  
+  // Uso:
+  clearCartWithRetry()
+    .then(data => console.log('Carrito limpiado:', data))
+    .catch(error => console.error('Error:', error));
 </script>
 
 {% comment %}
