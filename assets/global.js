@@ -690,44 +690,60 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 };
 
 Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
+    console.log('⭐ Iniciando changeItemCustomCarrito');
+    console.log('Parámetros recibidos:', { variant_id, quantity });
+
     // Validaciones iniciales de los parámetros de entrada
     if (!variant_id) {
-        console.error('Error: variant_id es requerido');
+        console.error('❌ Error: variant_id es requerido');
         return;
     }
 
     if (quantity < 0) {
-        console.error('Error: la cantidad no puede ser negativa');
+        console.error('❌ Error: la cantidad no puede ser negativa');
         return;
     }
 
+    console.log('✅ Validaciones iniciales pasadas');
+
     // Obtener el carrito actual usando la API de Shopify
+    console.log('📦 Obteniendo carrito actual...');
     Shopify.getCart(function(cart) {
         try {
+            console.log('🛒 Carrito obtenido:', cart);
+
             // Validar que el carrito existe y tiene items
             if (!cart || !cart.items) {
+                console.error('❌ Error: Carrito inválido o vacío');
                 throw new Error('Error: No se pudo obtener el carrito');
             }
 
             let itemsCarrito = cart.items;
-            // Extraer el ID base de la variante (elimina cualquier sufijo después de ':')
+            console.log('📝 Items en carrito:', itemsCarrito);
+
+            // Extraer el ID base de la variante
             const idVarianteBase = variant_id.toString().split(':')[0];
+            console.log('🔑 ID Variante Base extraído:', idVarianteBase);
 
             if (!idVarianteBase) {
+                console.error('❌ Error: ID Variante Base inválido');
                 throw new Error('Error al procesar el ID de la variante base');
             }
 
-            // Buscar el item principal en el carrito
+            // Buscar el item principal
             let itemTrabajo = itemsCarrito.find(item => item.variant_id.toString() === idVarianteBase);
+            console.log('🎯 Item principal encontrado:', itemTrabajo);
             
-            // Filtrar los subproductos relacionados con el producto principal
+            // Filtrar subproductos
             let itemsSubProductos = itemsCarrito.filter(item => 
                 item.properties && 
                 item.properties.ProductoBase === `Producto-${idVarianteBase}` &&
                 !item.properties.hasOwnProperty('Cuerpo')
             );
+            console.log('🔍 Subproductos encontrados:', itemsSubProductos);
 
-            // Preparar los datos de actualización para todos los productos
+            // Preparar datos de actualización
+            console.log('📊 Preparando datos para actualización...');
             let updateData = [];
 
             // Agregar producto principal
@@ -735,60 +751,82 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 id: idVarianteBase,
                 quantity: quantity
             });
+            console.log('➕ Producto principal agregado a updateData:', updateData);
 
             // Calcular y agregar subproductos
+            console.log('🧮 Calculando cantidades para subproductos...');
             itemsSubProductos.forEach(subProduct => {
-                // Calcular la nueva cantidad proporcional
                 const proporcion = subProduct.quantity / itemTrabajo.quantity;
+                console.log(`Proporción para subproducto ${subProduct.variant_id}:`, proporcion);
+                
                 const nuevaCantidad = Math.round(quantity * proporcion);
+                console.log(`Nueva cantidad calculada para subproducto ${subProduct.variant_id}:`, nuevaCantidad);
                 
                 updateData.push({
                     id: subProduct.variant_id,
                     quantity: nuevaCantidad
                 });
+                console.log('Subproducto agregado a updateData:', updateData[updateData.length - 1]);
             });
 
-            console.log('Datos a actualizar:', updateData);
+            console.log('📋 Datos finales a actualizar:', updateData);
 
-            // Configuración de la petición AJAX para actualizar el carrito
+            // Convertir updateData al formato requerido por la API
+            const updatesObject = updateData.reduce((acc, item) => {
+                acc[item.id] = item.quantity;
+                return acc;
+            }, {});
+            console.log('🔄 Objeto de actualizaciones formateado:', updatesObject);
+
+            // Configuración de la petición AJAX
+            console.log('🚀 Preparando petición AJAX...');
             var params = {
                 type: "POST",
-                url: "/cart/update.js", // Cambiado a update.js para actualizar múltiples items
+                url: "/cart/update.js",
                 data: {
-                    updates: updateData.reduce((acc, item) => {
-                        acc[item.id] = item.quantity;
-                        return acc;
-                    }, {})
+                    updates: updatesObject
                 },
                 dataType: "json",
                 success: function (cart) {
-                    console.log('Carrito actualizado exitosamente');
+                    console.log('✅ Carrito actualizado exitosamente:', cart);
                     if (typeof callback === "function") {
+                        console.log('📞 Ejecutando callback personalizado');
                         callback(cart);
                     } else {
+                        console.log('📞 Ejecutando onCartUpdate por defecto');
                         Shopify.onCartUpdate(cart);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus) {
-                    console.error('Error al actualizar el carrito:', textStatus);
+                    console.error('❌ Error en la actualización del carrito:', {
+                        status: textStatus,
+                        response: XMLHttpRequest.responseText
+                    });
                     Shopify.onError(XMLHttpRequest, textStatus);
                 },
                 complete: function() {
-                    console.log('Operación de actualización completada');
+                    console.log('🏁 Operación de actualización completada');
                 }
             };
 
-            // Ejecutar la petición AJAX para actualizar el carrito
+            console.log('📡 Configuración AJAX:', params);
+
+            // Ejecutar la petición AJAX
+            console.log('🚀 Enviando petición AJAX...');
             $.ajax(params);
 
         } catch (error) {
-            console.error('Error en el procesamiento:', error.message);
+            console.error('❌ Error en el procesamiento:', {
+                message: error.message,
+                stack: error.stack
+            });
             if (typeof callback === "function") {
                 callback({ error: error.message });
             }
         }
     });
 };
+
 
 Shopify.onItemAdded = function (line_item) {
   alert(line_item.title + " was added to your shopping cart.");
