@@ -873,12 +873,16 @@
           `;
 
           items.forEach(item => {
-            console.log(item);
             const productoEncontrado = itemSecundarios.find(itemSecundario => 
               itemSecundario.variant_id === item 
             );            
             const precioProductoSecundario = parseFloat(productoEncontrado.properties.Precio);
             const cantidadProductoSecundario = parseFloat(productoEncontrado.quantity);
+            console.log(item);
+            console.log(itemSecundarios);
+            console.log(productoEncontrado);
+            console.log(precioProductoSecundario);
+            console.log(cantidadProductoSecundario);
 
             contenedorItemProducto += `
               <p style="margin: 0;">
