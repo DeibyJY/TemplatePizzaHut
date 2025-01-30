@@ -1922,7 +1922,7 @@
                         data-max="${Max}"
                         data-producto-id="${item}"
                         data-variante-id="${productoTrabajo.id}"
-                        data-producto-price="${precioVariante}"
+                        data-precio="${precioVariante}"
                         onchange="validarLimiteRadio(this)"
                       >
                     </div>
@@ -1981,7 +1981,7 @@
                           data-max="${Max}"
                           data-producto-id="${item}"
                           data-variante-id="${productoTrabajo.id}"
-                          data-producto-price="${precioVariante}"
+                          data-precio="${precioVariante}"
                           onchange="validarLimiteCheckbox(this)"
                         >
                       </div>
@@ -2751,13 +2751,13 @@
                         if(tipoSelectSub === 'radio') {
                             const radiosSubSeleccionados = subItem.querySelectorAll('input[type="radio"]:checked');
                             radiosSubSeleccionados.forEach(radioSub => {
-                                const precioSub = parseFloat(radioSub.getAttribute('data-producto-price') || 0);
+                                const precioSub = parseFloat(radioSub.getAttribute('data-precio') || 0);
                                 precioTotal += precioSub;
                             });
                         } else if(tipoSelectSub === 'checkbox') {
                             const checkboxesSubSeleccionados = subItem.querySelectorAll('input[type="checkbox"]:checked');
                             checkboxesSubSeleccionados.forEach(checkboxSub => {
-                                const precioSub = parseFloat(checkboxSub.getAttribute('data-producto-price') || 0);
+                                const precioSub = parseFloat(checkboxSub.getAttribute('data-precio') || 0);
                                 precioTotal += precioSub;
                             });
                         } else if(tipoSelectSub === 'numberCount') {
