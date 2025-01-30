@@ -877,7 +877,7 @@
                       type="button"
                       name="minus"
                       class="minus btn-quantity"
-                      onClick="hara2cosas()"
+                      onClick="procesosInputsHermanos()"
                     >
                       <span class="visually-hidden">
                         {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
@@ -896,7 +896,7 @@
                       data-price="{{ current_variant.price }}"
                       data-inventory-quantity="{{ current_variant.inventory_quantity }}"
                     >
-                    <button type="button" name="plus" class="plus btn-quantity" onClick="hara2cosas()">
+                    <button type="button" name="plus" class="plus btn-quantity" onClick="procesosInputsHermanos()">
                       <span class="visually-hidden">
                         {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
                       </span>
@@ -2888,12 +2888,12 @@
     });
   })();
 
-  function hara2cosas(){
-      updateValoresDeBajoOpciones();
-      updateValoresDeBajoOpciones();
+  function procesosInputsHermanos(){
+    updateHermanosInputsQuantity();
+    updateValoresDeBajoOpciones()
   }
 
-  function updateValoresDeBajoOpciones() {
+  function updateHermanosInputsQuantity() {
     // Esperamos un pequeño momento para que el valor del input visible se actualice primero
     setTimeout(() => {
         // Obtener el valor del input visible
@@ -2912,13 +2912,13 @@
     }, 100); // Pequeño delay para asegurar que el valor del input visible ya se actualizó
 }
 
-// También podemos escuchar cambios directos en el input visible
-document.addEventListener('DOMContentLoaded', () => {
-    const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
-    
-    if (visibleInput) {
-        visibleInput.addEventListener('input', updateValoresDeBajoOpciones);
-        visibleInput.addEventListener('change', updateValoresDeBajoOpciones);
-    }
-});
+  // También podemos escuchar cambios directos en el input visible
+  document.addEventListener('DOMContentLoaded', () => {
+      const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
+      
+      if (visibleInput) {
+          visibleInput.addEventListener('input', updateHermanosInputsQuantity);
+          visibleInput.addEventListener('change', updateHermanosInputsQuantity);
+      }
+  });
 </script>
