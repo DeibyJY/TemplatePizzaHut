@@ -2545,7 +2545,7 @@
                 console.log('¿Hay suficiente stock?:', enoughInStock);
                 console.groupEnd();
 
-                Shopify.changeItem(productLine, quantity, (cart) => {
+                Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
                     if($body.hasClass('template-cart')){
                         scoder.updateCart(cart);
                         console.log("template-cart");
