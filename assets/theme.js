@@ -1934,7 +1934,7 @@
                 Shopify.getCart(function(cart) {
                     itemsCarrito = cart.items;
                 });
-                const cuerpoGeneradpo = Shopify.jsonOpcionesSeleccionadas();
+                const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
                 console.log(cuerpoGenerado); 
                 const existe = itemsCarrito.find(item => item.variant_id == variantId && item.properties.cuerpo == cuerpoGenerado);
                 console.log(existe);
