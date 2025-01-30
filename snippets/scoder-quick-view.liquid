@@ -2900,14 +2900,14 @@
         const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
         const hiddenInput = document.querySelector('#quantity-hidden-{{ product.id }}');
         
-        console.log('Input visible encontrado:', !!visibleInput);
-        console.log('Input oculto encontrado:', !!hiddenInput);
-        console.log('Valor del input visible:', visibleInput?.value);
+        //console.log('Input visible encontrado:', !!visibleInput);
+        //console.log('Input oculto encontrado:', !!hiddenInput);
+        //console.log('Valor del input visible:', visibleInput?.value);
         
         if (visibleInput && hiddenInput) {
             // Actualizar el valor del input oculto
             hiddenInput.value = visibleInput.value;
-            console.log('Valor actualizado en input oculto:', hiddenInput.value);
+            // console.log('Valor actualizado en input oculto:', hiddenInput.value);
         }
     }, 100); // Pequeño delay para asegurar que el valor del input visible ya se actualizó
 }
@@ -2915,7 +2915,6 @@
   // También podemos escuchar cambios directos en el input visible
   document.addEventListener('DOMContentLoaded', () => {
       const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
-      
       if (visibleInput) {
           visibleInput.addEventListener('input', updateHermanosInputsQuantity);
           visibleInput.addEventListener('change', updateHermanosInputsQuantity);
