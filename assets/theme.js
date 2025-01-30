@@ -2428,9 +2428,21 @@
                 event.stopPropagation();
 
                 var $target = $(event.currentTarget),
-                    productId = $target.attr('data-cart-remove-id'),
-                    text = $('#cart-gift-wrapp').attr('data-add-text'),
-                    productLine = $target.data('line');
+                productId = $target.attr('data-cart-remove-id'),
+                text = $('#cart-gift-wrapp').attr('data-add-text'),
+                productLine = $target.data('line');
+            
+                console.log('----DEBUG REMOVE CART ITEM----');
+                console.log('Evento:', event);
+                console.log('Target elemento:', $target);
+                console.log('Product ID:', productId);
+                console.log('Text:', text);
+                console.log('Product Line:', productLine);
+                console.log('Target attributes:', {
+                    'data-cart-remove-id': $target.attr('data-cart-remove-id'),
+                    'data-line': $target.data('line'),
+                    'element': $target.get(0)
+            });
 
                 $('#cart-gift-wrapp').text(text);
 
