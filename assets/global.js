@@ -344,6 +344,7 @@ Shopify.changeItem = function (variant_id, quantity, callback) {
 };
 
 Shopify.removeItem = function (variant_id, callback) {
+    console.log(variant_id);
   var params = {
     type: "POST",
     url: "/cart/change.js",

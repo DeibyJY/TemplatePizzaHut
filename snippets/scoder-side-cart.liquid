@@ -715,7 +715,7 @@
   function initListaProductos(){
     const itemsCart = {{ cart.items | json }};
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
-    {% comment %} console.log({{ cart.items | json }}); {% endcomment %}
+     console.log({{ cart.items | json }}); 
     
     const productosBase = itemsCart.filter(item => {
         return item.properties && 
