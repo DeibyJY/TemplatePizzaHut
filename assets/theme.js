@@ -1930,29 +1930,53 @@
                 // Verificar si el 'Cuerpo' ya existe en algun elemento debe ser igual
                 // Si este existe, entonces se ChangeItem en el caso que no AddItem 
                 let itemsCarrito = [];
-                console.log(variantId);
                 Shopify.getCart(function(cart) {
-                    itemsCarrito = cart;
-                    console.log(itemsCarrito)
+                    itemsCarrito = cart.items; // Asegúrate de usar cart.items en lugar de cart
+                    console.log('🛒 Carrito completo:', cart);
+                    console.log('📦 Items en carrito:', itemsCarrito);
+
                     const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
-                    console.log(cuerpoGenerado); 
+                    console.log('🎯 Cuerpo generado a buscar:', cuerpoGenerado);
+
+                    console.log('🔍 Iniciando búsqueda con variantId:', variantId);
+
                     const existe = itemsCarrito.find(item => {
-                        console.log('📦 Item:', {
-                            'variant_id': item.variant_id,
-                            'variantId buscado': variantId,
-                            'cuerpo item': item.properties?.cuerpo,
-                            'cuerpo buscado': cuerpoGenerado
+                        console.log('\n📌 Analizando item:', {
+                            'ID del item': item.id,
+                            'Variant ID del item': item.variant_id,
+                            'Variant ID buscado': variantId,
+                            'Tiene properties?': !!item.properties,
+                            'Properties completo': item.properties
                         });
-                    
-                        const coincide = item.variant_id == variantId && 
-                                        JSON.stringify(item.properties?.cuerpo) === JSON.stringify(cuerpoGenerado);
-                        
-                        console.log('✅ Coincide?:', coincide);
-                        return coincide;
-                    });      
-                    console.log(existe);
+
+                        // Log detallado de las propiedades cuerpo
+                        console.log('👀 Comparación de cuerpo:', {
+                            'Cuerpo del item': item.properties?.cuerpo,
+                            'Cuerpo buscado': cuerpoGenerado,
+                            'Cuerpo item (stringify)': JSON.stringify(item.properties?.cuerpo),
+                            'Cuerpo buscado (stringify)': JSON.stringify(cuerpoGenerado)
+                        });
+
+                        const coincideVariante = item.variant_id == variantId;
+                        const coincideCuerpo = JSON.stringify(item.properties?.cuerpo) === JSON.stringify(cuerpoGenerado);
+
+                        console.log('✨ Resultados parciales:', {
+                            'Coincide variant_id?': coincideVariante,
+                            'Coincide cuerpo?': coincideCuerpo
+                        });
+
+                        const coincideFinal = coincideVariante && coincideCuerpo;
+                        console.log(`${coincideFinal ? '✅' : '❌'} Resultado final para este item:`, coincideFinal);
+
+                        return coincideFinal;
+                    });
+
+                    console.log('\n🎯 Resultado de la búsqueda:', {
+                        'Se encontró item?': !!existe,
+                        'Item encontrado': existe
+                    });
                 });
-                
+                                
                 // if(){
                 // 
                 // }else{
