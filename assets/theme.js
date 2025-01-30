@@ -2506,6 +2506,8 @@
 
         updateQuantityItemQuickCart: function(){
             $doc.on('change', '[data-cart-quantity]', (event) => {
+                console.log('updateQuantityItemQuickCart');
+
                 event.preventDefault();
                 event.stopPropagation();
 
