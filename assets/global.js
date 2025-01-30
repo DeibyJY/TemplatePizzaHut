@@ -397,6 +397,7 @@ Shopify.addItem = function (variant_id, quantity, callback, input = null) {
 };
 
 // Funcion relacionadas al popup del carrito 
+//
 Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
   const items = [];
   const contendorPrincipal = document.querySelector(
