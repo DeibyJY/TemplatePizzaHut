@@ -689,44 +689,39 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 };
 
 Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
-    // Tengo la id variante del producto a modificar y este es un Producto Principal
-    // Con ese ID debo buscar sus subproductos y modificarlos encuanto al quantity
-    
-    // 
-    let itemsCarrito = [];
-
+    // Primero obtenemos el carrito y trabajamos con los datos dentro del callback
     Shopify.getCart(function(cart) {
-        itemsCarrito = cart.items;
-        console.log(itemsCarrito);
+        let itemsCarrito = cart.items;
+        let itemTrabajo = itemsCarrito.find(item => item.variant_id == variant_id);
+        let itemsSubProductos = itemsCarrito.filter(item => 
+            item.properties && 
+            item.properties.ProductoBase == `Producto-${variant_id}`
+        );
+        
+        console.log('Item de trabajo:', itemTrabajo);
+        console.log('Items subproductos:', itemsSubProductos);
+
+        // Realizar la actualización del carrito
+        var params = {
+            type: "POST",
+            url: "/cart/change.js",
+            data: "quantity=" + quantity + "&id=" + variant_id,
+            dataType: "json",
+            success: function (cart) {
+                if (typeof callback === "function") {
+                    callback(cart);
+                } else {
+                    Shopify.onCartUpdate(cart);
+                }
+            },
+            error: function (XMLHttpRequest, textStatus) {
+                Shopify.onError(XMLHttpRequest, textStatus);
+            },
+        };
+
+        $.ajax(params);
     });
-
-    let itemTrabajo = itemsCarrito.find(item => item.variant_id == variant_id);
-    let itemsSubProductos = itemsCarrito.filter(item => item.properties.ProductoBase == `Producto-${variant_id}`);
-
-    console.log('Item de trabajo:', itemTrabajo);
-    console.log('Items subproductos:', itemsSubProductos);
-
-
-    var params = {
-      type: "POST",
-      url: "/cart/change.js",
-      data: "quantity=" + quantity + "&id=" + variant_id,
-      dataType: "json",
-      success: function (cart) {
-        if (typeof callback === "function") {
-          callback(cart);
-        } else {
-          Shopify.onCartUpdate(cart);
-        }
-      },
-      error: function (XMLHttpRequest, textStatus) {
-        Shopify.onError(XMLHttpRequest, textStatus);
-      },
-    };
-  
-    $.ajax(params);
 };
-
 Shopify.onItemAdded = function (line_item) {
   alert(line_item.title + " was added to your shopping cart.");
 };
