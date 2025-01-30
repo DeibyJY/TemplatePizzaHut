@@ -697,6 +697,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
 
     Shopify.getCart(function(cart) {
         itemsCarrito = cart.items;
+        console.log(itemsCarrito);
     });
 
     let itemTrabajo = itemsCarrito.find(item => item.variant_id == variant_id);
@@ -705,7 +706,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
     console.log('Item de trabajo:', itemTrabajo);
     console.log('Items subproductos:', itemsSubProductos);
 
-    
+
     var params = {
       type: "POST",
       url: "/cart/change.js",
