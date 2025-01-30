@@ -807,7 +807,9 @@
                   `;
                 }
 
-            contenedorItemProducto += `
+                {% comment %}  {% endcomment %}
+            {% comment %}  {% endcomment %}
+                contenedorItemProducto += `
                   </span>
                     </div>
                     <cart-update-quantity class="previewCartItem-qty" data-product="${ productoTrabajo.product_id }" data-variant="${ current_variant.id }">

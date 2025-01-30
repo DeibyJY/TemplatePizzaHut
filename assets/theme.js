@@ -1915,9 +1915,6 @@
         },
 
         actionAddToCart: function($target, variantId, qty, input){
-            
-
-
             var originalMessage = window.variantStrings.submit,
                 waitMessage = window.variantStrings.addingToCart,
                 successMessage = window.variantStrings.addedToCart;
@@ -1930,8 +1927,23 @@
 
             if($body.hasClass('quick-view-show')){
                 // Ingresa aqui siempre
-                // Verificar si el componente existe, si existe solo changeItem 
-                // Caso contrario slo addItem
+                // Verificar si el 'Cuerpo' ya existe en algun elemento debe ser igual
+                // Si este existe, entonces se ChangeItem en el caso que no AddItem 
+                
+                let itemsCarrito = [];
+                Shopify.getCart(function(cart) {
+                    itemsCarrito = cart.items;
+                });
+                const cuerpoGeneradpo = Shopify.jsonOpcionesSeleccionadas();
+                console.log(cuerpoGenerado); 
+                const existe = itemsCarrito.find(item => item.variant_id == variantId && item.properties.cuerpo == cuerpoGenerado);
+                console.log(existe);
+                // if(){
+                // 
+                // }else{
+                    // 
+                // }
+
                 console.log("Hola test 1",qty);
                 Shopify.addItemCustomCarrito(variantId, qty, () => {
                     if (window.after_add_to_cart.type == 'cart') {
