@@ -1936,10 +1936,20 @@
                     console.log(itemsCarrito)
                     const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
                     console.log(cuerpoGenerado); 
-                    const existe = itemsCarrito.find(item => 
-                        item.variant_id == variantId && 
-                        JSON.stringify(item.properties.cuerpo) === JSON.stringify(cuerpoGenerado)
-                    );                    
+                    const existe = itemsCarrito.find(item => {
+                        console.log('📦 Item:', {
+                            'variant_id': item.variant_id,
+                            'variantId buscado': variantId,
+                            'cuerpo item': item.properties?.cuerpo,
+                            'cuerpo buscado': cuerpoGenerado
+                        });
+                    
+                        const coincide = item.variant_id == variantId && 
+                                        JSON.stringify(item.properties?.cuerpo) === JSON.stringify(cuerpoGenerado);
+                        
+                        console.log('✅ Coincide?:', coincide);
+                        return coincide;
+                    });      
                     console.log(existe);
                 });
                 
