@@ -343,26 +343,38 @@ Shopify.changeItem = function (variant_id, quantity, callback) {
   $.ajax(params);
 };
 
-Shopify.removeItem = function (variant_id, callback) {
-    console.log(variant_id);
-  var params = {
-    type: "POST",
-    url: "/cart/change.js",
-    data: "quantity=0&id=" + variant_id,
-    dataType: "json",
-    success: function (cart) {
-      if (typeof callback === "function") {
-        callback(cart);
-      } else {
-        Shopify.onCartUpdate(cart);
-      }
-    },
-    error: function (XMLHttpRequest, textStatus) {
-      Shopify.onError(XMLHttpRequest, textStatus);
-    },
-  };
+Shopify.removeItem = function(variant_id, callback) {
+    console.log('Intentando eliminar variante:', variant_id);
+    
+    var params = {
+        type: 'POST',
+        url: '/cart/change.js',
+        data: 'quantity=0&id=' + variant_id,
+        dataType: 'json',
+        success: function(cart) {
+            console.log('Éxito al eliminar:', cart);
+            if (typeof callback === 'function') {
+                callback(cart);
+            } else {
+                Shopify.onCartUpdate(cart);
+            }
+        },
+        error: function(XMLHttpRequest, textStatus) {
+            console.error('Error en removeItem:', {
+                status: XMLHttpRequest.status,
+                statusText: XMLHttpRequest.statusText,
+                responseText: XMLHttpRequest.responseText,
+                textStatus: textStatus
+            });
+            Shopify.onError(XMLHttpRequest, textStatus);
+        }
+    };
 
-  $.ajax(params);
+    try {
+        $.ajax(params);
+    } catch(e) {
+        console.error('Error al ejecutar ajax:', e);
+    }
 };
 
 Shopify.addItem = function (variant_id, quantity, callback, input = null) {
