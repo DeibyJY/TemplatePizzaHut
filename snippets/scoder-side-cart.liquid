@@ -715,6 +715,7 @@
   function initListaProductos(){
     const itemsCart = {{ cart.items | json }};
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
+    console.log({{ cart.items | json }});
     
     const productosBase = itemsCart.filter(item => {
         return item.properties && 
@@ -864,7 +865,7 @@
         </div>
         ${itemSecundarios.length > 0 ? `<div class="details-container-${uuid}">` : ''}
       `;
-      
+
       {% comment %} asdasdasdsa {% endcomment %}
       // Del producto base => productoTrabajo, de su properties 
       // El Cuerpo => productoContruccionCuerpo es ahora un objeto que se 
