@@ -891,7 +891,7 @@
                       value="1"
                       inputmode="numeric"
                       pattern="[0-9]*"
-                      id="quantity-{{ product.id }}"
+                      id="quantity-visible-{{ product.id }}"
                       data-product="{{ product.id }}"
                       data-price="{{ current_variant.price }}"
                       data-inventory-quantity="{{ current_variant.inventory_quantity }}"
@@ -1189,7 +1189,7 @@
                     value="1"
                     inputmode="numeric"
                     pattern="[0-9]*"
-                    id="quantity-{{ product.id }}"
+                    id="quantity-hidden-{{ product.id }}"
                     data-product="{{ product.id }}"
                     data-price="{{ current_variant.price }}"
                     data-inventory-quantity="{{ current_variant.inventory_quantity }}"
@@ -2890,31 +2890,43 @@
 
 
   document.addEventListener('DOMContentLoaded', () => {
+    // Buscamos los inputs específicamente por sus clases
     const visibleInput = document.querySelector('.quantity__input:not(.hidden)');
     const hiddenInput = document.querySelector('.quantity__input.hidden');
     
-    console.log('Visible Input encontrado:', !!visibleInput);
-    console.log('Hidden Input encontrado:', !!hiddenInput);
-    
-    if (!visibleInput || !hiddenInput) {
-        console.log('⚠️ Uno o ambos inputs no fueron encontrados');
-        return;
-    }
-    
-    visibleInput.addEventListener('input', () => {
-        console.log('Valor del input visible cambió a:', visibleInput.value);
-        hiddenInput.value = visibleInput.value;
-        console.log('Valor del input oculto actualizado a:', hiddenInput.value);
-    });
-    
-    hiddenInput.addEventListener('input', () => {
-        console.log('Valor del input oculto cambió a:', hiddenInput.value);
-        visibleInput.value = hiddenInput.value;
-        console.log('Valor del input visible actualizado a:', visibleInput.value);
+    console.log('Estado inicial:', {
+        visibleInput: Boolean(visibleInput),
+        hiddenInput: Boolean(hiddenInput),
+        visibleValue: visibleInput?.value,
+        hiddenValue: hiddenInput?.value
     });
 
-    // Valores iniciales
-    console.log('Valor inicial input visible:', visibleInput.value);
-    console.log('Valor inicial input oculto:', hiddenInput.value);
+    if (!visibleInput || !hiddenInput) {
+        console.error('No se encontraron los inputs');
+        return;
+    }
+
+    // Escuchar cambios en el input visible
+    visibleInput.addEventListener('change', () => {
+        console.log('Cambio en visible:', visibleInput.value);
+        hiddenInput.value = visibleInput.value;
+    });
+
+    // También escuchar el evento input para actualizaciones en tiempo real
+    visibleInput.addEventListener('input', () => {
+        console.log('Input en visible:', visibleInput.value);
+        hiddenInput.value = visibleInput.value;
+    });
+
+    // Escuchar cambios en el input oculto (por si acaso)
+    hiddenInput.addEventListener('change', () => {
+        console.log('Cambio en oculto:', hiddenInput.value);
+        visibleInput.value = hiddenInput.value;
+    });
+
+    hiddenInput.addEventListener('input', () => {
+        console.log('Input en oculto:', hiddenInput.value);
+        visibleInput.value = hiddenInput.value;
+    });
 });
 </script>
