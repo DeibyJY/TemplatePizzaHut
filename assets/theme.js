@@ -1889,7 +1889,6 @@
                             qty = form.find('[name="quantity"]').val();
                             input = form.find('[name="quantity"]').eq(0);
                         
-                        console.log('Cantidad:', qty);
                         if(qty == undefined){
                             qty = 1;
                         }
