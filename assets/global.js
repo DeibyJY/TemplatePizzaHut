@@ -698,6 +698,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
             item.properties.ProductoBase == `Producto-${variant_id}`
         );
         
+        console.log('Productos carrito :', itemsCarrito);
         console.log('Item de trabajo:', itemTrabajo);
         console.log('Items subproductos:', itemsSubProductos);
 
