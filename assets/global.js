@@ -623,8 +623,6 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     var quantity = quantity || 1;
     var target = document.querySelector("[data-quickshop] .is-loading") || 
                  document.querySelector("[data-btn-addtocart].is-loading");
-
-    console.log(itemsSeleccionados);
   
     // Primero validamos los datos
     if (!variant_id) {
@@ -643,7 +641,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     },
     ...itemsSeleccionados];
 
-    console.log('Items a enviar:', items);
+    // console.log('Items a enviar:', items);
 
     // Construimos el formData de manera más segura
     var formData = '';
