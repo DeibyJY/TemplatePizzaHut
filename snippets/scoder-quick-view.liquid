@@ -1778,7 +1778,7 @@
                   data-max="${maxNum}"
                   data-producto-id="${idProducto}"
                   data-variante-id="${productoMainItem.id}"
-                  data-precio="${precioVariante}">
+                  data-precio="${parseFloat(productoMainItem.price.amount)}">
                 <button type="button" class="btn-cantidad2" onclick="decrementCantidad(this)">
                   <svg class="MuiSvgIcon-root2" focusable="false" viewBox="0 0 24 24">
                     <path d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"></path>
@@ -1812,6 +1812,7 @@
                     data-group="${indexCN3}"
                     data-producto-id="${idProducto}"
                     data-variante-id="${productoMainItem.id}"
+                    data-precio="${parseFloat(productoMainItem.price.amount)}"
                     data-min="${minNum}"
                     data-max="${maxNum}"
                     onchange="validarLimiteCheckbox(this)"
