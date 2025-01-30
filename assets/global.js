@@ -396,6 +396,7 @@ Shopify.addItem = function (variant_id, quantity, callback, input = null) {
   $.ajax(params);
 };
 
+// Funcion relacionadas al popup del carrito 
 Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
   const items = [];
   const contendorPrincipal = document.querySelector(
@@ -685,6 +686,27 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
             target?.classList.remove("is-loading");
         }
     });
+};
+
+Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
+    var params = {
+      type: "POST",
+      url: "/cart/change.js",
+      data: "quantity=" + quantity + "&id=" + variant_id,
+      dataType: "json",
+      success: function (cart) {
+        if (typeof callback === "function") {
+          callback(cart);
+        } else {
+          Shopify.onCartUpdate(cart);
+        }
+      },
+      error: function (XMLHttpRequest, textStatus) {
+        Shopify.onError(XMLHttpRequest, textStatus);
+      },
+    };
+  
+    $.ajax(params);
 };
 
 Shopify.onItemAdded = function (line_item) {
