@@ -689,42 +689,79 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 };
 
 Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
+    if (!variant_id) {
+        console.error('Error: variant_id es requerido');
+        return;
+    }
+
+    if (quantity < 0) {
+        console.error('Error: la cantidad no puede ser negativa');
+        return;
+    }
+
     // Primero obtenemos el carrito y trabajamos con los datos dentro del callback
     Shopify.getCart(function(cart) {
-        let itemsCarrito = cart.items;
-        const idVarianteBase = variant_id.split(':')[0];
-        let itemTrabajo = itemsCarrito.find(item => item.variant_id == idVarianteBase);
-        let itemsSubProductos = itemsCarrito.filter(item => 
-            item.properties && 
-            item.properties.ProductoBase === `Producto-${idVarianteBase}` &&
-            !item.properties.hasOwnProperty('Cuerpo')
-        );
+        try {
+            if (!cart || !cart.items) {
+                throw new Error('Error: No se pudo obtener el carrito');
+            }
 
-        console.log(idVarianteBase);
-        console.log(idVarianteBase, quantity );
-        console.log('Productos carrito :', itemsCarrito);
-        console.log('Item de trabajo:', itemTrabajo);
-        console.log('Items subproductos:', itemsSubProductos);
+            let itemsCarrito = cart.items;
+            const idVarianteBase = variant_id.toString().split(':')[0];
 
-        // Realizar la actualización del carrito
-        var params = {
-            type: "POST",
-            url: "/cart/change.js",
-            data: "quantity=" + quantity + "&id=" + variant_id,
-            dataType: "json",
-            success: function (cart) {
-                if (typeof callback === "function") {
-                    callback(cart);
-                } else {
-                    Shopify.onCartUpdate(cart);
+            if (!idVarianteBase) {
+                throw new Error('Error al procesar el ID de la variante base');
+            }
+
+            let itemTrabajo = itemsCarrito.find(item => item.variant_id.toString() === idVarianteBase);
+            let itemsSubProductos = itemsCarrito.filter(item => 
+                item.properties && 
+                item.properties.ProductoBase === `Producto-${idVarianteBase}` &&
+                !item.properties.hasOwnProperty('Cuerpo')
+            );
+
+            // Logs para debugging
+            console.log('ID Variante Base:', idVarianteBase);
+            console.log('Cantidad:', quantity);
+            console.log('Productos carrito:', itemsCarrito);
+            console.log('Item de trabajo:', itemTrabajo);
+            console.log('Items subproductos:', itemsSubProductos);
+            // Validar si el item existe en el carrito
+            if (!itemTrabajo && quantity > 0) {
+                console.warn('Advertencia: El producto no existe en el carrito');
+            }
+
+            // Realizar la actualización del carrito
+            var params = {
+                type: "POST",
+                url: "/cart/change.js",
+                data: "quantity=" + quantity + "&id=" + variant_id,
+                dataType: "json",
+                success: function (cart) {
+                    console.log('Carrito actualizado exitosamente');
+                    if (typeof callback === "function") {
+                        callback(cart);
+                    } else {
+                        Shopify.onCartUpdate(cart);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus) {
+                    console.error('Error al actualizar el carrito:', textStatus);
+                    Shopify.onError(XMLHttpRequest, textStatus);
+                },
+                complete: function() {
+                    console.log('Operación de actualización completada');
                 }
-            },
-            error: function (XMLHttpRequest, textStatus) {
-                Shopify.onError(XMLHttpRequest, textStatus);
-            },
-        };
+            };
 
-        $.ajax(params);
+            $.ajax(params);
+
+        } catch (error) {
+            console.error('Error en el procesamiento:', error.message);
+            if (typeof callback === "function") {
+                callback({ error: error.message });
+            }
+        }
     });
 };
 
