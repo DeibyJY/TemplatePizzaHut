@@ -1931,30 +1931,44 @@
                 // Si este existe, entonces se ChangeItem en el caso que no AddItem 
                 let itemsCarrito = [];
                 Shopify.getCart(function(cart) {
-                    if (!cart || !cart.items) {
-                        console.error('❌ Error: No hay items en el carrito');
-                        return null;
-                    }
-
                     itemsCarrito = cart.items;
-                    console.log('📦 Items en carrito:', itemsCarrito);
-
                     const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
-                    console.log('🎯 Cuerpo generado:', cuerpoGenerado);
-
+                    
                     let existe = null;
                     for (let i = 0; i < itemsCarrito.length; i++) {
                         const item = itemsCarrito[i];
-                        console.log('📌 Revisando item:', item);
-
-                        if (item.variant_id == variantId && 
-                            JSON.stringify(item.properties?.cuerpo) === JSON.stringify(cuerpoGenerado)) {
+                        
+                        // Extraemos los valores para comparar
+                        const cuerpoPropiedades = JSON.stringify(item.properties?.cuerpo);
+                        const cuerpoAComparar = JSON.stringify(cuerpoGenerado);
+                        
+                        console.log('\n🔍 Comparación detallada para item ' + i + ':');
+                        console.log('------------------------');
+                        console.log('📦 Cuerpo del item (sin stringify):', item.properties?.cuerpo);
+                        console.log('🎯 Cuerpo generado (sin stringify):', cuerpoGenerado);
+                        console.log('------------------------');
+                        console.log('📦 Cuerpo del item (stringify):', cuerpoPropiedades);
+                        console.log('🎯 Cuerpo generado (stringify):', cuerpoAComparar);
+                        console.log('------------------------');
+                        console.log('🤔 ¿Son iguales?:', cuerpoPropiedades === cuerpoAComparar);
+                        
+                        // Si son diferentes, mostramos más detalles
+                        if (cuerpoPropiedades !== cuerpoAComparar) {
+                            console.log('❌ Las diferencias podrían estar en:');
+                            console.log('Longitud cuerpo item:', cuerpoPropiedades?.length);
+                            console.log('Longitud cuerpo generado:', cuerpoAComparar?.length);
+                            console.log('Tipo de dato cuerpo item:', typeof item.properties?.cuerpo);
+                            console.log('Tipo de dato cuerpo generado:', typeof cuerpoGenerado);
+                        }
+                        
+                        if (item.variant_id == variantId && cuerpoPropiedades === cuerpoAComparar) {
                             existe = item;
+                            console.log('✅ ¡Encontrado! Item coincide completamente');
                             break;
                         }
                     }
 
-                    console.log('🎯 Resultado final:', existe);
+                    console.log('\n🎯 Resultado final:', existe);
                     return existe;
                 });
                                 
