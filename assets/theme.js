@@ -1889,13 +1889,7 @@
                             qty = form.find('[name="quantity"]').val();
                             input = form.find('[name="quantity"]').eq(0);
                         
-                        
-                        console.log('Formulario:', form);
-                        console.log('ID de variante:', variantId);
                         console.log('Cantidad:', qty);
-                        console.log('Input de cantidad:', input);
-
-
                         if(qty == undefined){
                             qty = 1;
                         }
