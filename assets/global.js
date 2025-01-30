@@ -625,6 +625,10 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     const uuidBase = this.generateUUID();
     var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id,quantity,uuidBase) || [];
     var jsonCuerpoSeleccionados = this.jsonOpcionesSeleccionadas(); 
+
+    console.log(uuidBase);
+    console.log(itemsSeleccionados);
+    console.log(jsonCuerpoSeleccionados);
     var quantity = quantity || 1;
     var target = document.querySelector("[data-quickshop] .is-loading") || 
                  document.querySelector("[data-btn-addtocart].is-loading");
