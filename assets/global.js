@@ -692,15 +692,16 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
     // Primero obtenemos el carrito y trabajamos con los datos dentro del callback
     Shopify.getCart(function(cart) {
         let itemsCarrito = cart.items;
-        let itemTrabajo = itemsCarrito.find(item => item.variant_id == variant_id);
+        const idVarianteBase = variant_id.split(':')[0];
+        let itemTrabajo = itemsCarrito.find(item => item.variant_id == idVarianteBase);
         let itemsSubProductos = itemsCarrito.filter(item => 
             item.properties && 
-            item.properties.ProductoBase == `Producto-${variant_id}`
+            item.properties.ProductoBase == `Producto-${idVarianteBase}`
         );
         
-        
-        console.log(variant_id);
-        console.log(variant_id, quantity );
+
+        console.log(idVarianteBase);
+        console.log(idVarianteBase, quantity );
         console.log('Productos carrito :', itemsCarrito);
         console.log('Item de trabajo:', itemTrabajo);
         console.log('Items subproductos:', itemsSubProductos);
