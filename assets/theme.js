@@ -1939,13 +1939,13 @@
                         const item = itemsCarrito[i];
                         
                         // Simplemente reemplazar las barras invertidas si existen
-                        let cuerpoItemLimpio = item.properties?.cuerpo;
+                        let cuerpoItemLimpio = item.properties?.Cuerpo;
                         if (typeof cuerpoItemLimpio === 'string') {
                             cuerpoItemLimpio = cuerpoItemLimpio.replace(/\\/g, '');
                         }
                 
                         console.log('\n🔍 Comparación para item ' + i + ':', item);
-                        console.log('Cuerpo del item (original):', item.properties?.cuerpo);
+                        console.log('Cuerpo del item (original):', item.properties?.Cuerpo);
                         console.log('Cuerpo del item (sin barras):', cuerpoItemLimpio);
                         console.log('Cuerpo generado:', cuerpoGenerado);
                         
