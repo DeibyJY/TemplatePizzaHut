@@ -756,6 +756,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
             // Calcular y agregar subproductos
             console.log('🧮 Calculando cantidades para subproductos...');
             itemsSubProductos.forEach(subProduct => {
+                console.log(`Subproducto ${subProduct.variant_id}:`, subProduct);
                 const proporcion = subProduct.quantity / itemTrabajo.quantity;
                 console.log(`Proporción para subproducto ${subProduct.variant_id}:`, proporcion);
                 
