@@ -1932,11 +1932,14 @@
                 let itemsCarrito = [];
                 console.log(variantId);
                 Shopify.getCart(function(cart) {
-                    itemsCarrito = cart.items;
+                    itemsCarrito = cart;
                     console.log(itemsCarrito)
                     const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
                     console.log(cuerpoGenerado); 
-                    const existe = itemsCarrito.find(item => item.variant_id == variantId && item.properties.cuerpo == cuerpoGenerado);
+                    const existe = itemsCarrito.find(item => 
+                        item.variant_id == variantId && 
+                        JSON.stringify(item.properties.cuerpo) === JSON.stringify(cuerpoGenerado)
+                    );                    
                     console.log(existe);
                 });
                 
