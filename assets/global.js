@@ -483,7 +483,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
               if (idVariante) {
                 items.push({
                   id: idVariante,
-                  quantity: 1,
+                  quantity: quantityProducto,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
                   },
@@ -505,7 +505,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
               if (idVariante && cantidad > 0) {
                 items.push({
                   id: idVariante,
-                  quantity: cantidad,
+                  quantity: cantidad * quantityProducto,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
                   },
