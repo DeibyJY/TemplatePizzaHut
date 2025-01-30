@@ -1943,23 +1943,15 @@
                         if (typeof cuerpoItemLimpio === 'string') {
                             cuerpoItemLimpio = cuerpoItemLimpio.replace(/\\/g, '');
                         }
-                
-                        console.log('\n🔍 Comparación para item ' + i + ':', item);
-                        console.log('Cuerpo del item (original):', item.properties?.Cuerpo);
-                        console.log('Cuerpo del item (sin barras):', cuerpoItemLimpio);
-                        console.log('Cuerpo generado:', cuerpoGenerado);
                         
                         const sonIguales = cuerpoItemLimpio === cuerpoGenerado;
-                        console.log('¿Son iguales?:', sonIguales);
                 
                         if (item.variant_id == variantId && sonIguales) {
                             existe = item;
-                            console.log('✅ ¡Encontrado!');
                             break;
                         }
                     }
                 
-                    console.log('Resultado final:', existe);
                     return existe;
                 });  
                 // if(){
