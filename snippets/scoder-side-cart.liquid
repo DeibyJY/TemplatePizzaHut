@@ -717,19 +717,19 @@
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     
     const productosBase = itemsCart.filter(item => {
-        // Verificar si el item tiene properties y las propiedades específicas
         return item.properties && 
                item.properties.ProductoBase !== undefined && 
                item.properties.Cuerpo !== undefined;
     });
 
     const elementoContenedor = document.querySelector('.previewCartList.list-unstyled');
-
     let contenedorItemProducto = '';
 
+    // Se va recorrer solo Producto con Cuerpo Base son principales
     productosBase.forEach(productoTrabajo =>{
       const productoBase = productoTrabajo.properties.ProductoBase;
       const cuerpo = productoTrabajo.properties.Cuerpo;
+      
       // Solamente producto con una sola propiedad que sea igual a la productoBase
       const itemSecundarios = itemsCart.filter(({ properties }) => 
       properties?.ProductoBase === productoBase && 
@@ -876,14 +876,6 @@
                 ${productoEncontrado.title}
                 <span style="float: right;">${productoEncontrado.properties.Precio * productoTrabajo.quantity}bs</span>
               </p>
-              <p style="margin: 0;">
-                Extra Jamón
-                <span style="float: right;">5bs</span>
-              </p>
-              <p style="margin: 0;">
-                Extra Choclo
-                <span style="float: right;">12bs</span>
-              </p>
             `;
           });
 
@@ -894,33 +886,6 @@
         `;
       });
 
-      {% comment %} itemSecundarios.forEach(productoTSecundario => {
-        const precio = productoTSecundario.properties.Precio;
-        const cantidad = productoTSecundario.quantity;
-
-        contenedorItemProducto += `
-          <div class="dc-contenedor-base">
-           <div class="contenedor-items-dc">
-            <h3 class="text dc-titulo">TAMAÑO</h3>
-            <div class="items-dc">
-              <p style="margin: 0;">
-                Super personal para 2 a 3 personas
-                <span style="float: right;">9bs</span>
-              </p>
-              <p style="margin: 0;">
-                Extra Jamón
-                <span style="float: right;">5bs</span>
-              </p>
-              <p style="margin: 0;">
-                Extra Choclo
-                <span style="float: right;">12bs</span>
-              </p>
-            </div>
-           </div>
-          </div>
-        `;
-      });
-         {% endcomment %}
       contenedorItemProducto += `
         ${itemSecundarios.length > 0 ? `</div>` : ''}
         </div>`;

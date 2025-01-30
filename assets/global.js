@@ -443,7 +443,6 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
               const cantidadSub = parseInt(
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
-            //   const idSubProducto = control.getAttribute("data-producto-id");
               const idVariante = control.getAttribute("data-variante-id");
               const precioProducto = control.getAttribute("data-precio");
 
