@@ -1926,6 +1926,7 @@
             $target.addClass('is-loading');
 
             if($body.hasClass('quick-view-show')){
+                console.log("Hola test 1",qty);
                 Shopify.addItemCustomCarrito(variantId, qty, () => {
                     if (window.after_add_to_cart.type == 'cart') {
                         scoder.redirectTo(window.routes.cart);
@@ -1939,7 +1940,7 @@
                     }
                 }, input);
             } else {
-                console.log("Hola test 1",qty);
+                console.log("Hola test 2",qty);
                 Shopify.addItemCustomCarrito(variantId, qty, () => {
                     $target.removeClass('is-loading');
                     if ($body.hasClass('quickshop-popup-show') && $body.hasClass('quick_shop_option_3')) {
@@ -1993,7 +1994,6 @@
         },
 
         actionAddToCart2: function($target, productForm) {
-            console.log("actionAddToCart2");
 
             const config = fetchConfig('javascript');
             var originalMessage = window.variantStrings.submit,
