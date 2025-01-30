@@ -727,6 +727,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
         $.ajax(params);
     });
 };
+
 Shopify.onItemAdded = function (line_item) {
   alert(line_item.title + " was added to your shopping cart.");
 };
