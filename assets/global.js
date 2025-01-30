@@ -398,7 +398,11 @@ Shopify.addItem = function (variant_id, quantity, callback, input = null) {
 
 // Funcion relacionadas al popup del carrito 
 //
-Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
+Shopify.generateUUID = function() {
+    return `${Date.now()}${(~~(Math.random() * 100)).toString().padStart(2,'0')}`;
+}
+
+Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto,uuidBase) {
   const items = [];
   const contendorPrincipal = document.querySelector(
     ".sector-general-opciones-producto"
@@ -431,7 +435,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
                   id: idVariante,
                   quantity: quantityProducto,
                   properties: {
-                    ProductoBase: `Producto-${varianteID}`,
+                    ProductoBase: `Producto-${uuidBase}`,
                     Precio : precioProducto
                   },
                 });
@@ -453,7 +457,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
                   id: idVariante,
                   quantity:  cantidadSub * quantityProducto,
                   properties: {
-                    ProductoBase: `Producto-${varianteID}`,
+                    ProductoBase: `Producto-${uuidBase}`,
                     Precio : precioProducto
                   },
                 });
@@ -487,7 +491,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
                   id: idVariante,
                   quantity: quantityProducto,
                   properties: {
-                    ProductoBase: `Producto-${varianteID}`,
+                    ProductoBase: `Producto-${uuidBase}`,
                     Precio : precio
                   },
                 });
@@ -511,7 +515,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
                   id: idVariante,
                   quantity: cantidad * quantityProducto,
                   properties: {
-                    ProductoBase: `Producto-${varianteID}`,
+                    ProductoBase: `Producto-${uuidBase}`,
                     Precio : precio
                   },
                 });
@@ -522,8 +526,6 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
       }
     });
 
-  // const formData = { items };
-//   console.log("FormData recolectado:", {items});
   return items;
 };
 
@@ -620,7 +622,8 @@ Shopify.jsonOpcionesSeleccionadas = function () {
 };
 
 Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
-    var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id,quantity) || [];
+    const uuidBase = this.generateUUID();
+    var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id,quantity,uuidBase) || [];
     var jsonCuerpoSeleccionados = this.jsonOpcionesSeleccionadas(); 
     var quantity = quantity || 1;
     var target = document.querySelector("[data-quickshop] .is-loading") || 
@@ -723,7 +726,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
             // Filtrar subproductos
             let itemsSubProductos = itemsCarrito.filter(item => 
                 item.properties && 
-                item.properties.ProductoBase === `Producto-${idVarianteBase}` &&
+                item.properties.ProductoBase === itemTrabajo.properties.ProductoBase &&
                 !item.properties.hasOwnProperty('Cuerpo')
             );
 
@@ -795,7 +798,6 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
         }
     });
 };
-
 
 Shopify.onItemAdded = function (line_item) {
   alert(line_item.title + " was added to your shopping cart.");
