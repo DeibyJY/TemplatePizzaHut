@@ -476,10 +476,11 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
           menuItem
             .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
             .forEach((input) => {
+              const idProducto = input.getAttribute("data-producto-id");
               const precio = input.getAttribute("data-precio");
               const idVariante = input.getAttribute("data-variante-id");
 
-              if (idVariante) {
+              if (idProducto) {
                 items.push({
                   id: idVariante,
                   quantity: quantityProducto,
@@ -499,10 +500,11 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
               const cantidad = parseInt(
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
+              const idProducto = input.getAttribute("data-producto-id");
               const precio = input.getAttribute("data-precio");
               const idVariante = input.getAttribute("data-variante-id");
 
-              if (idVariante && cantidad > 0) {
+              if (idProducto && cantidad > 0) {
                 items.push({
                   id: idVariante,
                   quantity: cantidad * quantityProducto,
