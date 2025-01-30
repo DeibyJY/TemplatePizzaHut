@@ -476,10 +476,8 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
           menuItem
             .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
             .forEach((input) => {
-                console.log(input);
-              const idProducto = input.getAttribute("data-producto-id");
+              const precio = input.getAttribute("data-precio");
               const idVariante = input.getAttribute("data-variante-id");
-              console.log(idVariante);
 
               if (idVariante) {
                 items.push({
@@ -487,6 +485,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
                   quantity: quantityProducto,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
+                    Precio : precio
                   },
                 });
                 procesarSubItems(idProducto);
@@ -500,8 +499,8 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
               const cantidad = parseInt(
                 control.querySelector(".cantidad-display2")?.textContent || "0"
               );
-              const idProducto = control.getAttribute("data-producto-id");
-              const idVariante = control.getAttribute("data-variante-id");
+              const precio = input.getAttribute("data-precio");
+              const idVariante = input.getAttribute("data-variante-id");
 
               if (idVariante && cantidad > 0) {
                 items.push({
@@ -509,6 +508,7 @@ Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto) {
                   quantity: cantidad * quantityProducto,
                   properties: {
                     ProductoBase: `Producto-${varianteID}`,
+                    Precio : precio
                   },
                 });
                 procesarSubItems(idProducto);
