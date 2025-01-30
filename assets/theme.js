@@ -1944,7 +1944,7 @@
                             cuerpoItemLimpio = cuerpoItemLimpio.replace(/\\/g, '');
                         }
                 
-                        console.log('\n🔍 Comparación para item ' + i + ':');
+                        console.log('\n🔍 Comparación para item ' + i + ':', item);
                         console.log('Cuerpo del item (original):', item.properties?.cuerpo);
                         console.log('Cuerpo del item (sin barras):', cuerpoItemLimpio);
                         console.log('Cuerpo generado:', cuerpoGenerado);
