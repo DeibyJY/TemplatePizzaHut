@@ -1938,35 +1938,30 @@
                     for (let i = 0; i < itemsCarrito.length; i++) {
                         const item = itemsCarrito[i];
                         
-                        // Normalizar solo el cuerpo del item si es string
-                        let cuerpoItemNormalizado = item.properties?.cuerpo;
-                        if (typeof cuerpoItemNormalizado === 'string') {
-                            try {
-                                cuerpoItemNormalizado = JSON.parse(cuerpoItemNormalizado);
-                            } catch (e) {
-                                console.log('❌ Error al parsear cuerpo del item:', e);
-                            }
+                        // Simplemente reemplazar las barras invertidas si existen
+                        let cuerpoItemLimpio = item.properties?.cuerpo;
+                        if (typeof cuerpoItemLimpio === 'string') {
+                            cuerpoItemLimpio = cuerpoItemLimpio.replace(/\\/g, '');
                         }
                 
                         console.log('\n🔍 Comparación para item ' + i + ':');
                         console.log('Cuerpo del item (original):', item.properties?.cuerpo);
-                        console.log('Cuerpo del item (normalizado):', cuerpoItemNormalizado);
+                        console.log('Cuerpo del item (sin barras):', cuerpoItemLimpio);
                         console.log('Cuerpo generado:', cuerpoGenerado);
                         
-                        // Comparamos el cuerpo normalizado con el cuerpo generado
-                        const sonIguales = JSON.stringify(cuerpoItemNormalizado) === JSON.stringify(cuerpoGenerado);
+                        const sonIguales = cuerpoItemLimpio === cuerpoGenerado;
                         console.log('¿Son iguales?:', sonIguales);
                 
                         if (item.variant_id == variantId && sonIguales) {
                             existe = item;
-                            console.log('✅ ¡Encontrado! Item coincide');
+                            console.log('✅ ¡Encontrado!');
                             break;
                         }
                     }
                 
                     console.log('Resultado final:', existe);
                     return existe;
-                });     
+                });  
                 // if(){
                 // 
                 // }else{
