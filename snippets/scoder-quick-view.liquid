@@ -877,7 +877,7 @@
                       type="button"
                       name="minus"
                       class="minus btn-quantity"
-                      onClick="updateValoresDeBajoOpciones()"
+                      onClick="hara2cosas()"
                     >
                       <span class="visually-hidden">
                         {{- 'products.product.quantity.decrease' | t: product: product.title | escape -}}
@@ -896,7 +896,7 @@
                       data-price="{{ current_variant.price }}"
                       data-inventory-quantity="{{ current_variant.inventory_quantity }}"
                     >
-                    <button type="button" name="plus" class="plus btn-quantity" onClick="updateValoresDeBajoOpciones()">
+                    <button type="button" name="plus" class="plus btn-quantity" onClick="hara2cosas()">
                       <span class="visually-hidden">
                         {{- 'products.product.quantity.increase' | t: product: product.title | escape -}}
                       </span>
@@ -2888,45 +2888,37 @@
     });
   })();
 
+  function hara2cosas(){
+      updateValoresDeBajoOpciones();
+      updateValoresDeBajoOpciones();
+  }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Buscamos los inputs específicamente por sus clases
-    const visibleInput = document.querySelector('.quantity__input:not(.hidden)');
-    const hiddenInput = document.querySelector('.quantity__input.hidden');
+  function updateValoresDeBajoOpciones() {
+    // Esperamos un pequeño momento para que el valor del input visible se actualice primero
+    setTimeout(() => {
+        // Obtener el valor del input visible
+        const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
+        const hiddenInput = document.querySelector('#quantity-hidden-{{ product.id }}');
+        
+        console.log('Input visible encontrado:', !!visibleInput);
+        console.log('Input oculto encontrado:', !!hiddenInput);
+        console.log('Valor del input visible:', visibleInput?.value);
+        
+        if (visibleInput && hiddenInput) {
+            // Actualizar el valor del input oculto
+            hiddenInput.value = visibleInput.value;
+            console.log('Valor actualizado en input oculto:', hiddenInput.value);
+        }
+    }, 100); // Pequeño delay para asegurar que el valor del input visible ya se actualizó
+}
+
+// También podemos escuchar cambios directos en el input visible
+document.addEventListener('DOMContentLoaded', () => {
+    const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
     
-    console.log('Estado inicial:', {
-        visibleInput: Boolean(visibleInput),
-        hiddenInput: Boolean(hiddenInput),
-        visibleValue: visibleInput?.value,
-        hiddenValue: hiddenInput?.value
-    });
-
-    if (!visibleInput || !hiddenInput) {
-        console.error('No se encontraron los inputs');
-        return;
+    if (visibleInput) {
+        visibleInput.addEventListener('input', updateValoresDeBajoOpciones);
+        visibleInput.addEventListener('change', updateValoresDeBajoOpciones);
     }
-
-    // Escuchar cambios en el input visible
-    visibleInput.addEventListener('change', () => {
-        console.log('Cambio en visible:', visibleInput.value);
-        hiddenInput.value = visibleInput.value;
-    });
-
-    // También escuchar el evento input para actualizaciones en tiempo real
-    visibleInput.addEventListener('input', () => {
-        console.log('Input en visible:', visibleInput.value);
-        hiddenInput.value = visibleInput.value;
-    });
-
-    // Escuchar cambios en el input oculto (por si acaso)
-    hiddenInput.addEventListener('change', () => {
-        console.log('Cambio en oculto:', hiddenInput.value);
-        visibleInput.value = hiddenInput.value;
-    });
-
-    hiddenInput.addEventListener('input', () => {
-        console.log('Input en oculto:', hiddenInput.value);
-        visibleInput.value = hiddenInput.value;
-    });
 });
 </script>
