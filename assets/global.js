@@ -691,7 +691,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
     // Tengo la id variante del producto a modificar y este es un Producto Principal
     // Con ese ID debo buscar sus subproductos y modificarlos encuanto al quantity
-    Shopify.getCart().then(cart => {
+    Shopify.getCart(function(cart) {
         console.log('Datos del carrito:', cart);
         // Aquí puedes usar los datos del cart
     });
