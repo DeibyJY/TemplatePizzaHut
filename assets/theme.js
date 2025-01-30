@@ -1903,7 +1903,6 @@
             $doc.on('click', '[data-close-add-to-cart-popup]', (event) => {
                 event.preventDefault();
                 event.stopPropagation();
-
                 $body.removeClass('add-to-cart-show');
             });
 
