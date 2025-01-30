@@ -729,16 +729,19 @@
     productosBase.forEach(productoTrabajo =>{
       const productoBase = productoTrabajo.properties.ProductoBase;
       const cuerpo = productoTrabajo.properties.Cuerpo;
-      
-      // Solamente producto con una sola propiedad que sea igual a la productoBase
+
+      // Productos Secundarios son los que tienen unicamente no tienen 
+      // "Cuerpo" pero si "ProductoBase"
       const itemSecundarios = itemsCart.filter(({ properties }) => 
       properties?.ProductoBase === productoBase && 
       properties?.Cuerpo === undefined
       );
 
+      // Se va formatear correctamente el "cuerpo" para hacerlo un objeto
       const jsonString = productoTrabajo.properties.Cuerpo.replace(/'/g, '"');
       const productoContruccionCuerpo = JSON.parse(jsonString);
 
+      // VARIABLES AUXILIARES PARA EVITAR EL USO DE LIQUID EN JS
       const current_variant = itemsWithProducts.find(item => item.id === productoTrabajo.variant_id);
       const price_to_display = productoTrabajo.original_price !== productoTrabajo.final_price ? productoTrabajo.final_price : productoTrabajo.original_price;
       const formatPrice = (cents) => {
@@ -857,6 +860,9 @@
         ${itemSecundarios.length > 0 ? `<div class="details-container-${productoTrabajo.id}">` : ''}
       `;
 
+      // Del producto base => productoTrabajo, de su properties 
+      // El Cuerpo => productoContruccionCuerpo es ahora un objeto que se 
+      // va a recorrer para mostrar titulo y items 
       productoContruccionCuerpo.forEach(grupo => {
           const { titulo, items } = grupo;
           contenedorItemProducto += `
@@ -870,11 +876,13 @@
             const productoEncontrado = itemSecundarios.find(itemSecundario => 
               itemSecundario.variant_id === item 
             );            
+            const precioProductoSecundario = parseFloat(productoEncontrado.properties.Precio);
+            const cantidadProductoSecundario = parseFloat(productoEncontrado.quantity);
 
             contenedorItemProducto += `
               <p style="margin: 0;">
                 ${productoEncontrado.title}
-                <span style="float: right;">${productoEncontrado.properties.Precio * productoTrabajo.quantity}bs</span>
+                <span style="float: right;">${precioProductoSecundario*cantidadProductoSecundario }bs</span>
               </p>
             `;
           });

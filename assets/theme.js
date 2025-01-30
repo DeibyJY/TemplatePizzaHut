@@ -1927,7 +1927,6 @@
 
             if($body.hasClass('quick-view-show')){
                 Shopify.addItemCustomCarrito(variantId, qty, () => {
-                    console.log("Hola 1",qty);
                     if (window.after_add_to_cart.type == 'cart') {
                         scoder.redirectTo(window.routes.cart);
                     } else {
