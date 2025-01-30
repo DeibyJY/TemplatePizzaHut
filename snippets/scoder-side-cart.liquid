@@ -716,9 +716,6 @@
     const itemsCart = {{ cart.items | json }};
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     
-    console.log(itemsCart);
-    console.log(itemsWithProducts);
-    
     const productosBase = itemsCart.filter(item => {
         // Verificar si el item tiene properties y las propiedades específicas
         return item.properties && 
