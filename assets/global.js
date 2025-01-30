@@ -690,6 +690,7 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 };
 
 Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
+    // Validaciones iniciales de los parámetros de entrada
     if (!variant_id) {
         console.error('Error: variant_id es requerido');
         return;
@@ -700,43 +701,65 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
         return;
     }
 
-    // Primero obtenemos el carrito y trabajamos con los datos dentro del callback
+    // Obtener el carrito actual usando la API de Shopify
     Shopify.getCart(function(cart) {
         try {
+            // Validar que el carrito existe y tiene items
             if (!cart || !cart.items) {
                 throw new Error('Error: No se pudo obtener el carrito');
             }
 
             let itemsCarrito = cart.items;
+            // Extraer el ID base de la variante (elimina cualquier sufijo después de ':')
             const idVarianteBase = variant_id.toString().split(':')[0];
 
             if (!idVarianteBase) {
                 throw new Error('Error al procesar el ID de la variante base');
             }
 
+            // Buscar el item principal en el carrito
             let itemTrabajo = itemsCarrito.find(item => item.variant_id.toString() === idVarianteBase);
+            
+            // Filtrar los subproductos relacionados con el producto principal
             let itemsSubProductos = itemsCarrito.filter(item => 
                 item.properties && 
                 item.properties.ProductoBase === `Producto-${idVarianteBase}` &&
                 !item.properties.hasOwnProperty('Cuerpo')
             );
 
-            // Logs para debugging
-            console.log('ID Variante Base:', idVarianteBase);
-            console.log('Cantidad:', quantity);
-            console.log('Productos carrito:', itemsCarrito);
-            console.log('Item de trabajo:', itemTrabajo);
-            console.log('Items subproductos:', itemsSubProductos);
-            // Validar si el item existe en el carrito
-            if (!itemTrabajo && quantity > 0) {
-                console.warn('Advertencia: El producto no existe en el carrito');
-            }
+            // Preparar los datos de actualización para todos los productos
+            let updateData = [];
 
-            // Realizar la actualización del carrito
+            // Agregar producto principal
+            updateData.push({
+                id: idVarianteBase,
+                quantity: quantity
+            });
+
+            // Calcular y agregar subproductos
+            itemsSubProductos.forEach(subProduct => {
+                // Calcular la nueva cantidad proporcional
+                const proporcion = subProduct.quantity / itemTrabajo.quantity;
+                const nuevaCantidad = Math.round(quantity * proporcion);
+                
+                updateData.push({
+                    id: subProduct.variant_id,
+                    quantity: nuevaCantidad
+                });
+            });
+
+            console.log('Datos a actualizar:', updateData);
+
+            // Configuración de la petición AJAX para actualizar el carrito
             var params = {
                 type: "POST",
-                url: "/cart/change.js",
-                data: "quantity=" + quantity + "&id=" + variant_id,
+                url: "/cart/update.js", // Cambiado a update.js para actualizar múltiples items
+                data: {
+                    updates: updateData.reduce((acc, item) => {
+                        acc[item.id] = item.quantity;
+                        return acc;
+                    }, {})
+                },
                 dataType: "json",
                 success: function (cart) {
                     console.log('Carrito actualizado exitosamente');
@@ -755,6 +778,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 }
             };
 
+            // Ejecutar la petición AJAX para actualizar el carrito
             $.ajax(params);
 
         } catch (error) {
