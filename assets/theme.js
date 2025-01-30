@@ -1929,7 +1929,6 @@
                 // Ingresa aqui siempre
                 // Verificar si el 'Cuerpo' ya existe en algun elemento debe ser igual
                 // Si este existe, entonces se ChangeItem en el caso que no AddItem 
-                
                 let itemsCarrito = [];
                 console.log(variantId);
                 Shopify.getCart(function(cart) {
