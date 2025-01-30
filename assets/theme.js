@@ -1929,6 +1929,9 @@
             $target.addClass('is-loading');
 
             if($body.hasClass('quick-view-show')){
+                // Ingresa aqui siempre
+                // Verificar si el componente existe, si existe solo changeItem 
+                // Caso contrario slo addItem
                 console.log("Hola test 1",qty);
                 Shopify.addItemCustomCarrito(variantId, qty, () => {
                     if (window.after_add_to_cart.type == 'cart') {
@@ -2522,13 +2525,13 @@
                 let enoughInStock = true;
 
                 // Datos principales
-                // console.group('Datos del Producto');
-                // console.log('Elemento Target:', $target);
-                // console.log('ID Producto:', productId);
-                // console.log('Línea:', productLine);
-                // console.log('Cantidad:', quantity);
-                // console.log('Stock:', stock);
-                // console.groupEnd();
+                 console.group('Datos del Producto');
+                 console.log('Elemento Target:', $target);
+                 console.log('ID Producto:', productId);
+                 console.log('Línea:', productLine);
+                 console.log('Cantidad:', quantity);
+                 console.log('Stock:', stock);
+                 console.groupEnd();
                
                 if (stock < quantity && stock > 0) {
                   var arrayInVarName = `cart_selling_array_${event.currentTarget.closest('cart-update-quantity').dataset.product}`,
