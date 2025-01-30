@@ -1938,40 +1938,35 @@
                     for (let i = 0; i < itemsCarrito.length; i++) {
                         const item = itemsCarrito[i];
                         
-                        // Extraemos los valores para comparar
-                        const cuerpoPropiedades = JSON.stringify(item.properties?.cuerpo);
-                        const cuerpoAComparar = JSON.stringify(cuerpoGenerado);
-                        
-                        console.log('\n🔍 Comparación detallada para item ' + i + ':');
-                        console.log('------------------------');
-                        console.log('📦 Cuerpo del item (sin stringify):', item.properties?.cuerpo);
-                        console.log('🎯 Cuerpo generado (sin stringify):', cuerpoGenerado);
-                        console.log('------------------------');
-                        console.log('📦 Cuerpo del item (stringify):', cuerpoPropiedades);
-                        console.log('🎯 Cuerpo generado (stringify):', cuerpoAComparar);
-                        console.log('------------------------');
-                        console.log('🤔 ¿Son iguales?:', cuerpoPropiedades === cuerpoAComparar);
-                        
-                        // Si son diferentes, mostramos más detalles
-                        if (cuerpoPropiedades !== cuerpoAComparar) {
-                            console.log('❌ Las diferencias podrían estar en:');
-                            console.log('Longitud cuerpo item:', cuerpoPropiedades?.length);
-                            console.log('Longitud cuerpo generado:', cuerpoAComparar?.length);
-                            console.log('Tipo de dato cuerpo item:', typeof item.properties?.cuerpo);
-                            console.log('Tipo de dato cuerpo generado:', typeof cuerpoGenerado);
+                        // Normalizar solo el cuerpo del item si es string
+                        let cuerpoItemNormalizado = item.properties?.cuerpo;
+                        if (typeof cuerpoItemNormalizado === 'string') {
+                            try {
+                                cuerpoItemNormalizado = JSON.parse(cuerpoItemNormalizado);
+                            } catch (e) {
+                                console.log('❌ Error al parsear cuerpo del item:', e);
+                            }
                         }
+                
+                        console.log('\n🔍 Comparación para item ' + i + ':');
+                        console.log('Cuerpo del item (original):', item.properties?.cuerpo);
+                        console.log('Cuerpo del item (normalizado):', cuerpoItemNormalizado);
+                        console.log('Cuerpo generado:', cuerpoGenerado);
                         
-                        if (item.variant_id == variantId && cuerpoPropiedades === cuerpoAComparar) {
+                        // Comparamos el cuerpo normalizado con el cuerpo generado
+                        const sonIguales = JSON.stringify(cuerpoItemNormalizado) === JSON.stringify(cuerpoGenerado);
+                        console.log('¿Son iguales?:', sonIguales);
+                
+                        if (item.variant_id == variantId && sonIguales) {
                             existe = item;
-                            console.log('✅ ¡Encontrado! Item coincide completamente');
+                            console.log('✅ ¡Encontrado! Item coincide');
                             break;
                         }
                     }
-
-                    console.log('\n🎯 Resultado final:', existe);
+                
+                    console.log('Resultado final:', existe);
                     return existe;
-                });
-                                
+                });     
                 // if(){
                 // 
                 // }else{
