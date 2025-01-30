@@ -690,49 +690,35 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 };
 
 Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
-    console.log('⭐ Iniciando changeItemCustomCarrito');
-    console.log('Parámetros recibidos:', { variant_id, quantity });
 
     // Validaciones iniciales de los parámetros de entrada
     if (!variant_id) {
-        console.error('❌ Error: variant_id es requerido');
         return;
     }
 
     if (quantity < 0) {
-        console.error('❌ Error: la cantidad no puede ser negativa');
         return;
     }
 
-    console.log('✅ Validaciones iniciales pasadas');
-
     // Obtener el carrito actual usando la API de Shopify
-    console.log('📦 Obteniendo carrito actual...');
     Shopify.getCart(function(cart) {
         try {
-            console.log('🛒 Carrito obtenido:', cart);
-
             // Validar que el carrito existe y tiene items
             if (!cart || !cart.items) {
-                console.error('❌ Error: Carrito inválido o vacío');
                 throw new Error('Error: No se pudo obtener el carrito');
             }
 
             let itemsCarrito = cart.items;
-            console.log('📝 Items en carrito:', itemsCarrito);
 
             // Extraer el ID base de la variante
             const idVarianteBase = variant_id.toString().split(':')[0];
-            console.log('🔑 ID Variante Base extraído:', idVarianteBase);
 
             if (!idVarianteBase) {
-                console.error('❌ Error: ID Variante Base inválido');
                 throw new Error('Error al procesar el ID de la variante base');
             }
 
             // Buscar el item principal
             let itemTrabajo = itemsCarrito.find(item => item.variant_id.toString() === idVarianteBase);
-            console.log('🎯 Item principal encontrado:', itemTrabajo);
             
             // Filtrar subproductos
             let itemsSubProductos = itemsCarrito.filter(item => 
@@ -740,10 +726,8 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 item.properties.ProductoBase === `Producto-${idVarianteBase}` &&
                 !item.properties.hasOwnProperty('Cuerpo')
             );
-            console.log('🔍 Subproductos encontrados:', itemsSubProductos);
 
             // Preparar datos de actualización
-            console.log('📊 Preparando datos para actualización...');
             let updateData = [];
 
             // Agregar producto principal
@@ -751,36 +735,26 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 id: idVarianteBase,
                 quantity: quantity
             });
-            console.log('➕ Producto principal agregado a updateData:', updateData);
 
             // Calcular y agregar subproductos
-            console.log('🧮 Calculando cantidades para subproductos...');
             itemsSubProductos.forEach(subProduct => {
-                console.log(`Subproducto ${subProduct.variant_id}:`, subProduct);
                 const proporcion = subProduct.quantity / itemTrabajo.quantity;
-                console.log(`Proporción para subproducto ${subProduct.variant_id}:`, proporcion);
                 
                 const nuevaCantidad = Math.round(quantity * proporcion);
-                console.log(`Nueva cantidad calculada para subproducto ${subProduct.variant_id}:`, nuevaCantidad);
                 
                 updateData.push({
                     id: subProduct.variant_id,
                     quantity: nuevaCantidad
                 });
-                console.log('Subproducto agregado a updateData:', updateData[updateData.length - 1]);
             });
-
-            console.log('📋 Datos finales a actualizar:', updateData);
 
             // Convertir updateData al formato requerido por la API
             const updatesObject = updateData.reduce((acc, item) => {
                 acc[item.id] = item.quantity;
                 return acc;
             }, {});
-            console.log('🔄 Objeto de actualizaciones formateado:', updatesObject);
 
             // Configuración de la petición AJAX
-            console.log('🚀 Preparando petición AJAX...');
             var params = {
                 type: "POST",
                 url: "/cart/update.js",
@@ -789,38 +763,32 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 },
                 dataType: "json",
                 success: function (cart) {
-                    console.log('✅ Carrito actualizado exitosamente:', cart);
                     if (typeof callback === "function") {
-                        console.log('📞 Ejecutando callback personalizado');
                         callback(cart);
                     } else {
-                        console.log('📞 Ejecutando onCartUpdate por defecto');
                         Shopify.onCartUpdate(cart);
                     }
                 },
                 error: function (XMLHttpRequest, textStatus) {
-                    console.error('❌ Error en la actualización del carrito:', {
-                        status: textStatus,
-                        response: XMLHttpRequest.responseText
-                    });
+                    // console.error('❌ Error en la actualización del carrito:', {
+                    //     status: textStatus,
+                    //     response: XMLHttpRequest.responseText
+                    // });
                     Shopify.onError(XMLHttpRequest, textStatus);
                 },
                 complete: function() {
-                    console.log('🏁 Operación de actualización completada');
+                    // console.log('🏁 Operación de actualización completada');
                 }
             };
 
-            console.log('📡 Configuración AJAX:', params);
-
             // Ejecutar la petición AJAX
-            console.log('🚀 Enviando petición AJAX...');
             $.ajax(params);
 
         } catch (error) {
-            console.error('❌ Error en el procesamiento:', {
-                message: error.message,
-                stack: error.stack
-            });
+            // console.error('❌ Error en el procesamiento:', {
+            //     message: error.message,
+            //     stack: error.stack
+            // });
             if (typeof callback === "function") {
                 callback({ error: error.message });
             }
