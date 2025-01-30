@@ -711,6 +711,7 @@
     quantityLabel: {{ 'sections.cart.heading.quantity' | t | json }},
     removeTitle: {{ 'sections.cart.remove_title' | t | json }}
   };
+
   function initListaProductos(){
     const itemsCart = {{ cart.items | json }};
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
@@ -723,7 +724,7 @@
     });
     {% comment %}  {% endcomment %}
     {% comment %}  {% endcomment %}
-     
+
     const elementoContenedor = document.querySelector('.previewCartList.list-unstyled');
     let contenedorItemProducto = '';
     {% comment %} HOL AMUNDO {% endcomment %}
@@ -912,6 +913,21 @@
   }
 
    initListaProductos();
+
+   fetch('/cart/clear.js', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Carrito limpiado:', data);
+    // Aquí puedes actualizar la UI
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
 </script>
 
 {% comment %}
