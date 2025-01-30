@@ -742,6 +742,7 @@
       const productoContruccionCuerpo = JSON.parse(jsonString);
 
       // VARIABLES AUXILIARES PARA EVITAR EL USO DE LIQUID EN JS
+      const uuid = productoTrabajo.properties.ProductoBase.substring(9);
       const current_variant = itemsWithProducts.find(item => item.id === productoTrabajo.variant_id);
       const price_to_display = productoTrabajo.original_price !== productoTrabajo.final_price ? productoTrabajo.final_price : productoTrabajo.original_price;
       const formatPrice = (cents) => {
@@ -754,7 +755,7 @@
 
       contenedorItemProducto += `
       <div class="itemProducto-principal">
-        ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${productoTrabajo.id}" style="display: none;">` : ''}
+        ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${uuid}" style="display: none;">` : ''}
         <div class="view-cliente-producto">
           <div class="contendor-imagen">
             <a href="${productoTrabajo.url}" class="previewCartItem-imagen">
@@ -860,7 +861,7 @@
             </label>
           </div>
         </div>
-        ${itemSecundarios.length > 0 ? `<div class="details-container-${productoTrabajo.id}">` : ''}
+        ${itemSecundarios.length > 0 ? `<div class="details-container-${uuid}">` : ''}
       `;
 
       // Del producto base => productoTrabajo, de su properties 
