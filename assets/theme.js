@@ -2519,13 +2519,13 @@
                 let enoughInStock = true;
 
                 // Datos principales
-                console.group('Datos del Producto');
-                console.log('Elemento Target:', $target);
-                console.log('ID Producto:', productId);
-                console.log('Línea:', productLine);
-                console.log('Cantidad:', quantity);
-                console.log('Stock:', stock);
-                console.groupEnd();
+                // console.group('Datos del Producto');
+                // console.log('Elemento Target:', $target);
+                // console.log('ID Producto:', productId);
+                // console.log('Línea:', productLine);
+                // console.log('Cantidad:', quantity);
+                // console.log('Stock:', stock);
+                // console.groupEnd();
                
                 if (stock < quantity && stock > 0) {
                   var arrayInVarName = `cart_selling_array_${event.currentTarget.closest('cart-update-quantity').dataset.product}`,
@@ -2538,12 +2538,12 @@
                 }
 
                 // Datos de validación de stock
-                console.group('Validación de Stock');
-                console.log('Nombre Array:', arrayInVarName);
-                console.log('Array de Items:', itemInArray);
-                console.log('Estado del Item:', itemStatus);
-                console.log('¿Hay suficiente stock?:', enoughInStock);
-                console.groupEnd();
+                // console.group('Validación de Stock');
+                // console.log('Nombre Array:', arrayInVarName);
+                // console.log('Array de Items:', itemInArray);
+                // console.log('Estado del Item:', itemStatus);
+                // console.log('¿Hay suficiente stock?:', enoughInStock);
+                // console.groupEnd();
 
                 Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
                     if($body.hasClass('template-cart')){
