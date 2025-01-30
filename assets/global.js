@@ -696,9 +696,9 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
         let itemTrabajo = itemsCarrito.find(item => item.variant_id == idVarianteBase);
         let itemsSubProductos = itemsCarrito.filter(item => 
             item.properties && 
-            item.properties.ProductoBase == `Producto-${idVarianteBase}`
+            item.properties.ProductoBase === `Producto-${idVarianteBase}` &&
+            !item.properties.hasOwnProperty('Cuerpo')
         );
-        
 
         console.log(idVarianteBase);
         console.log(idVarianteBase, quantity );
