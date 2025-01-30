@@ -711,7 +711,6 @@
     quantityLabel: {{ 'sections.cart.heading.quantity' | t | json }},
     removeTitle: {{ 'sections.cart.remove_title' | t | json }}
   };
-
   function initListaProductos(){
     const itemsCart = {{ cart.items | json }};
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
