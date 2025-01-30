@@ -1931,7 +1931,7 @@
                 // Si este existe, entonces se ChangeItem en el caso que no AddItem 
                 let itemsCarrito = [];
                 Shopify.getCart(function(cart) {
-                    console.log(cart);
+                    // console.log(cart);
                     itemsCarrito = cart.items;
                     const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
                     

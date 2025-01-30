@@ -726,20 +726,22 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
 
             // Buscar el item principal
             let itemTrabajo = itemsCarrito.find(item => item.variant_id.toString() === idVarianteBase);
-            
+            console.log(itemTrabajo);
+
             // Filtrar subproductos
             let itemsSubProductos = itemsCarrito.filter(item => 
                 item.properties && 
                 item.properties.ProductoBase === itemTrabajo.properties.ProductoBase &&
                 !item.properties.hasOwnProperty('Cuerpo')
             );
+            console.log(itemsSubProductos);
 
             // Preparar datos de actualización
             let updateData = [];
 
             // Agregar producto principal
             updateData.push({
-                id: idVarianteBase,
+                id: variant_id,
                 quantity: quantity
             });
 
@@ -748,9 +750,9 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 const proporcion = subProduct.quantity / itemTrabajo.quantity;
                 
                 const nuevaCantidad = Math.round(quantity * proporcion);
-                
+                console.log(subProduct);
                 updateData.push({
-                    id: subProduct.variant_id,
+                    id: subProduct.key,
                     quantity: nuevaCantidad
                 });
             });
@@ -761,6 +763,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 return acc;
             }, {});
 
+            console.log('Datos de actualización:', updatesObject);
             // Configuración de la petición AJAX
             var params = {
                 type: "POST",
