@@ -1915,6 +1915,9 @@
         },
 
         actionAddToCart: function($target, variantId, qty, input){
+            
+
+
             var originalMessage = window.variantStrings.submit,
                 waitMessage = window.variantStrings.addingToCart,
                 successMessage = window.variantStrings.addedToCart;
@@ -1926,7 +1929,7 @@
             $target.addClass('is-loading');
 
             if($body.hasClass('quick-view-show')){
-                // console.log("Hola test 1",qty);
+                console.log("Hola test 1",qty);
                 Shopify.addItemCustomCarrito(variantId, qty, () => {
                     if (window.after_add_to_cart.type == 'cart') {
                         scoder.redirectTo(window.routes.cart);

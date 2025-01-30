@@ -877,9 +877,6 @@
             const productoEncontrado = itemSecundarios.find(itemSecundario => 
               itemSecundario.variant_id === item 
             );            
-            console.log(item);
-            console.log(itemSecundarios);
-            console.log(productoEncontrado);
             const precioProductoSecundario = parseFloat(productoEncontrado.properties.Precio);
             const cantidadProductoSecundario = parseFloat(productoEncontrado.quantity);
 
@@ -898,6 +895,7 @@
         `;
       });
 
+      const precio = {{product | money}};
       contenedorItemProducto += `
         ${itemSecundarios.length > 0 ? `</div>` : ''}
         </div>`;
