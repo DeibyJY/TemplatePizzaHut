@@ -1931,13 +1931,16 @@
                 // Si este existe, entonces se ChangeItem en el caso que no AddItem 
                 
                 let itemsCarrito = [];
+                console.log(variantId);
                 Shopify.getCart(function(cart) {
                     itemsCarrito = cart.items;
+                    console.log(itemsCarrito)
+                    const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
+                    console.log(cuerpoGenerado); 
+                    const existe = itemsCarrito.find(item => item.variant_id == variantId && item.properties.cuerpo == cuerpoGenerado);
+                    console.log(existe);
                 });
-                const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
-                console.log(cuerpoGenerado); 
-                const existe = itemsCarrito.find(item => item.variant_id == variantId && item.properties.cuerpo == cuerpoGenerado);
-                console.log(existe);
+                
                 // if(){
                 // 
                 // }else{
