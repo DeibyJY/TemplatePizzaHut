@@ -1886,9 +1886,14 @@
                     
                     if(!$target.hasClass('is-notify-me') && !$target.hasClass('is-soldout')){
                         var form = $target.parents('form'),
-                            variantId = form.find('[name="id"]').val(),
-                            qty = form.find('[name="quantity"]').val();
-                            input = form.find('[name="quantity"]').eq(0);
+                        variantId = form.find('[name="id"]').val(),
+                        qty = form.find('[name="quantity"]').val(),
+                        input = form.find('[name="quantity"]').eq(0),
+                        submitButton = form.find('[type="submit"]'),
+                        stockVariante = submitButton.data('productoVarianteStock');
+                    
+                        // Debug
+                        console.log('Stock disponible:', stockVariante);
                         
                         if(qty == undefined){
                             qty = 1;
