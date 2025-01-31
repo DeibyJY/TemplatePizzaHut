@@ -3,7 +3,7 @@
 
   assign layout = settings.quick_view_layout
   assign max_thumbnail_to_show = settings.thumbnail_to_show
-  assign current_variant = product.selected_or_first_available_variant
+  assign current_variant = product.variants.first
   assign variantCount = product.variants | size
   assign featured_media_aspect_ratio = product.featured_media.aspect_ratio
   if product.featured_media.aspect_ratio == null
