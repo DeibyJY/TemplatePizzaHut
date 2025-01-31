@@ -718,10 +718,8 @@
     const itemsCart = {{ cart.items | json }};
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     const s = {{ cart.items | map: 'product' | json }};
-
       console.log({{ cart.items | json }});  
       console.log(s);  
-
     
     const productosBase = itemsCart.filter(item => {
         return item.properties && 
