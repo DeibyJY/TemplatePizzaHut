@@ -420,6 +420,7 @@
             </div>
           </div>
         {% endcomment %}
+        <p>{{ item.variant.inventory_quantity }}</p>
       {%- endfor -%}
     </ul>
     {%- if settings.show_quick_cart_popular_product -%}
@@ -917,7 +918,7 @@
     });
   }
 
-  initListaProductos();
+  {% comment %} initListaProductos(); {% endcomment %}
 </script>
 
 {% comment %}
