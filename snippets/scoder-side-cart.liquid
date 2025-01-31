@@ -421,7 +421,7 @@
             </div>
           </div>
         {% endcomment %}
-        <p>{{ item.variant.inventory_quantity }}</p>
+        {% comment %} <p>{{ item.variant.inventory_quantity }}</p> {% endcomment %}
       {%- endfor -%}
     </ul>
     {%- if settings.show_quick_cart_popular_product -%}
@@ -919,7 +919,7 @@
     });
   }
 
-  {% comment %} initListaProductos(); {% endcomment %}
+   initListaProductos();
 </script>
 
 {% comment %}
