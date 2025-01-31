@@ -881,7 +881,27 @@
       const compare_at_price = formatPrice(current_variant.compare_at_price);
       const price = formatPrice(current_variant.price);
 
-      const datosAuxiliares = productosDetalle.data.find(item => item.id.toString() === productoTrabajo.variant_id.toString());
+      console.log('Buscando producto:', {
+          productoTrabajoId: productoTrabajo.variant_id,
+          tipoId: typeof productoTrabajo.variant_id
+      });
+      
+      console.log('Datos disponibles:', productosDetalle.data);
+      
+      const datosAuxiliares = productosDetalle.data.find(item => {
+          const itemId = item.productVariant.legacyResourceId.toString();
+          const variantId = productoTrabajo.variant_id.toString();
+          
+          console.log('Comparando IDs:', {
+              itemId: itemId,
+              variantId: variantId,
+              sonIguales: itemId === variantId
+          });
+          
+          return itemId === variantId;
+      });
+      
+      console.log('Resultado búsqueda:', datosAuxiliares || 'No encontrado');
       console.log(current_variant);
       console.log(datosAuxiliares);
 
