@@ -1944,6 +1944,7 @@
                     if(productoSimilar){
                         const productLine = productoSimilar.key;
                         console.log(productLine);
+                        // 
                          Shopify.changeItemCustomCarrito(productLine, qty, (cart) => {
                              if($body.hasClass('template-cart')){
                                  scoder.updateCart(cart);
