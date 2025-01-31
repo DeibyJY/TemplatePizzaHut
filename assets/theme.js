@@ -1959,18 +1959,18 @@
                         // });
                     }else{
                         console.log("Sera un producto nuevo");
-                        // Shopify.addItemCustomCarrito(variantId, qty, () => {
-                        //     if (window.after_add_to_cart.type == 'cart') {
-                        //         scoder.redirectTo(window.routes.cart);
-                        //     } else {
-                        //         Shopify.getCart((cartTotal) => {
-                        //             $body.addClass('cart-sidebar-show');
-                        //             scoder.updateSidebarCart(cartTotal);
-                        //             $body.find('[data-cart-count]').text(cartTotal.item_count);
-                        //             $target.removeClass('is-loading');
-                        //         });
-                        //     }
-                        // }, input);
+                         Shopify.addItemCustomCarrito(variantId, qty, () => {
+                             if (window.after_add_to_cart.type == 'cart') {
+                                 scoder.redirectTo(window.routes.cart);
+                             } else {
+                                 Shopify.getCart((cartTotal) => {
+                                     $body.addClass('cart-sidebar-show');
+                                     scoder.updateSidebarCart(cartTotal);
+                                     $body.find('[data-cart-count]').text(cartTotal.item_count);
+                                     $target.removeClass('is-loading');
+                                 });
+                             }
+                         }, input);
                     }
                 
                 });
