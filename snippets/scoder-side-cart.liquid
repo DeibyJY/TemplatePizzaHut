@@ -719,8 +719,8 @@
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     const s = {{ cart.items | map: 'product' | json }};
 
-     console.log({{ cart.items | json }}); 
-     console.log(s); 
+     {% comment %} console.log({{ cart.items | json }});  {% endcomment %}
+     {% comment %} console.log(s);  {% endcomment %}
 
     
     const productosBase = itemsCart.filter(item => {
@@ -914,7 +914,63 @@
     });
   }
 
-   initListaProductos();
+   {% comment %} initListaProductos(); {% endcomment %}
+
+    // Variables globales para el carrito
+  let itemsCart;
+  let itemsWithProducts;
+
+  // Clase para manejar la obtención de datos
+  const ShopifyCartManager = {
+    async getCartWithDetails() {
+      try {
+        // Obtener carrito
+        const cartResponse = await fetch('/cart.js');
+        const cart = await cartResponse.json();
+        itemsCart = cart.items;
+
+        // Obtener detalles de productos
+        const detailedItems = await Promise.all(
+          cart.items.map(async item => {
+            const productResponse = await fetch(`/products/${item.handle}.js`);
+            const product = await productResponse.json();
+            const variant = product.variants.find(v => v.id === item.variant_id);
+
+            return {
+              ...variant,
+              inventory_details: {
+                management: variant.inventory_management,
+                quantity: variant.inventory_quantity,
+                policy: variant.inventory_policy
+              },
+              product_info: {
+                title: product.title,
+                vendor: product.vendor,
+                type: product.type,
+                options: product.options
+              }
+            };
+          })
+        );
+
+        itemsWithProducts = detailedItems;
+        return { cart: itemsCart, detailedProducts: itemsWithProducts };
+      } catch (error) {
+        console.error('Error obteniendo detalles:', error);
+        throw error;
+      }
+    }
+  };
+
+  // Inicializar al cargar la página
+  document.addEventListener('DOMContentLoaded', () => {
+    ShopifyCartManager.getCartWithDetails()
+      .then(data => {
+        console.log('Carrito completo:', data.cart);
+        console.log('Productos con detalles:', data.detailedProducts);
+      })
+      .catch(error => console.error('Error inicial:', error));
+  });
 </script>
 
 {% comment %}
