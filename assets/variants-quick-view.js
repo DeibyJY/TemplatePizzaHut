@@ -466,7 +466,7 @@ class QuantityQuickViewInput extends HTMLElement {
 
     onButtonClick(event) {
         event.preventDefault();
-        console.log('Estoy ejecutnado esto 1');
+        console.log(event);
         const previousValue = this.input.value;
 
         event.target.name === 'plus' ? this.input.stepUp() : this.input.stepDown();
