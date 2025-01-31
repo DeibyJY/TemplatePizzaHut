@@ -715,23 +715,38 @@
   };
 
   function initListaProductos(){
-    const itemsCart = {{ cart.items | json }};
-    const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
-     console.log({{ cart.items | json }}); 
-     console.log(itemsWithProducts); 
-
+    let itemsCart;
+    let itemsWithProducts;
+    
+    // Obtener el carrito
+    fetch('/cart.js')
+      .then(response => response.json())
+      .then(cart => {
+        itemsCart = cart.items;
+        
+        // Obtener detalles de las variantes
+        return Promise.all(cart.items.map(item => 
+          fetch(`/variants/${item.variant_id}.js`)
+            .then(res => res.json())
+        ));
+      })
+      .then(variantDetails => {
+        itemsWithProducts = variantDetails;
+        console.log('Items del carrito:', itemsCart);
+        console.log('Variantes con detalles:', itemsWithProducts);
+      })
+      .catch(error => {
+        console.error('Error al obtener el carrito:', error);
+      });
     
     const productosBase = itemsCart.filter(item => {
         return item.properties && 
                item.properties.ProductoBase !== undefined && 
                item.properties.Cuerpo !== undefined;
     });
-    {% comment %}  {% endcomment %}
-    {% comment %}  {% endcomment %}
 
     const elementoContenedor = document.querySelector('.previewCartList.list-unstyled');
     let contenedorItemProducto = '';
-    {% comment %} HOL AMUNDO {% endcomment %}
     // Se va recorrer solo Producto con Cuerpo Base son principales
     productosBase.forEach(productoTrabajo =>{
       const productoBase = productoTrabajo.properties.ProductoBase;
@@ -816,10 +831,6 @@
                     </span>
                   `;
                 }
-                  {% comment %}  {% endcomment %}
-                   {% comment %}  {% endcomment %}
-                    {% comment %}  {% endcomment %}
-                     {% comment %}  {% endcomment %}
 
                      {% comment %} {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %} {% endcomment %}
                       {% comment %} data-inventory-quantity="{{ item.variant.inventory_quantity }}" {% endcomment %}
@@ -877,7 +888,6 @@
         ${itemSecundarios.length > 0 ? `<div class="details-container-${uuid}">` : ''}
       `;
 
-      {% comment %} asdasdasdsa {% endcomment %}
       // Del producto base => productoTrabajo, de su properties 
       // El Cuerpo => productoContruccionCuerpo es ahora un objeto que se 
       // va a recorrer para mostrar titulo y items 
@@ -890,7 +900,6 @@
             <div class="items-dc">
           `;
 
-          {% comment %} asdasd {% endcomment %}
           items.forEach(item => {
             const productoEncontrado = itemSecundarios.find(itemSecundario => 
               itemSecundario.variant_id === item 
