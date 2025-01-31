@@ -885,9 +885,7 @@
           productoTrabajoId: productoTrabajo.variant_id,
           tipoId: typeof productoTrabajo.variant_id
       });
-      
       console.log('Datos disponibles:', productosDetalle.data);
-      
       const datosAuxiliares = productosDetalle.data.find(item => {
           const itemId = item.productVariant.legacyResourceId.toString();
           const variantId = productoTrabajo.variant_id.toString();
