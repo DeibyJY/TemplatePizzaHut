@@ -843,7 +843,7 @@
     // Verificar si la llamada fue exitosa
     if (!productosDetalle.success) {
         console.error('Error al obtener detalles de productos:', productosDetalle.error);
-        return; // Salir si hubo error
+        return; 
     }
 
     const productosBase = itemsCart.filter(item => {
