@@ -14,6 +14,7 @@
   <div class="previewCart">
     <ul class="previewCartList list-unstyled">
       {%- for item in cart.items -%}
+        {% comment %}  {% endcomment %}
         {% comment %}
           <li class="previewCartItem clearfix" data-item-row>
             <a href="{{ item.url }}" class="previewCartItem-image">
