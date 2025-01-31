@@ -1929,51 +1929,55 @@
                 // Ingresa aqui siempre
                 // Verificar si el 'Cuerpo' ya existe en algun elemento debe ser igual
                 // Si este existe, entonces se ChangeItem en el caso que no AddItem 
-                let itemsCarrito = [];
                 Shopify.getCart(function(cart) {
-                    // console.log(cart);
-                    itemsCarrito = cart.items;
                     const cuerpoGenerado = Shopify.jsonOpcionesSeleccionadas();
                     
-                    let existe = null;
-                    for (let i = 0; i < itemsCarrito.length; i++) {
-                        const item = itemsCarrito[i];
-                        
-                        // Simplemente reemplazar las barras invertidas si existen
-                        let cuerpoItemLimpio = item.properties?.Cuerpo;
-                        if (typeof cuerpoItemLimpio === 'string') {
-                            cuerpoItemLimpio = cuerpoItemLimpio.replace(/\\/g, '');
-                        }
-                        
-                        const sonIguales = cuerpoItemLimpio === cuerpoGenerado;
+                    const productoSimilar = cart.items.find(item => {
+                        const cuerpoItemLimpio = typeof item.properties?.Cuerpo === 'string' 
+                            ? item.properties.Cuerpo.replace(/\\/g, '')
+                            : item.properties?.Cuerpo;
+                            
+                        return item.variant_id == variantId && cuerpoItemLimpio === cuerpoGenerado;
+                    });
                 
-                        if (item.variant_id == variantId && sonIguales) {
-                            existe = item;
-                            break;
-                        }
+                    
+                    if(productoSimilar){
+                        const productLine = productoSimilar.key;
+                        console.log(productLine);
+                        // Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
+                        //     if($body.hasClass('template-cart')){
+                        //         scoder.updateCart(cart);
+                        //         console.log("template-cart");
+                        //     } else if($body.hasClass('cart-modal-show')){
+                        //         console.log("cart-modal-show");
+                        //         scoder.updateSidebarCart(cart);
+                        //     } else if($body.hasClass('cart-sidebar-show')) {
+                        //         console.log("cart-sidebar-show");
+                        //         scoder.updateSidebarCart(cart);
+                        //     }
+                        //     if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', quantity) }`)
+                        // });
+                    }else{
+                        console.log("Sera un producto nuevo");
+                        // Shopify.addItemCustomCarrito(variantId, qty, () => {
+                        //     if (window.after_add_to_cart.type == 'cart') {
+                        //         scoder.redirectTo(window.routes.cart);
+                        //     } else {
+                        //         Shopify.getCart((cartTotal) => {
+                        //             $body.addClass('cart-sidebar-show');
+                        //             scoder.updateSidebarCart(cartTotal);
+                        //             $body.find('[data-cart-count]').text(cartTotal.item_count);
+                        //             $target.removeClass('is-loading');
+                        //         });
+                        //     }
+                        // }, input);
                     }
                 
-                    return existe;
-                });  
-                // if(){
-                // 
-                // }else{
-                    // 
-                // }
+                });
 
-                console.log("Hola test 1",qty);
-                Shopify.addItemCustomCarrito(variantId, qty, () => {
-                    if (window.after_add_to_cart.type == 'cart') {
-                        scoder.redirectTo(window.routes.cart);
-                    } else {
-                        Shopify.getCart((cartTotal) => {
-                            $body.addClass('cart-sidebar-show');
-                            scoder.updateSidebarCart(cartTotal);
-                            $body.find('[data-cart-count]').text(cartTotal.item_count);
-                            $target.removeClass('is-loading');
-                        });
-                    }
-                }, input);
+
+
+
             } else {
                 console.log("Hola test 2",qty);
                 Shopify.addItemCustomCarrito(variantId, qty, () => {
