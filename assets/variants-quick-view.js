@@ -404,7 +404,10 @@ class QuantityQuickViewInput extends HTMLElement {
         var currentId = document.getElementById(`product-quick-view-form-${this.input.dataset.product}`)?.querySelector('[name="id"]')?.value;
         var saleOutStock  = document.getElementById('product-add-to-cart').dataset.available === 'true' || false ;
         const addButton = document.getElementById(`product-quick-view-form-${this.input.dataset.product}`)?.querySelector('[name="add"]');
-        
+        console.log(maxValue);
+        console.log(currentId);
+        console.log(saleOutStock);
+
         if(inputValue < 1) {
             inputValue = 1;
 
@@ -465,6 +468,7 @@ class QuantityQuickViewInput extends HTMLElement {
     }
 
     onButtonClick(event) {
+        var stock = parseInt(this.input.dataset.inventoryQuantity);
         event.preventDefault();
         console.log(event);
         const previousValue = this.input.value;
