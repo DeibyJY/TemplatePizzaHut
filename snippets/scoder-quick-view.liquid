@@ -713,7 +713,7 @@
       <div class="informacion-producto-opciones">
         {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
         <div class="detalle-producto">
-          <p>Stock: {{ product.variants.first.inventory_quantity }}</p>
+          {% comment %} <p>Stock: {{ product.variants.first.inventory_quantity }}</p> {% endcomment %}
           <h2
             class="productView-title"
             style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -1210,6 +1210,7 @@
                           type="submit"
                           name="add"
                           data-btn-addToCart
+                          data-producto-variante-stock="{{ product.variants.first.inventory_quantity }}"
                           style="
                             display: flex !important;
                             flex-direction : column !important;
@@ -1238,7 +1239,7 @@
                           type="submit"
                           name="add"
                           data-btn-addToCart
-                          data-producto-stock
+                          data-producto-variante-stock="{{ product.variants.first.inventory_quantity }}"
                           style="
                             display: flex !important;
                             flex-direction : column !important;
@@ -1262,6 +1263,7 @@
                         type="submit"
                         name="add"
                         data-btn-addToCart
+                        data-producto-variante-stock="{{ product.variants.first.inventory_quantity }}"
                         style="
                           display: flex !important;
                           flex-direction : column !important;
