@@ -1036,11 +1036,13 @@
     });
   }
 
-  initListaProductos().then(() => {
+  initListaProductos()
+  
+  {% comment %} .then(() => {
       console.log('Productos inicializados');
   }).catch(error => {
       console.error('Error:', error);
-  });
+  }); {% endcomment %}
 </script>
 
 {% comment %}
