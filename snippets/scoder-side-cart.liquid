@@ -980,20 +980,24 @@
      }
    };
    
-   // Inicializar al cargar la página
-   console.log('Script cargado, esperando DOMContentLoaded'); // Punto de depuración 9
-   
-   document.addEventListener('DOMContentLoaded', () => {
-     console.log('DOMContentLoaded disparado'); // Punto de depuración 10
-     
-     ShopifyCartManager.getCartWithDetails()
-       .then(data => {
-         console.log('Datos obtenidos exitosamente:', data);
-       })
-       .catch(error => {
-         console.error('Error en la obtención de datos:', error);
-       });
-   });
+   if (document.readyState === 'loading') {
+    // Si el DOM aún no está listo, esperar al evento
+    document.addEventListener('DOMContentLoaded', initializeCart);
+  } else {
+    // Si el DOM ya está listo, ejecutar inmediatamente
+    initializeCart();
+  }
+  
+  function initializeCart() {
+    console.log('Iniciando carga del carrito');
+    ShopifyCartManager.getCartWithDetails()
+      .then(data => {
+        console.log('Datos obtenidos exitosamente:', data);
+      })
+      .catch(error => {
+        console.error('Error en la obtención de datos:', error);
+      });
+  }
 </script>
 
 {% comment %}
