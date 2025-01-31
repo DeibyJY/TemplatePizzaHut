@@ -2572,7 +2572,7 @@
                 //  console.log('ID Producto:', productId);
                 //  console.log('Línea:', productLine);
                 //  console.log('Cantidad:', quantity);
-                //  console.log('Stock:', stock);
+                 console.log('Stock:', stock);
                 //  console.groupEnd();
                
                 if (stock < quantity && stock > 0) {

@@ -756,6 +756,7 @@
       const final_price = formatPrice(productoTrabajo.final_price);
       const compare_at_price = formatPrice(current_variant.compare_at_price);
       const price = formatPrice(current_variant.price);
+      console.log(current_variant);
 
       contenedorItemProducto += `
       <div class="itemProducto-principal">
@@ -815,6 +816,10 @@
                    {% comment %}  {% endcomment %}
                     {% comment %}  {% endcomment %}
                      {% comment %}  {% endcomment %}
+
+                     {% comment %} {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %} {% endcomment %}
+                      {% comment %} data-inventory-quantity="{{ item.variant.inventory_quantity }}" {% endcomment %}
+                      {% comment %} {% endif %} {% endcomment %}
                 contenedorItemProducto += `
                   </span>
                     </div>
