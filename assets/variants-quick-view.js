@@ -148,6 +148,8 @@ class VariantQuickViewSelects extends HTMLElement {
             addButton.setAttribute('disabled', true);
             addButton.textContent = text;
             this.quantityInput?.closest('quantity-quick-view-input').classList.add('disabled');
+        console.log('Estoy ejecutnado esto 2');
+
         } else {
             if (disable) {
                 let text = window.variantStrings.soldOut;
@@ -157,6 +159,7 @@ class VariantQuickViewSelects extends HTMLElement {
                 addButton.setAttribute('disabled', true);
                 addButton.textContent = text;
                 this.quantityInput?.closest('quantity-quick-view-input').classList.add('disabled');
+        console.log('Estoy ejecutnado esto 3');
 
                 if(this.inventoryProp){
                     this.inventoryProp.querySelector('.productView-info-value').textContent = window.inventory_text.outOfStock;
@@ -215,6 +218,7 @@ class VariantQuickViewSelects extends HTMLElement {
                 addButton.removeAttribute('disabled');
                 this.quantityInput?.removeAttribute('disabled');
                 this.quantityInput?.closest('quantity-quick-view-input').classList.remove('disabled');
+        console.log('Estoy ejecutnado esto 4');
               
                 if(window.quick_view_subtotal.show) {
                     let subTotal = 0;
@@ -392,6 +396,8 @@ class QuantityQuickViewInput extends HTMLElement {
     }
 
     onInputChange(event) {
+        console.log('Estoy ejecutnado esto 6');
+
         event.preventDefault();
         var inputValue = this.input.value;
         var maxValue = parseInt(this.input.dataset.inventoryQuantity);
@@ -422,6 +428,8 @@ class QuantityQuickViewInput extends HTMLElement {
 
         this.input.value =  inputValue;
         document.querySelectorAll('quantity-quick-view-input input[name="quantity"]').forEach(input => {
+        console.log('Estoy ejecutnado esto 5');
+            
             if (this.input != input) input.value = inputValue
         })
       
@@ -458,7 +466,7 @@ class QuantityQuickViewInput extends HTMLElement {
 
     onButtonClick(event) {
         event.preventDefault();
-        console.log('Estoy ejecutnado esto');
+        console.log('Estoy ejecutnado esto 1');
         const previousValue = this.input.value;
 
         event.target.name === 'plus' ? this.input.stepUp() : this.input.stepDown();
