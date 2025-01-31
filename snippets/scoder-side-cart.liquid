@@ -884,6 +884,9 @@
       const price = formatPrice(current_variant.price);
       console.log(current_variant);
 
+      const datosAuxiliares = productosDetalle.data.find(item => item.productVariant.id === productoTrabajo.variant_id);
+
+
       contenedorItemProducto += `
       <div class="itemProducto-principal">
         ${itemSecundarios.length > 0 ? `<input type="checkbox" id="toggle-${uuid}" style="display: none;">` : ''}
@@ -957,9 +960,9 @@
                         data-qtt-id1="quantity${ productoTrabajo.id }"
                         value="${ productoTrabajo.quantity }"
                         type="number"
-                        data-prueba-test1="${current_variant.inventory_management}"
-                        data-prueba-test2="${current_variant.inventory_quantity}"
-                        ${current_variant.inventory_management != null && current_variant.inventory_quantity > 0 ? `data-inventory-quantity="${current_variant.inventory_quantity}"` : ''}
+                        data-prueba-test1="${inventoryItem.tracked}"
+                        data-prueba-test2="${datosAuxiliares.inventoryQuantity}"
+                        ${inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
                         data-cart-quantity
                         data-cart-quantity-id="${ productoTrabajo.id }"
                         data-line="${ productoTrabajo.key }"
