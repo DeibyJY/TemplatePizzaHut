@@ -709,109 +709,64 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
     });
 };
 
-Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
+Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
+    // Validaciones rápidas iniciales
+    if (!variant_id || quantity < 0) return;
 
-    // Validaciones iniciales de los parámetros de entrada
-    if (!variant_id) {
-        return;
-    }
-
-    if (quantity < 0) {
-        return;
-    }
-
-    // Obtener el carrito actual usando la API de Shopify
+    // Usar Promise para manejar el flujo asíncrono mejor
     Shopify.getCart(function(cart) {
+        if (!cart || !cart.items) {
+            if (typeof callback === "function") callback({ error: 'No se pudo obtener el carrito' });
+            return;
+        }
+
         try {
-            // Validar que el carrito existe y tiene items
-            if (!cart || !cart.items) {
-                throw new Error('Error: No se pudo obtener el carrito');
-            }
-
-            let itemsCarrito = cart.items;
-
-            // Extraer el ID base de la variante
+            // Extraer ID base y validar rápidamente
             const idVarianteBase = variant_id.toString().split(':')[0];
+            if (!idVarianteBase) throw new Error('ID de variante inválido');
 
-            if (!idVarianteBase) {
-                throw new Error('Error al procesar el ID de la variante base');
+            // Buscar item principal y subproductos en una sola iteración
+            const itemTrabajo = cart.items.find(item => 
+                item.variant_id.toString() === idVarianteBase
+            );
+
+            if (!itemTrabajo?.properties?.ProductoBase) {
+                // Si no es un producto base, usar el método simple original
+                return Shopify.changeItem(variant_id, quantity, callback);
             }
 
-            // Buscar el item principal
-            let itemTrabajo = itemsCarrito.find(item => item.variant_id.toString() === idVarianteBase);
-            console.log(itemTrabajo);
+            // Filtrar subproductos y preparar actualizaciones en una sola pasada
+            const updates = {};
+            updates[variant_id] = quantity;
 
-            // Filtrar subproductos
-            let itemsSubProductos = itemsCarrito.filter(item => 
-                item.properties && 
-                item.properties.ProductoBase === itemTrabajo.properties.ProductoBase &&
-                !item.properties.hasOwnProperty('Cuerpo')
-            );
-            console.log(itemsSubProductos);
-
-            // Preparar datos de actualización
-            let updateData = [];
-
-            // Agregar producto principal
-            updateData.push({
-                id: variant_id,
-                quantity: quantity
+            cart.items.forEach(item => {
+                if (item.properties && 
+                    item.properties.ProductoBase === itemTrabajo.properties.ProductoBase && 
+                    !item.properties.hasOwnProperty('Cuerpo')) {
+                    const proporcion = item.quantity / itemTrabajo.quantity;
+                    updates[item.key] = Math.round(quantity * proporcion);
+                }
             });
 
-            // Calcular y agregar subproductos
-            itemsSubProductos.forEach(subProduct => {
-                const proporcion = subProduct.quantity / itemTrabajo.quantity;
-                
-                const nuevaCantidad = Math.round(quantity * proporcion);
-                console.log(subProduct);
-                updateData.push({
-                    id: subProduct.key,
-                    quantity: nuevaCantidad
-                });
-            });
-
-            // Convertir updateData al formato requerido por la API
-            const updatesObject = updateData.reduce((acc, item) => {
-                acc[item.id] = item.quantity;
-                return acc;
-            }, {});
-
-            console.log('Datos de actualización:', updatesObject);
-            // Configuración de la petición AJAX
-            var params = {
+            // Realizar la actualización
+            $.ajax({
                 type: "POST",
                 url: "/cart/update.js",
-                data: {
-                    updates: updatesObject
-                },
+                data: { updates },
                 dataType: "json",
-                success: function (cart) {
+                success: function(cart) {
                     if (typeof callback === "function") {
                         callback(cart);
                     } else {
                         Shopify.onCartUpdate(cart);
                     }
                 },
-                error: function (XMLHttpRequest, textStatus) {
-                    // console.error('❌ Error en la actualización del carrito:', {
-                    //     status: textStatus,
-                    //     response: XMLHttpRequest.responseText
-                    // });
+                error: function(XMLHttpRequest, textStatus) {
                     Shopify.onError(XMLHttpRequest, textStatus);
-                },
-                complete: function() {
-                    // console.log('🏁 Operación de actualización completada');
                 }
-            };
-
-            // Ejecutar la petición AJAX
-            $.ajax(params);
+            });
 
         } catch (error) {
-            // console.error('❌ Error en el procesamiento:', {
-            //     message: error.message,
-            //     stack: error.stack
-            // });
             if (typeof callback === "function") {
                 callback({ error: error.message });
             }
