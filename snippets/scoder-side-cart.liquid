@@ -838,7 +838,7 @@
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     const idsVariantes = itemsCart.map(item => item.variant_id);
     const productosDetalle = await detalleVarianteProductos(idsVariantes);
-    console.log(productsDetalle);
+    console.log(productosDetalle);
 
     // Verificar si la llamada fue exitosa
     if (!productosDetalle.success) {
