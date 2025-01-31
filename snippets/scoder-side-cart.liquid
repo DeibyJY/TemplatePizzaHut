@@ -887,7 +887,7 @@
       });
       console.log('Datos disponibles:', productosDetalle.data);
       const datosAuxiliares = productosDetalle.data.find(item => {
-          const itemId = item.productVariant.legacyResourceId.toString();
+          const itemId = item.legacyResourceId.toString();
           const variantId = productoTrabajo.variant_id.toString();
           
           console.log('Comparando IDs:', {
