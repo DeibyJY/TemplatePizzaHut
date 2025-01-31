@@ -731,7 +731,7 @@
           ${items.map((item, index) => `
             variant${index}: productVariant(id: "gid://shopify/ProductVariant/${item}") {
               id
-              title
+              legacyResourceId
               displayName
               sku
               availableForSale
@@ -838,7 +838,6 @@
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     const idsVariantes = itemsCart.map(item => item.variant_id);
     const productosDetalle = await detalleVarianteProductos(idsVariantes);
-    console.log(productosDetalle);
 
     // Verificar si la llamada fue exitosa
     if (!productosDetalle.success) {
@@ -872,7 +871,6 @@
 
       // VARIABLES AUXILIARES PARA EVITAR EL USO DE LIQUID EN JS
       const uuid = productoTrabajo.properties.ProductoBase.substring(9);
-      console.log(uuid);
       const current_variant = itemsWithProducts.find(item => item.id === productoTrabajo.variant_id);
       const price_to_display = productoTrabajo.original_price !== productoTrabajo.final_price ? productoTrabajo.final_price : productoTrabajo.original_price;
       const formatPrice = (cents) => {
@@ -882,9 +880,10 @@
       const final_price = formatPrice(productoTrabajo.final_price);
       const compare_at_price = formatPrice(current_variant.compare_at_price);
       const price = formatPrice(current_variant.price);
-      console.log(current_variant);
 
-      const datosAuxiliares = productosDetalle.data.find(item => item.productVariant.id === productoTrabajo.variant_id);
+      const datosAuxiliares = productosDetalle.data.find(item => item.productVariant.id.toString() === productoTrabajo.variant_id.toString());
+      console.log(current_variant);
+      console.log(datosAuxiliares);
 
 
       contenedorItemProducto += `
@@ -942,9 +941,6 @@
                   `;
                 }
 
-                     {% comment %} {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %} {% endcomment %}
-                      {% comment %} data-inventory-quantity="{{ item.variant.inventory_quantity }}" {% endcomment %}
-                      {% comment %} {% endif %} {% endcomment %}
                 contenedorItemProducto += `
                   </span>
                     </div>
