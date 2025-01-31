@@ -719,8 +719,8 @@
     const itemsWithProducts = {{ cart.items | map: 'variant' | json }};
     const s = {{ cart.items | map: 'product' | json }};
 
-     {% comment %} console.log({{ cart.items | json }});  {% endcomment %}
-     {% comment %} console.log(s);  {% endcomment %}
+      console.log({{ cart.items | json }});  
+      console.log(s);  
 
     
     const productosBase = itemsCart.filter(item => {
@@ -914,90 +914,7 @@
     });
   }
 
-   {% comment %} initListaProductos(); {% endcomment %}
-
-   let itemsCart;
-   let itemsWithProducts;
-   
-   // Clase para manejar la obtención de datos
-   const ShopifyCartManager = {
-     async getCartWithDetails() {
-       console.log('Iniciando getCartWithDetails'); // Punto de depuración 1
-       
-       try {
-         // Obtener carrito
-         console.log('Intentando obtener el carrito...'); // Punto de depuración 2
-         const cartResponse = await fetch('/cart.js');
-         
-         console.log('Respuesta del carrito:', cartResponse); // Punto de depuración 3
-         
-         const cart = await cartResponse.json();
-         console.log('Datos del carrito:', cart); // Punto de depuración 4
-         
-         itemsCart = cart.items;
-         console.log('Items del carrito:', itemsCart); // Punto de depuración 5
-   
-         // Obtener detalles de productos
-         const detailedItems = await Promise.all(
-           cart.items.map(async (item, index) => {
-             console.log(`Procesando item ${index}:`, item); // Punto de depuración 6
-             
-             try {
-               const productResponse = await fetch(`/products/${item.handle}.js`);
-               const product = await productResponse.json();
-               console.log(`Producto ${index} obtenido:`, product); // Punto de depuración 7
-               
-               const variant = product.variants.find(v => v.id === item.variant_id);
-               console.log(`Variante encontrada para ${index}:`, variant); // Punto de depuración 8
-               
-               return {
-                 ...variant,
-                 inventory_details: {
-                   management: variant.inventory_management,
-                   quantity: variant.inventory_quantity,
-                   policy: variant.inventory_policy
-                 },
-                 product_info: {
-                   title: product.title,
-                   vendor: product.vendor,
-                   type: product.type,
-                   options: product.options
-                 }
-               };
-             } catch (itemError) {
-               console.error(`Error procesando item ${index}:`, itemError);
-               return null;
-             }
-           })
-         );
-   
-         itemsWithProducts = detailedItems;
-         return { cart: itemsCart, detailedProducts: itemsWithProducts };
-       } catch (error) {
-         console.error('Error obteniendo detalles:', error);
-         throw error;
-       }
-     }
-   };
-   
-   if (document.readyState === 'loading') {
-    // Si el DOM aún no está listo, esperar al evento
-    document.addEventListener('DOMContentLoaded', initializeCart);
-  } else {
-    // Si el DOM ya está listo, ejecutar inmediatamente
-    initializeCart();
-  }
-  
-  function initializeCart() {
-    console.log('Iniciando carga del carrito');
-    ShopifyCartManager.getCartWithDetails()
-      .then(data => {
-        console.log('Datos obtenidos exitosamente:', data);
-      })
-      .catch(error => {
-        console.error('Error en la obtención de datos:', error);
-      });
-  }
+    initListaProductos();
 </script>
 
 {% comment %}
