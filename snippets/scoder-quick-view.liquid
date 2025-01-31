@@ -713,6 +713,7 @@
       <div class="informacion-producto-opciones">
         {% comment %} READ : DETALLE DE PRODUCTO INICIO {% endcomment %}
         <div class="detalle-producto">
+          <p>{{ product.variant[0] }}</p>
           <h2
             class="productView-title"
             style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -1231,11 +1232,13 @@
                           {%- endif -%}
                           <p class="etiqueta-agregar-carrito"></p>
                         </button>
+
                       {%- else -%}
                         <button
                           type="submit"
                           name="add"
                           data-btn-addToCart
+                          data-producto-stock
                           style="
                             display: flex !important;
                             flex-direction : column !important;

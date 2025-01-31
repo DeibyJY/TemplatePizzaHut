@@ -1869,6 +1869,7 @@
 
         initAddToCart: function() {
             console.log('initAddToCart');
+            // AQUI ENTRA CUANOD PRESIONO EL BOTON AGREGAR AL CARRITO 
             $doc.off('click.addToCart').on('click.addToCart', '[data-btn-addtocart]', (event) => {
 
                 event.preventDefault();

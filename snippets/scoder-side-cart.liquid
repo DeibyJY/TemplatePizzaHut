@@ -717,7 +717,8 @@
   async function detalleVarianteProductos(items){
     // Validate input
     if (!Array.isArray(items) || items.length === 0) {
-      throw new Error('Items must be a non-empty array of variant IDs');
+      {% comment %} throw new Error('Items must be a non-empty array of variant IDs'); {% endcomment %}
+      return;
     }
 
     // Configuraciones 
@@ -841,7 +842,7 @@
 
     // Verificar si la llamada fue exitosa
     if (!productosDetalle.success) {
-        console.error('Error al obtener detalles de productos:', productosDetalle.error);
+        {% comment %} console.error('Error al obtener detalles de productos:', productosDetalle.error); {% endcomment %}
         return; 
     }
 
@@ -1035,13 +1036,13 @@
     });
   }
 
-  initListaProductos()
   
-  {% comment %} .then(() => {
+  
+ initListaProductos().then(() => {
       console.log('Productos inicializados');
   }).catch(error => {
       console.error('Error:', error);
-  }); {% endcomment %}
+  });
 </script>
 
 {% comment %}
