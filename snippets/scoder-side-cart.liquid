@@ -881,7 +881,7 @@
       const compare_at_price = formatPrice(current_variant.compare_at_price);
       const price = formatPrice(current_variant.price);
 
-      const datosAuxiliares = productosDetalle.data.find(item => item.productVariant.id.toString() === productoTrabajo.variant_id.toString());
+      const datosAuxiliares = productosDetalle.data.find(item => item.id.toString() === productoTrabajo.variant_id.toString());
       console.log(current_variant);
       console.log(datosAuxiliares);
 
