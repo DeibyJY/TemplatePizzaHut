@@ -2935,20 +2935,42 @@
       const visibleInput = document.querySelector(`[class*="quantity-visible-${productId}"]`);
       const hiddenInput = document.querySelector(`#quantity-hidden-${productId}`);
       
+      console.log('Buscando inputs para producto ID:', productId);
+      console.log('Input visible encontrado:', visibleInput);
+      console.log('Input hidden encontrado:', hiddenInput);
+      
       if (visibleInput && hiddenInput) {
           hiddenInput.value = visibleInput.value;
+          console.log('✅ Valores actualizados:');
+          console.log('Valor visible:', visibleInput.value);
+          console.log('Valor hidden:', hiddenInput.value);
+      } else {
+          console.log('❌ Error: No se encontraron uno o ambos inputs');
       }
   }, 100);
 }
-{% comment %}  {% endcomment %}
-  // También podemos escuchar cambios directos en el input visible
-  document.addEventListener('DOMContentLoaded', () => {
-    const visibleInputs = document.querySelectorAll('[class*="quantity-visible-{{product.id }}"]');
 
-      {% comment %} const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}'); {% endcomment %}
-      if (visibleInput) {
-          visibleInput.addEventListener('input', updateHermanosInputsQuantity);
-          visibleInput.addEventListener('change', updateHermanosInputsQuantity);
-      }
-  });
+document.addEventListener('DOMContentLoaded', () => {
+  const productId = '{{ product.id }}';
+  console.log('DOMContentLoaded - Buscando inputs para producto:', productId);
+  
+  const visibleInput = document.querySelector(`[class*="quantity-visible-${productId}"]`);
+  console.log('Input visible encontrado en DOMContentLoaded:', visibleInput);
+  
+  if (visibleInput) {
+      visibleInput.addEventListener('input', () => {
+          console.log('🔄 Evento input detectado');
+          updateHermanosInputsQuantity(productId);
+      });
+      
+      visibleInput.addEventListener('change', () => {
+          console.log('🔄 Evento change detectado');
+          updateHermanosInputsQuantity(productId);
+      });
+      
+      console.log('✅ Event listeners agregados correctamente');
+  } else {
+      console.log('❌ Error: No se pudo encontrar el input visible');
+  }
+});
 </script>
