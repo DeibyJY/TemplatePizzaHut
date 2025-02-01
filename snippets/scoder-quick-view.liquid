@@ -2932,7 +2932,7 @@
  function updateHermanosInputsQuantity(productId) {
   setTimeout(() => {
       // Input visible por clase, hidden por ID
-      const visibleInput = document.querySelector(`.quantity-visible-${productId}`);
+      const visibleInput = document.querySelector(`[class*="quantity-visible-${productId}"]`);
       const hiddenInput = document.querySelector(`#quantity-hidden-${productId}`);
       
       if (visibleInput && hiddenInput) {
