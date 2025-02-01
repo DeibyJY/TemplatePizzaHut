@@ -1892,7 +1892,6 @@
                         submitButton = form.find('[type="submit"]'),
                         stockVariante = submitButton.data('productoVarianteStock');
                     
-                        // Debug
                         console.log('Stock disponible:', stockVariante);
                         console.log('variantId:', variantId);
 
