@@ -2931,34 +2931,47 @@
 
   function updateHermanosInputsQuantity() {
     setTimeout(() => {
-        // Buscamos el atributo que contenga "data-quantity-visible-"
+        // Buscamos los elementos por el atributo que comienza con data-quantity
         const visibleInput = document.querySelector('[data-quantity-visible-]');
-        // Buscamos el atributo que contenga "data-quantity-hidden-"
         const hiddenInput = document.querySelector('[data-quantity-hidden-]');
         
+        console.log('Buscando inputs...');
+        console.log('Selector usado para visible:', '[data-quantity-visible-]');
         console.log('Input visible encontrado:', visibleInput);
         console.log('Input hidden encontrado:', hiddenInput);
         
         if (visibleInput && hiddenInput) {
             hiddenInput.value = visibleInput.value;
-            console.log('✅ Valores actualizados:');
-            console.log('Valor visible:', visibleInput.value);
-            console.log('Valor hidden:', hiddenInput.value);
+            console.log('✅ Valores actualizados:', {
+                visible: visibleInput.value,
+                hidden: hiddenInput.value
+            });
         } else {
-            console.log('❌ Error: No se encontraron uno o ambos inputs');
+            console.log('❌ No se encontraron los inputs');
+            
+            // Debuggeamos todos los data attributes en la página
+            const allDataAttributes = document.querySelectorAll('[data-quantity-visible]');
+            console.log('Todos los elementos con data-quantity-visible:', allDataAttributes);
         }
     }, 100);
-}
+  }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const visibleInput = document.querySelector('[data-quantity-visible-]');
-    
-    if (visibleInput) {
-        visibleInput.addEventListener('input', updateHermanosInputsQuantity);
-        visibleInput.addEventListener('change', updateHermanosInputsQuantity);
-        console.log('✅ Event listeners agregados correctamente');
-    } else {
-        console.log('❌ Error: No se pudo encontrar el input visible');
-    }
-});
+  // Al cargar el DOM
+  document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM Cargado - Buscando inputs...');
+      
+      const visibleInput = document.querySelector('[data-quantity-visible]');
+      
+      if (visibleInput) {
+          visibleInput.addEventListener('input', updateHermanosInputsQuantity);
+          visibleInput.addEventListener('change', updateHermanosInputsQuantity);
+          console.log('✅ Eventos agregados al input visible');
+      } else {
+          console.log('❌ No se encontró el input visible');
+          
+          // Debuggeamos todos los elementos con cualquier atributo data
+          const allInputs = document.querySelectorAll('input[data-*]');
+          console.log('Todos los inputs con data attributes:', allInputs);
+      }
+  });
 </script>
