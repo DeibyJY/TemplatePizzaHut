@@ -2989,20 +2989,24 @@
   }
 
   function updateHermanosInputsQuantity() {
+    // Referencias a los inputs (las buscamos una sola vez)
     const visibleInput = document.querySelector('input[data-quantity-visible]');
     const hiddenInput = document.querySelector('input[data-quantity-hidden]');
     
+    // Si existen ambos inputs
     if (visibleInput && hiddenInput) {
+      // Función que actualiza el valor
+      function actualizarValor() {
+        hiddenInput.value = this.value;
+      }
+      
+      // Agregamos TODOS los eventos posibles para capturar cualquier cambio
+      visibleInput.addEventListener('input', actualizarValor);
+      visibleInput.addEventListener('change', actualizarValor);
+      visibleInput.addEventListener('keyup', actualizarValor);
+      
+      // Sincronización inicial
       hiddenInput.value = visibleInput.value;
-      console.log('✅ Valores actualizados:', {
-        visible: visibleInput.value,
-        hidden: hiddenInput.value
-      });
-    } else {
-      console.log('❌ No se encontraron los inputs');
-      const allDataAttributes = document.querySelectorAll('[data-quantity-visible]');
-      console.log('Todos los elementos con data-quantity-visible:', allDataAttributes);
-    }
   }
 
   // Creamos versión debounced de la función
