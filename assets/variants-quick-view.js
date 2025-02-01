@@ -472,7 +472,7 @@ class QuantityQuickViewInput extends HTMLElement {
     onButtonClick(event) {
         var stock = parseInt(this.input.dataset.inventoryQuantity);
         event.preventDefault();
-        console.log(event);
+        // console.log(event);
         const previousValue = this.input.value;
 
         event.target.name === 'plus' ? this.input.stepUp() : this.input.stepDown();

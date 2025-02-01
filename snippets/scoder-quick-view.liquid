@@ -715,7 +715,10 @@
         <div class="detalle-producto">
           {% comment %} asdas {% endcomment %}
           {% comment %} asdds {% endcomment %}
-          {% comment %} <p>Stock: {{ product.variants.first.inventory_quantity }}</p> {% endcomment %}
+          <p>test1 : {{ current_variant.available }}</p>
+          <p>test1 : {{ current_variant.inventory_management }}</p>
+          <p>test1 : {{ current_variant.inventory_quantity }}</p>
+
           <h2
             class="productView-title"
             style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }}"
@@ -1236,11 +1239,13 @@
                           <p class="etiqueta-agregar-carrito"></p>
                         </button>
 
+                        {% comment %} class="product-form__submit button button--secondary{% if show_subtotal_text %} button-text-change{% endif %}" {% endcomment %}
                       {%- else -%}
                         <button
                           type="submit"
                           name="add"
                           data-btn-addToCart
+                          data-available="{{ allowOutStockSale }}"
                           data-producto-variante-stock="{{ product.variants.first.inventory_quantity }}"
                           style="
                             display: flex !important;
@@ -1248,7 +1253,7 @@
                             justify-content: center !important;
                             align-items: center !important;
                           "
-                          class="product-form__submit button button--secondary{% if show_subtotal_text %} button-text-change{% endif %}"
+                          class="product-form__submit button button--primary{% if first_inventory == 0 %} button-text-change{% else %}{% if show_subtotal_text %} button-text-change{% endif %}{% endif %}"
                           id="product-add-to-cart"
                         >
                           {%- if show_subtotal_text and subtotal_style == '2' -%}
