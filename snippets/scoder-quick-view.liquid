@@ -2928,47 +2928,49 @@
   }
 
   function updateHermanosInputsQuantity(productId) {
-  setTimeout(() => {
-      // Input visible por clase, hidden por ID
-      const visibleInput = document.querySelector(`[class*="quantity-visible-${productId}"]`);
-      const hiddenInput = document.querySelector(`#quantity-hidden-${productId}`);
-      
-      console.log('Buscando inputs para producto ID:', productId);
-      console.log('Input visible encontrado:', visibleInput);
-      console.log('Input hidden encontrado:', hiddenInput);
-      
-      if (visibleInput && hiddenInput) {
-          hiddenInput.value = visibleInput.value;
-          console.log('✅ Valores actualizados:');
-          console.log('Valor visible:', visibleInput.value);
-          console.log('Valor hidden:', hiddenInput.value);
-      } else {
-          console.log('❌ Error: No se encontraron uno o ambos inputs');
-      }
-  }, 100);
+    setTimeout(() => {
+        // Buscando por la clase específica con el productId
+        const visibleInput = document.querySelector(`.quantity-visible-${productId}`);
+        const hiddenInput = document.querySelector(`.quantity-hidden-${productId}`);
+        
+        console.log('Buscando inputs con productId:', productId);
+        console.log('Input visible encontrado:', visibleInput);
+        console.log('Input hidden encontrado:', hiddenInput);
+        
+        if (visibleInput && hiddenInput) {
+            hiddenInput.value = visibleInput.value;
+            console.log('✅ Valores actualizados:');
+            console.log('Valor visible:', visibleInput.value);
+            console.log('Valor hidden:', hiddenInput.value);
+        } else {
+            console.log('❌ Error: No se encontraron uno o ambos inputs');
+            console.log('Intentando buscar con selector:', `.quantity-visible-${productId}`);
+            console.log('Intentando buscar con selector:', `.quantity-hidden-${productId}`);
+        }
+    }, 100);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const productId = '{{ product.id }}';
-  console.log('DOMContentLoaded - Buscando inputs para producto:', productId);
-  
-  const visibleInput = document.querySelector(`[class*="quantity-visible-${productId}"]`);
-  console.log('Input visible encontrado en DOMContentLoaded:', visibleInput);
-  
-  if (visibleInput) {
-      visibleInput.addEventListener('input', () => {
-          console.log('🔄 Evento input detectado');
-          updateHermanosInputsQuantity(productId);
-      });
-      
-      visibleInput.addEventListener('change', () => {
-          console.log('🔄 Evento change detectado');
-          updateHermanosInputsQuantity(productId);
-      });
-      
-      console.log('✅ Event listeners agregados correctamente');
-  } else {
-      console.log('❌ Error: No se pudo encontrar el input visible');
-  }
+    const productId = '{{ product.id }}';
+    console.log('DOMContentLoaded - Buscando inputs para producto:', productId);
+    
+    const visibleInput = document.querySelector(`.quantity-visible-${productId}`);
+    console.log('Input visible encontrado en DOMContentLoaded:', visibleInput);
+    
+    if (visibleInput) {
+        visibleInput.addEventListener('input', () => {
+            console.log('🔄 Evento input detectado');
+            updateHermanosInputsQuantity(productId);
+        });
+        
+        visibleInput.addEventListener('change', () => {
+            console.log('🔄 Evento change detectado');
+            updateHermanosInputsQuantity(productId);
+        });
+        
+        console.log('✅ Event listeners agregados correctamente');
+    } else {
+        console.log('❌ Error: No se pudo encontrar el input visible');
+    }
 });
 </script>
