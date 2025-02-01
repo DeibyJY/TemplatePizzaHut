@@ -2929,11 +2929,11 @@
     updateValoresDeBajoOpciones()
   }
 
-  function updateHermanosInputsQuantity(productId) {
+  function updateHermanosInputsQuantity() {
     setTimeout(() => {
         // Usando data attributes
-        const visibleInput = document.querySelector(`[data-quantity-visible-${productId}]`);
-        const hiddenInput = document.querySelector(`[data-quantity-hidden-${productId}]`);
+        const visibleInput = document.querySelector(`[data-quantity-visible-]`);
+        const hiddenInput = document.querySelector(`[data-quantity-hidden-]`);
         
         console.log('Buscando inputs con productId:', productId);
         console.log('Input visible encontrado:', visibleInput);
