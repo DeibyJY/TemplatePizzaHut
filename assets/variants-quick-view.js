@@ -144,7 +144,6 @@ class VariantQuickViewSelects extends HTMLElement {
             if(this.hotStock){
                 this.hotStock.style.display = 'none';
             }
-
             addButton.setAttribute('disabled', true);
             addButton.textContent = text;
             this.quantityInput?.closest('quantity-quick-view-input').classList.add('disabled');
