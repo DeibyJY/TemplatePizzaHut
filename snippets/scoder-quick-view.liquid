@@ -1239,7 +1239,6 @@
                           <p class="etiqueta-agregar-carrito"></p>
                         </button>
 
-                        {% comment %} class="product-form__submit button button--secondary{% if show_subtotal_text %} button-text-change{% endif %}" {% endcomment %}
                       {%- else -%}
                         <button
                           type="submit"
@@ -1253,7 +1252,7 @@
                             justify-content: center !important;
                             align-items: center !important;
                           "
-                          class="product-form__submit button button--primary{% if first_inventory == 0 %} button-text-change{% else %}{% if show_subtotal_text %} button-text-change{% endif %}{% endif %}"
+                          class="product-form__submit button button--secondary{% if show_subtotal_text %} button-text-change{% endif %}"
                           id="product-add-to-cart"
                         >
                           {%- if show_subtotal_text and subtotal_style == '2' -%}
@@ -1266,23 +1265,21 @@
                         </button>
                       {%- endif -%}
                     {%- else -%}
+                      {% comment %} class="product-form__submit button" {% endcomment %}
                       <button
                         type="submit"
                         name="add"
                         data-btn-addToCart
-                        data-producto-variante-stock="{{ product.variants.first.inventory_quantity }}"
                         style="
                           display: flex !important;
                           flex-direction : column !important;
                           justify-content: center !important;
                           align-items: center !important;
                         "
-                        class="product-form__submit button"
                         id="product-add-to-cart"
                         disabled
                       >
                         {{ 'products.product.sold_out' | t }}
-                        <p class="etiqueta-agregar-carrito"></p>
                       </button>
                     {%- endif -%}
                   </div>
