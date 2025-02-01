@@ -417,14 +417,14 @@ class QuantityQuickViewInput extends HTMLElement {
 
 
         if (inputValue > maxValue && !saleOutStock && maxValue > 0) {
-            console.log('Entro arrayInVarName', arrayInVarName);
-            console.log('Entro currentId', currentId);
             
-
+            
             var arrayInVarName = `quick_view_selling_array_${this.input.dataset.product}`,
-                itemInArray = window[arrayInVarName],
-                itemStatus = itemInArray[currentId];
-
+            itemInArray = window[arrayInVarName],
+            itemStatus = itemInArray[currentId];
+            
+            console.log('Entro currentId', currentId);
+            console.log('Entro arrayInVarName', arrayInVarName);
 
                 console.log('Entro aqui');
                 console.log('Entro arrayInVarName', this.input.dataset.product);
