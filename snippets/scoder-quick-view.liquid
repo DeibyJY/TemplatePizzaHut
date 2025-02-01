@@ -866,8 +866,8 @@
             novalidate: 'novalidate',
             data-type: 'add-to-cart-form'
           -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
             {%- if show_quick_view_qty -%}
-              <input type="hidden" name="id" value="{{ current_variant.id }}">
               <div
                 class="quantity_selector productView-groupTop"
                 style="
@@ -1184,12 +1184,12 @@
                 gap : 1% !important;
               "
             >
+              <input type="hidden" name="id" value="{{ current_variant.id }}">
               <div class="productView-groupTop">
                 <div
                   class="productView-action{% unless settings.show_wishlist %} productView-action-2{% endunless %}"
                   style="--atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323"
                 >
-                  <input type="hidden" name="id" value="{{ current_variant.id }}">
                   <input
                     class="form-input quantity__input quantity hidden"
                     type="number"
