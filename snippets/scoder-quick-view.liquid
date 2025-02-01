@@ -2931,8 +2931,9 @@
 
   function updateHermanosInputsQuantity() {
     setTimeout(() => {
-        // Usando data attributes
+        // Buscamos el atributo que contenga "data-quantity-visible-"
         const visibleInput = document.querySelector('[data-quantity-visible-]');
+        // Buscamos el atributo que contenga "data-quantity-hidden-"
         const hiddenInput = document.querySelector('[data-quantity-hidden-]');
         
         console.log('Input visible encontrado:', visibleInput);
@@ -2950,23 +2951,11 @@
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const productId = '{{ product.id }}';
-    console.log('DOMContentLoaded - Buscando inputs para producto:', productId);
-    
-    const visibleInput = document.querySelector(`[data-quantity-visible-${productId}]`);
-    console.log('Input visible encontrado en DOMContentLoaded:', visibleInput);
+    const visibleInput = document.querySelector('[data-quantity-visible-]');
     
     if (visibleInput) {
-        visibleInput.addEventListener('input', () => {
-            console.log('🔄 Evento input detectado');
-            updateHermanosInputsQuantity(productId);
-        });
-        
-        visibleInput.addEventListener('change', () => {
-            console.log('🔄 Evento change detectado');
-            updateHermanosInputsQuantity(productId);
-        });
-        
+        visibleInput.addEventListener('input', updateHermanosInputsQuantity);
+        visibleInput.addEventListener('change', updateHermanosInputsQuantity);
         console.log('✅ Event listeners agregados correctamente');
     } else {
         console.log('❌ Error: No se pudo encontrar el input visible');
