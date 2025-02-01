@@ -1894,6 +1894,8 @@
                     
                         // Debug
                         console.log('Stock disponible:', stockVariante);
+                        console.log('variantId:', variantId);
+
                         
                         if(qty == undefined){
                             qty = 1;
