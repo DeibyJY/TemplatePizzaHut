@@ -3002,13 +3002,9 @@
     const visibleInput = document.querySelector('input[data-quantity-visible]');
     
     if (visibleInput) {
-      visibleInput.addEventListener('input', debouncedUpdate); // Usamos la versión debounced
-      visibleInput.addEventListener('change', updateHermanosInputsQuantity); // Mantenemos change sin debounce
       console.log('✅ Eventos agregados al input visible');
     } else {
       console.log('❌ No se encontró el input visible');
-      const allInputs = document.querySelectorAll('input[data-*]');
-      console.log('Todos los inputs con data attributes:', allInputs);
     }
   });
 </script>
