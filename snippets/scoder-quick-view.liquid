@@ -1191,14 +1191,14 @@
                   style="--atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323"
                 >
                   <input
-                    class="form-input quantity__input quantity hidden"
+                    class="form-input quantity__input quantity-hidden"
                     type="number"
                     name="quantity"
                     min="1"
                     value="1"
                     inputmode="numeric"
                     pattern="[0-9]*"
-                    id="quantity-hidden-{{ product.id }}"
+                    id="quantity-{{ product.id }}"
                     data-product="{{ product.id }}"
                     data-price="{{ current_variant.price }}"
                     data-inventory-quantity="{{ current_variant.inventory_quantity }}"
