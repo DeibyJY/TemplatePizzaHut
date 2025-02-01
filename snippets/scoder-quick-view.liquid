@@ -715,9 +715,11 @@
         <div class="detalle-producto">
           {% comment %} asdas {% endcomment %}
           {% comment %} asdds {% endcomment %}
-          {% comment %} <p>test1 : {{ current_variant.available }}</p>
-          <p>test1 : {{ current_variant.inventory_management }}</p>
-          <p>test1 : {{ current_variant.inventory_quantity }}</p> {% endcomment %}
+          {% comment %}
+            <p>test1 : {{ current_variant.available }}</p>
+            <p>test1 : {{ current_variant.inventory_management }}</p>
+            <p>test1 : {{ current_variant.inventory_quantity }}</p>
+          {% endcomment %}
 
           <h2
             class="productView-title"
@@ -1236,7 +1238,12 @@
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
                           {%- endif -%}
-                          <p class="etiqueta-agregar-carrito"></p>
+                          <p class="etiqueta-agregar-carrito">
+                            {{ current_variant.available }}
+                            {{ first_inventory }}
+                            {{ current_variant.inventory_quantity }}
+                            {{ allowOutStockSale }}
+                          </p>
                         </button>
 
                       {%- else -%}
