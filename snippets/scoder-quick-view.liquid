@@ -892,14 +892,14 @@
                       </span>
                     </button>
                     <input
-                      class="form-input quantity__input quantity"
+                      class="form-input quantity__input quantity  quantity-visible-{{product.id }}"
                       type="number"
                       name="quantity"
                       min="1"
                       value="1"
                       inputmode="numeric"
                       pattern="[0-9]*"
-                      id="quantity-visible-{{ product.id }}"
+                      id="quantity-{{ product.id }}"
                       data-product="{{ product.id }}"
                       data-price="{{ current_variant.price }}"
                       data-inventory-quantity="{{ current_variant.inventory_quantity }}"
@@ -2926,28 +2926,23 @@
   {% comment %}  {% endcomment %}
 {% comment %}  {% endcomment %}
  {% comment %}  {% endcomment %}
-  function updateHermanosInputsQuantity() {
-    // Esperamos un pequeño momento para que el valor del input visible se actualice primero
-    setTimeout(() => {
-        // Obtener el valor del input visible
-        const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
-        const hiddenInput = document.querySelector('#quantity-hidden-{{ product.id }}');
-        
-        //console.log('Input visible encontrado:', !!visibleInput);
-        //console.log('Input oculto encontrado:', !!hiddenInput);
-        //console.log('Valor del input visible:', visibleInput?.value);
-        
-        if (visibleInput && hiddenInput) {
-            // Actualizar el valor del input oculto
-            hiddenInput.value = visibleInput.value;
-            // console.log('Valor actualizado en input oculto:', hiddenInput.value);
-        }
-    }, 100); // Pequeño delay para asegurar que el valor del input visible ya se actualizó
+ function updateHermanosInputsQuantity(productId) {
+  setTimeout(() => {
+      // Input visible por clase, hidden por ID
+      const visibleInput = document.querySelector(`.quantity-visible-${productId}`);
+      const hiddenInput = document.querySelector(`#quantity-hidden-${productId}`);
+      
+      if (visibleInput && hiddenInput) {
+          hiddenInput.value = visibleInput.value;
+      }
+  }, 100);
 }
 
   // También podemos escuchar cambios directos en el input visible
   document.addEventListener('DOMContentLoaded', () => {
-      const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}');
+    const visibleInputs = document.querySelectorAll('[class*="quantity-visible-{{product.id }}"]');
+
+      {% comment %} const visibleInput = document.querySelector('#quantity-visible-{{ product.id }}'); {% endcomment %}
       if (visibleInput) {
           visibleInput.addEventListener('input', updateHermanosInputsQuantity);
           visibleInput.addEventListener('change', updateHermanosInputsQuantity);
