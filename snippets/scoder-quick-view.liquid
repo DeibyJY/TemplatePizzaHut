@@ -867,8 +867,7 @@
             data-type: 'add-to-cart-form'
           -%}
             {%- if show_quick_view_qty -%}
-              {% comment %} <input type="hidden" name="id" value="{{ current_variant.id }}"> {% endcomment %}
-
+              <input type="hidden" name="id" value="{{ current_variant.id }}">
               <div
                 class="quantity_selector productView-groupTop"
                 style="
