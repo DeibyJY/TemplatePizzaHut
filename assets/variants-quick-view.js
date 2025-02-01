@@ -425,7 +425,9 @@ class QuantityQuickViewInput extends HTMLElement {
                 itemInArray = window[arrayInVarName],
                 itemStatus = itemInArray[currentId];
 
+
                 console.log('Entro aqui');
+                console.log('Entro arrayInVarName', this.input.dataset.product);
                 console.log('Entro itemInArray', itemInArray);
                 console.log('Entro itemStatus', itemStatus);
 
