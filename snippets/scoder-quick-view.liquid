@@ -2930,7 +2930,6 @@
   }
 
   function updateHermanosInputsQuantity() {
-    setTimeout(() => {
         // Buscamos los elementos por el atributo que comienza con data-quantity
         const visibleInput = document.querySelector('input[data-quantity-visible]');
         const hiddenInput = document.querySelector('[data-quantity-hidden-]');
@@ -2953,14 +2952,13 @@
             const allDataAttributes = document.querySelectorAll('[data-quantity-visible]');
             console.log('Todos los elementos con data-quantity-visible:', allDataAttributes);
         }
-    }, 100);
   }
 
   // Al cargar el DOM
   document.addEventListener('DOMContentLoaded', function() {
       console.log('DOM Cargado - Buscando inputs...');
       
-      const visibleInput = document.querySelector('[data-quantity-visible]');
+      const visibleInput = document.querySelector('input[data-quantity-visible]');
       
       if (visibleInput) {
           visibleInput.addEventListener('input', updateHermanosInputsQuantity);
