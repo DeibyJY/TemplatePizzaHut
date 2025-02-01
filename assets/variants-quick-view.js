@@ -404,16 +404,18 @@ class QuantityQuickViewInput extends HTMLElement {
         var currentId = document.getElementById(`product-quick-view-form-${this.input.dataset.product}`)?.querySelector('[name="id"]')?.value;
         var saleOutStock  = document.getElementById('product-add-to-cart').dataset.available === 'true' || false ;
         const addButton = document.getElementById(`product-quick-view-form-${this.input.dataset.product}`)?.querySelector('[name="add"]');
-        console.log(maxValue);
-        console.log(currentId);
-        console.log(saleOutStock);
-
+        
         if(inputValue < 1) {
             inputValue = 1;
 
             this.input.value =  inputValue;
         }
         
+        console.log('Valor inputValue :', inputValue);
+        console.log('Valor maxValue :', maxValue);
+        console.log('Valor saleOutStock :', saleOutStock);
+
+
         if (inputValue > maxValue && !saleOutStock && maxValue > 0) {
             var arrayInVarName = `quick_view_selling_array_${this.input.dataset.product}`,
                 itemInArray = window[arrayInVarName],
