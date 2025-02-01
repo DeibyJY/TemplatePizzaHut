@@ -2930,7 +2930,7 @@
     updateValoresDeBajoOpciones()
   }
 
-  function updateHermanosInputsQuantity() {
+  {% comment %} function updateHermanosInputsQuantity() {
         // Buscamos los elementos por el atributo que comienza con data-quantity
         const visibleInput = document.querySelector('input[data-quantity-visible]');
         const hiddenInput = document.querySelector('input[data-quantity-hidden]');
@@ -2972,5 +2972,53 @@
           const allInputs = document.querySelectorAll('input[data-*]');
           console.log('Todos los inputs con data attributes:', allInputs);
       }
+  }); {% endcomment %}
+
+
+  // Función debounce para manejar cambios rápidos
+  function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  function updateHermanosInputsQuantity() {
+    const visibleInput = document.querySelector('input[data-quantity-visible]');
+    const hiddenInput = document.querySelector('input[data-quantity-hidden]');
+    
+    if (visibleInput && hiddenInput) {
+      hiddenInput.value = visibleInput.value;
+      console.log('✅ Valores actualizados:', {
+        visible: visibleInput.value,
+        hidden: hiddenInput.value
+      });
+    } else {
+      console.log('❌ No se encontraron los inputs');
+      const allDataAttributes = document.querySelectorAll('[data-quantity-visible]');
+      console.log('Todos los elementos con data-quantity-visible:', allDataAttributes);
+    }
+  }
+
+  // Creamos versión debounced de la función
+  const debouncedUpdate = debounce(updateHermanosInputsQuantity, 150); // 150ms de delay
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const visibleInput = document.querySelector('input[data-quantity-visible]');
+    
+    if (visibleInput) {
+      visibleInput.addEventListener('input', debouncedUpdate); // Usamos la versión debounced
+      visibleInput.addEventListener('change', updateHermanosInputsQuantity); // Mantenemos change sin debounce
+      console.log('✅ Eventos agregados al input visible');
+    } else {
+      console.log('❌ No se encontró el input visible');
+      const allInputs = document.querySelectorAll('input[data-*]');
+      console.log('Todos los inputs con data attributes:', allInputs);
+    }
   });
 </script>
