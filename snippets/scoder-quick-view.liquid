@@ -1189,6 +1189,7 @@
                   class="productView-action{% unless settings.show_wishlist %} productView-action-2{% endunless %}"
                   style="--atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323"
                 >
+                  <input type="hidden" name="id" value="{{ current_variant.id }}">
                   <input
                     class="form-input quantity__input quantity hidden"
                     type="number"
