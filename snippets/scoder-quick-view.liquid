@@ -678,15 +678,15 @@
   </script>
 {%- endif -%}
 <script>
-    window.quick_view_subtotal = {
-        show: {{ show_subtotal }},
-        text: `{{ 'products.product.sub_total' | t : value : '[value]' }}`
-    };
-    window.quick_view_selling_array_{{ product.id }} = {
-      {% for variant in product.variants %}
-          '{{ variant.id }}': '{{ variant.inventory_policy }}',
-      {% endfor %}
-   };
+  window.quick_view_subtotal = {
+      show: {{ show_subtotal }},
+      text: `{{ 'products.product.sub_total' | t : value : '[value]' }}`
+  };
+  window.quick_view_selling_array_{{ product.id }} = {
+    {% for variant in product.variants %}
+        '{{ variant.id }}': '{{ variant.inventory_policy }}',
+    {% endfor %}
+ };
 </script>
 
 <div
