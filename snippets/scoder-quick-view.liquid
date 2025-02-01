@@ -867,6 +867,8 @@
             data-type: 'add-to-cart-form'
           -%}
             {%- if show_quick_view_qty -%}
+              {% comment %} <input type="hidden" name="id" value="{{ current_variant.id }}"> {% endcomment %}
+
               <div
                 class="quantity_selector productView-groupTop"
                 style="
@@ -880,7 +882,6 @@
                   <label class="form-label quantity__label" for="quantity-{{ product.id }}">
                     {{- 'products.product.quantity.label__2' | t -}}
                   </label>
-                  <input type="hidden" name="id" value="{{ current_variant.id }}">
                   <div class="quantity__container">
                     <button
                       type="button"
