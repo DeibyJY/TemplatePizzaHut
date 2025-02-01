@@ -957,6 +957,7 @@
             {%- if variantCount > 0 and product.has_only_default_variant != true -%}
               {%- if quick_view_picker_type == 'button' -%}
                 {%- assign product_swatch_option = settings.swatch | downcase -%}
+                <input type="hidden" name="id" value="{{ current_variant.id }}">
                 <variant-quick-view-radios
                   class="no-js-hidden product-option has-default"
                   data-product="{{ product.id }}"
@@ -2937,7 +2938,6 @@
       }
   }, 100);
 }
-{% comment %}  {% endcomment %}
 {% comment %}  {% endcomment %}
   // También podemos escuchar cambios directos en el input visible
   document.addEventListener('DOMContentLoaded', () => {
