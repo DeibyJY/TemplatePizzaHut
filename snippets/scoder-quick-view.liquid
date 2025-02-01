@@ -2975,18 +2975,6 @@
   }); {% endcomment %}
 
 
-  // Función debounce para manejar cambios rápidos
-  function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-      const later = () => {
-        clearTimeout(timeout);
-        func(...args);
-      };
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
-    };
-  }
 
   function updateHermanosInputsQuantity() {
     // Referencias a los inputs (las buscamos una sola vez)
@@ -3009,8 +2997,6 @@
       hiddenInput.value = visibleInput.value;
   }
 
-  // Creamos versión debounced de la función
-  const debouncedUpdate = debounce(updateHermanosInputsQuantity, 150); // 150ms de delay
 
   document.addEventListener('DOMContentLoaded', function() {
     const visibleInput = document.querySelector('input[data-quantity-visible]');
