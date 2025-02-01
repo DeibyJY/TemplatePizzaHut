@@ -428,6 +428,8 @@ class QuantityQuickViewInput extends HTMLElement {
 
             
             if(itemStatus == 'deny') {
+                console.log('Entro aqui 2');
+
                 inputValue = maxValue
                 this.input.value =  inputValue;
                 const message = getInputMessage(maxValue);
