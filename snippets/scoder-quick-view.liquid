@@ -2995,6 +2995,10 @@
       
       hiddenInput.value = visibleInput.value;
   }
+
+  console.log('✅ Eventos agregados a los inputs hermanos');
+  console.log('Input visible:', visibleInput);
+  console.log('Input hidden:', hiddenInput);
 }
 
 {% comment %} asdasd {% endcomment %}
@@ -3003,7 +3007,6 @@
 
   document.addEventListener('DOMContentLoaded', function() {
     const visibleInput = document.querySelector('input[data-quantity-visible]');
-    
     if (visibleInput) {
       console.log('✅ Eventos agregados al input visible');
     } else {
