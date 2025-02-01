@@ -1238,12 +1238,13 @@
                           {%- else -%}
                             {{ 'products.product.pre_order' | t }}
                           {%- endif -%}
-                          <p class="etiqueta-agregar-carrito">
+                          <p>
                             {{ current_variant.available }}
                             {{ first_inventory }}
                             {{ current_variant.inventory_quantity }}
                             {{ allowOutStockSale }}
                           </p>
+                          <p class="etiqueta-agregar-carrito"></p>
                         </button>
 
                       {%- else -%}
