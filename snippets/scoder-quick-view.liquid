@@ -893,7 +893,8 @@
                       </span>
                     </button>
                     <input
-                      class="form-input quantity__input quantity  quantity-visible-{{product.id }}"
+                      class="form-input quantity__input quantity  "
+                      data-quantity-visible-{{ product.id }}
                       type="number"
                       name="quantity"
                       min="1"
@@ -1191,7 +1192,8 @@
                   style="--atc-color: #ffffff;--atc-bg-color: #232323;--atc-border-color: #232323;--atc-color-hover: #232323;--atc-bg-color-hover: #ffffff;--atc-border-color-hover: #232323"
                 >
                   <input
-                    class="form-input quantity__input quantity-hidden hidden"
+                    class="form-input quantity__input hidden"
+                    data-quanity-hidden-{{ product.id }}
                     type="number"
                     name="quantity"
                     min="1"
@@ -2929,9 +2931,9 @@
 
   function updateHermanosInputsQuantity(productId) {
     setTimeout(() => {
-        // Buscando por la clase específica con el productId
-        const visibleInput = document.querySelector(`.quantity-visible-${productId}`);
-        const hiddenInput = document.querySelector(`.quantity-hidden-${productId}`);
+        // Usando data attributes
+        const visibleInput = document.querySelector(`[data-quantity-visible-${productId}]`);
+        const hiddenInput = document.querySelector(`[data-quantity-hidden-${productId}]`);
         
         console.log('Buscando inputs con productId:', productId);
         console.log('Input visible encontrado:', visibleInput);
@@ -2944,8 +2946,6 @@
             console.log('Valor hidden:', hiddenInput.value);
         } else {
             console.log('❌ Error: No se encontraron uno o ambos inputs');
-            console.log('Intentando buscar con selector:', `.quantity-visible-${productId}`);
-            console.log('Intentando buscar con selector:', `.quantity-hidden-${productId}`);
         }
     }, 100);
 }
@@ -2954,7 +2954,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productId = '{{ product.id }}';
     console.log('DOMContentLoaded - Buscando inputs para producto:', productId);
     
-    const visibleInput = document.querySelector(`.quantity-visible-${productId}`);
+    const visibleInput = document.querySelector(`[data-quantity-visible-${productId}]`);
     console.log('Input visible encontrado en DOMContentLoaded:', visibleInput);
     
     if (visibleInput) {
