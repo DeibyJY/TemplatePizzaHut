@@ -1,135 +1,135 @@
 function getFocusElements(container) {
-  return Array.from(
-    container.querySelectorAll(
-      "summary, a[href], button:enabled, [tabindex]:not([tabindex^='-']), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object"
-    )
-  );
+    return Array.from(
+        container.querySelectorAll(
+            "summary, a[href], button:enabled, [tabindex]:not([tabindex^='-']), [draggable], area, input:not([type=hidden]):enabled, select:enabled, textarea:enabled, object"
+        )
+    );
 }
 
 const trapFocusHandlers = {};
 const warningTime = 3000;
 
 function trapFocus(container, elementToFocus = container) {
-  var elements = getFocusElements(container);
-  var first = elements[0];
-  var last = elements[elements.length - 1];
+    var elements = getFocusElements(container);
+    var first = elements[0];
+    var last = elements[elements.length - 1];
 
-  removeTrapFocus();
+    removeTrapFocus();
 
-  trapFocusHandlers.focusin = (event) => {
-    if (
-      event.target !== container &&
-      event.target !== last &&
-      event.target !== first
-    )
-      return;
+    trapFocusHandlers.focusin = (event) => {
+        if (
+            event.target !== container &&
+            event.target !== last &&
+            event.target !== first
+        )
+            return;
 
-    document.addEventListener("keydown", trapFocusHandlers.keydown);
-  };
+        document.addEventListener("keydown", trapFocusHandlers.keydown);
+    };
 
-  trapFocusHandlers.focusout = function () {
-    document.removeEventListener("keydown", trapFocusHandlers.keydown);
-  };
+    trapFocusHandlers.focusout = function () {
+        document.removeEventListener("keydown", trapFocusHandlers.keydown);
+    };
 
-  trapFocusHandlers.keydown = function (event) {
-    if (event.code.toUpperCase() !== "TAB") return;
-    if (event.target === last && !event.shiftKey) {
-      event.preventDefault();
-      first.focus();
-    }
-    if (
-      (event.target === container || event.target === first) &&
-      event.shiftKey
-    ) {
-      event.preventDefault();
-      last.focus();
-    }
-  };
+    trapFocusHandlers.keydown = function (event) {
+        if (event.code.toUpperCase() !== "TAB") return;
+        if (event.target === last && !event.shiftKey) {
+            event.preventDefault();
+            first.focus();
+        }
+        if (
+            (event.target === container || event.target === first) &&
+            event.shiftKey
+        ) {
+            event.preventDefault();
+            last.focus();
+        }
+    };
 
-  document.addEventListener("focusout", trapFocusHandlers.focusout);
-  document.addEventListener("focusin", trapFocusHandlers.focusin);
+    document.addEventListener("focusout", trapFocusHandlers.focusout);
+    document.addEventListener("focusin", trapFocusHandlers.focusin);
 
-  elementToFocus.focus();
+    elementToFocus.focus();
 }
 
 function ConfigFetch(type = "json") {
-  return {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: `application/${type}`,
-    },
-  };
+    return {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: `application/${type}`,
+        },
+    };
 }
 
 const FormSerialize = (form) => {
-  const obj = {};
-  const formData = new FormData(form);
-  for (const key of formData.keys()) {
-    obj[key] = formData.get(key);
-  }
+    const obj = {};
+    const formData = new FormData(form);
+    for (const key of formData.keys()) {
+        obj[key] = formData.get(key);
+    }
 
-  return JSON.stringify(obj);
+    return JSON.stringify(obj);
 };
 
 function debounce(fn, wait) {
-  let t;
-  return (...args) => {
-    clearTimeout(t);
-    t = setTimeout(() => fn.apply(this, args), wait);
-  };
+    let t;
+    return (...args) => {
+        clearTimeout(t);
+        t = setTimeout(() => fn.apply(this, args), wait);
+    };
 }
 function throttle(fn, delay) {
-  let lastCall = 0;
-  return function (...args) {
-    const now = new Date().getTime();
-    if (now - lastCall < delay) {
-      return;
-    }
-    lastCall = now;
-    return fn(...args);
-  };
+    let lastCall = 0;
+    return function (...args) {
+        const now = new Date().getTime();
+        if (now - lastCall < delay) {
+            return;
+        }
+        lastCall = now;
+        return fn(...args);
+    };
 }
 function fetchConfig(type = "json") {
-  return {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: `application/${type}`,
-    },
-  };
+    return {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: `application/${type}`,
+        },
+    };
 }
 function extractContent(string) {
-  var div = document.createElement("div");
-  div.innerHTML = string;
+    var div = document.createElement("div");
+    div.innerHTML = string;
 
-  return div.textContent || div.innerText;
+    return div.textContent || div.innerText;
 }
 
 function pauseMedia() {
-  document.querySelectorAll(".js-youtube").forEach((video) => {
-    video.contentWindow.postMessage(
-      '{"event":"command","func":"' + "pauseVideo" + '","args":""}',
-      "*"
-    );
-  });
+    document.querySelectorAll(".js-youtube").forEach((video) => {
+        video.contentWindow.postMessage(
+            '{"event":"command","func":"' + "pauseVideo" + '","args":""}',
+            "*"
+        );
+    });
 
-  document.querySelectorAll(".js-vimeo").forEach((video) => {
-    video.contentWindow.postMessage('{"method":"pause"}', "*");
-  });
+    document.querySelectorAll(".js-vimeo").forEach((video) => {
+        video.contentWindow.postMessage('{"method":"pause"}', "*");
+    });
 
-  document.querySelectorAll("video").forEach((video) => video.pause());
-  document
-    .querySelectorAll("product-model")
-    .forEach((model) => model.modelViewerUI?.pause());
+    document.querySelectorAll("video").forEach((video) => video.pause());
+    document
+        .querySelectorAll("product-model")
+        .forEach((model) => model.modelViewerUI?.pause());
 }
 
 function removeTrapFocus(elementToFocus = null) {
-  document.removeEventListener("focusin", trapFocusHandlers.focusin);
-  document.removeEventListener("focusout", trapFocusHandlers.focusout);
-  document.removeEventListener("keydown", trapFocusHandlers.keydown);
+    document.removeEventListener("focusin", trapFocusHandlers.focusin);
+    document.removeEventListener("focusout", trapFocusHandlers.focusout);
+    document.removeEventListener("keydown", trapFocusHandlers.keydown);
 
-  if (elementToFocus) elementToFocus.focus();
+    if (elementToFocus) elementToFocus.focus();
 }
 
 /*
@@ -137,548 +137,591 @@ function removeTrapFocus(elementToFocus = null) {
  *
  */
 if (typeof window.Shopify == "undefined") {
-  window.Shopify = {};
+    window.Shopify = {};
 }
 
 Shopify.bind = function (fn, scope) {
-  return function () {
-    return fn.apply(scope, arguments);
-  };
+    return function () {
+        return fn.apply(scope, arguments);
+    };
 };
 
 Shopify.setSelectorByValue = function (selector, value) {
-  for (var i = 0, count = selector.options.length; i < count; i++) {
-    var option = selector.options[i];
+    for (var i = 0, count = selector.options.length; i < count; i++) {
+        var option = selector.options[i];
 
-    if (value == option.value || value == option.innerHTML) {
-      selector.selectedIndex = i;
-      return i;
+        if (value == option.value || value == option.innerHTML) {
+            selector.selectedIndex = i;
+            return i;
+        }
     }
-  }
 };
 
 Shopify.addListener = function (target, eventName, callback) {
-  target.addEventListener
-    ? target.addEventListener(eventName, callback, false)
-    : target.attachEvent("on" + eventName, callback);
+    target.addEventListener
+        ? target.addEventListener(eventName, callback, false)
+        : target.attachEvent("on" + eventName, callback);
 };
 
 Shopify.postLink = function (path, options) {
-  options = options || {};
-  var method = options["method"] || "post";
-  var params = options["parameters"] || {};
+    options = options || {};
+    var method = options["method"] || "post";
+    var params = options["parameters"] || {};
 
-  var form = document.createElement("form");
-  form.setAttribute("method", method);
-  form.setAttribute("action", path);
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
 
-  for (var key in params) {
-    var hiddenField = document.createElement("input");
+    for (var key in params) {
+        var hiddenField = document.createElement("input");
 
-    hiddenField.setAttribute("type", "hidden");
-    hiddenField.setAttribute("name", key);
-    hiddenField.setAttribute("value", params[key]);
-    form.appendChild(hiddenField);
-  }
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", key);
+        hiddenField.setAttribute("value", params[key]);
+        form.appendChild(hiddenField);
+    }
 
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
 };
 
 Shopify.CountryProvinceSelector = function (
-  country_domid,
-  province_domid,
-  options
+    country_domid,
+    province_domid,
+    options
 ) {
-  this.countryEl = document.getElementById(country_domid);
-  this.provinceEl = document.getElementById(province_domid);
-  this.provinceContainer = document.getElementById(
-    options["hideElement"] || province_domid
-  );
+    this.countryEl = document.getElementById(country_domid);
+    this.provinceEl = document.getElementById(province_domid);
+    this.provinceContainer = document.getElementById(
+        options["hideElement"] || province_domid
+    );
 
-  Shopify.addListener(
-    this.countryEl,
-    "change",
-    Shopify.bind(this.countryHandler, this)
-  );
+    Shopify.addListener(
+        this.countryEl,
+        "change",
+        Shopify.bind(this.countryHandler, this)
+    );
 
-  this.initCountry();
-  this.initProvince();
+    this.initCountry();
+    this.initProvince();
 };
 
 Shopify.CountryProvinceSelector.prototype = {
-  initCountry: function () {
-    var value = this.countryEl.getAttribute("data-default");
-    Shopify.setSelectorByValue(this.countryEl, value);
-    this.countryHandler();
-  },
+    initCountry: function () {
+        var value = this.countryEl.getAttribute("data-default");
+        Shopify.setSelectorByValue(this.countryEl, value);
+        this.countryHandler();
+    },
 
-  initProvince: function () {
-    var value = this.provinceEl.getAttribute("data-default");
+    initProvince: function () {
+        var value = this.provinceEl.getAttribute("data-default");
 
-    if (value && this.provinceEl.options.length > 0) {
-      Shopify.setSelectorByValue(this.provinceEl, value);
-    }
-  },
+        if (value && this.provinceEl.options.length > 0) {
+            Shopify.setSelectorByValue(this.provinceEl, value);
+        }
+    },
 
-  countryHandler: function (e) {
-    var opt = this.countryEl.options[this.countryEl.selectedIndex];
-    var raw = opt.getAttribute("data-provinces");
-    var provinces = JSON.parse(raw);
+    countryHandler: function (e) {
+        var opt = this.countryEl.options[this.countryEl.selectedIndex];
+        var raw = opt.getAttribute("data-provinces");
+        var provinces = JSON.parse(raw);
 
-    this.clearOptions(this.provinceEl);
+        this.clearOptions(this.provinceEl);
 
-    if (provinces && provinces.length == 0) {
-      this.provinceContainer.style.display = "none";
-    } else {
-      for (var i = 0; i < provinces.length; i++) {
-        var opt = document.createElement("option");
-        opt.value = provinces[i][0];
-        opt.innerHTML = provinces[i][1];
-        this.provinceEl.appendChild(opt);
-      }
+        if (provinces && provinces.length == 0) {
+            this.provinceContainer.style.display = "none";
+        } else {
+            for (var i = 0; i < provinces.length; i++) {
+                var opt = document.createElement("option");
+                opt.value = provinces[i][0];
+                opt.innerHTML = provinces[i][1];
+                this.provinceEl.appendChild(opt);
+            }
 
-      this.provinceContainer.style.display = "";
-    }
-  },
+            this.provinceContainer.style.display = "";
+        }
+    },
 
-  clearOptions: function (selector) {
-    while (selector.firstChild) {
-      selector.removeChild(selector.firstChild);
-    }
-  },
+    clearOptions: function (selector) {
+        while (selector.firstChild) {
+            selector.removeChild(selector.firstChild);
+        }
+    },
 
-  setOptions: function (selector, values) {
-    for (var i = 0, count = values.length; i < values.length; i++) {
-      var opt = document.createElement("option");
+    setOptions: function (selector, values) {
+        for (var i = 0, count = values.length; i < values.length; i++) {
+            var opt = document.createElement("option");
 
-      opt.value = values[i];
-      opt.innerHTML = values[i];
-      selector.appendChild(opt);
-    }
-  },
+            opt.value = values[i];
+            opt.innerHTML = values[i];
+            selector.appendChild(opt);
+        }
+    },
 };
 
 Shopify.formatMoney = function (cents, format) {
-  if (typeof cents == "string") {
-    cents = cents.replace(".", "");
-  }
-  var value = "";
-  var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
-  var formatString = format || this.money_format;
+    if (typeof cents == "string") {
+        cents = cents.replace(".", "");
+    }
+    var value = "";
+    var placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    var formatString = format || this.money_format;
 
-  function defaultOption(opt, def) {
-    return typeof opt == "undefined" ? def : opt;
-  }
-
-  function formatWithDelimiters(number, precision, thousands, decimal) {
-    precision = defaultOption(precision, 2);
-    thousands = defaultOption(thousands, ",");
-    decimal = defaultOption(decimal, ".");
-
-    if (isNaN(number) || number == null) {
-      return 0;
+    function defaultOption(opt, def) {
+        return typeof opt == "undefined" ? def : opt;
     }
 
-    number = (number / 100.0).toFixed(precision);
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+        precision = defaultOption(precision, 2);
+        thousands = defaultOption(thousands, ",");
+        decimal = defaultOption(decimal, ".");
 
-    var parts = number.split("."),
-      dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + thousands),
-      cents = parts[1] ? decimal + parts[1] : "";
+        if (isNaN(number) || number == null) {
+            return 0;
+        }
 
-    return dollars + cents;
-  }
+        number = (number / 100.0).toFixed(precision);
 
-  switch (formatString.match(placeholderRegex)[1]) {
-    case "amount":
-      value = formatWithDelimiters(cents, 2);
-      break;
-    case "amount_no_decimals":
-      value = formatWithDelimiters(cents, 0);
-      break;
-    case "amount_with_comma_separator":
-      value = formatWithDelimiters(cents, 2, ".", ",");
-      break;
-    case "amount_no_decimals_with_comma_separator":
-      value = formatWithDelimiters(cents, 0, ".", ",");
-      break;
-  }
+        var parts = number.split("."),
+            dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1" + thousands),
+            cents = parts[1] ? decimal + parts[1] : "";
 
-  return formatString.replace(placeholderRegex, value);
+        return dollars + cents;
+    }
+
+    switch (formatString.match(placeholderRegex)[1]) {
+        case "amount":
+            value = formatWithDelimiters(cents, 2);
+            break;
+        case "amount_no_decimals":
+            value = formatWithDelimiters(cents, 0);
+            break;
+        case "amount_with_comma_separator":
+            value = formatWithDelimiters(cents, 2, ".", ",");
+            break;
+        case "amount_no_decimals_with_comma_separator":
+            value = formatWithDelimiters(cents, 0, ".", ",");
+            break;
+    }
+
+    return formatString.replace(placeholderRegex, value);
 };
 
 Shopify.getCart = function (callback) {
-  $.getJSON("/cart.js", function (cart, textStatus) {
-    if (typeof callback === "function") {
-      callback(cart);
-    } else {
-      Shopify.onCartUpdate(cart);
-    }
-  });
+    $.getJSON("/cart.js", function (cart, textStatus) {
+        if (typeof callback === "function") {
+            callback(cart);
+        } else {
+            Shopify.onCartUpdate(cart);
+        }
+    });
 };
 
 Shopify.onCartUpdate = function (cart) {
-  alert("There are now " + cart.item_count + " items in the cart.");
+    alert("There are now " + cart.item_count + " items in the cart.");
 };
 
 Shopify.changeItem = function (variant_id, quantity, callback) {
-  var params = {
-    type: "POST",
-    url: "/cart/change.js",
-    data: "quantity=" + quantity + "&id=" + variant_id,
-    dataType: "json",
-    success: function (cart) {
-      if (typeof callback === "function") {
-        callback(cart);
-      } else {
-        Shopify.onCartUpdate(cart);
-      }
-    },
-    error: function (XMLHttpRequest, textStatus) {
-      Shopify.onError(XMLHttpRequest, textStatus);
-    },
-  };
-
-  $.ajax(params);
-};
-
-Shopify.removeItem = function(variant_id, callback) {
-    console.log('Intentando eliminar variante:', variant_id);
-    
     var params = {
-        type: 'POST',
-        url: '/cart/change.js',
-        data: 'quantity=0&id=' + variant_id,
-        dataType: 'json',
-        success: function(cart) {
-            console.log('Éxito al eliminar:', cart);
-            if (typeof callback === 'function') {
+        type: "POST",
+        url: "/cart/change.js",
+        data: "quantity=" + quantity + "&id=" + variant_id,
+        dataType: "json",
+        success: function (cart) {
+            if (typeof callback === "function") {
                 callback(cart);
             } else {
                 Shopify.onCartUpdate(cart);
             }
         },
-        error: function(XMLHttpRequest, textStatus) {
-            console.error('Error en removeItem:', {
+        error: function (XMLHttpRequest, textStatus) {
+            Shopify.onError(XMLHttpRequest, textStatus);
+        },
+    };
+
+    $.ajax(params);
+};
+
+Shopify.removeItem = function (variant_id, callback) {
+    console.log("Intentando eliminar variante:", variant_id);
+
+    var params = {
+        type: "POST",
+        url: "/cart/change.js",
+        data: "quantity=0&id=" + variant_id,
+        dataType: "json",
+        success: function (cart) {
+            console.log("Éxito al eliminar:", cart);
+            if (typeof callback === "function") {
+                callback(cart);
+            } else {
+                Shopify.onCartUpdate(cart);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus) {
+            console.error("Error en removeItem:", {
                 status: XMLHttpRequest.status,
                 statusText: XMLHttpRequest.statusText,
                 responseText: XMLHttpRequest.responseText,
-                textStatus: textStatus
+                textStatus: textStatus,
             });
             Shopify.onError(XMLHttpRequest, textStatus);
-        }
+        },
     };
 
     try {
         $.ajax(params);
-    } catch(e) {
-        console.error('Error al ejecutar ajax:', e);
+    } catch (e) {
+        console.error("Error al ejecutar ajax:", e);
     }
 };
 
 Shopify.addItem = function (variant_id, quantity, callback, input = null) {
-  var quantity = quantity || 1;
-  var target =
-    document.querySelector("[data-quickshop] .is-loading") ||
-    document.querySelector("[data-btn-addtocart].is-loading");
-  var params = {
-    type: "POST",
-    url: "/cart/add.js",
-    data: "quantity=" + quantity + "&id=" + variant_id,
-    dataType: "json",
-    success: function (line_item) {
-      if (typeof callback === "function") {
-        callback(line_item);
-      } else {
-        Shopify.onItemAdded(line_item);
-      }
-    },
-    error: function (XMLHttpRequest, textStatus) {
-      var message = window.cartStrings.addProductOutQuantity2;
-      if (input.length > 0) {
-        var maxValue = parseInt(input.attr("data-inventory-quantity"));
-        message = getInputMessage(maxValue);
-        input.val(maxValue);
-      }
+    var quantity = quantity || 1;
+    var target =
+        document.querySelector("[data-quickshop] .is-loading") ||
+        document.querySelector("[data-btn-addtocart].is-loading");
+    var params = {
+        type: "POST",
+        url: "/cart/add.js",
+        data: "quantity=" + quantity + "&id=" + variant_id,
+        dataType: "json",
+        success: function (line_item) {
+            if (typeof callback === "function") {
+                callback(line_item);
+            } else {
+                Shopify.onItemAdded(line_item);
+            }
+        },
+        error: function (XMLHttpRequest, textStatus) {
+            var message = window.cartStrings.addProductOutQuantity2;
+            if (input.length > 0) {
+                var maxValue = parseInt(input.attr("data-inventory-quantity"));
+                message = getInputMessage(maxValue);
+                input.val(maxValue);
+            }
 
-      Shopify.onError(XMLHttpRequest, textStatus, message);
-      target?.classList.remove("is-loading");
-    },
-  };
-  $.ajax(params);
+            Shopify.onError(XMLHttpRequest, textStatus, message);
+            target?.classList.remove("is-loading");
+        },
+    };
+    $.ajax(params);
 };
 
-// Funcion relacionadas al popup del carrito 
-//
-Shopify.generateUUID = function() {
-    return `${Date.now()}${(~~(Math.random() * 100)).toString().padStart(2,'0')}`;
-}
+// Funcion relacionadas al popup del carrito
+Shopify.generateUUID = function () {
+    return `${Date.now()}${(~~(Math.random() * 100))
+        .toString()
+        .padStart(2, "0")}`;
+};
 
-Shopify.recolectarDatosSeleccionados = function (varianteID,quantityProducto,uuidBase) {
-  const items = [];
-  const contendorPrincipal = document.querySelector(
-    ".sector-general-opciones-producto"
-  );
-
-  if (!contendorPrincipal) return { items: [] };
-
-  function procesarSubItems(idProducto) {
-    const subItemsProducto = contendorPrincipal.querySelectorAll(
-      `.sub-item-producto[data-producto-id="${idProducto}"]`
+Shopify.recolectarDatosSeleccionados = function (
+    varianteID,
+    quantityProducto,
+    uuidBase
+) {
+    const items = [];
+    const contendorPrincipal = document.querySelector(
+        ".sector-general-opciones-producto"
     );
 
-    subItemsProducto.forEach((subItemProducto) => {
-      const subItem = subItemProducto.querySelector(".item-subItem");
-      if (!subItem) return;
+    if (!contendorPrincipal) return { items: [] };
 
-      const tipoSelect = subItem.getAttribute("tipo-select");
+    function procesarSubItems(idProducto) {
+        const subItemsProducto = contendorPrincipal.querySelectorAll(
+            `.sub-item-producto[data-producto-id="${idProducto}"]`
+        );
 
-      switch (tipoSelect) {
-        case "radio":
-        case "checkbox":
-          subItem
-            .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
-            .forEach((input) => {
-              const idVariante = input.getAttribute("data-variante-id");
-              const precioProducto = input.getAttribute("data-precio");
+        subItemsProducto.forEach((subItemProducto) => {
+            const subItem = subItemProducto.querySelector(".item-subItem");
+            if (!subItem) return;
 
-              if (idVariante) {
-                items.push({
-                  id: idVariante,
-                  quantity: quantityProducto,
-                  properties: {
-                    ProductoBase: `Producto-${uuidBase}`,
-                    Precio : precioProducto
-                  },
-                });
-              }
-            });
-          break;
-        case "numberCount":
-          subItem
-            .querySelectorAll(".controles-cantidad2")
-            .forEach((control) => {
-              const cantidadSub = parseInt(
-                control.querySelector(".cantidad-display2")?.textContent || "0"
-              );
-              const idVariante = control.getAttribute("data-variante-id");
-              const precioProducto = control.getAttribute("data-precio");
+            const tipoSelect = subItem.getAttribute("tipo-select");
 
-              if (idVariante && cantidadSub > 0) {
-                items.push({
-                  id: idVariante,
-                  quantity:  cantidadSub * quantityProducto,
-                  properties: {
-                    ProductoBase: `Producto-${uuidBase}`,
-                    Precio : precioProducto
-                  },
-                });
-              }
-            });
-          break;
-      }
-    });
-  }
+            switch (tipoSelect) {
+                case "radio":
+                case "checkbox":
+                    subItem
+                        .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
+                        .forEach((input) => {
+                            const idVariante = input.getAttribute("data-variante-id");
+                            const precioProducto = input.getAttribute("data-precio");
 
-  contendorPrincipal
-    .querySelectorAll(".menu-item-producto")
-    .forEach((menuItemProducto) => {
-      const menuItem = menuItemProducto.querySelector(".item-menuItem");
-      if (!menuItem) return;
+                            if (idVariante) {
+                                items.push({
+                                    id: idVariante,
+                                    quantity: quantityProducto,
+                                    properties: {
+                                        ProductoBase: `Producto-${uuidBase}`,
+                                        Precio: precioProducto,
+                                    },
+                                });
+                            }
+                        });
+                    break;
+                case "numberCount":
+                    subItem
+                        .querySelectorAll(".controles-cantidad2")
+                        .forEach((control) => {
+                            const cantidadSub = parseInt(
+                                control.querySelector(".cantidad-display2")?.textContent || "0"
+                            );
+                            const idVariante = control.getAttribute("data-variante-id");
+                            const precioProducto = control.getAttribute("data-precio");
 
-      const tipoSelect = menuItem.getAttribute("tipo-select");
+                            if (idVariante && cantidadSub > 0) {
+                                items.push({
+                                    id: idVariante,
+                                    quantity: cantidadSub * quantityProducto,
+                                    properties: {
+                                        ProductoBase: `Producto-${uuidBase}`,
+                                        Precio: precioProducto,
+                                    },
+                                });
+                            }
+                        });
+                    break;
+            }
+        });
+    }
 
-      switch (tipoSelect) {
-        case "radio":
-        case "checkbox":
-          menuItem
-            .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
-            .forEach((input) => {
-              const idProducto = input.getAttribute("data-producto-id");
-              const precio = input.getAttribute("data-precio");
-              const idVariante = input.getAttribute("data-variante-id");
+    contendorPrincipal
+        .querySelectorAll(".menu-item-producto")
+        .forEach((menuItemProducto) => {
+            const menuItem = menuItemProducto.querySelector(".item-menuItem");
+            if (!menuItem) return;
 
-              if (idProducto) {
-                items.push({
-                  id: idVariante,
-                  quantity: quantityProducto,
-                  properties: {
-                    ProductoBase: `Producto-${uuidBase}`,
-                    Precio : precio
-                  },
-                });
-                procesarSubItems(idProducto);
-              }
-            });
-          break;
-        case "numberCount":
-          menuItem
-            .querySelectorAll(".controles-cantidad2")
-            .forEach((control) => {
-              const cantidad = parseInt(
-                control.querySelector(".cantidad-display2")?.textContent || "0"
-              );
-              const idProducto = input.getAttribute("data-producto-id");
-              const precio = input.getAttribute("data-precio");
-              const idVariante = input.getAttribute("data-variante-id");
+            const tipoSelect = menuItem.getAttribute("tipo-select");
 
-              if (idProducto && cantidad > 0) {
-                items.push({
-                  id: idVariante,
-                  quantity: cantidad * quantityProducto,
-                  properties: {
-                    ProductoBase: `Producto-${uuidBase}`,
-                    Precio : precio
-                  },
-                });
-                procesarSubItems(idProducto);
-              }
-            });
-          break;
-      }
-    });
+            switch (tipoSelect) {
+                case "radio":
+                case "checkbox":
+                    menuItem
+                        .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
+                        .forEach((input) => {
+                            const idProducto = input.getAttribute("data-producto-id");
+                            const precio = input.getAttribute("data-precio");
+                            const idVariante = input.getAttribute("data-variante-id");
 
-  return items;
+                            if (idProducto) {
+                                items.push({
+                                    id: idVariante,
+                                    quantity: quantityProducto,
+                                    properties: {
+                                        ProductoBase: `Producto-${uuidBase}`,
+                                        Precio: precio,
+                                    },
+                                });
+                                procesarSubItems(idProducto);
+                            }
+                        });
+                    break;
+                case "numberCount":
+                    menuItem
+                        .querySelectorAll(".controles-cantidad2")
+                        .forEach((control) => {
+                            const cantidad = parseInt(
+                                control.querySelector(".cantidad-display2")?.textContent || "0"
+                            );
+                            const idProducto = input.getAttribute("data-producto-id");
+                            const precio = input.getAttribute("data-precio");
+                            const idVariante = input.getAttribute("data-variante-id");
+
+                            if (idProducto && cantidad > 0) {
+                                items.push({
+                                    id: idVariante,
+                                    quantity: cantidad * quantityProducto,
+                                    properties: {
+                                        ProductoBase: `Producto-${uuidBase}`,
+                                        Precio: precio,
+                                    },
+                                });
+                                procesarSubItems(idProducto);
+                            }
+                        });
+                    break;
+            }
+        });
+
+    return items;
 };
 
 Shopify.jsonOpcionesSeleccionadas = function () {
     let jsonItems = "[";
-    const contenedorPrincipal = document.querySelector('.sector-general-opciones-producto');
+    const contenedorPrincipal = document.querySelector(
+        ".sector-general-opciones-producto"
+    );
     if (!contenedorPrincipal) return "[]";
 
-    contenedorPrincipal.querySelectorAll('.menu-item-producto').forEach(menuItemProducto => {
-        const menuItem = menuItemProducto.querySelector('.item-menuItem');
-        if (!menuItem) return;
+    contenedorPrincipal
+        .querySelectorAll(".menu-item-producto")
+        .forEach((menuItemProducto) => {
+            const menuItem = menuItemProducto.querySelector(".item-menuItem");
+            if (!menuItem) return;
 
-        const tipoSelect = menuItem.getAttribute('tipo-select');
-        const tipoGrupo = menuItem.getAttribute('tipo-grupo');
-        let itemsIds = [];
+            const tipoSelect = menuItem.getAttribute("tipo-select");
+            const tipoGrupo = menuItem.getAttribute("tipo-grupo");
+            let itemsIds = [];
 
-        // Procesar el menuItem
-        switch (tipoSelect) {
-            case 'radio':
-            case 'checkbox':
-                menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
-                    const idProducto = input.getAttribute('data-producto-id');
-                    const idVariante = input.getAttribute('data-variante-id');
-                    if (idProducto && idVariante) {
-                        itemsIds.push(idVariante);
-                    }
-                });
-                break;
-            case 'numberCount':
-                menuItem.querySelectorAll('.controles-cantidad2').forEach(control => {
-                    const cantidad = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
-                    const idProducto = control.getAttribute('data-producto-id');
-                    const idVariante = control.getAttribute('data-variante-id');
-                    if (idProducto && idVariante && cantidad > 0) {
-                        itemsIds.push(idVariante);
-                    }
-                });
-                break;
-        }
-
-        // Añadir itemsIds del menuItem si hay
-        if (itemsIds.length > 0) {
-            jsonItems += `{"titulo":"${tipoGrupo}", "items":[${itemsIds.join(',')}]},`;
-        }
-
-        // Procesar subItems
-        menuItem.querySelectorAll(`input[type="${tipoSelect}"]:checked`).forEach(input => {
-            const idProducto = input.getAttribute('data-producto-id');
-            if (idProducto) {
-                const subItemsProducto = contenedorPrincipal.querySelectorAll(`.sub-item-producto[data-producto-id="${idProducto}"]`);
-                
-                subItemsProducto.forEach(subItemProducto => {
-                    const subItem = subItemProducto.querySelector('.item-subItem');
-                    if (!subItem) return;
-
-                    const tipoSelectSub = subItem.getAttribute('tipo-select');
-                    const tipoGrupoSub = subItem.getAttribute('tipo-grupo');
-                    let subItemsIds = [];
-
-                    switch (tipoSelectSub) {
-                        case 'radio':
-                        case 'checkbox':
-                            subItem.querySelectorAll(`input[type="${tipoSelectSub}"]:checked`).forEach(input => {
-                                const idSubProducto = input.getAttribute('data-producto-id');
-                                const idVariante = input.getAttribute('data-variante-id');
-                                if (idSubProducto && idVariante) {
-                                    subItemsIds.push(idVariante);
-                                }
-                            });
-                            break;
-                        case 'numberCount':
-                            subItem.querySelectorAll('.controles-cantidad2').forEach(control => {
-                                const cantidadSub = parseInt(control.querySelector('.cantidad-display2')?.textContent || '0');
-                                const idSubProducto = control.getAttribute('data-producto-id');
-                                const idVariante = control.getAttribute('data-variante-id');
-                                if (idSubProducto && idVariante && cantidadSub > 0) {
-                                    subItemsIds.push(idVariante);
-                                }
-                            });
-                            break;
-                    }
-
-                    if (subItemsIds.length > 0) {
-                        jsonItems += `{"titulo":"${tipoGrupoSub}", "items":[${subItemsIds.join(',')}]},`;
-                    }
-                });
+            // Procesar el menuItem
+            switch (tipoSelect) {
+                case "radio":
+                case "checkbox":
+                    menuItem
+                        .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
+                        .forEach((input) => {
+                            const idProducto = input.getAttribute("data-producto-id");
+                            const idVariante = input.getAttribute("data-variante-id");
+                            if (idProducto && idVariante) {
+                                itemsIds.push(idVariante);
+                            }
+                        });
+                    break;
+                case "numberCount":
+                    menuItem
+                        .querySelectorAll(".controles-cantidad2")
+                        .forEach((control) => {
+                            const cantidad = parseInt(
+                                control.querySelector(".cantidad-display2")?.textContent || "0"
+                            );
+                            const idProducto = control.getAttribute("data-producto-id");
+                            const idVariante = control.getAttribute("data-variante-id");
+                            if (idProducto && idVariante && cantidad > 0) {
+                                itemsIds.push(idVariante);
+                            }
+                        });
+                    break;
             }
+
+            // Añadir itemsIds del menuItem si hay
+            if (itemsIds.length > 0) {
+                jsonItems += `{"titulo":"${tipoGrupo}", "items":[${itemsIds.join(
+                    ","
+                )}]},`;
+            }
+
+            // Procesar subItems
+            menuItem
+                .querySelectorAll(`input[type="${tipoSelect}"]:checked`)
+                .forEach((input) => {
+                    const idProducto = input.getAttribute("data-producto-id");
+                    if (idProducto) {
+                        const subItemsProducto = contenedorPrincipal.querySelectorAll(
+                            `.sub-item-producto[data-producto-id="${idProducto}"]`
+                        );
+
+                        subItemsProducto.forEach((subItemProducto) => {
+                            const subItem = subItemProducto.querySelector(".item-subItem");
+                            if (!subItem) return;
+
+                            const tipoSelectSub = subItem.getAttribute("tipo-select");
+                            const tipoGrupoSub = subItem.getAttribute("tipo-grupo");
+                            let subItemsIds = [];
+
+                            switch (tipoSelectSub) {
+                                case "radio":
+                                case "checkbox":
+                                    subItem
+                                        .querySelectorAll(`input[type="${tipoSelectSub}"]:checked`)
+                                        .forEach((input) => {
+                                            const idSubProducto =
+                                                input.getAttribute("data-producto-id");
+                                            const idVariante = input.getAttribute("data-variante-id");
+                                            if (idSubProducto && idVariante) {
+                                                subItemsIds.push(idVariante);
+                                            }
+                                        });
+                                    break;
+                                case "numberCount":
+                                    subItem
+                                        .querySelectorAll(".controles-cantidad2")
+                                        .forEach((control) => {
+                                            const cantidadSub = parseInt(
+                                                control.querySelector(".cantidad-display2")
+                                                    ?.textContent || "0"
+                                            );
+                                            const idSubProducto =
+                                                control.getAttribute("data-producto-id");
+                                            const idVariante =
+                                                control.getAttribute("data-variante-id");
+                                            if (idSubProducto && idVariante && cantidadSub > 0) {
+                                                subItemsIds.push(idVariante);
+                                            }
+                                        });
+                                    break;
+                            }
+
+                            if (subItemsIds.length > 0) {
+                                jsonItems += `{"titulo":"${tipoGrupoSub}", "items":[${subItemsIds.join(
+                                    ","
+                                )}]},`;
+                            }
+                        });
+                    }
+                });
         });
-    });
 
     // Removemos la última coma si existe y cerramos el array
     jsonItems = jsonItems.replace(/,\s*$/, "") + "]";
     return jsonItems;
 };
 
-Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = null) {
+Shopify.addItemCustomCarrito = function (
+    variant_id,
+    quantity,
+    callback,
+    input = null
+) {
     const uuidBase = this.generateUUID();
-    var itemsSeleccionados = this.recolectarDatosSeleccionados(variant_id,quantity,uuidBase) || [];
-    var jsonCuerpoSeleccionados = this.jsonOpcionesSeleccionadas(); 
+    var itemsSeleccionados =
+        this.recolectarDatosSeleccionados(variant_id, quantity, uuidBase) || [];
+    var jsonCuerpoSeleccionados = this.jsonOpcionesSeleccionadas();
 
     // console.log(uuidBase);
     // console.log(itemsSeleccionados);
     // console.log(jsonCuerpoSeleccionados);
     var quantity = quantity || 1;
-    var target = document.querySelector("[data-quickshop] .is-loading") || 
-                 document.querySelector("[data-btn-addtocart].is-loading");
-  
+    var target =
+        document.querySelector("[data-quickshop] .is-loading") ||
+        document.querySelector("[data-btn-addtocart].is-loading");
+
     // Primero validamos los datos
     if (!variant_id) {
-        console.error('No se proporcionó variant_id');
+        console.error("No se proporcionó variant_id");
         return;
     }
 
     // Creamos el array de items manualmente
-    var items = [{
-        id: variant_id,
-        quantity: quantity,
-        properties: {
-            ProductoBase: `Producto-${uuidBase}`,
-            Cuerpo: jsonCuerpoSeleccionados 
-        }
-    },
-    ...itemsSeleccionados];
+    var items = [
+        {
+            id: variant_id,
+            quantity: quantity,
+            properties: {
+                ProductoBase: `Producto-${uuidBase}`,
+                Cuerpo: jsonCuerpoSeleccionados,
+            },
+        },
+        ...itemsSeleccionados,
+    ];
 
-    console.log('Items a enviar:', items);
+    console.log("Items a enviar:", items);
 
     // Construimos el formData de manera más segura
-    var formData = '';
+    var formData = "";
     items.forEach((item, index) => {
-        if (index > 0) formData += '&';
+        if (index > 0) formData += "&";
         formData += `items[${index}][id]=${item.id}`;
         formData += `&items[${index}][quantity]=${item.quantity}`;
-        
+
         if (item.properties) {
             for (var key in item.properties) {
-                formData += `&items[${index}][properties][${key}]=${encodeURIComponent(item.properties[key])}`;
+                formData += `&items[${index}][properties][${key}]=${encodeURIComponent(
+                    item.properties[key]
+                )}`;
             }
         }
     });
-
 
     // Hacemos la llamada AJAX
     $.ajax({
@@ -686,17 +729,18 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
         url: "/cart/add.js",
         data: formData,
         dataType: "json",
-        success: function(line_item) {
+        success: function (line_item) {
             if (typeof callback === "function") {
                 callback(line_item);
             } else {
                 Shopify.onItemAdded(line_item);
             }
         },
-        error: function(XMLHttpRequest, textStatus) {
-            console.error('Error en la llamada AJAX:', XMLHttpRequest, textStatus);
-            var message = window.cartStrings?.addProductOutQuantity2 || "Error adding product";
-            
+        error: function (XMLHttpRequest, textStatus) {
+            console.error("Error en la llamada AJAX:", XMLHttpRequest, textStatus);
+            var message =
+                window.cartStrings?.addProductOutQuantity2 || "Error adding product";
+
             if (input?.length > 0) {
                 var maxValue = parseInt(input.attr("data-inventory-quantity"));
                 message = getInputMessage(maxValue);
@@ -705,38 +749,122 @@ Shopify.addItemCustomCarrito = function(variant_id, quantity, callback, input = 
 
             Shopify.onError(XMLHttpRequest, textStatus, message);
             target?.classList.remove("is-loading");
+        },
+    });
+};
+
+// Funcion para actualizar el carrito desde el Popup de pedidos
+Shopify.changeItemPopupCarrito = function(productoSimilar, quantity, callback) {
+    // Validaciones iniciales
+    if (!productoSimilar || !quantity) {
+        console.error("Parámetros requeridos faltantes");
+        return;
+    }
+
+    Shopify.getCart(function(cart) {
+        try {
+            // Validar que el carrito no esté vacío
+            if (!cart || !cart.items || cart.items.length === 0) {
+                throw new Error("Carrito vacío o inválido");
+            }
+
+            // Obtengo la información de propiedades: {}
+            // La cual en este caso sería ProductoBase
+            if (!productoSimilar.properties?.ProductoBase) {
+                throw new Error("Producto no tiene ProductoBase definido");
+            }
+            const dataProductoBase = productoSimilar.properties.ProductoBase;
+
+            // Itero todo el carrito buscando los elementos con el dataProductoBase
+            // Debe tener ProductoBase como propiedades
+            // Armo mis elementos escogidos de trabajos
+            const updates = {};
+            
+            cart.items.forEach(item => {
+                if (item.properties && 
+                    item.properties.ProductoBase === dataProductoBase) {
+                    
+                    // Calcular la nueva cantidad para cada item relacionado
+                    const cantidadActual = item.quantity || 0;
+                    const nuevaCantidad = cantidadActual + quantity;
+                    
+                    // Validar que la nueva cantidad sea válida
+                    if (nuevaCantidad > 0) {
+                        updates[item.key] = nuevaCantidad;
+                    }
+                }
+            });
+
+            // Verificar si se encontraron items para actualizar
+            if (Object.keys(updates).length === 0) {
+                throw new Error("No se encontraron items para actualizar");
+            }
+
+            console.log('Testeando para pruebas ;',updates);
+
+            // Realizar la actualización del carrito con todos los items relacionados
+            $.ajax({
+                type: "POST",
+                url: "/cart/update.js",
+                data: { updates },
+                dataType: "json",
+                success: function(cartResponse) {
+                    console.log('Actualización exitosa del carrito');
+                    
+                    // Obtener el carrito actualizado antes de llamar al callback
+                    Shopify.getCart(function(updatedCart) {
+                        if (typeof callback === "function") {
+                            callback(updatedCart);
+                        } else {
+                            Shopify.onCartUpdate(updatedCart);
+                        }
+                    });
+                },
+                error: function(XMLHttpRequest, textStatus) {
+                    console.error("Error al actualizar el carrito:", textStatus);
+                    Shopify.onError(XMLHttpRequest, textStatus);
+                }
+            });
+
+        } catch (error) {
+            console.error("Error en changeItemPopupCarrito:", error.message);
+            if (typeof callback === "function") {
+                callback({ error: error.message });
+            }
         }
     });
 };
 
-Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
+Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
     // Validaciones rápidas iniciales
     if (!variant_id || quantity < 0) return;
 
     // Usar Promise para manejar el flujo asíncrono mejor
-    Shopify.getCart(function(cart) {
+    Shopify.getCart(function (cart) {
         if (!cart || !cart.items) {
-            if (typeof callback === "function") callback({ error: 'No se pudo obtener el carrito' });
+            if (typeof callback === "function")
+                callback({ error: "No se pudo obtener el carrito" });
             return;
         }
 
         try {
+            // Me traigo
+
             // Extraer ID base y validar rápidamente
-            const idVarianteBase = variant_id.toString().split(':')[0];
-            if (!idVarianteBase) throw new Error('ID de variante inválido');
+            const idVarianteBase = variant_id.toString().split(":")[0];
+            if (!idVarianteBase) throw new Error("ID de variante inválido");
 
             // Buscar item principal y subproductos en una sola iteración
-            const itemTrabajo = cart.items.find(item => 
-                item.variant_id.toString() === idVarianteBase
+            const itemTrabajo = cart.items.find(
+                (item) => item.variant_id.toString() === idVarianteBase
             );
 
-            console.log('🛒 Item Trabajo:', {
+            console.log("🛒 Item Trabajo:", {
                 encontrado: itemTrabajo,
                 item: itemTrabajo,
                 variant_id: itemTrabajo?.variant_id,
-                properties: itemTrabajo?.properties
+                properties: itemTrabajo?.properties,
             });
-            
 
             if (!itemTrabajo?.properties?.ProductoBase) {
                 // Si no es un producto base, usar el método simple original
@@ -746,36 +874,38 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
             // Filtrar subproductos y preparar actualizaciones en una sola pasada
             const updates = {};
             updates[variant_id] = quantity;
-            console.log('📦 Cantidad Nueva:', quantity);
+            console.log("📦 Cantidad Nueva:", quantity);
 
-
-            cart.items.forEach(item => {
-                console.log('➡️ Procesando Item:', {
+            cart.items.forEach((item) => {
+                console.log("➡️ Procesando Item:", {
                     variant_id: item.variant_id,
                     key: item.key,
                     quantity: item.quantity,
                     properties: item.properties,
                     productoBase: item.properties?.ProductoBase,
-                    tieneCuerpo: item.properties?.hasOwnProperty('Cuerpo')
+                    tieneCuerpo: item.properties?.hasOwnProperty("Cuerpo"),
                 });
-            
-                if (item.properties && 
-                    item.properties.ProductoBase === itemTrabajo.properties.ProductoBase && 
-                    !item.properties.hasOwnProperty('Cuerpo')) {
+
+                if (
+                    item.properties &&
+                    item.properties.ProductoBase ===
+                    itemTrabajo.properties.ProductoBase &&
+                    !item.properties.hasOwnProperty("Cuerpo")
+                ) {
                     const proporcion = item.quantity / itemTrabajo.quantity;
                     updates[item.key] = Math.round(quantity * proporcion);
-                    
-                    console.log('✨ Actualización:', {
+
+                    console.log("✨ Actualización:", {
                         key: item.key,
-                        'item.quantity': item.quantity,
-                        'itemTrabajo.quantity': itemTrabajo.quantity,
+                        "item.quantity": item.quantity,
+                        "itemTrabajo.quantity": itemTrabajo.quantity,
                         proporcion: proporcion,
-                        cantidadNueva: updates[item.key]
+                        cantidadNueva: updates[item.key],
                     });
                 }
             });
 
-            console.log('📝 Updates Finales:', updates);
+            console.log("📝 Updates Finales:", updates);
 
             // Realizar la actualización
             $.ajax({
@@ -783,19 +913,18 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
                 url: "/cart/update.js",
                 data: { updates },
                 dataType: "json",
-                success: function(cart) {
-                    console.log('Si llega a entrar y hacerlo correcto')
+                success: function (cart) {
+                    console.log("Si llega a entrar y hacerlo correcto");
                     if (typeof callback === "function") {
                         callback(cart);
                     } else {
                         Shopify.onCartUpdate(cart);
                     }
                 },
-                error: function(XMLHttpRequest, textStatus) {
+                error: function (XMLHttpRequest, textStatus) {
                     Shopify.onError(XMLHttpRequest, textStatus);
-                }
+                },
             });
-
         } catch (error) {
             if (typeof callback === "function") {
                 callback({ error: error.message });
@@ -805,455 +934,455 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
 };
 
 Shopify.onItemAdded = function (line_item) {
-  alert(line_item.title + " was added to your shopping cart.");
+    alert(line_item.title + " was added to your shopping cart.");
 };
 
 Shopify.onError = function (XMLHttpRequest, textStatus, message) {
-  var data = eval("(" + XMLHttpRequest.responseText + ")");
-  if (!!data.message) {
-    !!data.description
-      ? showWarning(data.description)
-      : showWarning(data.message + ": " + message, warningTime);
-  } else {
-    showWarning("Error : " + message, warningTime);
-  }
+    var data = eval("(" + XMLHttpRequest.responseText + ")");
+    if (!!data.message) {
+        !!data.description
+            ? showWarning(data.description)
+            : showWarning(data.message + ": " + message, warningTime);
+    } else {
+        showWarning("Error : " + message, warningTime);
+    }
 };
 
 class MenuDrawer extends HTMLElement {
-  constructor() {
-    super();
-    this.mainDetailsToggle = this.querySelector("details");
-    const summaryElements = this.querySelectorAll("summary");
-    this.addAccessibilityAttributes(summaryElements);
+    constructor() {
+        super();
+        this.mainDetailsToggle = this.querySelector("details");
+        const summaryElements = this.querySelectorAll("summary");
+        this.addAccessibilityAttributes(summaryElements);
 
-    if (navigator.platform === "iPhone")
-      document.documentElement.style.setProperty(
-        "--viewport-height",
-        `${window.innerHeight}px`
-      );
+        if (navigator.platform === "iPhone")
+            document.documentElement.style.setProperty(
+                "--viewport-height",
+                `${window.innerHeight}px`
+            );
 
-    this.addEventListener("keyup", this.onKeyUp.bind(this));
-    this.addEventListener("focusout", this.onFocusOut.bind(this));
-    this.bindEvents();
-  }
-
-  bindEvents() {
-    this.querySelectorAll("summary").forEach((summary) =>
-      summary.addEventListener("click", this.onSummaryClick.bind(this))
-    );
-    this.querySelectorAll("button").forEach((button) =>
-      button.addEventListener("click", this.onCloseButtonClick.bind(this))
-    );
-  }
-
-  addAccessibilityAttributes(summaryElements) {
-    summaryElements.forEach((element) => {
-      element.setAttribute("role", "button");
-      element.setAttribute("aria-expanded", false);
-      element.setAttribute("aria-controls", element.nextElementSibling.id);
-    });
-  }
-
-  onKeyUp(event) {
-    if (event.code.toUpperCase() !== "ESCAPE") return;
-
-    const openDetailsElement = event.target.closest("details[open]");
-    if (!openDetailsElement) return;
-
-    openDetailsElement === this.mainDetailsToggle
-      ? this.closeMenuDrawer(this.mainDetailsToggle.querySelector("summary"))
-      : this.closeSubmenu(openDetailsElement);
-  }
-
-  onSummaryClick(event) {
-    const summaryElement = event.currentTarget;
-    const detailsElement = summaryElement.parentNode;
-    const isOpen = detailsElement.hasAttribute("open");
-
-    if (detailsElement === this.mainDetailsToggle) {
-      if (isOpen) event.preventDefault();
-      isOpen
-        ? this.closeMenuDrawer(summaryElement)
-        : this.openMenuDrawer(summaryElement);
-    } else {
-      trapFocus(
-        summaryElement.nextElementSibling,
-        detailsElement.querySelector("button")
-      );
-
-      setTimeout(() => {
-        detailsElement.classList.add("menu-opening");
-      });
+        this.addEventListener("keyup", this.onKeyUp.bind(this));
+        this.addEventListener("focusout", this.onFocusOut.bind(this));
+        this.bindEvents();
     }
-  }
 
-  openMenuDrawer(summaryElement) {
-    setTimeout(() => {
-      this.mainDetailsToggle.classList.add("menu-opening");
-    });
-    summaryElement.setAttribute("aria-expanded", true);
-    trapFocus(this.mainDetailsToggle, summaryElement);
-    document.body.classList.add("overflow-hidden-mobile");
-  }
-
-  closeMenuDrawer(event, elementToFocus = false) {
-    if (event !== undefined) {
-      this.mainDetailsToggle.classList.remove("menu-opening");
-
-      this.mainDetailsToggle.querySelectorAll("details").forEach((details) => {
-        details.removeAttribute("open");
-        details.classList.remove("menu-opening");
-      });
-
-      this.mainDetailsToggle
-        .querySelector("summary")
-        .setAttribute("aria-expanded", false);
-      document.body.classList.remove("overflow-hidden-mobile");
-      removeTrapFocus(elementToFocus);
-      this.closeAnimation(this.mainDetailsToggle);
+    bindEvents() {
+        this.querySelectorAll("summary").forEach((summary) =>
+            summary.addEventListener("click", this.onSummaryClick.bind(this))
+        );
+        this.querySelectorAll("button").forEach((button) =>
+            button.addEventListener("click", this.onCloseButtonClick.bind(this))
+        );
     }
-  }
 
-  onFocusOut(event) {
-    setTimeout(() => {
-      if (
-        this.mainDetailsToggle.hasAttribute("open") &&
-        !this.mainDetailsToggle.contains(document.activeElement)
-      )
-        this.closeMenuDrawer();
-    });
-  }
+    addAccessibilityAttributes(summaryElements) {
+        summaryElements.forEach((element) => {
+            element.setAttribute("role", "button");
+            element.setAttribute("aria-expanded", false);
+            element.setAttribute("aria-controls", element.nextElementSibling.id);
+        });
+    }
 
-  onCloseButtonClick(event) {
-    const detailsElement = event.currentTarget.closest("details");
-    this.closeSubmenu(detailsElement);
-  }
+    onKeyUp(event) {
+        if (event.code.toUpperCase() !== "ESCAPE") return;
 
-  closeSubmenu(detailsElement) {
-    detailsElement.classList.remove("menu-opening");
-    removeTrapFocus();
-    this.closeAnimation(detailsElement);
-  }
+        const openDetailsElement = event.target.closest("details[open]");
+        if (!openDetailsElement) return;
 
-  closeAnimation(detailsElement) {
-    let animationStart;
+        openDetailsElement === this.mainDetailsToggle
+            ? this.closeMenuDrawer(this.mainDetailsToggle.querySelector("summary"))
+            : this.closeSubmenu(openDetailsElement);
+    }
 
-    const handleAnimation = (time) => {
-      if (animationStart === undefined) {
-        animationStart = time;
-      }
+    onSummaryClick(event) {
+        const summaryElement = event.currentTarget;
+        const detailsElement = summaryElement.parentNode;
+        const isOpen = detailsElement.hasAttribute("open");
 
-      const elapsedTime = time - animationStart;
+        if (detailsElement === this.mainDetailsToggle) {
+            if (isOpen) event.preventDefault();
+            isOpen
+                ? this.closeMenuDrawer(summaryElement)
+                : this.openMenuDrawer(summaryElement);
+        } else {
+            trapFocus(
+                summaryElement.nextElementSibling,
+                detailsElement.querySelector("button")
+            );
 
-      if (elapsedTime < 400) {
-        window.requestAnimationFrame(handleAnimation);
-      } else {
-        detailsElement.removeAttribute("open");
-
-        if (detailsElement.closest("details[open]")) {
-          trapFocus(
-            detailsElement.closest("details[open]"),
-            detailsElement.querySelector("summary")
-          );
+            setTimeout(() => {
+                detailsElement.classList.add("menu-opening");
+            });
         }
-      }
-    };
+    }
 
-    window.requestAnimationFrame(handleAnimation);
-  }
+    openMenuDrawer(summaryElement) {
+        setTimeout(() => {
+            this.mainDetailsToggle.classList.add("menu-opening");
+        });
+        summaryElement.setAttribute("aria-expanded", true);
+        trapFocus(this.mainDetailsToggle, summaryElement);
+        document.body.classList.add("overflow-hidden-mobile");
+    }
+
+    closeMenuDrawer(event, elementToFocus = false) {
+        if (event !== undefined) {
+            this.mainDetailsToggle.classList.remove("menu-opening");
+
+            this.mainDetailsToggle.querySelectorAll("details").forEach((details) => {
+                details.removeAttribute("open");
+                details.classList.remove("menu-opening");
+            });
+
+            this.mainDetailsToggle
+                .querySelector("summary")
+                .setAttribute("aria-expanded", false);
+            document.body.classList.remove("overflow-hidden-mobile");
+            removeTrapFocus(elementToFocus);
+            this.closeAnimation(this.mainDetailsToggle);
+        }
+    }
+
+    onFocusOut(event) {
+        setTimeout(() => {
+            if (
+                this.mainDetailsToggle.hasAttribute("open") &&
+                !this.mainDetailsToggle.contains(document.activeElement)
+            )
+                this.closeMenuDrawer();
+        });
+    }
+
+    onCloseButtonClick(event) {
+        const detailsElement = event.currentTarget.closest("details");
+        this.closeSubmenu(detailsElement);
+    }
+
+    closeSubmenu(detailsElement) {
+        detailsElement.classList.remove("menu-opening");
+        removeTrapFocus();
+        this.closeAnimation(detailsElement);
+    }
+
+    closeAnimation(detailsElement) {
+        let animationStart;
+
+        const handleAnimation = (time) => {
+            if (animationStart === undefined) {
+                animationStart = time;
+            }
+
+            const elapsedTime = time - animationStart;
+
+            if (elapsedTime < 400) {
+                window.requestAnimationFrame(handleAnimation);
+            } else {
+                detailsElement.removeAttribute("open");
+
+                if (detailsElement.closest("details[open]")) {
+                    trapFocus(
+                        detailsElement.closest("details[open]"),
+                        detailsElement.querySelector("summary")
+                    );
+                }
+            }
+        };
+
+        window.requestAnimationFrame(handleAnimation);
+    }
 }
 
 customElements.define("menu-drawer", MenuDrawer);
 
 class HeaderDrawer extends MenuDrawer {
-  constructor() {
-    super();
-  }
+    constructor() {
+        super();
+    }
 
-  openMenuDrawer(summaryElement) {
-    this.header =
-      this.header || document.getElementById("shopify-section-header");
-    this.borderOffset =
-      this.borderOffset ||
-      this.closest(".header-wrapper").classList.contains(
-        "header-wrapper--border-bottom"
-      )
-        ? 1
-        : 0;
-    document.documentElement.style.setProperty(
-      "--header-bottom-position",
-      `${parseInt(
-        this.header.getBoundingClientRect().bottom - this.borderOffset
-      )}px`
-    );
+    openMenuDrawer(summaryElement) {
+        this.header =
+            this.header || document.getElementById("shopify-section-header");
+        this.borderOffset =
+            this.borderOffset ||
+                this.closest(".header-wrapper").classList.contains(
+                    "header-wrapper--border-bottom"
+                )
+                ? 1
+                : 0;
+        document.documentElement.style.setProperty(
+            "--header-bottom-position",
+            `${parseInt(
+                this.header.getBoundingClientRect().bottom - this.borderOffset
+            )}px`
+        );
 
-    setTimeout(() => {
-      this.mainDetailsToggle.classList.add("menu-opening");
-    });
+        setTimeout(() => {
+            this.mainDetailsToggle.classList.add("menu-opening");
+        });
 
-    summaryElement.setAttribute("aria-expanded", true);
-    trapFocus(this.mainDetailsToggle, summaryElement);
-    document.body.classList.add("overflow-hidden-mobile");
-  }
+        summaryElement.setAttribute("aria-expanded", true);
+        trapFocus(this.mainDetailsToggle, summaryElement);
+        document.body.classList.add("overflow-hidden-mobile");
+    }
 }
 
 customElements.define("header-drawer", HeaderDrawer);
 
 class UpdateQuantity extends HTMLElement {
-  constructor() {
-    super();
-    this.input = this.querySelector("input");
-    this.changeEvent = new Event("change", { bubbles: true });
-    this.querySelectorAll(".btn-quantity").forEach((button) =>
-      button.addEventListener("click", this.onButtonClick.bind(this))
-    );
-  }
-
-  onButtonClick(event) {
-    event.preventDefault();
-    let el_input = event.target.parentElement.querySelector(".quantity");
-    const value = Number(el_input.value);
-    const inStockNumber = Number(el_input.dataset.inventoryQuantity);
-    if (event.target.classList.contains("plus")) {
-      var newVal = value + 1;
-    } else {
-      var newVal = value - 1;
+    constructor() {
+        super();
+        this.input = this.querySelector("input");
+        this.changeEvent = new Event("change", { bubbles: true });
+        this.querySelectorAll(".btn-quantity").forEach((button) =>
+            button.addEventListener("click", this.onButtonClick.bind(this))
+        );
     }
 
-    if (newVal < 0) {
-      var newVal = 1;
+    onButtonClick(event) {
+        event.preventDefault();
+        let el_input = event.target.parentElement.querySelector(".quantity");
+        const value = Number(el_input.value);
+        const inStockNumber = Number(el_input.dataset.inventoryQuantity);
+        if (event.target.classList.contains("plus")) {
+            var newVal = value + 1;
+        } else {
+            var newVal = value - 1;
+        }
+
+        if (newVal < 0) {
+            var newVal = 1;
+        }
+
+        if (newVal <= inStockNumber) {
+            el_input.value = newVal;
+            this.input.dispatchEvent(this.changeEvent);
+        } else if (isNaN(inStockNumber)) {
+            el_input.value = newVal;
+            this.input.dispatchEvent(this.changeEvent);
+        } else {
+            if (this.quantityCheckedToBeContinue()) {
+                el_input.value = newVal;
+                this.input.dispatchEvent(this.changeEvent);
+                return;
+            }
+
+            const message = getInputMessage(inStockNumber);
+            showWarning(message, warningTime);
+            var newVal = inStockNumber;
+            el_input.value = newVal;
+        }
     }
 
-    if (newVal <= inStockNumber) {
-      el_input.value = newVal;
-      this.input.dispatchEvent(this.changeEvent);
-    } else if (isNaN(inStockNumber)) {
-      el_input.value = newVal;
-      this.input.dispatchEvent(this.changeEvent);
-    } else {
-      if (this.quantityCheckedToBeContinue()) {
-        el_input.value = newVal;
-        this.input.dispatchEvent(this.changeEvent);
-        return;
-      }
-
-      const message = getInputMessage(inStockNumber);
-      showWarning(message, warningTime);
-      var newVal = inStockNumber;
-      el_input.value = newVal;
+    quantityCheckedToBeContinue() {
+        const sellingArray = window[`cart_selling_array_${this.dataset.product}`];
+        return (
+            sellingArray[
+            this.querySelector('[name="quantity"]').dataset.cartQuantityId
+            ] === "continue"
+        );
     }
-  }
-
-  quantityCheckedToBeContinue() {
-    const sellingArray = window[`cart_selling_array_${this.dataset.product}`];
-    return (
-      sellingArray[
-        this.querySelector('[name="quantity"]').dataset.cartQuantityId
-      ] === "continue"
-    );
-  }
 }
 
 class UpdateQuantityQuickShop extends HTMLElement {
-  constructor() {
-    super();
-    this.input = this.querySelector("input");
-    this.changeEvent = new Event("change", { bubbles: true });
-    this.querySelectorAll(".btn-quantity").forEach((button) =>
-      button.addEventListener("click", this.onChangeQuantity.bind(this))
-    );
-    this.input.addEventListener("change", this.onChangeQuantity.bind(this));
-  }
-
-  onChangeQuantity(event) {
-    event.preventDefault();
-    const target = event.target;
-    let el_input = target.parentElement.querySelector(".quantity");
-    const value = Number(el_input.value);
-    const inStockNumber = Number(el_input.dataset.inventoryQuantity);
-    const buttonAdd = target
-      .closest("[data-quickshop]")
-      .querySelector("[data-btn-addtocart]");
-    let newVal;
-
-    if (target.matches(".plus")) newVal = value + 1;
-    else if (target.matches(".minus")) newVal = value - 1;
-    else newVal = value;
-
-    if (newVal <= 0) newVal = 1;
-
-    if (newVal > inStockNumber && !buttonAdd.matches(".button--preorder")) {
-      const message = getInputMessage(inStockNumber);
-      showWarning(message, warningTime);
-      newVal = inStockNumber;
+    constructor() {
+        super();
+        this.input = this.querySelector("input");
+        this.changeEvent = new Event("change", { bubbles: true });
+        this.querySelectorAll(".btn-quantity").forEach((button) =>
+            button.addEventListener("click", this.onChangeQuantity.bind(this))
+        );
+        this.input.addEventListener("change", this.onChangeQuantity.bind(this));
     }
 
-    el_input.value = newVal;
-    if (target.matches(".btn-quantity"))
-      this.input.dispatchEvent(this.changeEvent);
-    const quickshop = this.closest("[data-quickshop]");
-    const realQuantityInput = quickshop.querySelector(
-      'form input[type="hidden"]'
-    );
-    realQuantityInput.setAttribute("value", newVal);
-  }
+    onChangeQuantity(event) {
+        event.preventDefault();
+        const target = event.target;
+        let el_input = target.parentElement.querySelector(".quantity");
+        const value = Number(el_input.value);
+        const inStockNumber = Number(el_input.dataset.inventoryQuantity);
+        const buttonAdd = target
+            .closest("[data-quickshop]")
+            .querySelector("[data-btn-addtocart]");
+        let newVal;
+
+        if (target.matches(".plus")) newVal = value + 1;
+        else if (target.matches(".minus")) newVal = value - 1;
+        else newVal = value;
+
+        if (newVal <= 0) newVal = 1;
+
+        if (newVal > inStockNumber && !buttonAdd.matches(".button--preorder")) {
+            const message = getInputMessage(inStockNumber);
+            showWarning(message, warningTime);
+            newVal = inStockNumber;
+        }
+
+        el_input.value = newVal;
+        if (target.matches(".btn-quantity"))
+            this.input.dispatchEvent(this.changeEvent);
+        const quickshop = this.closest("[data-quickshop]");
+        const realQuantityInput = quickshop.querySelector(
+            'form input[type="hidden"]'
+        );
+        realQuantityInput.setAttribute("value", newVal);
+    }
 }
 
 class ProductScroller extends HTMLElement {
-  constructor() {
-    super();
-    this.container = this.querySelector("[data-drag-container]");
-    this.dragParent = this.querySelector("[data-drag-parent]");
+    constructor() {
+        super();
+        this.container = this.querySelector("[data-drag-container]");
+        this.dragParent = this.querySelector("[data-drag-parent]");
 
-    this.initDragToScroll();
-  }
-
-  initDragToScroll() {
-    const isOverflowing = (wrapper) => {
-      return wrapper.clientWidth < wrapper.scrollWidth;
-    };
-    let containerOverflowing = isOverflowing(this.container);
-
-    if (containerOverflowing) {
-      this.dragToScroll(this.container);
-      return;
+        this.initDragToScroll();
     }
-    this.dragToScroll(this.dragParent);
-  }
 
-  dragToScroll(slider) {
-    let mouseDown = false;
-    let start;
-    let scrollLeft;
-    let inactiveTimeout;
+    initDragToScroll() {
+        const isOverflowing = (wrapper) => {
+            return wrapper.clientWidth < wrapper.scrollWidth;
+        };
+        let containerOverflowing = isOverflowing(this.container);
 
-    slider.addEventListener("mousedown", (e) => {
-      const target = e.target;
+        if (containerOverflowing) {
+            this.dragToScroll(this.container);
+            return;
+        }
+        this.dragToScroll(this.dragParent);
+    }
 
-      mouseDown = true;
-      start = e.pageX - slider.offsetLeft;
-      scrollLeft = slider.scrollLeft;
-    });
+    dragToScroll(slider) {
+        let mouseDown = false;
+        let start;
+        let scrollLeft;
+        let inactiveTimeout;
 
-    slider.addEventListener("mouseup", () => {
-      mouseDown = false;
+        slider.addEventListener("mousedown", (e) => {
+            const target = e.target;
 
-      clearTimeout(inactiveTimeout);
-      inactiveTimeout = setTimeout(() => {
-        slider.classList.remove("active");
-      }, 150);
-    });
+            mouseDown = true;
+            start = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
 
-    slider.addEventListener("mousemove", (e) => {
-      if (!mouseDown) return;
-      e.preventDefault();
+        slider.addEventListener("mouseup", () => {
+            mouseDown = false;
 
-      if (!slider.classList.contains("active")) {
-        slider.classList.add("active");
-      }
+            clearTimeout(inactiveTimeout);
+            inactiveTimeout = setTimeout(() => {
+                slider.classList.remove("active");
+            }, 150);
+        });
 
-      const x = e.pageX - slider.offsetLeft;
-      const walk = (x - start) * 1;
-      slider.scrollLeft = scrollLeft - walk;
-    });
+        slider.addEventListener("mousemove", (e) => {
+            if (!mouseDown) return;
+            e.preventDefault();
 
-    slider.addEventListener("mouseleave", () => {
-      mouseDown = false;
+            if (!slider.classList.contains("active")) {
+                slider.classList.add("active");
+            }
 
-      clearTimeout(inactiveTimeout);
-      inactiveTimeout = setTimeout(() => {
-        slider.classList.remove("active");
-      }, 150);
-    });
-  }
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - start) * 1;
+            slider.scrollLeft = scrollLeft - walk;
+        });
+
+        slider.addEventListener("mouseleave", () => {
+            mouseDown = false;
+
+            clearTimeout(inactiveTimeout);
+            inactiveTimeout = setTimeout(() => {
+                slider.classList.remove("active");
+            }, 150);
+        });
+    }
 }
 
 class ImageToFlip extends HTMLElement {
-  constructor() {
-    super();
+    constructor() {
+        super();
 
-    this.imageContainer = this;
-    this.initObserver();
-  }
+        this.imageContainer = this;
+        this.initObserver();
+    }
 
-  initObserver() {
-    this.observer = new IntersectionObserver(
-      (entries, observer) => {
-        const imageRef = entries[0];
+    initObserver() {
+        this.observer = new IntersectionObserver(
+            (entries, observer) => {
+                const imageRef = entries[0];
 
-        if (imageRef.isIntersecting) {
-          imageRef.target.classList.add("show");
-          observer.unobserve(imageRef.target);
-        }
-      },
-      {
-        threshold: 0.4,
-      }
-    );
+                if (imageRef.isIntersecting) {
+                    imageRef.target.classList.add("show");
+                    observer.unobserve(imageRef.target);
+                }
+            },
+            {
+                threshold: 0.4,
+            }
+        );
 
-    this.observer.observe(this.imageContainer);
-  }
+        this.observer.observe(this.imageContainer);
+    }
 }
 
 window.addEventListener("load", () => {
-  customElements.define("cart-update-quantity", UpdateQuantity);
-  customElements.define("quickshop-update-quantity", UpdateQuantityQuickShop);
-  customElements.define("product-scroller", ProductScroller);
-  customElements.define("image-to-flip", ImageToFlip);
+    customElements.define("cart-update-quantity", UpdateQuantity);
+    customElements.define("quickshop-update-quantity", UpdateQuantityQuickShop);
+    customElements.define("product-scroller", ProductScroller);
+    customElements.define("image-to-flip", ImageToFlip);
 });
 
 class FadeInComponent extends HTMLElement {
-  constructor() {
-    super();
-  }
+    constructor() {
+        super();
+    }
 
-  connectedCallback() {
-    this.initObserver();
-  }
+    connectedCallback() {
+        this.initObserver();
+    }
 
-  initObserver() {
-    const handler = (entries, observer) => {
-      if (entries[0].isIntersecting) {
-        this.classList.add("fade-in");
+    initObserver() {
+        const handler = (entries, observer) => {
+            if (entries[0].isIntersecting) {
+                this.classList.add("fade-in");
 
-        observer.unobserve(this);
-      }
-    };
+                observer.unobserve(this);
+            }
+        };
 
-    const options = {
-      threshold: 0.7,
-    };
+        const options = {
+            threshold: 0.7,
+        };
 
-    this.observer = new IntersectionObserver(handler, options);
-    this.observer.observe(this);
-  }
+        this.observer = new IntersectionObserver(handler, options);
+        this.observer.observe(this);
+    }
 }
 
 function showWarning(content, time = null) {
-  if (window.warningTimeout) {
-    clearTimeout(window.warningTimeout);
-  }
-  const warningPopupContent = document
-    .getElementById("scoder-warning-popup")
-    .querySelector("[data-scoder-warning-content]");
-  warningPopupContent.textContent = content;
-  document.body.classList.add("has-warning");
+    if (window.warningTimeout) {
+        clearTimeout(window.warningTimeout);
+    }
+    const warningPopupContent = document
+        .getElementById("scoder-warning-popup")
+        .querySelector("[data-scoder-warning-content]");
+    warningPopupContent.textContent = content;
+    document.body.classList.add("has-warning");
 
-  if (time) {
-    window.warningTimeout = setTimeout(() => {
-      document.body.classList.remove("has-warning");
-    }, time);
-  }
+    if (time) {
+        window.warningTimeout = setTimeout(() => {
+            document.body.classList.remove("has-warning");
+        }, time);
+    }
 }
 
 function getInputMessage(maxValue) {
-  var message = window.cartStrings.addProductOutQuantity.replace(
-    "[maxQuantity]",
-    maxValue
-  );
-  return message;
+    var message = window.cartStrings.addProductOutQuantity.replace(
+        "[maxQuantity]",
+        maxValue
+    );
+    return message;
 }
 
 window.addEventListener("load", () => {
-  customElements.define("fade-in-component", FadeInComponent);
+    customElements.define("fade-in-component", FadeInComponent);
 });
