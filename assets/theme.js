@@ -1963,7 +1963,8 @@
                         const productLine = productoSimilar.key;
                         let quantity = qty;
                         Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
-                            console.log('este es el cart :',cart);
+                            // console.log('este es el cart :',cart);
+                            console.log('Si se cumple el callback')
                             // Agregar estas líneas
                             $body.addClass('cart-sidebar-show');
                             $target.removeClass('is-loading');
@@ -1971,8 +1972,8 @@
                             if($body.hasClass('template-cart')){
                                 scoder.updateCart(cart);
                             } else if($body.hasClass('cart-modal-show') || $body.hasClass('cart-sidebar-show')) {
-                                Shopify.onCartUpdate(cart);
-                                // scoder.updateSidebarCart(cart);
+                                // Shopify.onCartUpdate(cart);
+                                 scoder.updateSidebarCart(cart);
                             }
                             
 
