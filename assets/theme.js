@@ -1962,23 +1962,23 @@
                     if(productoSimilar){
                         const productLine = productoSimilar.key;
                           Shopify.changeItemCustomCarrito(productLine, qty, (cart) => {
-                                if (window.after_add_to_cart.type == 'cart') {
-                                    console.log('Entro aqui 1')
-                                    scoder.redirectTo(window.routes.cart);
-                                } else {
-                                    console.log('Entro aqui 2')
+                                // if (window.after_add_to_cart.type == 'cart') {
+                                //     console.log('Entro aqui 1')
+                                //     scoder.redirectTo(window.routes.cart);
+                                // } else {
+                                //     console.log('Entro aqui 2')
 
-                                    Shopify.getCart((cartTotal) => {
-                                    console.log('Entro aqui 3')
+                                //     Shopify.getCart((cartTotal) => {
+                                //     console.log('Entro aqui 3')
 
-                                        $body.addClass('cart-sidebar-show');
-                                        scoder.updateSidebarCart(cartTotal);
-                                        $body.find('[data-cart-count]').text(cartTotal.item_count);
-                                        $target.removeClass('is-loading');
-                                        scoder.updateSidebarCart(cart);
+                                //         $body.addClass('cart-sidebar-show');
+                                //         scoder.updateSidebarCart(cartTotal);
+                                //         $body.find('[data-cart-count]').text(cartTotal.item_count);
+                                //         $target.removeClass('is-loading');
+                                //         // scoder.updateSidebarCart(cart);
 
-                                    });
-                                }
+                                //     });
+                                // }
                               if($body.hasClass('template-cart')){
                                   scoder.updateCart(cart);
                                   console.log("template-cart");
