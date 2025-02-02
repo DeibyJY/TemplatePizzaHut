@@ -1988,6 +1988,7 @@
                                         scoder.updateSidebarCart(cartTotal);
                                         $body.find('[data-cart-count]').text(cartTotal.item_count);
                                         $target.removeClass('is-loading');
+                                       scoder.updateSidebarCart(cart);
                                     });
                                 }
                             //   if($body.hasClass('template-cart')){
@@ -1998,7 +1999,6 @@
                                 //   scoder.updateSidebarCart(cart);
                             //   } else if($body.hasClass('cart-sidebar-show')) {
                                 //   console.log("cart-sidebar-show");
-                                //   scoder.updateSidebarCart(cart);
 // 
                                 // }
                             //   if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
