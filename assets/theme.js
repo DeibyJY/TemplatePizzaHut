@@ -2463,17 +2463,19 @@
                 //         scoder.updateSidebarCart(cart);
                 //     }
                 // });
-                Shopify.remoteItemCustomShoppingCart(productLine,cart, (cart) => {
-                    if($body.hasClass('template-cart')){
-                        scoder.updateCart(cart);
-                    } else if($body.hasClass('cart-modal-show')){
-                        // scoder.updateDropdownCart(cart);
-                    } else if($body.hasClass('cart-sidebar-show')) {
-                        scoder.updateSidebarCart(cart);
-                    }
+                
+                
+                Shopify.getCart((cartData) => {
+                    Shopify.remoteItemCustomShoppingCart(productLine,cartData, (cart) => {
+                        if($body.hasClass('template-cart')){
+                            scoder.updateCart(cart);
+                        } else if($body.hasClass('cart-modal-show')){
+                            // scoder.updateDropdownCart(cart);
+                        } else if($body.hasClass('cart-sidebar-show')) {
+                            scoder.updateSidebarCart(cart);
+                        }
+                    });
                 });
-
-
             });
         },
 

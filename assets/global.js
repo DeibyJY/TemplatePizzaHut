@@ -343,10 +343,9 @@ Shopify.changeItem = function (variant_id, quantity, callback) {
     $.ajax(params);
 };
 
-Shopify.remoteItemCustomShoppingCart = function (variant_id,cart,callback) {
+Shopify.remoteItemCustomShoppingCart = function (variant_id,cartData,callback) {
     console.log("Intentando eliminar variante:", variant_id);
-    console.log("Intentando de ver el cart:", cart);
-
+    console.log("Intentando de ver el cart:", cartData);
     // Tenemos la informacion de items que es key unico que va eliminar es el principal
     // Buscamos este elemento en el carrito
     // const dataProductoBase = 
