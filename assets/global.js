@@ -343,42 +343,93 @@ Shopify.changeItem = function (variant_id, quantity, callback) {
     $.ajax(params);
 };
 
-Shopify.remoteItemCustomShoppingCart = function (variant_id,cartData,callback) {
-    console.log("Intentando eliminar variante:", variant_id);
-    console.log("Intentando de ver el cart:", cartData);
-    // Tenemos la informacion de items que es key unico que va eliminar es el principal
-    // Buscamos este elemento en el carrito
-    // const dataProductoBase = 
-
-
-    var params = {
-        type: "POST",
-        url: "/cart/change.js",
-        data: "quantity=0&id=" + variant_id,
-        dataType: "json",
-        success: function (cart) {
-            console.log("Éxito al eliminar:", cart);
-            if (typeof callback === "function") {
-                callback(cart);
-            } else {
-                Shopify.onCartUpdate(cart);
-            }
-        },
-        error: function (XMLHttpRequest, textStatus) {
-            console.error("Error en removeItem:", {
-                status: XMLHttpRequest.status,
-                statusText: XMLHttpRequest.statusText,
-                responseText: XMLHttpRequest.responseText,
-                textStatus: textStatus,
-            });
-            Shopify.onError(XMLHttpRequest, textStatus);
-        },
-    };
+Shopify.remoteItemCustomShoppingCart = function (variant_id, cartData, callback) {
+    // Logs iniciales para debugging
+    console.log("Iniciando proceso de eliminación:", {
+        variant_id: variant_id,
+        cartItemCount: cartData?.items?.length || 0
+    });
 
     try {
+        // Validación inicial de parámetros
+        if (!variant_id || !cartData || !cartData.items) {
+            throw new Error("Parámetros inválidos o faltantes");
+        }
+
+        // Buscar el producto principal a eliminar usando su key única
+        const productoEncontrado = cartData.items.find(item => item.key === variant_id);
+        console.log("Producto principal encontrado:", {
+            encontrado: !!productoEncontrado,
+            key: variant_id
+        });
+
+        if (!productoEncontrado || !productoEncontrado.properties?.ProductoBase) {
+            throw new Error("Producto no encontrado o no tiene ProductoBase");
+        }
+
+        // Obtener el identificador del ProductoBase
+        const dataProductoBase = productoEncontrado.properties.ProductoBase;
+        console.log("ProductoBase identificado:", dataProductoBase);
+
+        // Filtrar todos los items relacionados con el mismo ProductoBase
+        const itemsTrabajo = cartData.items.filter(item => 
+            item.properties?.ProductoBase === dataProductoBase
+        );
+
+        // Preparar las actualizaciones para eliminar todos los items relacionados
+        const updates = {};
+        itemsTrabajo.forEach(item => {
+            updates[item.key] = 0; // Establecer cantidad en 0 para eliminar
+        });
+
+        console.log('Datos a eliminar', updates);
+
+        // Configurar la llamada AJAX para actualizar el carrito
+        const params = {
+            type: "POST",
+            url: "/cart/update.js",
+            data: { updates }, // Enviar todas las actualizaciones en un solo objeto
+            dataType: "json",
+            success: function (cart) {
+                console.log("Eliminación exitosa:", {
+                    itemsEliminados: itemsTrabajo.length,
+                    nuevoTotal: cart.item_count
+                });
+
+                // Obtener el carrito actualizado antes de llamar al callback
+                Shopify.getCart(function(updatedCart) {
+                    if (typeof callback === "function") {
+                        callback(updatedCart);
+                    } else {
+                        Shopify.onCartUpdate(updatedCart);
+                    }
+                });
+            },
+            error: function (XMLHttpRequest, textStatus) {
+                const errorDetails = {
+                    status: XMLHttpRequest.status,
+                    statusText: XMLHttpRequest.statusText,
+                    responseText: XMLHttpRequest.responseText,
+                    textStatus: textStatus
+                };
+                console.error("Error en la eliminación:", errorDetails);
+                Shopify.onError(XMLHttpRequest, textStatus);
+            }
+        };
+
+        // Ejecutar la llamada AJAX con manejo de errores
+        console.log("Iniciando llamada AJAX para eliminación");
         $.ajax(params);
-    } catch (e) {
-        console.error("Error al ejecutar ajax:", e);
+
+    } catch (error) {
+        console.error("Error en remoteItemCustomShoppingCart:", {
+            mensaje: error.message,
+            stack: error.stack
+        });
+        
+        if (typeof callback === "function") {
+            callback({ error: error.message });
+        }
     }
 };
 
