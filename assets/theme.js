@@ -2615,7 +2615,7 @@
 
 
                 Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
-                    console.log('este es el cart :'cart);
+                    console.log('este es el cart :',cart);
                     if($body.hasClass('template-cart')){
                         scoder.updateCart(cart);
                         console.log("template-cart");
