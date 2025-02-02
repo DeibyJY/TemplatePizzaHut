@@ -1979,7 +1979,6 @@
                                 //         // scoder.updateSidebarCart(cart);
                                 //     });
                                 // }
-
                                 if (window.after_add_to_cart.type == 'cart') {
                                     scoder.redirectTo(window.routes.cart);
                                 } else {
@@ -1988,9 +1987,10 @@
                                         scoder.updateSidebarCart(cartTotal);
                                         $body.find('[data-cart-count]').text(cartTotal.item_count);
                                         $target.removeClass('is-loading');
-                                       scoder.updateSidebarCart(cart);
                                     });
                                 }
+                                scoder.updateSidebarCart(cart);
+                        if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
                             //   if($body.hasClass('template-cart')){
                                 //   scoder.updateCart(cart);
                                 //   console.log("template-cart");
@@ -2001,7 +2001,6 @@
                                 //   console.log("cart-sidebar-show");
 // 
                                 // }
-                            //   if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
                           });
                     }else{
                         console.log("Sera un producto nuevo");
