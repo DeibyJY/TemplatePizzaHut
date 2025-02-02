@@ -1984,7 +1984,7 @@
                                 } else {
                                     Shopify.getCart((cartTotal) => {
                                         $body.addClass('cart-sidebar-show');
-                                        scoder.updateSidebarCart(cartTotal);
+                                        // scoder.updateSidebarCart(cartTotal);
                                         $body.find('[data-cart-count]').text(cartTotal.item_count);
                                         $target.removeClass('is-loading');
                                     });
