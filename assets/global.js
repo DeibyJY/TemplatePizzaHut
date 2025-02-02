@@ -731,7 +731,7 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
             );
 
             console.log('🛒 Item Trabajo:', {
-                encontrado: !!itemTrabajo,
+                encontrado: itemTrabajo,
                 item: itemTrabajo,
                 variant_id: itemTrabajo?.variant_id,
                 properties: itemTrabajo?.properties
@@ -750,14 +750,31 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
 
 
             cart.items.forEach(item => {
+                console.log('➡️ Procesando Item:', {
+                    variant_id: item.variant_id,
+                    key: item.key,
+                    quantity: item.quantity,
+                    properties: item.properties,
+                    productoBase: item.properties?.ProductoBase,
+                    tieneCuerpo: item.properties?.hasOwnProperty('Cuerpo')
+                });
+            
                 if (item.properties && 
                     item.properties.ProductoBase === itemTrabajo.properties.ProductoBase && 
                     !item.properties.hasOwnProperty('Cuerpo')) {
                     const proporcion = item.quantity / itemTrabajo.quantity;
                     updates[item.key] = Math.round(quantity * proporcion);
+                    
+                    console.log('✨ Actualización:', {
+                        key: item.key,
+                        'item.quantity': item.quantity,
+                        'itemTrabajo.quantity': itemTrabajo.quantity,
+                        proporcion: proporcion,
+                        cantidadNueva: updates[item.key]
+                    });
                 }
             });
-            
+
             console.log('📝 Updates Finales:', updates);
 
             // Realizar la actualización
