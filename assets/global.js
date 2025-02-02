@@ -312,8 +312,6 @@ Shopify.getCart = function (callback) {
   $.getJSON("/cart.js", function (cart, textStatus) {
     if (typeof callback === "function") {
       callback(cart);
-      Shopify.onCartUpdate(cart);
-
     } else {
       Shopify.onCartUpdate(cart);
     }
