@@ -1963,7 +1963,7 @@
                         // const productLine = productoSimilar.key;
                         let quantity = qty;
                         Shopify.changeItemPopupCarrito(productoSimilar, quantity, (cart) => {
-                            console.log('este es el cart :',cart);
+                            console.log('Esto es lo ultmimo :',cart);
                             if (window.after_add_to_cart.type == 'cart') {
                                 scoder.redirectTo(window.routes.cart);
                             } else {
