@@ -730,6 +730,14 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
                 item.variant_id.toString() === idVarianteBase
             );
 
+            console.log('🛒 Item Trabajo:', {
+                encontrado: !!itemTrabajo,
+                item: itemTrabajo,
+                variant_id: itemTrabajo?.variant_id,
+                properties: itemTrabajo?.properties
+            });
+            
+
             if (!itemTrabajo?.properties?.ProductoBase) {
                 // Si no es un producto base, usar el método simple original
                 return Shopify.changeItem(variant_id, quantity, callback);
@@ -738,6 +746,8 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
             // Filtrar subproductos y preparar actualizaciones en una sola pasada
             const updates = {};
             updates[variant_id] = quantity;
+            console.log('📦 Cantidad Nueva:', quantity);
+
 
             cart.items.forEach(item => {
                 if (item.properties && 
@@ -747,6 +757,8 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
                     updates[item.key] = Math.round(quantity * proporcion);
                 }
             });
+            
+            console.log('📝 Updates Finales:', updates);
 
             // Realizar la actualización
             $.ajax({
