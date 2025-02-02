@@ -1947,13 +1947,15 @@
                         return item.variant_id == variantId && cuerpoItemLimpio === cuerpoGenerado;
                     });
 
-                    let enoughInStock = false;
+                    let enoughInStock = true;
                     const stockValue = document.querySelector('[data-producto-variante-stock]') 
                           ? parseFloat(document.querySelector('[data-producto-variante-stock]').getAttribute('data-producto-variante-stock')) 
                           : 0;
-                    
+                    console.log('Valor del stockValue',stockValue);
+                    console.log('Valor del qty',qty);
+
                     if(stockValue < qty){
-                        enoughInStock = true;
+                        enoughInStock = false;
                     }
                 
                     
