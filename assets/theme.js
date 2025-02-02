@@ -1984,13 +1984,14 @@
                                 } else {
                                     Shopify.getCart((cartTotal) => {
                                         $body.addClass('cart-sidebar-show');
-                                        // scoder.updateSidebarCart(cartTotal);
+                                        //  scoder.updateSidebarCart(cartTotal);
+                                scoder.updateSidebarCart(cart);
+
                                         $body.find('[data-cart-count]').text(cartTotal.item_count);
                                         $target.removeClass('is-loading');
+                                        if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
                                     });
                                 }
-                                scoder.updateSidebarCart(cart);
-                        if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
                             //   if($body.hasClass('template-cart')){
                                 //   scoder.updateCart(cart);
                                 //   console.log("template-cart");
