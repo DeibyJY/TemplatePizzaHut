@@ -755,6 +755,7 @@ Shopify.changeItemCustomCarrito = function(variant_id, quantity, callback) {
                 data: { updates },
                 dataType: "json",
                 success: function(cart) {
+                    console.log('Si llega a entrar y hacerlo correcto')
                     if (typeof callback === "function") {
                         callback(cart);
                     } else {
