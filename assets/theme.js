@@ -1946,6 +1946,15 @@
                             
                         return item.variant_id == variantId && cuerpoItemLimpio === cuerpoGenerado;
                     });
+
+                    let enoughInStock = false;
+                    const stockValue = document.querySelector('[data-producto-variante-stock]') 
+                          ? parseFloat(document.querySelector('[data-producto-variante-stock]').getAttribute('data-producto-variante-stock')) 
+                          : 0;
+                    
+                    if(stockValue < qty){
+                        enoughInStock = true;
+                    }
                 
                     
                     if(productoSimilar){
@@ -1963,7 +1972,7 @@
                                   console.log("cart-sidebar-show");
                                   scoder.updateSidebarCart(cart);
                               }
-                              if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', quantity) }`)
+                              if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
                           });
                     }else{
                         console.log("Sera un producto nuevo");
@@ -2560,6 +2569,7 @@
             }
         },
 
+        // Funcion para actualizar el carrito popup
         updateQuantityItemQuickCart: function(){
             $doc.on('change', '[data-cart-quantity]', (event) => {
                 console.log('updateQuantityItemQuickCart');
@@ -2574,14 +2584,6 @@
                     stock = parseInt($target.data('inventory-quantity'));
                 let enoughInStock = true;
 
-                // Datos principales
-                //  console.group('Datos del Producto');
-                //  console.log('Elemento Target:', $target);
-                //  console.log('ID Producto:', productId);
-                //  console.log('Línea:', productLine);
-                //  console.log('Cantidad:', quantity);
-                 console.log('Stock:', stock);
-                //  console.groupEnd();
                
                 if (stock < quantity && stock > 0) {
                   var arrayInVarName = `cart_selling_array_${event.currentTarget.closest('cart-update-quantity').dataset.product}`,
@@ -2593,13 +2595,6 @@
                   }
                 }
 
-                // Datos de validación de stock
-                // console.group('Validación de Stock');
-                // console.log('Nombre Array:', arrayInVarName);
-                // console.log('Array de Items:', itemInArray);
-                // console.log('Estado del Item:', itemStatus);
-                // console.log('¿Hay suficiente stock?:', enoughInStock);
-                // console.groupEnd();
 
                 Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
                     if($body.hasClass('template-cart')){
