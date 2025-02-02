@@ -1962,6 +1962,7 @@
                     if(productoSimilar){
                         const productLine = productoSimilar.key;
                           Shopify.changeItemCustomCarrito(productLine, qty, (cart) => {
+                            console.log('Test del carrito', cart);
                                 // if (window.after_add_to_cart.type == 'cart') {
                                 //     console.log('Entro aqui 1')
                                 //     scoder.redirectTo(window.routes.cart);
@@ -1976,7 +1977,6 @@
                                 //         $body.find('[data-cart-count]').text(cartTotal.item_count);
                                 //         $target.removeClass('is-loading');
                                 //         // scoder.updateSidebarCart(cart);
-
                                 //     });
                                 // }
 
