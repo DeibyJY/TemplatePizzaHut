@@ -786,7 +786,7 @@ Shopify.changeItemPopupCarrito = function(productoSimilar, quantity, callback) {
                     
                     // Calcular la nueva cantidad para cada item relacionado
                     const cantidadActual = item.quantity || 0;
-                    const nuevaCantidad = cantidadActual + quantity;
+                    const nuevaCantidad = parseInt(cantidadActual) + parseInt(quantity);
                     
                     // Validar que la nueva cantidad sea válida
                     if (nuevaCantidad > 0) {
