@@ -1961,48 +1961,21 @@
                     
                     if(productoSimilar){
                         const productLine = productoSimilar.key;
-                          Shopify.changeItemCustomCarrito(productLine, qty, (cart) => {
-                            console.log('Test del carrito', cart);
-                                // if (window.after_add_to_cart.type == 'cart') {
-                                //     console.log('Entro aqui 1')
-                                //     scoder.redirectTo(window.routes.cart);
-                                // } else {
-                                //     console.log('Entro aqui 2')
-
-                                //     Shopify.getCart((cartTotal) => {
-                                //     console.log('Entro aqui 3')
-
-                                //         $body.addClass('cart-sidebar-show');
-                                //         scoder.updateSidebarCart(cartTotal);
-                                //         $body.find('[data-cart-count]').text(cartTotal.item_count);
-                                //         $target.removeClass('is-loading');
-                                //         // scoder.updateSidebarCart(cart);
-                                //     });
-                                // }
-                                if (window.after_add_to_cart.type == 'cart') {
-                                    scoder.redirectTo(window.routes.cart);
-                                } else {
-                                    Shopify.getCart((cartTotal) => {
-                                        $body.addClass('cart-sidebar-show');
-                                        //  scoder.updateSidebarCart(cartTotal);
-
-                                        $body.find('[data-cart-count]').text(cartTotal.item_count);
-                                        $target.removeClass('is-loading');
-                                        if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
-                                    });
-                                    // scoder.updateSidebarCart(cart);
-                                }
-                            //   if($body.hasClass('template-cart')){
-                                //   scoder.updateCart(cart);
-                                //   console.log("template-cart");
-                            //   } else if($body.hasClass('cart-modal-show')){
-                                //   console.log("cart-modal-show");
-                                //   scoder.updateSidebarCart(cart);
-                            //   } else if($body.hasClass('cart-sidebar-show')) {
-                                //   console.log("cart-sidebar-show");
-// 
-                                // }
-                          });
+                        let quantity = qty;
+                        Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
+                            console.log('este es el cart :',cart);
+                            if($body.hasClass('template-cart')){
+                                scoder.updateCart(cart);
+                                console.log("template-cart");
+                            } else if($body.hasClass('cart-modal-show')){
+                                console.log("cart-modal-show");
+                                scoder.updateSidebarCart(cart);
+                            } else if($body.hasClass('cart-sidebar-show')) {
+                                console.log("cart-sidebar-show");
+                                scoder.updateSidebarCart(cart);
+                            }
+                            if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', quantity) }`)
+                        });
                     }else{
                         console.log("Sera un producto nuevo");
                         console.log("qty" , qty);
