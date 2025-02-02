@@ -1964,17 +1964,22 @@
                         let quantity = qty;
                         Shopify.changeItemCustomCarrito(productLine, quantity, (cart) => {
                             console.log('este es el cart :',cart);
+                            // Agregar estas líneas
+                            $body.addClass('cart-sidebar-show');
+                            $target.removeClass('is-loading');
+                            
                             if($body.hasClass('template-cart')){
                                 scoder.updateCart(cart);
-                                console.log("template-cart");
-                            } else if($body.hasClass('cart-modal-show')){
-                                console.log("cart-modal-show");
-                                scoder.updateSidebarCart(cart);
-                            } else if($body.hasClass('cart-sidebar-show')) {
-                                console.log("cart-sidebar-show");
+                            } else if($body.hasClass('cart-modal-show') || $body.hasClass('cart-sidebar-show')) {
                                 scoder.updateSidebarCart(cart);
                             }
-                            if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', quantity) }`)
+                            
+                            // Actualizar el contador del carrito
+                            $body.find('[data-cart-count]').text(cart.item_count);
+                            
+                            if (!enoughInStock) {
+                                scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', quantity) }`);
+                            }
                         });
                     }else{
                         console.log("Sera un producto nuevo");
