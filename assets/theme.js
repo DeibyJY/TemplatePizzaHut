@@ -1979,13 +1979,13 @@
                                 //         // scoder.updateSidebarCart(cart);
                                 //     });
                                 // }
+                                scoder.updateSidebarCart(cart);
                                 if (window.after_add_to_cart.type == 'cart') {
                                     scoder.redirectTo(window.routes.cart);
                                 } else {
                                     Shopify.getCart((cartTotal) => {
                                         $body.addClass('cart-sidebar-show');
                                         //  scoder.updateSidebarCart(cartTotal);
-                                scoder.updateSidebarCart(cart);
 
                                         $body.find('[data-cart-count]').text(cartTotal.item_count);
                                         $target.removeClass('is-loading');
