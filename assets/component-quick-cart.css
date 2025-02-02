@@ -1114,8 +1114,8 @@ body.cart-sidebar-show .scoder-cart-sidebar {
   }
 
   .previewCart {
-    /* padding-left: 40px; */
-    /* padding-right: 40px; */
+    padding-left: 40px;
+    padding-right: 40px;
     overflow-y: auto;
     overflow-x: hidden;
     flex-grow: 1;
