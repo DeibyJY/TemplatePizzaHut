@@ -1979,7 +1979,6 @@
                                 //         // scoder.updateSidebarCart(cart);
                                 //     });
                                 // }
-                                scoder.updateSidebarCart(cart);
                                 if (window.after_add_to_cart.type == 'cart') {
                                     scoder.redirectTo(window.routes.cart);
                                 } else {
@@ -1991,6 +1990,7 @@
                                         $target.removeClass('is-loading');
                                         if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', qty) }`)
                                     });
+                                    // scoder.updateSidebarCart(cart);
                                 }
                             //   if($body.hasClass('template-cart')){
                                 //   scoder.updateCart(cart);
