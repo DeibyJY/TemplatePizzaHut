@@ -1971,9 +1971,12 @@
                             if($body.hasClass('template-cart')){
                                 scoder.updateCart(cart);
                             } else if($body.hasClass('cart-modal-show') || $body.hasClass('cart-sidebar-show')) {
-                                scoder.updateSidebarCart(cart);
+                                Shopify.onCartUpdate(cart);
+                                // scoder.updateSidebarCart(cart);
                             }
                             
+
+
                             // Actualizar el contador del carrito
                             $body.find('[data-cart-count]').text(cart.item_count);
                             
