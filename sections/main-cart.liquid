@@ -750,7 +750,7 @@
                       >
                         <div class="cart-item-block cart-item-info">
                           <div class="cart-item-wrapper" style="width: 100% !important;">
-                            <div class="cart-item-block-left">
+                            <div class="cart-item-block-left" style="height: 100%;">
                               <a
                                 class="cart-item-image image-{{ media_size }}"
                                 href="{{ item.url }}"
@@ -778,7 +778,7 @@
                                 >
                               </a>
                             </div>
-                            <div class="cart-item-block-right">
+                            <div class="cart-item-block-right" style="back">
                               {%- liquid
                                 assign thisHandle = item.product.handle
                                 assign thisProduct = all_products[thisHandle]
@@ -795,214 +795,9 @@
                                   <span class="text">{{ item.product.title | escape }}</span>
                                 </a>
                               </h4>
-                              {% comment %}
-                                {%- if item.product.variants.size != 0 -%}
-                                  {%- unless item.variant.title contains 'Default' -%}
-                                    <div class="cart-item-option">
-                                      <span class="cart-item-variant">{{ item.variant.title }}</span>
-                                    </div>
-                                  {%- endunless -%}
-                                {%- endif -%}
-                                {%- if section.settings.show_vendor -%}
-                                  <p class="cart-item-vendor">{{ item.product.vendor }}</p>
-                                {%- endif -%}
-                                {%- if item.properties.size != 0 -%}
-                                  <dl class="cart-item-properties definitionList">
-                                    {%- for property in item.properties -%}
-                                      {%- assign property_first_char = property.first | slice: 0 -%}
-                                      {%- if property.last != blank and property_first_char != '_' -%}
-                                        <div class="product-option">
-                                          <dt class="definitionList-key">{{ property.first }}:</dt>
-                                          <dd class="definitionList-value">
-                                            {%- if property.last contains '/uploads/' -%}
-                                              <a href="{{ property.last }}" target="_blank">
-                                                {{ property.last | split: '/' | last }}
-                                              </a>
-                                            {%- else -%}
-                                              {{ property.last }}
-                                            {%- endif -%}
-                                          </dd>
-                                        </div>
-                                      {%- endif -%}
-                                    {%- endfor -%}
-                                  </dl>
-                                {%- endif -%}
-                                {%- if item.selling_plan_allocation != null -%}
-                                  <p class="cart-item-allocation">{{ item.selling_plan_allocation.selling_plan.name }}</p>
-                                {%- endif -%}
-                                {%- if item.discounts.size > 0 -%}
-                                  <ul
-                                    class="cart-discounts list-unstyled"
-                                    role="list"
-                                    aria-label="{{ 'customer.order.discount' | t }}"
-                                  >
-                                    {%- for discount in item.discounts -%}
-                                      <li class="discounts__discount">
-                                        {%- render 'icon-discount' -%}
-                                        {{ discount.title }}
-                                      </li>
-                                    {%- endfor -%}
-                                  </ul>
-                                {%- endif -%}
-                              {% endcomment %}
-                              {% comment %} adding-block {% endcomment %}
-                              {% comment %}
-                                <div class="cart-item-block cart-item-price small-screen-visible">
-                                  <div class="cart-item__price-wrapper">
-                                    {%- if item.original_price != item.final_price -%}
-                                      <dl class="cart-item__discounted-prices">
-                                        <dt class="visually-hidden">
-                                          {{ 'products.product.price.regular_price' | t }}
-                                        </dt>
-                                        <dd>
-                                          <s
-                                            class="cart-item__old-price price price--end"
-                                            data-item-original-price-display
-                                          >
-                                            {{ item.original_price | money }}
-                                          </s>
-                                        </dd>
-                                        <dt class="visually-hidden">
-                                          {{ 'products.product.price.sale_price' | t }}
-                                        </dt>
-                                        <dd class="price price--end" data-item-final-price-display>
-                                          {{ item.final_price | money }}
-                                        </dd>
-                                      </dl>
-                                      {%- if item.variant.available and item.unit_price_measurement -%}
-                                        <div class="unit-price caption">
-                                          <span class="visually-hidden">
-                                            {{- 'products.product.price.unit_price' | t -}}
-                                          </span>
-                                          {{ item.variant.unit_price | money }}
-                                          <span aria-hidden="true">/</span>
-                                          <span class="visually-hidden"
-                                            >&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span
-                                          >
-                                          {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
-                                            {{- item.variant.unit_price_measurement.reference_value -}}
-                                          {%- endif -%}
-                                          {{ item.variant.unit_price_measurement.reference_unit }}
-                                        </div>
-                                      {%- endif -%}
-                                    {%- else -%}
-                                      <span class="price price--end" data-item-final-price-display>
-                                        {{ item.original_price | money }}
-                                      </span>
-                                    {%- endif -%}
-                                  </div>
-                                </div>
-                                <div class="cart-item-blocks small-screen-visible">
-                                  <div class="cart-item-blocks-left">
-                                    <div class="cart-item-block cart-item-quantity small-screen-visible">
-                                      <cart-update-quantity class="cart-item-qty">
-                                        <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
-                                          {{ 'products.product.quantity.label' | t }}
-                                        </label>
-                                        <a
-                                          href="javascript:void(0)"
-                                          data-minus-quantity-cart=""
-                                          class="minus btn-quantity"
-                                        ></a>
-                                        <input
-                                          class="form-input quantity cart-item-qty-input"
-                                          name="quantity"
-                                          id="upsell-update-{{ item.id }}"
-                                          data-qtt-id1="quantity{{ item.id }}"
-                                          value="{{ item.quantity }}"
-                                          type="number"
-                                          {% if item.variant.inventory_management != null
-                                            and item.variant.inventory_quantity > 0
-                                          %}
-                                            data-inventory-quantity="{{ item.variant.inventory_quantity }}"
-                                          {% endif %}
-                                          data-cart-quantity
-                                          data-cart-quantity-id="{{ item.id }}"
-                                          data-line="{{ item.key }}"
-                                        >
-                                        <a
-                                          href="javascript:void(0)"
-                                          data-plus-quantity-cart=""
-                                          class="plus btn-quantity"
-                                        ></a>
-                                      </cart-update-quantity>
-                                    </div>
-                                  </div>
-                                  <div class="cart-item-block cart-item-remove small-screen-visible">
-                                    <a
-                                      class="cart-remove"
-                                      href="javascript:void(0)"
-                                      data-cart-remove
-                                      data-cart-remove-id="{{ item.id }}"
-                                      data-line="{{ item.key }}"
-                                      aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-                                    >
-                                      {% render 'icon-close' %}
-                                    </a>
-                                  </div>
-                                </div>
-                              {% endcomment %}
                             </div>
                           </div>
                         </div>
-                        {% comment %}
-                          <div class="cart-item-block cart-item-price">
-                              <div class="cart-item__price-wrapper">
-                                  {%- assign current_variant = item.variant -%}
-                                  {%- if item.original_price != item.final_price -%}
-                                      <dl class="cart-item__discounted-prices">
-                                          <dt class="visually-hidden">
-                                              {{ 'products.product.price.regular_price' | t }}
-                                          </dt>
-                                          <dd>
-                                              <s class="cart-item__old-price price price--end" data-item-original-price-display>
-                                                  {{ item.original_price | money }}
-                                              </s>
-                                          </dd>
-                                          <dt class="visually-hidden">
-                                              {{ 'products.product.price.sale_price' | t }}
-                                          </dt>
-                                          <dd class="price price--end" data-item-final-price-display>
-                                              {{ item.final_price | money }}
-                                          </dd>
-                                      </dl>
-                                      {%- if item.variant.available and item.unit_price_measurement -%}
-                                          <div class="unit-price caption">
-                                              <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
-                                              {{ item.variant.unit_price | money }}
-                                              <span aria-hidden="true">/</span>
-                                              <span class="visually-hidden">&nbsp;{{ 'accessibility.unit_price_separator' | t }}&nbsp;</span>
-                                              {%- if item.variant.unit_price_measurement.reference_value != 1 -%}
-                                                  {{- item.variant.unit_price_measurement.reference_value -}}
-                                              {%- endif -%}
-                                              {{ item.variant.unit_price_measurement.reference_unit }}
-                                          </div>
-                                      {%- endif -%}
-                                  {%- elsif current_variant.compare_at_price > current_variant.price -%}
-                                      <dl class="cart-item__discounted-prices">
-                                          <dt class="visually-hidden">
-                                              {{ 'products.product.price.regular_price' | t }}
-                                          </dt>
-                                          <dd>
-                                              <s class="cart-item__old-price price price--end" data-item-original-price-display>
-                                                  {{ current_variant.compare_at_price | money }}
-                                              </s>
-                                          </dd>
-                                          <dt class="visually-hidden">
-                                              {{ 'products.product.price.sale_price' | t }}
-                                          </dt>
-                                          <dd class="price price--end" data-item-final-price-display>
-                                              {{ current_variant.price | money }}
-                                          </dd>
-                                      </dl>
-                                  {%- else -%}
-                                      <span class="price price--end" data-item-final-price-display>
-                                          {{ item.original_price | money }}
-                                      </span>
-                                  {%- endif -%}
-                              </div>
-                          </div>
-                        {% endcomment %}
                         <div class="cart-item-block cart-item-quantity">
                           <cart-update-quantity
                             class="cart-item-qty"
