@@ -713,7 +713,6 @@
                       aling-items: center;
                       width: 100%;
                       border: 1px solid #e6e6e6;
-
                       font-size: 16px;
                       font-weight: 600;
                       color: #222222;
@@ -725,7 +724,7 @@
                     class="cart-header-custom"
                   >
                     <div
-                      style="padding: 12px 0; text-align: center; padding-left: 20px; width: 70%; height: auto;"
+                      style="text-align: start; padding: 12px 0; text-align: center; padding-left: 20px; width: 70%; height: auto;"
                       class="cart-header-item-custom cart-header-info"
                     >
                       PRODUCTO
@@ -749,7 +748,23 @@
                       REMOVE
                     </div>
                   </div>
-                  <div class="cart-list-custom"></div>
+                  <div class="cart-list-custom">
+                    <div
+                      style="border: 1px solid #e6e6e6; border-top: unset; display: flex; flex-wrap: wrap;"
+                      class="cart-item-custom"
+                    >
+                      <div
+                        style="
+                          border-left: unset;
+                          display: flex;
+                          flex-wrap: wrap;
+                          aling-items: center;
+                          padding: 20px;
+                        "
+                        class="cart-item-block-custom  cart-item-info-custom"
+                      ></div>
+                    </div>
+                  </div>
                 </div>
                 {% if show_gift_card and product != null and product != blank %}
                   <div id="gift-cards" class="gift-card-container" data-id="{{ id }}" style="display: none;">
