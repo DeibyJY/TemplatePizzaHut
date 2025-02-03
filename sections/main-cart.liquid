@@ -707,171 +707,36 @@
             <div class="cart-content-wrapper clearfix">
               <div class="cart-content-item" data-cart-content>
                 <div class="cart">
-                  <div class="cart-header">
+                  <div
+                    style="
+                      display: flex;
+                      aling-items: center;
+                      width: 100%;
+                      border: 1px solid #e6e6e6;
+
+                      font-size: 16px;
+                      font-weight: 600;
+                      color: #222222;
+                      letter-spacing: 2px;
+                      line-height: 1.2;
+                      padding: 12px 0;
+                      background-color: transparent;
+                      text-transform: uppercase;
+                    "
+                    class="cart-header-custom"
+                  >
                     <div
-                      style="back text-align: center; padding-left: 20px; width: 70%; height: auto;"
-                      class="cart-header-item cart-header-info"
-                    >
-                      PRODUCTO
-                    </div>
-                    <div
-                      style="text-align: center;width: 15%; height: auto; padding-left: 0 !important;padding-right: 0 !important;"
-                      class="cart-header-item cart-header-quantity"
-                    >
-                      CANTIDAD
-                    </div>
-                    <div
-                      style="text-align: center; width: 10%; height: auto; padding-left: 0 !important; padding-right: 0 !important;"
-                      class="cart-header-item cart-header-total"
-                    >
-                      TOTAL
-                    </div>
-                    <div
-                      style="text-align: center;width: 5%; height: auto; color: transparent; overflow: hidden; padding-left: 0 !important"
-                      class="cart-header-item cart-header-remove"
-                    >
-                      REMOVE
-                    </div>
+                      style="
+                        padding-left: 20px;
+                        width: 65% !important;
+                      "
+                      class="cart-header-item-custom cart-header-info"
+                    ></div>
+                    <div class="cart-header-item-custom cart-header-qunatity"></div>
+                    <div class="cart-header-item-custom cart-header-total"></div>
+                    <div class="cart-header-item-custom cart-header-remove"></div>
                   </div>
-                  <div class="cart-list">
-                    {%- for item in cart.items -%}
-                      <div
-                        class="cart-item"
-                        data-item-row
-                        {% if item.product.variants.size != 0 %}
-                          {%- unless item.variant.title contains 'Default' %}data-cart-edit-productItem{% endunless -%}
-                        {% endif %}
-                        data-line="{{ item.key }}"
-                      >
-                        <div
-                          style="width: 70%; height: auto;"
-                          class="cart-item-block cart-item-info"
-                        >
-                          <div class="cart-item-wrapper" style="width: 100% !important;height: 100% !important;">
-                            <div
-                              class="cart-item-block-left"
-                              style="height: 100%; background-color: aqua; width: 20% !important;"
-                            >
-                              <a
-                                class="cart-item-image image-{{ media_size }}"
-                                href="{{ item.url }}"
-                                {% if media_size == 'adapt' %}
-                                  style="padding-bottom: {{ 1 | divided_by: item.image.aspect_ratio | times: 100 }}%;"
-                                {% elsif media_size == 'square' %}
-                                  style="padding-bottom: 100%;"
-                                {% elsif media_size == 'portrait' %}
-                                  {% if portrait_aspect_ratio != blank %}
-                                    style="padding-bottom: {{ portrait_aspect_ratio }};"
-                                  {% endif %}
-                                {% elsif media_size == 'circle' %}
-                                  style="padding-bottom: 100%;"
-                                {% endif %}
-                              >
-                                {% render 'icon-external-link' %}
-                                <img
-                                  style="object-fit: contain !important;"
-                                  srcset="{{ item.image | img_url: '160x' }}"
-                                  src="{{ item.image | img_url: '160x' }}"
-                                  alt="{{ item.title | escape }}"
-                                  sizes="auto"
-                                  loading="lazy"
-                                  width="{{ item.image.width }}"
-                                  height="{{ item.image.height }}"
-                                >
-                              </a>
-                            </div>
-                            <div
-                              class="cart-item-block-right"
-                              style="background-color: brown; width: 80% !important; height: 100%;"
-                            >
-                              {%- liquid
-                                assign thisHandle = item.product.handle
-                                assign thisProduct = all_products[thisHandle]
-                              -%}
-                              <script type="text/javascript">
-                                window.cart_selling_array_{{ thisProduct.id }} = {
-                                    {% for variantProduct in thisProduct.variants %}
-                                        '{{ variantProduct.id }}': '{{ variantProduct.inventory_policy }}',
-                                    {%endfor%}
-                                };
-                              </script>
-                              <h4
-                                class="cart-item-name"
-                              >
-                                <a href="{{ item.url }}" class="link link-underline">
-                                  <span style="letter-spacing: var(--heading-letter-spacing) !important;" class="text">
-                                    {{- item.product.title | escape -}}
-                                  </span>
-                                </a>
-                              </h4>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          style="text-align: center;width: 15%; height: auto; padding-left: 0 !important;padding-right: 0 !important;"
-                          class="cart-item-block cart-item-quantity"
-                        >
-                          <cart-update-quantity
-                            class="cart-item-qty"
-                            data-product="{{ item.product_id }}"
-                            data-variant="{{ item.variant.id }}"
-                          >
-                            <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
-                              {{ 'products.product.quantity.label' | t }}
-                            </label>
-                            <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                            <input
-                              class="form-input quantity cart-item-qty-input"
-                              name="quantity"
-                              id="upsell-update-{{ item.id }}"
-                              data-qtt-id1="quantity{{ item.id }}"
-                              value="{{ item.quantity }}"
-                              type="number"
-                              {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
-                                data-inventory-quantity="{{ item.variant.inventory_quantity }}"
-                              {% endif %}
-                              data-cart-quantity
-                              data-cart-quantity-id="{{ item.id }}"
-                              data-line="{{ item.key }}"
-                            >
-                            <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                          </cart-update-quantity>
-                        </div>
-                        {%- liquid
-                          if item.original_price != item.final_price
-                            assign price_to_display = item.final_price
-                          else
-                            assign price_to_display = item.original_price
-                          endif
-                        -%}
-                        <div
-                          style="text-align: center; width: 10%; height: auto; padding-left: 0 !important; padding-right: 0 !important;"
-                          class="cart-item-block cart-item-total"
-                          data-price="{{ price_to_display }}"
-                          data-original-price="{{ item.original_price }}"
-                        >
-                          <span class="cart-item-value" data-item-price-with-quantity-display>
-                            {{- price_to_display | times: item.quantity | money -}}
-                          </span>
-                        </div>
-                        <div
-                          style="text-align: center;width: 5%; height: auto; color: transparent; overflow: hidden;"
-                          class="cart-item-block cart-item-remove"
-                        >
-                          <a
-                            class="cart-remove"
-                            href="javascript:void(0)"
-                            data-cart-remove
-                            data-cart-remove-id="{{ item.id }}"
-                            data-line="{{ item.key }}"
-                            aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-                          >
-                            {% render 'icon-close' %}
-                          </a>
-                        </div>
-                      </div>
-                    {%- endfor -%}
-                  </div>
+                  <div class="cart-list-custom"></div>
                 </div>
                 {% if show_gift_card and product != null and product != blank %}
                   <div id="gift-cards" class="gift-card-container" data-id="{{ id }}" style="display: none;">
@@ -1116,155 +981,6 @@
 </cart-coupon-discount>
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
-
-<style>
-  .cart {
-    width: 100%;
-  }
-
-  .cart-item {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    width: 100%;
-    padding: 10px 0;
-    border-bottom: 1px solid #eee;
-  }
-
-  /* Producto info */
-  .cart-item-info {
-    display: flex;
-    width: 70% !important;
-  }
-
-  .cart-item-wrapper {
-    display: flex;
-    width: 100% !important;
-  }
-
-  .cart-item-block-left {
-    border: 2px solid #00ffff !important;
-    width: 80px !important;
-    min-width: 80px !important;
-    height: 80px !important;
-  }
-
-  .cart-item-image {
-    width: 100%;
-    height: 100%;
-  }
-
-  .cart-item-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain !important;
-  }
-
-  .cart-item-block-right {
-    flex: 1;
-    background-color: #8b0000 !important;
-    margin-left: -2px !important;
-    display: flex;
-    align-items: center;
-  }
-
-  .cart-item-name {
-    color: #fff !important;
-    padding: 0 10px;
-  }
-
-  /* Cantidad, Total y Remove */
-  .cart-item-quantity {
-    width: 15% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cart-item-total {
-    width: 10% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .cart-item-remove {
-    width: 5% !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Desktop y Tablet */
-  @media screen and (min-width: 769px) {
-    .cart-header {
-      display: flex;
-      padding: 15px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .cart-header-info {
-      width: 70% !important;
-    }
-
-    .cart-header-quantity {
-      width: 15% !important;
-      text-align: center;
-    }
-
-    .cart-header-total {
-      width: 10% !important;
-      text-align: center;
-    }
-
-    .cart-header-remove {
-      width: 5% !important;
-      text-align: center;
-    }
-  }
-
-  /* Mobile */
-  @media screen and (max-width: 768px) {
-    .cart-item {
-      position: relative;
-      padding: 15px 0;
-    }
-
-    .cart-item-info {
-      width: 100% !important;
-      margin-bottom: 15px;
-    }
-
-    .cart-item-wrapper {
-      margin-right: 40px; /* Espacio para el botón remove */
-    }
-
-    .cart-item-remove {
-      position: absolute;
-      top: 15px;
-      right: 0;
-      width: 30px !important;
-      height: 30px !important;
-    }
-
-    .cart-item-quantity,
-    .cart-item-total {
-      width: 50% !important;
-      padding: 10px 0;
-    }
-
-    .quantity-controls {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-    }
-
-    .cart-item-value {
-      font-weight: bold;
-    }
-  }
-</style>
 
 {% schema %}
 {
