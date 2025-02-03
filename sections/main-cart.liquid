@@ -818,9 +818,33 @@
                           text-align: center; width: 10%; border-left: 1px solid #e6e6e6;
                         "
                         class="cart-item-block-custom  cart-item-total-custom"
-                      ></div>
+                      >
+                        BS 100.00
+                      </div>
 
-                      <div></div>
+                      <div
+                        style="
+                          border-left: 1px solid #e6e6e6;
+                          display: flex;
+                          flex-wrap: wrap;
+                          align-items: center;
+                          justify-content: center;
+                          padding: 20px;
+                          text-align: center; width: 5%; border-left: 1px solid #e6e6e6;
+                        "
+                        class="cart-item-block-custom  cart-item-remove-custom"
+                      >
+                        <a
+                          class="cart-remove"
+                          href="javascript:void(0)"
+                          data-cart-remove
+                          data-cart-remove-id="{{ item.id }}"
+                          data-line="{{ item.key }}"
+                          aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+                        >
+                          {% render 'icon-close' %}
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
