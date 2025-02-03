@@ -800,11 +800,12 @@
                                 };
                               </script>
                               <h4
-                                style="letter-spacing: var(--heading-letter-spacing) !important;"
                                 class="cart-item-name"
                               >
                                 <a href="{{ item.url }}" class="link link-underline">
-                                  <span class="text">{{ item.product.title | escape }}</span>
+                                  <span style="letter-spacing: var(--heading-letter-spacing) !important;" class="text">
+                                    {{- item.product.title | escape -}}
+                                  </span>
                                 </a>
                               </h4>
                             </div>
