@@ -750,7 +750,10 @@
                       >
                         <div class="cart-item-block cart-item-info">
                           <div class="cart-item-wrapper" style="width: 100% !important;">
-                            <div class="cart-item-block-left" style="height: 100%;">
+                            <div
+                              class="cart-item-block-left"
+                              style="height: 100%; background-color: aqua; width: 20% !important;"
+                            >
                               <a
                                 class="cart-item-image image-{{ media_size }}"
                                 href="{{ item.url }}"
@@ -778,7 +781,10 @@
                                 >
                               </a>
                             </div>
-                            <div class="cart-item-block-right" style="back">
+                            <div
+                              class="cart-item-block-right"
+                              style="height: 100%; background-color: brown; width: 80% !important;"
+                            >
                               {%- liquid
                                 assign thisHandle = item.product.handle
                                 assign thisProduct = all_products[thisHandle]
