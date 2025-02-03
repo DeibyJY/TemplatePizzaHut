@@ -710,13 +710,13 @@
                   <div class="cart-header">
                     {% comment %} asd {% endcomment %}
                     <div
-                      style="back text-align: center; padding-left: 20px; width: 65%; height: auto;"
+                      style="back text-align: center; padding-left: 20px; width: 70%; height: auto;"
                       class="cart-header-item cart-header-info"
                     >
                       PRODUCTO
                     </div>
                     <div
-                      style="text-align: center;width: 20%; height: auto; padding-left: 0 !important;padding-right: 0 !important;"
+                      style="text-align: center;width: 15%; height: auto; padding-left: 0 !important;padding-right: 0 !important;"
                       class="cart-header-item cart-header-quantity"
                     >
                       CANTIDAD
@@ -750,7 +750,7 @@
                         data-line="{{ item.key }}"
                       >
                         <div
-                          style="width: 65%; height: auto;"
+                          style="width: 70%; height: auto;"
                           class="cart-item-block cart-item-info"
                         >
                           <div class="cart-item-wrapper" style="width: 100% !important;height: 100% !important;">
@@ -814,7 +814,7 @@
                           </div>
                         </div>
                         <div
-                          style="text-align: center;width: 20%; height: auto; padding-left: 0 !important;padding-right: 0 !important;"
+                          style="text-align: center;width: 15%; height: auto; padding-left: 0 !important;padding-right: 0 !important;"
                           class="cart-item-block cart-item-quantity"
                         >
                           <cart-update-quantity
@@ -860,7 +860,10 @@
                             {{- price_to_display | times: item.quantity | money -}}
                           </span>
                         </div>
-                        <div class="cart-item-block cart-item-remove">
+                        <div
+                          style="text-align: center;width: 5%; height: auto; color: transparent; overflow: hidden; padding-left: 0 !important"
+                          class="cart-item-block cart-item-remove"
+                        >
                           <a
                             class="cart-remove"
                             href="javascript:void(0)"
