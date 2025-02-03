@@ -1183,44 +1183,33 @@
 
     .cart-item-info-custom {
       width: 100%;
+      padding: 15px;
       border-bottom: 1px solid #e6e6e6;
     }
 
-    /* Nuevo contenedor flexible para los controles */
     .cart-item-block-custom:not(.cart-item-info-custom) {
-      width: 100%;
+      width: auto;
       border-left: none;
     }
 
-    /* Crear una fila de controles en la parte inferior */
-    .cart-item-custom::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-
-    .cart-item-custom {
-      position: relative;
-      padding-bottom: 60px; /* Espacio para los controles */
+    /* Contenedor para los controles inferiores */
+    .cart-item-custom > div:not(.cart-item-info-custom) {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 15px;
     }
 
     .cart-item-quantity-custom {
-      position: absolute;
-      bottom: 15px;
-      left: 15px;
+      margin-right: auto;
     }
 
     .cart-item-total-custom {
-      position: absolute;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin: 0 20px;
     }
 
     .cart-item-remove-custom {
-      position: absolute;
-      bottom: 15px;
-      right: 15px;
+      margin-left: 10px;
     }
 
     .cart-item-qty {
@@ -1255,6 +1244,23 @@
     .cart-item-block-left,
     .cart-item-block-right {
       height: 200px;
+    }
+
+    /* Forzar disposición horizontal de los controles */
+    .cart-item-custom {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Contenedor específico para los controles */
+    .cart-item-custom::after {
+      content: '';
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px;
+      border-top: 1px solid #e6e6e6;
     }
   }
 </style>
