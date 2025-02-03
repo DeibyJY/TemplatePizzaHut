@@ -708,11 +708,17 @@
               <div class="cart-content-item" data-cart-content>
                 <div class="cart">
                   <div class="cart-header">
-                    <div class="cart-header-item cart-header-info">{{ 'sections.cart.headings.product' | t }}</div>
+                    <div
+                      style="aling-text: center; padding-left: 20px;"
+                      class="cart-header-item-custom cart-header-info"
+                    >
+                      PRODUCTO
+                    </div>
+                    {% comment %} <div class="cart-header-item cart-header-info">{{ 'sections.cart.headings.product' | t }}</div> {% endcomment %}
                     {% comment %} <div class="cart-header-item cart-header-price">{{ 'sections.cart.headings.price' | t }}</div> {% endcomment %}
-                    <div class="cart-header-item cart-header-quantity">{{ 'sections.cart.headings.quantity' | t }}</div>
-                    <div class="cart-header-item cart-header-total">{{ 'sections.cart.headings.total' | t }}</div>
-                    <div class="cart-header-item cart-header-remove">{{ 'sections.cart.headings.remove' | t }}</div>
+                    {% comment %} <div class="cart-header-item cart-header-quantity">{{ 'sections.cart.headings.quantity' | t }}</div> {% endcomment %}
+                    {% comment %} <div class="cart-header-item cart-header-total">{{ 'sections.cart.headings.total' | t }}</div> {% endcomment %}
+                    {% comment %} <div class="cart-header-item cart-header-remove">{{ 'sections.cart.headings.remove' | t }}</div> {% endcomment %}
                   </div>
                   <div class="cart-list">
                     {%- for item in cart.items -%}
