@@ -1010,6 +1010,14 @@
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
 <style>
+  .cart-item-block-custom {
+    font-size: 16px;
+    font-weight: 600;
+    color: #222222;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
   /* Estilos base */
   .cart-header-custom {
     display: flex;
@@ -1176,31 +1184,37 @@
     .cart-item-info-custom {
       width: 100%;
       border-bottom: 1px solid #e6e6e6;
-      padding: 15px;
     }
 
-    .cart-item-quantity-custom,
-    .cart-item-total-custom,
-    .cart-item-remove-custom {
+    /* Nuevo contenedor flexible para los controles */
+    .cart-item-block-custom:not(.cart-item-info-custom) {
+      width: 100%;
       border-left: none;
     }
 
-    /* Contenedor para los controles inferiores */
-    .cart-item-custom {
-      position: relative;
+    /* Crear una fila de controles en la parte inferior */
+    .cart-item-custom::after {
+      content: '';
+      display: block;
+      clear: both;
     }
 
-    /* Ajuste específico para los controles */
+    .cart-item-custom {
+      position: relative;
+      padding-bottom: 60px; /* Espacio para los controles */
+    }
+
     .cart-item-quantity-custom {
-      padding: 15px;
-      justify-content: flex-start;
-      margin-right: auto;
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
     }
 
     .cart-item-total-custom {
       position: absolute;
       bottom: 15px;
-      right: 60px;
+      left: 50%;
+      transform: translateX(-50%);
     }
 
     .cart-item-remove-custom {
@@ -1209,12 +1223,9 @@
       right: 15px;
     }
 
-    .cart-item-block-left,
-    .cart-item-block-right {
-      height: 200px;
-    }
-
     .cart-item-qty {
+      display: flex;
+      align-items: center;
       border: 1px solid #e6e6e6;
       border-radius: 4px;
     }
@@ -1222,6 +1233,11 @@
     .btn-quantity {
       border: none;
       border-right: 1px solid #e6e6e6;
+      height: 35px;
+      width: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn-quantity.plus {
@@ -1231,6 +1247,14 @@
 
     .cart-item-qty-input {
       border: none;
+      width: 50px;
+      height: 35px;
+      text-align: center;
+    }
+
+    .cart-item-block-left,
+    .cart-item-block-right {
+      height: 200px;
     }
   }
 </style>
