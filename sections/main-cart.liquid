@@ -1169,24 +1169,43 @@
     }
 
     .cart-item-custom {
-      flex-direction: column;
+      position: relative;
+      display: grid;
+      grid-template-areas:
+        'info info'
+        'quantity total'
+        'remove remove';
+      padding-bottom: 50px;
     }
 
     .cart-item-info-custom {
+      grid-area: info;
       width: 100%;
       border-bottom: 1px solid #e6e6e6;
     }
 
-    .cart-item-quantity-custom,
-    .cart-item-total-custom,
-    .cart-item-remove-custom {
+    .cart-item-quantity-custom {
+      grid-area: quantity;
       width: auto;
       border-left: none;
+      justify-content: flex-start;
+      padding: 15px;
+    }
+
+    .cart-item-total-custom {
+      grid-area: total;
+      width: auto;
+      border-left: none;
+      justify-content: flex-end;
       padding: 15px;
     }
 
     .cart-item-remove-custom {
+      grid-area: remove;
+      width: auto;
+      border-left: none;
       position: absolute;
+      bottom: 15px;
       right: 15px;
     }
 
