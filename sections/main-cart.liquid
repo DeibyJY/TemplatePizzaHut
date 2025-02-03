@@ -707,93 +707,21 @@
             <div class="cart-content-wrapper clearfix">
               <div class="cart-content-item" data-cart-content>
                 <div class="cart">
-                  <div
-                    style="
-                      display: flex;
-                      aling-items: center;
-                      width: 100%;
-                      border: 1px solid #e6e6e6;
-                      font-size: 16px;
-                      font-weight: 600;
-                      color: #222222;
-                      letter-spacing: 2px;
-                      line-height: 1.2;
-                      background-color: transparent;
-                      text-transform: uppercase;
-                    "
-                    class="cart-header-custom"
-                  >
-                    <div
-                      style="text-align: start; padding: 12px 0; text-align: center; padding-left: 20px; width: 70%; height: auto;"
-                      class="cart-header-item-custom cart-header-info"
-                    >
-                      PRODUCTO
-                    </div>
-                    <div
-                      style="padding: 12px 0; text-align: center;width: 15%; height: auto; padding-left: 0 !important;padding-right: 0 !important; border-left: 1px solid #e6e6e6;"
-                      class="cart-header-item-custom cart-header-qunatity"
-                    >
-                      CANTIDAD
-                    </div>
-                    <div
-                      style="padding: 12px 0; text-align: center; width: 10%; height: auto; padding-left: 0 !important; padding-right: 0 !important; border-left: 1px solid #e6e6e6;"
-                      class="cart-header-item-custom cart-header-total"
-                    >
-                      TOTAL
-                    </div>
-                    <div
-                      style="padding: 12px 0; text-align: center;width: 5%; height: auto; color: transparent; overflow: hidden; padding-left: 0 !important ; border-left: 1px solid #e6e6e6;"
-                      class="cart-header-item-custom cart-header-remove"
-                    >
-                      REMOVE
-                    </div>
+                  <div class="cart-header">
+                    <div class="cart-header-item cart-header-info">PRODUCTO</div>
+                    <div class="cart-header-item cart-header-quantity">CANTIDAD</div>
+                    <div class="cart-header-item cart-header-total">TOTAL</div>
+                    <div class="cart-header-item cart-header-remove">REMOVE</div>
                   </div>
-                  <div class="cart-list-custom" style="width: 100%;">
-                    <div
-                      style="border: 1px solid #e6e6e6; border-top: unset; display: flex; flex-wrap: wrap; width: 100%;"
-                      class="cart-item-custom"
-                    >
-                      <div
-                        style="
-                          border-left: unset;
-                          display: flex;
-                          flex-wrap: wrap;
-                          padding: 20px;
-                          height: 160px;
-                          text-align: start; width: 70%;
-                          border-left: 1px solid #e6e6e6;
-                        "
-                        class="cart-item-block-custom  cart-item-info-custom"
-                      >
-                        <div
-                          style="
-                            background-color: chocolate;
-                            width: 20%;
-                            height: 100%;
-                          "
-                          class="cart-item-block-left"
-                        ></div>
-                        <div
-                          style="
-                            width: 80%;
-                            background-color: yellowgreen;
-                            height: 100%;
-                          "
-                          class="cart-item-block-right"
-                        ></div>
+
+                  <div class="cart-list">
+                    <div class="cart-item">
+                      <div class="cart-item-block cart-item-info">
+                        <div class="cart-item-block-left"></div>
+                        <div class="cart-item-block-right"></div>
                       </div>
-                      <div
-                        style="
-                          text-align: center;
-                          border-left: 1px solid #e6e6e6;
-                          display: flex;
-                          align-items: center;
-                          justify-content: center;
-                          padding: 20px;
-                          width: 15%; height: auto; border-left: 1px solid #e6e6e6;
-                        "
-                        class="cart-item-block-custom  cart-item-quantity-custom"
-                      >
+
+                      <div class="cart-item-block cart-item-quantity">
                         <cart-update-quantity
                           class="cart-item-qty"
                           data-product="{{ item.product_id }}"
@@ -820,33 +748,10 @@
                           <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
                         </cart-update-quantity>
                       </div>
-                      <div
-                        style="
-                          border-left: 1px solid #e6e6e6;
-                          display: flex;
-                          flex-wrap: wrap;
-                          align-items: center;
-                          justify-content: center;
-                          padding: 20px;
-                          text-align: center; width: 10%; border-left: 1px solid #e6e6e6;
-                        "
-                        class="cart-item-block-custom  cart-item-total-custom"
-                      >
-                        BS 100.00
-                      </div>
 
-                      <div
-                        style="
-                          border-left: 1px solid #e6e6e6;
-                          display: flex;
-                          flex-wrap: wrap;
-                          align-items: center;
-                          justify-content: center;
-                          padding: 20px;
-                          text-align: center; width: 5%; border-left: 1px solid #e6e6e6;
-                        "
-                        class="cart-item-block-custom  cart-item-remove-custom"
-                      >
+                      <div class="cart-item-block cart-item-total">BS 100.00</div>
+
+                      <div class="cart-item-block cart-item-remove">
                         <a
                           class="cart-remove"
                           href="javascript:void(0)"
@@ -1103,6 +1008,164 @@
 </cart-coupon-discount>
 
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+
+<style>
+  .cart {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .cart-header {
+    display: none;
+  }
+
+  .cart-list {
+    width: 100%;
+  }
+
+  .cart-item {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e6e6e6;
+    margin-bottom: 1rem;
+  }
+
+  .cart-item-block {
+    padding: 1rem;
+    border-bottom: 1px solid #e6e6e6;
+  }
+
+  .cart-item-info {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .cart-item-block-left {
+    width: 120px;
+    height: 120px;
+    background-color: chocolate;
+  }
+
+  .cart-item-block-right {
+    flex: 1;
+    background-color: yellowgreen;
+  }
+
+  .cart-item-quantity {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .btn-quantity {
+    width: 24px;
+    height: 24px;
+    border: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cart-item-qty-input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid #e6e6e6;
+    padding: 0.25rem;
+  }
+
+  .cart-item-total {
+    font-weight: 600;
+    text-align: right;
+  }
+
+  /* Tablet y Desktop (≥768px) */
+  @media screen and (min-width: 768px) {
+    .cart-header {
+      display: flex;
+      border: 1px solid #e6e6e6;
+      font-size: 16px;
+      font-weight: 600;
+      color: #222222;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .cart-header-item {
+      padding: 12px;
+      text-align: center;
+      border-left: 1px solid #e6e6e6;
+    }
+
+    .cart-header-info {
+      width: 70%;
+      text-align: left;
+      padding-left: 20px;
+      border-left: none;
+    }
+
+    .cart-header-quantity {
+      width: 15%;
+    }
+
+    .cart-header-total {
+      width: 10%;
+    }
+
+    .cart-header-remove {
+      width: 5%;
+      color: transparent;
+      overflow: hidden;
+    }
+
+    .cart-item {
+      flex-direction: row;
+      border-top: none;
+      margin-bottom: 0;
+    }
+
+    .cart-item-block {
+      border-bottom: none;
+      border-left: 1px solid #e6e6e6;
+    }
+
+    .cart-item-info {
+      width: 70%;
+      border-left: none;
+    }
+
+    .cart-item-quantity {
+      width: 15%;
+      justify-content: center;
+    }
+
+    .cart-item-total {
+      width: 10%;
+      text-align: center;
+    }
+
+    .cart-item-remove {
+      width: 5%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  /* Desktop Large (≥1024px) */
+  @media screen and (min-width: 1024px) {
+    .cart-item-block-left {
+      width: 160px;
+      height: 160px;
+    }
+  }
+</style>
 
 {% schema %}
 {
