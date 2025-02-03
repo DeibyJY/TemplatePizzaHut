@@ -1176,35 +1176,38 @@
       width: 100%;
     }
 
-    .cart-item-custom {
-      display: flex;
-      flex-direction: column;
-    }
-
     .cart-item-info-custom {
       width: 100%;
       border-bottom: 1px solid #e6e6e6;
     }
 
-    /* Contenedor para los controles */
+    /* Este es el cambio principal para forzar la fila horizontal */
+    .cart-item-custom {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .cart-item-info-custom {
+      flex: 0 0 100%;
+    }
+
+    /* Contenedor específico para agrupar los controles en una fila */
     .cart-item-quantity-custom,
     .cart-item-total-custom,
     .cart-item-remove-custom {
-      display: inline-flex;
-      width: auto;
+      flex: 0 0 auto;
       border: none;
+      display: flex;
+      align-items: center;
       padding: 10px;
     }
 
-    /* Crear un contenedor flex para los controles */
-    .cart-item-custom > div:not(.cart-item-info-custom) {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      width: 100%;
-      padding: 15px;
-      gap: 20px;
+    .cart-item-quantity-custom {
+      margin-right: auto;
+    }
+
+    .cart-item-total-custom {
+      padding: 0 20px;
     }
 
     .cart-item-qty {
