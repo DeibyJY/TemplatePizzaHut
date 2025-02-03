@@ -1124,11 +1124,14 @@
 
   .cart-item {
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
     width: 100%;
-    margin-bottom: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
   }
 
+  /* Producto info */
   .cart-item-info {
     display: flex;
     width: 70% !important;
@@ -1170,6 +1173,7 @@
     padding: 0 10px;
   }
 
+  /* Cantidad, Total y Remove */
   .cart-item-quantity {
     width: 15% !important;
     display: flex;
@@ -1191,39 +1195,73 @@
     justify-content: center;
   }
 
-  @media screen and (max-width: 768px) {
-    .cart-item-info {
-      width: 60% !important;
+  /* Desktop y Tablet */
+  @media screen and (min-width: 769px) {
+    .cart-header {
+      display: flex;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
     }
 
-    .cart-item-quantity {
-      width: 20% !important;
+    .cart-header-info {
+      width: 70% !important;
     }
 
-    .cart-item-total {
+    .cart-header-quantity {
       width: 15% !important;
+      text-align: center;
+    }
+
+    .cart-header-total {
+      width: 10% !important;
+      text-align: center;
+    }
+
+    .cart-header-remove {
+      width: 5% !important;
+      text-align: center;
     }
   }
 
-  @media screen and (max-width: 480px) {
-    .cart-item-info {
-      width: 100% !important;
-      margin-bottom: 10px;
+  /* Mobile */
+  @media screen and (max-width: 768px) {
+    .cart-item {
+      position: relative;
+      padding: 15px 0;
     }
 
-    .cart-item-block-left {
-      width: 60px !important;
-      min-width: 60px !important;
-      height: 60px !important;
+    .cart-item-info {
+      width: 100% !important;
+      margin-bottom: 15px;
+    }
+
+    .cart-item-wrapper {
+      margin-right: 40px; /* Espacio para el botón remove */
+    }
+
+    .cart-item-remove {
+      position: absolute;
+      top: 15px;
+      right: 0;
+      width: 30px !important;
+      height: 30px !important;
     }
 
     .cart-item-quantity,
     .cart-item-total {
-      width: 45% !important;
+      width: 50% !important;
+      padding: 10px 0;
     }
 
-    .cart-item-remove {
-      width: 10% !important;
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .cart-item-value {
+      font-weight: bold;
     }
   }
 </style>
