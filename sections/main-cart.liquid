@@ -716,19 +716,19 @@
                     </div>
                     <div
                       style="text-align: center;width: 20%; height: auto; padding-left: 0 !important"
-                      class="cart-header-item cart-header-info"
+                      class="cart-header-item cart-header-quantity"
                     >
                       CANTIDAD
                     </div>
                     <div
                       style="text-align: center; width: 10%; height: auto; padding-left: 0 !important"
-                      class="cart-header-item cart-header-info"
+                      class="cart-header-item cart-header-total"
                     >
                       TOTAL
                     </div>
                     <div
                       style="text-align: center;width: 5%; height: auto; color: transparent; overflow: hidden; padding-left: 0 !important"
-                      class="cart-header-item cart-header-info"
+                      class="cart-header-item cart-header-remove"
                     >
                       REMOVE
                     </div>
@@ -748,7 +748,10 @@
                         {% endif %}
                         data-line="{{ item.key }}"
                       >
-                        <div class="cart-item-block cart-item-info">
+                        <div
+                          style="width: 65%; height: auto;"
+                          class="cart-item-block cart-item-info"
+                        >
                           <div class="cart-item-wrapper" style="width: 100% !important;height: 100% !important;">
                             <div
                               class="cart-item-block-left"
