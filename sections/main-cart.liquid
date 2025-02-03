@@ -1183,33 +1183,28 @@
 
     .cart-item-info-custom {
       width: 100%;
-      padding: 15px;
       border-bottom: 1px solid #e6e6e6;
     }
 
-    .cart-item-block-custom:not(.cart-item-info-custom) {
+    /* Contenedor para los controles */
+    .cart-item-quantity-custom,
+    .cart-item-total-custom,
+    .cart-item-remove-custom {
+      display: inline-flex;
       width: auto;
-      border-left: none;
+      border: none;
+      padding: 10px;
     }
 
-    /* Contenedor para los controles inferiores */
+    /* Crear un contenedor flex para los controles */
     .cart-item-custom > div:not(.cart-item-info-custom) {
       display: flex;
       flex-direction: row;
       align-items: center;
+      justify-content: space-between;
+      width: 100%;
       padding: 15px;
-    }
-
-    .cart-item-quantity-custom {
-      margin-right: auto;
-    }
-
-    .cart-item-total-custom {
-      margin: 0 20px;
-    }
-
-    .cart-item-remove-custom {
-      margin-left: 10px;
+      gap: 20px;
     }
 
     .cart-item-qty {
@@ -1222,11 +1217,6 @@
     .btn-quantity {
       border: none;
       border-right: 1px solid #e6e6e6;
-      height: 35px;
-      width: 35px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
 
     .btn-quantity.plus {
@@ -1236,31 +1226,6 @@
 
     .cart-item-qty-input {
       border: none;
-      width: 50px;
-      height: 35px;
-      text-align: center;
-    }
-
-    .cart-item-block-left,
-    .cart-item-block-right {
-      height: 200px;
-    }
-
-    /* Forzar disposición horizontal de los controles */
-    .cart-item-custom {
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Contenedor específico para los controles */
-    .cart-item-custom::after {
-      content: '';
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      padding: 15px;
-      border-top: 1px solid #e6e6e6;
     }
   }
 </style>
