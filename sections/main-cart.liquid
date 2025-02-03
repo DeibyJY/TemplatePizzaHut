@@ -1010,9 +1010,10 @@
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
 
 <style>
-  /* Mantenemos los estilos base del desktop igual */
+  /* Estilos base */
   .cart-header-custom {
     display: flex;
+    align-items: center;
     width: 100%;
     border: 1px solid #e6e6e6;
     font-size: 16px;
@@ -1049,14 +1050,15 @@
 
   .cart-item-custom {
     display: flex;
+    align-items: stretch;
     border: 1px solid #e6e6e6;
     border-top: none;
   }
 
   .cart-item-info-custom {
+    width: 70%;
     display: flex;
     padding: 20px;
-    width: 70%;
     gap: 20px;
   }
 
@@ -1069,101 +1071,142 @@
   .cart-item-block-right {
     background-color: yellowgreen;
     flex-grow: 1;
-  }
-
-  .cart-item-quantity-custom,
-  .cart-item-total-custom,
-  .cart-item-remove-custom {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    border-left: 1px solid #e6e6e6;
+    height: 160px;
   }
 
   .cart-item-quantity-custom {
     width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #e6e6e6;
   }
 
   .cart-item-total-custom {
     width: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #e6e6e6;
   }
 
   .cart-item-remove-custom {
     width: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid #e6e6e6;
   }
 
-  /* Estilos responsivos simplificados */
-  @media screen and (max-width: 768px) {
-    .cart-header-custom,
-    .cart-item-custom {
-      display: block;
-      border: 1px solid #e6e6e6;
-      margin-bottom: 20px;
-    }
-
-    .cart-header-item-custom {
-      width: 100%;
-      text-align: left;
-      padding: 10px 15px;
-      border-left: none;
-      border-bottom: 1px solid #e6e6e6;
-    }
-
-    .cart-header-item-custom:last-child {
-      border-bottom: none;
-    }
-
-    .cart-item-info-custom {
-      width: 100%;
-      flex-direction: column;
-      border-bottom: 1px solid #e6e6e6;
-    }
-
+  /* Responsive breakpoints siguiendo mejores prácticas */
+  @media screen and (max-width: 1024px) {
     .cart-item-block-left {
-      width: 100%;
-      height: 200px;
+      width: 140px;
+      height: 140px;
     }
 
     .cart-item-block-right {
-      width: 100%;
-      height: 200px;
+      height: 140px;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .cart-header-info {
+      width: 60%;
     }
 
-    .cart-item-quantity-custom,
-    .cart-item-total-custom,
+    .cart-header-quantity {
+      width: 20%;
+    }
+
+    .cart-header-total {
+      width: 15%;
+    }
+
+    .cart-header-remove {
+      width: 5%;
+    }
+
+    .cart-item-info-custom {
+      width: 60%;
+    }
+
+    .cart-item-quantity-custom {
+      width: 20%;
+    }
+
+    .cart-item-total-custom {
+      width: 15%;
+    }
+
+    .cart-item-block-left {
+      width: 120px;
+      height: 120px;
+    }
+
+    .cart-item-block-right {
+      height: 120px;
+    }
+  }
+
+  @media screen and (max-width: 576px) {
+    .cart-header-custom {
+      align-items: stretch;
+    }
+
+    .cart-item-info-custom {
+      width: 50%;
+      flex-direction: column;
+    }
+
+    .cart-item-quantity-custom {
+      width: 25%;
+    }
+
+    .cart-item-total-custom {
+      width: 20%;
+    }
+
     .cart-item-remove-custom {
+      width: 5%;
+    }
+
+    .cart-item-block-left,
+    .cart-item-block-right {
       width: 100%;
-      justify-content: flex-start;
-      border-left: none;
-      border-bottom: 1px solid #e6e6e6;
-    }
-
-    .cart-item-remove-custom {
-      border-bottom: none;
-    }
-
-    .cart-item-qty {
-      display: flex;
-      align-items: center;
-      gap: 10px;
+      height: 100px;
     }
 
     .btn-quantity {
-      width: 35px;
-      height: 35px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid #e6e6e6;
+      width: 30px;
+      height: 30px;
     }
 
     .cart-item-qty-input {
-      width: 50px;
-      height: 35px;
-      text-align: center;
-      border: 1px solid #e6e6e6;
+      width: 40px;
+      height: 30px;
     }
+  }
+
+  /* Ajustes para la experiencia táctil */
+  .btn-quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #e6e6e6;
+    background: none;
+    cursor: pointer;
+  }
+
+  .cart-item-qty-input {
+    text-align: center;
+    border: 1px solid #e6e6e6;
+  }
+
+  .cart-item-qty {
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
 </style>
 {% comment %} asdas {% endcomment %}
