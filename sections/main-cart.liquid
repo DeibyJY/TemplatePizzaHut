@@ -1169,41 +1169,41 @@
     }
 
     .cart-item-custom {
-      position: relative;
-      display: grid;
-      grid-template-areas:
-        'info info'
-        'quantity total'
-        'remove remove';
-      padding-bottom: 50px;
+      display: flex;
+      flex-direction: column;
     }
 
     .cart-item-info-custom {
-      grid-area: info;
       width: 100%;
       border-bottom: 1px solid #e6e6e6;
+      padding: 15px;
     }
 
-    .cart-item-quantity-custom {
-      grid-area: quantity;
-      width: auto;
+    .cart-item-quantity-custom,
+    .cart-item-total-custom,
+    .cart-item-remove-custom {
       border-left: none;
-      justify-content: flex-start;
+    }
+
+    /* Contenedor para los controles inferiores */
+    .cart-item-custom {
+      position: relative;
+    }
+
+    /* Ajuste específico para los controles */
+    .cart-item-quantity-custom {
       padding: 15px;
+      justify-content: flex-start;
+      margin-right: auto;
     }
 
     .cart-item-total-custom {
-      grid-area: total;
-      width: auto;
-      border-left: none;
-      justify-content: flex-end;
-      padding: 15px;
+      position: absolute;
+      bottom: 15px;
+      right: 60px;
     }
 
     .cart-item-remove-custom {
-      grid-area: remove;
-      width: auto;
-      border-left: none;
       position: absolute;
       bottom: 15px;
       right: 15px;
