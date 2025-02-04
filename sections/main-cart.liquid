@@ -1386,9 +1386,9 @@
     });
     const contenedorPrincipal = document.querySelector('.cart')
 
-    console.log(carrito); 
-    console.log(itemsBase);
-    console.log(carritoSoloProductos);
+    // console.log(carrito); 
+    // console.log(itemsBase);
+    // console.log(carritoSoloProductos);
 
     {% comment %} const contenidoBase= `
                   <div class="cart-item-custom">
@@ -1535,9 +1535,22 @@
         `;
 
         // 1re : Parsear el Objeto "Cuerpo" del itemBase de trabajo
+        const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
+        
         // 2do : Hacer una busqueda en el "carrito.items" y traerme todos lo que tenga la propiedad ProductoBase 
+        const subItemsProducto = carrito.items.filter(itemSubItem => 
+          itemSubItem.properties && 
+          itemSubItem.properties.ProductoBase && 
+          itemSubItem.properties.ProductoBase === item.properties.ProductoBase &&
+          itemSubItem.properties.Precio &&
+          !itemSubItem.properties.hasOwnProperty('Cuerpo')
+        );
+
         // 3re : Hacer un forEach de los items parseados, al hacer esto buscar dentro de los seleccionados de "carrito.items"
-        const subItemsProducto = itemsBase.filter(subItem => subItem.properties.ProductoBase === item.properties.ProductoBase);
+
+        console.log(cuerpoParseado);
+        console.log(subItemsProducto);
+
 
         contenidoBase += `
               <div class="detalle-item-variante">
