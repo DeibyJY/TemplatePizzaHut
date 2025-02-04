@@ -1080,13 +1080,14 @@
 
   .cart-item-block-left {
     width: 20%;
-    background-color: chocolate;
+    {% comment %} background-color: chocolate; {% endcomment %}
     height: 120px;
+    padding: 0 15px 0 0;
   }
 
   .cart-item-block-right {
     width: 80%;
-    background-color: yellowgreen;
+    {% comment %} background-color: yellowgreen; {% endcomment %}
     height: 120px;
   }
 
@@ -1160,6 +1161,19 @@
 
   /* Móvil (<=768px) */
   @media screen and (max-width: 768px) {
+    .cart-item-block-left {
+      width: 30%;
+      {% comment %} background-color: chocolate; {% endcomment %}
+      height: 120px;
+      padding: 0 10px 0 0;
+    }
+
+    .cart-item-block-right {
+      width: 70%;
+      {% comment %} background-color: yellowgreen; {% endcomment %}
+      height: 120px;
+    }
+
     .cart-header-quantity,
     .cart-header-total,
     .cart-header-remove {
