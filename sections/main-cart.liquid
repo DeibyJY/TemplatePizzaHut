@@ -727,14 +727,22 @@
                         <div class="cart-item-block-right">
                           <h3>Pizza Jamon</h3>
                           <div class="detalle-pedido-variante">
-                            <h4>TAMAÑO</h4>
-                            <p>Super personal para 2 a 3 personas <span>Bs 18 x 3 : 54</span></p>
-                            <h4>EXTRA</h4>
-                            <p>Extra Queso <span>Bs 12 x 3 : 54</span></p>
-                            <p>Extra Pepperoni<span>Bs 5 x 3 : 15</span></p>
-                            <p>Extra Tocino <span>Bs 12 x 5 : 54</span></p>
-                            <h4>MASA - BORDE</h4>
-                            <p>PAN PIZZA + BORDE CATUPIRY <span>Bs 15 x 3 : 45</span></p>
+                            <div class="detalle-size">
+                              <h4>TAMAÑO</h4>
+                              <p>SUPER PERSONAL PARA 2 A 3 PERSONAS <span>BS 18 X 3 : 54</span></p>
+                            </div>
+
+                            <div class="detalle-extras">
+                              <h4>EXTRA</h4>
+                              <p>EXTRA QUESO <span>BS 12 X 3 : 54</span></p>
+                              <p>EXTRA PEPPERONI <span>BS 5 X 3 : 15</span></p>
+                              <p>EXTRA TOCINO <span>BS 12 X 5 : 54</span></p>
+                            </div>
+
+                            <div class="detalle-masa">
+                              <h4>MASA - BORDE</h4>
+                              <p>PAN PIZZA + BORDE CATUPIRY <span>BS 15 X 3 : 45</span></p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1099,27 +1107,34 @@
 
   .cart-item-block-right {
     width: 80%;
-    height: auto;
-    min-height: 120px;
-    padding: 10px 15px;
+    padding: 15px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
   .cart-item-block-right h3 {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    color: #333;
+    color: #000;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin: 0 0 12px 0;
     letter-spacing: 0.5px;
   }
 
+  .detalle-pedido-variante {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
   .detalle-pedido-variante h4 {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
-    color: #000;
+    color: #666;
     text-transform: uppercase;
-    margin: 12px 0 8px;
-    letter-spacing: 1px;
+    margin: 12px 0 4px 0;
+    letter-spacing: 0.5px;
   }
 
   .detalle-pedido-variante h4:first-child {
@@ -1131,20 +1146,28 @@
     justify-content: space-between;
     align-items: center;
     margin: 0;
-    padding: 6px 0;
+    padding: 4px 0;
     font-size: 13px;
     color: #333;
-    border-bottom: 1px solid #f0f0f0;
+    letter-spacing: 0.3px;
   }
 
-  .detalle-pedido-variante p:last-of-type {
-    border-bottom: none;
+  .detalle-pedido-variante p:not(:last-child) {
+    border-bottom: 1px solid #f5f5f5;
   }
 
   .detalle-pedido-variante span {
     font-weight: 500;
-    color: #666;
-    margin-left: 15px;
+    color: #333;
+    text-align: right;
+    letter-spacing: 0;
+  }
+
+  /* Estilos específicos para tamaño y extras */
+  .detalle-size,
+  .detalle-extras,
+  .detalle-masa {
+    margin-bottom: 8px;
   }
 
   .cart-item-quantity-custom {
@@ -1232,34 +1255,35 @@
 
     .cart-item-block-right {
       width: 70%;
-      padding: 10px;
+      padding: 12px 15px;
     }
 
     .cart-item-block-right h3 {
-      font-size: 16px;
+      font-size: 15px;
       margin-bottom: 10px;
+    }
+
+    .detalle-pedido-variante {
+      gap: 6px;
     }
 
     .detalle-pedido-variante h4 {
       font-size: 12px;
-      margin: 8px 0 4px;
-      color: #666;
+      margin: 10px 0 3px 0;
     }
 
     .detalle-pedido-variante p {
       font-size: 12px;
-      padding: 4px 0;
+      padding: 3px 0;
       display: flex;
-      flex-direction: column;
+      justify-content: space-between;
       align-items: flex-start;
-      gap: 2px;
     }
 
-    .detalle-pedido-variante span {
-      margin-left: 0;
-      align-self: flex-end;
-      color: #333;
-      font-weight: 600;
+    .detalle-pedido-variante p > span {
+      margin-left: auto;
+      padding-left: 8px;
+      text-align: right;
     }
 
     .cart-header-quantity,
