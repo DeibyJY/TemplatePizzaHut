@@ -1510,6 +1510,14 @@
       const thisHandle = item.product.handle;
       const thisProduct = item.product;
 
+      const scriptContent = `
+      window.cart_selling_array_${item.product.id} = {
+        ${item.product.variants.map(variant => 
+          `'${variant.id}': '${variant.inventory_policy}'`
+        ).join(',\n')}
+      };
+    `;
+
       contenidoBase += `
         <div class="cart-item-block-custom cart-item-info-custom">
           <div class="cart-item-block-left">
@@ -1529,11 +1537,7 @@
           </div>
           <div class="cart-item-block-right">
             <script type="text/javascript">
-              window.cart_selling_array_${thisProduct.id} = {
-                ${thisProduct.variants.map(variant => 
-                  `'${variant.id}': '${variant.inventory_policy}'`
-                ).join(',\n')}
-              };
+              ${scriptContent}
             </script>
             <h3><a href="${item.url}" class="link link-underline">
             <span class="text">${item.product.title}</span>
