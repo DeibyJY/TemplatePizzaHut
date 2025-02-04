@@ -1381,13 +1381,12 @@
     {% comment %} HOLA MUNDO {% endcomment %}
     const carrito = {{cart | json }}
     const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
-
-    const contenedorPrincipal = document.querySelector('.cart')
     const itemsBase = carrito.items.filter(item => {
       return item.properties && 
-             item.properties.ProductoBase && 
-             item.properties.Cuerpo;
+      item.properties.ProductoBase && 
+      item.properties.Cuerpo;
     });
+    const contenedorPrincipal = document.querySelector('.cart')
 
     {% comment %} console.log(carrito); {% endcomment %}
     console.log(itemsBase);
@@ -1487,8 +1486,12 @@
         </div>
         <div class="cart-list-custom">
     `;
-    const itemsTrabajo = carrito.items.map(item => {
-      const atributoEdicion = item.product.variants.length > 0 && 
+    
+    carrito.items.map(item => {
+      // Buscar mediante el handle item tiene un "handle" y el producto igual
+      const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.product.handle);
+      console.log(variantesTrabajo)
+      const atributoEdicion = variantesTrabajo.length > 0 && 
                        !item.variant.title.includes('Default') 
                        ? ' data-cart-edit-productItem' 
                        : '';
