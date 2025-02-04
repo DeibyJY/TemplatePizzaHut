@@ -1490,9 +1490,8 @@
     itemsBase.forEach(item => {
       // Buscar mediante el handle item tiene un "handle" y el producto igual
       const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
-      console.log(variantesTrabajo)
       const atributoEdicion = variantesTrabajo.length > 0 && 
-                       !item.variant.title.includes('Default') 
+                       variantesTrabajo.variants[0].title.includes('Default') 
                        ? ' data-cart-edit-productItem' 
                        : '';
       contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
@@ -1528,7 +1527,13 @@
             </a>
           </div>
           <div class="cart-item-block-right">
-            
+            <script type="text/javascript">
+              window.cart_selling_array_${thisProduct.id} = {
+                ${thisProduct.variants.map(variant => 
+                  `'${variant.id}': '${variant.inventory_policy}'`
+                ).join(',\n')}
+              };
+            </script>
             <h3><a href="${item.url}" class="link link-underline">
             <span class="text">${item.product.title}</span>
             </a></h3>
