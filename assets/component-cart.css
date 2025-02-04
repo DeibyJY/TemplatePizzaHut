@@ -387,7 +387,7 @@
 .cart-remove {
   display: inline-block;
   vertical-align: middle;
-  position: relative;
+  /* position: relative; */
   top: 4.5px;
 }
 .cart-remove svg {
