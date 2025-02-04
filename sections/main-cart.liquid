@@ -1379,6 +1379,7 @@
 <script>
   function generarListaCarritoCustom(){
     const carrito = {{cart | json }}
+    const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
 
     const contenedorPrincipal = document.querySelector('.cart')
     const itemsBase = carrito.items.filter(item => {
