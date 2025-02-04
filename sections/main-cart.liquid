@@ -724,7 +724,19 @@
                             alt=""
                           >
                         </div>
-                        <div class="cart-item-block-right"></div>
+                        <div class="cart-item-block-right">
+                          <h3>Pizza Jamon</h3>
+                          <div class="detalle-pedido-variante">
+                            <h4>TAMAÑO</h4>
+                            <p>Super personal para 2 a 3 personas <span>Bs 18 x 3 : 54</span></p>
+                            <h4>EXTRA</h4>
+                            <p>Extra Queso <span>Bs 12 x 3 : 54</span></p>
+                            <p>Extra Pepperoni<span>Bs 5 x 3 : 15</span></p>
+                            <p>Extra Tocino <span>Bs 12 x 5 : 54</span></p>
+                            <h4>MASA - BORDE</h4>
+                            <p>PAN PIZZA + BORDE CATUPIRY <span>Bs 15 x 3 : 45</span></p>
+                          </div>
+                        </div>
                       </div>
 
                       <div class="cart-item-block-custom cart-item-quantity-custom">
@@ -1087,8 +1099,41 @@
 
   .cart-item-block-right {
     width: 80%;
-    {% comment %} background-color: yellowgreen; {% endcomment %}
-    height: 120px;
+    height: auto;
+    min-height: 120px;
+    padding: 10px 15px;
+  }
+
+  .cart-item-block-right h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #222222;
+  }
+
+  .detalle-pedido-variante h4:first-child {
+    margin-top: 0;
+  }
+
+  .detalle-pedido-variante p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4px 0;
+    padding: 4px 0;
+    border-bottom: 1px dashed #eee;
+  }
+
+  .detalle-pedido-variante p span {
+    font-weight: 500;
+    color: #444;
+    margin-left: 10px;
+    white-space: nowrap;
+  }
+
+  .detalle-pedido-variante {
+    font-size: 14px;
+    line-height: 1.4;
   }
 
   .cart-item-quantity-custom {
@@ -1168,10 +1213,45 @@
       padding: 0 10px 0 0;
     }
 
-    .cart-item-block-right {
+    {% comment %} .cart-item-block-right {
       width: 70%;
       {% comment %} background-color: yellowgreen; {% endcomment %}
       height: 120px;
+    } {% endcomment %}
+
+    .cart-item-block-right {
+      width: 70%;
+      padding: 8px 10px;
+    }
+
+    .cart-item-block-right h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .detalle-pedido-variante {
+      font-size: 13px;
+    }
+
+    .detalle-pedido-variante h4 {
+      font-size: 12px;
+      margin: 8px 0 4px;
+    }
+
+    .detalle-pedido-variante p {
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+
+    .detalle-pedido-variante p span {
+      width: 100%;
+      text-align: right;
+      margin-left: 0;
+    }
+
+    .cart-item-block-right {
+      width: 70%;
+      padding: 8px 10px;
     }
 
     .cart-header-quantity,
