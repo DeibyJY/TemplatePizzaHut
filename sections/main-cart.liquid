@@ -1106,9 +1106,20 @@
 
   .cart-item-block-right h3 {
     font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    letter-spacing: 0.5px;
+  }
+
+  .detalle-pedido-variante h4 {
+    font-size: 14px;
     font-weight: 600;
-    margin-bottom: 12px;
-    color: #222222;
+    color: #000;
+    text-transform: uppercase;
+    margin: 12px 0 8px;
+    letter-spacing: 1px;
   }
 
   .detalle-pedido-variante h4:first-child {
@@ -1119,21 +1130,21 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 4px 0;
-    padding: 4px 0;
-    border-bottom: 1px dashed #eee;
+    margin: 0;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #333;
+    border-bottom: 1px solid #f0f0f0;
   }
 
-  .detalle-pedido-variante p span {
+  .detalle-pedido-variante p:last-of-type {
+    border-bottom: none;
+  }
+
+  .detalle-pedido-variante span {
     font-weight: 500;
-    color: #444;
-    margin-left: 10px;
-    white-space: nowrap;
-  }
-
-  .detalle-pedido-variante {
-    font-size: 14px;
-    line-height: 1.4;
+    color: #666;
+    margin-left: 15px;
   }
 
   .cart-item-quantity-custom {
@@ -1221,37 +1232,34 @@
 
     .cart-item-block-right {
       width: 70%;
-      padding: 8px 10px;
+      padding: 10px;
     }
 
     .cart-item-block-right h3 {
       font-size: 16px;
-      margin-bottom: 8px;
-    }
-
-    .detalle-pedido-variante {
-      font-size: 13px;
+      margin-bottom: 10px;
     }
 
     .detalle-pedido-variante h4 {
       font-size: 12px;
       margin: 8px 0 4px;
+      color: #666;
     }
 
     .detalle-pedido-variante p {
-      flex-wrap: wrap;
-      gap: 4px;
+      font-size: 12px;
+      padding: 4px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
     }
 
-    .detalle-pedido-variante p span {
-      width: 100%;
-      text-align: right;
+    .detalle-pedido-variante span {
       margin-left: 0;
-    }
-
-    .cart-item-block-right {
-      width: 70%;
-      padding: 8px 10px;
+      align-self: flex-end;
+      color: #333;
+      font-weight: 600;
     }
 
     .cart-header-quantity,
