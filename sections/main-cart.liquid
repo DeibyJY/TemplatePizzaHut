@@ -1492,6 +1492,15 @@
                        : '';
       contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
 
+      {% comment %} 
+      <script type="text/javascript">
+        window.cart_selling_array_${thisProduct.id} = {
+          ${thisProduct.variants.map(variant => 
+            `'${variant.id}': '${variant.inventory_policy}'`
+          ).join(',\n')}
+        };
+      </script> {% endcomment %}
+
       // Esto equivale a las variables Liquid
       const thisHandle = item.product.handle;
       const thisProduct = item.product;
@@ -1514,13 +1523,7 @@
             </a>
           </div>
           <div class="cart-item-block-right">
-            <script type="text/javascript">
-              window.cart_selling_array_${thisProduct.id} = {
-                ${thisProduct.variants.map(variant => 
-                  `'${variant.id}': '${variant.inventory_policy}'`
-                ).join(',\n')}
-              };
-            </script>
+            
             <h3><a href="${item.url}" class="link link-underline">
             <span class="text">${item.product.title}</span>
             </a></h3>
