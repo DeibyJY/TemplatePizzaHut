@@ -1378,6 +1378,7 @@
 </style>
 <script>
   function generarListaCarritoCustom(){
+    {% comment %} HOLA MUNDO {% endcomment %}
     const carrito = {{cart | json }}
     const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
 
@@ -1469,7 +1470,6 @@
                   </div>
     `; {% endcomment %}
 
-    {% comment %} asdas {% endcomment %}
     const titulosColumnas = {
         'producto': {{ 'sections.cart.headings.product' | t | json }},
         'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
