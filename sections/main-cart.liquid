@@ -1121,13 +1121,13 @@
     color: #222222;
     text-transform: uppercase;
     margin: 0 0 12px 0;
-    letter-spacing: 0.5px;
+    letter-spacing: 2px;
   }
 
   .detalle-pedido-variante {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    {% comment %} gap: 8px; {% endcomment %}
   }
 
   .detalle-pedido-variante h4 {
@@ -1149,7 +1149,7 @@
     align-items: center;
     margin: 0;
     padding: 4px 0;
-    font-size: 13px;
+    font-size: 16px;
     letter-spacing: 0.3px;
     text-transform: none;
     font-weight: normal;
@@ -1188,6 +1188,9 @@
     align-items: center;
     justify-content: center;
     border-left: 1px solid #e6e6e6;
+    text-transform: none;
+    font-weight: normal;
+    font-size: 18px;
   }
 
   .cart-item-remove-custom {
