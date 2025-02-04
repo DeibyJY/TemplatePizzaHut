@@ -1489,7 +1489,7 @@
     
     itemsBase.forEach(item => {
       // Buscar mediante el handle item tiene un "handle" y el producto igual
-      const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.product.handle);
+      const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
       console.log(variantesTrabajo)
       const atributoEdicion = variantesTrabajo.length > 0 && 
                        !item.variant.title.includes('Default') 
