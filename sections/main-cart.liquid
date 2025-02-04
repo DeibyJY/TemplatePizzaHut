@@ -1377,7 +1377,7 @@
   }
 </style>
 <script>
-  function generarListaCarrito(){
+  function generarListaCarritoCustom(){
     const carrito = {{cart | json }}
 
     const contenedorPrincipal = document.querySelector('.cart')
@@ -1554,8 +1554,9 @@
       
   }
 
-  
-  generarListaCarrito();
+  window.addEventListener('load', function() {
+    generarListaCarritoCustom();
+  });
 </script>
 {% schema %}
 {
