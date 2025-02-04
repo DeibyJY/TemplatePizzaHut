@@ -1162,9 +1162,7 @@
     letter-spacing: 2px;
   }
 
-  .detalle-size,
-  .detalle-extras,
-  .detalle-masa {
+  .detalle-item-variante {
     margin-bottom: 8px;
   }
 
@@ -1488,7 +1486,7 @@
     `;
     
     itemsBase.forEach(item => {
-      {% comment %} HOLA MUNDO {% endcomment %}
+      
       // Buscar mediante el handle item tiene un "handle" y el producto igual
       const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
       const atributoEdicion = variantesTrabajo.length > 0 && 
@@ -1497,26 +1495,19 @@
                        : '';
       contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
 
-      {% comment %} 
-      <script type="text/javascript">
-        window.cart_selling_array_${thisProduct.id} = {
-          ${thisProduct.variants.map(variant => 
-            `'${variant.id}': '${variant.inventory_policy}'`
-          ).join(',\n')}
-        };
-      </script> {% endcomment %}
+      // Para cada item en el carrito
+      const thisHandle = item.handle;
+      const thisProduct = carritoSoloProductos.find(p => p.handle === thisHandle);
 
-      // Esto equivale a las variables Liquid
-      const thisHandle = item.product.handle;
-      const thisProduct = item.product;
-
-      const scriptContent = `
-      window.cart_selling_array_${item.product.id} = {
-        ${item.product.variants.map(variant => 
-          `'${variant.id}': '${variant.inventory_policy}'`
-        ).join(',\n')}
-      };
-    `;
+      // Creamos el objeto de inventario y lo asignamos al window
+      if (thisProduct) {
+        const inventoryObject = {};
+        thisProduct.variants.forEach(variant => {
+          inventoryObject[variant.id] = variant.inventory_policy;
+        });
+        
+        window[`cart_selling_array_${thisProduct.id}`] = inventoryObject;
+      }
 
       contenidoBase += `
         <div class="cart-item-block-custom cart-item-info-custom">
@@ -1536,17 +1527,20 @@
             </a>
           </div>
           <div class="cart-item-block-right">
-            <script type="text/javascript">
-              ${scriptContent}
-            </script>
+            
             <h3><a href="${item.url}" class="link link-underline">
             <span class="text">${item.product.title}</span>
             </a></h3>
             <div class="detalle-pedido-variante">
         `;
-        contenidoBase += `
 
-              <div class="detalle-size">
+        // 1re : Parsear el Objeto "Cuerpo" del itemBase de trabajo
+        // 2do : Hacer una busqueda en el "carrito.items" y traerme todos lo que tenga la propiedad ProductoBase 
+        // 3re : Hacer un forEach de los items parseados, al hacer esto buscar dentro de los seleccionados de "carrito.items"
+        const subItemsProducto = itemsBase.filter(subItem => subItem.properties.ProductoBase === item.properties.ProductoBase);
+
+        contenidoBase += `
+              <div class="detalle-item-variante">
                 <h4>TAMAÑO</h4>
                 <p>Super persona para 2 a 3 personas <span>BS 18x3 : 54</span></p>
               </div>
