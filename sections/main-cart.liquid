@@ -1487,7 +1487,7 @@
         <div class="cart-list-custom">
     `;
     
-    carrito.items.map(item => {
+    itemsBase.forEach(item => {
       // Buscar mediante el handle item tiene un "handle" y el producto igual
       const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.product.handle);
       console.log(variantesTrabajo)
