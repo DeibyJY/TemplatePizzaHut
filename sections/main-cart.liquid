@@ -1120,7 +1120,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid #e6e6e6;
+    {% comment %} border: 1px solid #e6e6e6; {% endcomment %}
     background: none;
   }
 
@@ -1229,14 +1229,14 @@
     } {% endcomment %}
 
     .btn-quantity {
-      border: none;
-      border-right: 1px solid #e6e6e6;
+      {% comment %} border: none; {% endcomment %}
+      {% comment %} border-right: 1px solid #e6e6e6; {% endcomment %}
     }
 
-    .btn-quantity.plus {
+    {% comment %} .btn-quantity.plus {
       border-right: none;
       border-left: 1px solid #e6e6e6;
-    }
+    } {% endcomment %}
 
     .cart-item-qty-input {
       border: none;
