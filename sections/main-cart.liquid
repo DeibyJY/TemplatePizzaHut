@@ -1095,6 +1095,8 @@
   .cart-item-info-custom {
     width: 70%;
     display: flex;
+    justify-content: center;
+    align-items: center;
     padding: 20px;
   }
 
@@ -1107,16 +1109,16 @@
 
   .cart-item-block-right {
     width: 80%;
-    padding: 15px 20px;
+    {% comment %} padding: 15px 20px; {% endcomment %}
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    {% comment %} gap: 8px; {% endcomment %}
   }
 
   .cart-item-block-right h3 {
     font-size: 16px;
     font-weight: 700;
-    color: #000;
+    color: #222222;
     text-transform: uppercase;
     margin: 0 0 12px 0;
     letter-spacing: 0.5px;
@@ -1157,8 +1159,8 @@
   }
 
   .detalle-pedido-variante span {
-    font-weight: 500;
-    color: #333;
+    font-weight: 600;
+    color: #999999;
     text-align: right;
     letter-spacing: 0;
   }
