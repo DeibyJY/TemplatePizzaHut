@@ -2888,18 +2888,45 @@
 
   (function() {
     function initializeShopifyProduct() {
-        return testPrueba()
-            .then(() => {
-                 initializeProductMenu(); 
-                 // agregarAlCarrito(); 
-                  agregarValoresDeBajoOpciones(); 
-                console.log('Producto inicializado correctamente');
-            })
-            .catch(error => {
-                console.error('Error durante la inicialización:', error);
-            });
-    }
-
+      console.log('🔄 Iniciando inicialización del producto...');
+      
+      return testPrueba()
+          .then(() => {
+              console.log('✅ testPrueba completado');
+              
+              try {
+                  initializeProductMenu();
+                  console.log('✅ Menu del producto inicializado');
+                  
+                  // agregarAlCarrito();
+                  // console.log('Carrito agregado');
+                  
+                  agregarValoresDeBajoOpciones();
+                  console.log('✅ Valores de opciones agregados');
+                  
+                  console.log('✅ Producto inicializado correctamente', {
+                      url: window.location.href,
+                      tiempo: new Date().toISOString(),
+                      producto: window.Shopify?.product?.id || 'No disponible'
+                  });
+              } catch (innerError) {
+                  console.error('❌ Error específico:', {
+                      fase: innerError.stack.split('\n')[1].trim(),
+                      error: innerError.message,
+                      ubicación: innerError.stack.split('\n')[2]?.trim() || 'Desconocida'
+                  });
+                  throw innerError;
+              }
+          })
+          .catch(error => {
+              console.error('❌ Error durante la inicialización:', {
+                  mensaje: error.message,
+                  tipo: error.name,
+                  ubicación: error.stack?.split('\n')[1]?.trim() || 'Desconocida',
+                  detalles: error.stack
+              });
+          });
+  }
     // Función que intenta inicializar
     function tryInitialize() {
         // Verificar si el elemento contenedor existe
