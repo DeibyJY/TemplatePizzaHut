@@ -1390,7 +1390,7 @@
       // Contruccion de la consultaquery 
       const query = `
         query {
-          ${items.map((item, index) => `
+          ${items.forEach((item, index) => `
             variant${index}: productVariant(id: "gid://shopify/ProductVariant/${item}") {
               id
               legacyResourceId
@@ -1671,8 +1671,6 @@
         // 3re : Hacer un forEach de los items parseados, al hacer esto buscar dentro de los seleccionados de "carrito.items"
         cuerpoParseado.forEach(data=>{
           const { titulo, items: itemsVariantesIds } = data; 
-          console.log(data);
-          console.log(itemsVariantesIds);
           contenidoBase += `
           <div class="detalle-item-variante">
             <h4>${titulo}</h4>
