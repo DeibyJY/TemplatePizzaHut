@@ -2080,8 +2080,8 @@
     marcarOpcionesRequeridas();
     // Verificar estados iniciales
     verificarRequeridos();
-    // Inicializar visibilidad de sub-items
-    actualizarVisibilidadSubItems();
+    {% comment %} // Inicializar visibilidad de sub-items
+    actualizarVisibilidadSubItems(); {% endcomment %}
   }
 
   // Funcion para marcar opciones requeridas
@@ -2898,7 +2898,7 @@
               try {
                   initializeProductMenu();
                   console.log('✅ Menu del producto inicializado');
-                  
+                  actualizarVisibilidadSubItems();
                   // agregarAlCarrito();
                   // console.log('Carrito agregado');
                   
@@ -2927,7 +2927,7 @@
                   detalles: error.stack
               });
           });
-  }
+    }
     // Función que intenta inicializar
     function tryInitialize() {
         // Verificar si el elemento contenedor existe
