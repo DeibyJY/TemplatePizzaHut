@@ -2475,7 +2475,7 @@
                 });
             });
         },
-
+        // Funcion oriignal sin cambios
         // updateCart: function(cart){
         //     if(!$.isEmptyObject(cart)){
         //         const $sectionId = $('#main-cart-items').data('id');
@@ -2575,13 +2575,23 @@
         // },
 
         // Funcion para actualizar el carrito popup
-        
+        // Funcion que sufrio cambios para mejores
         updateCart: function(cart) {
+            /**
+             * Actualiza el carrito de compras de forma optimizada
+             * Esta función se encarga de actualizar los totales y elementos relacionados del carrito,
+             * mientras que la actualización de la lista de productos se maneja por separado
+             * @param {Object} cart - Objeto del carrito de Shopify con la información actualizada
+             */
+            // Verificar que el carrito no esté vacío
             if(!$.isEmptyObject(cart)) {
+                // Referencias principales del DOM
                 const $sectionId = $('#main-cart-items').data('id');
-                const $cart = $('[data-cart]');
-                const $cartContent = $cart.find('[data-cart-content]');
-                const $cartTotals = $cart.find('[data-cart-total]');
+                const $cart = $('[data-cart]');                    // Contenedor principal del carrito
+                const $cartContent = $cart.find('[data-cart-content]'); // Contenido del carrito
+                const $cartTotals = $cart.find('[data-cart-total]');    // Sección de totales
+        
+                // HTML del spinner de carga
                 const $cartLoading = '<div class="loading-overlay loading-overlay--custom">\
                         <div class="loading-overlay__spinner">\
                             <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">\
@@ -2591,15 +2601,19 @@
                     </div>';
                 const loadingClass = 'is-loading';
         
-                // Agregar loading al inicio
+                // Mostrar loading en todo el contenedor del carrito
                 $cart
                     .addClass(loadingClass)
                     .prepend($cartLoading);
         
-                let updateComplete = false;
-                let listGenerationComplete = false;
+                // Flags para controlar el estado de la actualización
+                let updateComplete = false;        // Para la actualización de totales
+                let listGenerationComplete = false; // Para la generación de la lista personalizada
         
-                // Función para verificar si todo el proceso está completo
+                /**
+                 * Verifica si ambos procesos (actualización y generación de lista) han terminado
+                 * Si es así, remueve el loading
+                 */
                 const checkAllComplete = () => {
                     if (updateComplete && listGenerationComplete) {
                         $cart.removeClass(loadingClass);
@@ -2607,24 +2621,30 @@
                     }
                 };
         
-                // Escuchar cuando la generación de la lista personalizada termine
+                /**
+                 * Listener para el evento que indica que la lista personalizada se generó
+                 * Este evento debe ser disparado por la función generarListaCarritoCustom
+                 */
                 const listUpdateListener = () => {
                     listGenerationComplete = true;
                     checkAllComplete();
-                    // Remover el listener después de usarlo
+                    // Limpieza del listener para evitar duplicados
                     document.removeEventListener('custom-list-generated', listUpdateListener);
                 };
                 document.addEventListener('custom-list-generated', listUpdateListener);
         
+                // Realizar la petición AJAX para obtener los datos actualizados
                 $.ajax({
                     type: 'GET',
                     url: `/cart?section_id=${$sectionId}`,
                     cache: false,
                     success: function (data) {
+                        // Procesar la respuesta del servidor
                         var jsPreventedData = data.replaceAll('cart-coupon-discount', 'div');
                         var response = $(jsPreventedData);
         
                         if(cart.item_count > 0) {
+                            // Actualizar solo los totales y elementos relacionados
                             var subTotal = response.find('[data-cart-total] .cart-total-subtotal').html(),
                                 grandTotal = response.find('[data-cart-total] .cart-total-grandtotal').html(),
                                 savings = response.find('[data-cart-total] .cart-total-savings').html();
@@ -2633,36 +2653,48 @@
                             $cartTotals.find('.cart-total-grandtotal').html(grandTotal);
                             $cartTotals.find('.cart-total-savings').html(savings);
         
+                            // Actualizar calculadora de envío si existe
                             if(response.find('.scoderCalculatorShipping').length > 0) {
                                 var calculatorShipping = response.find('.scoderCalculatorShipping');
                                 $cart.find('.scoderCalculatorShipping').replaceWith(calculatorShipping);
                             }
                         } else {
+                            // Si el carrito está vacío, actualizar todo el contenido
                             var contentCart = response.find('#main-cart-items').html(),
                                 headerCart = response.find('.page-header').html();
         
                             $('#main-cart-items').html(contentCart);
                             $('.page-header').html(headerCart);
                             
-                            // Si el carrito está vacío, marcamos ambos como completos
+                            // Marcar la generación de lista como completa ya que no hay productos
                             listGenerationComplete = true;
                         }
                     },
                     error: function (xhr, text) {
+                        // Mostrar mensaje de error
                         scoder.showWarning($.parseJSON(xhr.responseText).description);
-                        // En caso de error, marcamos ambos como completos
+                        // En caso de error, marcar todo como completo para remover el loading
                         updateComplete = true;
                         listGenerationComplete = true;
                         checkAllComplete();
                     },
                     complete: function () {
+                        // Actualizar contador del carrito
                         $body.find('[data-cart-count]').text(cart.item_count);
+                        // Actualizar mensaje de envío
                         scoder.dispatchChangeForShippingMessage();
                         
+                        // Convertir moneda si es necesario
                         if (scoder.checkNeedToConvertCurrency()) {
-                            Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
+                            Currency.convertAll(
+                                window.shop_currency, 
+                                $('#currencies .active').attr('data-currency'), 
+                                'span.money', 
+                                'money_format'
+                            );
                         }
         
+                        // Manejar gift wrapping si estamos en la página del carrito
                         if ($body.hasClass('template-cart')) {
                             const giftWrapping = document.getElementById('cart-gift-wrapp');
                             if (giftWrapping) {
@@ -2678,6 +2710,7 @@
                                         `[data-cart-quantity-id="${variantId}"]`
                                     );
         
+                                    // Eventos para manejar el gift wrapping
                                     giftCardRemoveButton?.addEventListener('click', () => {
                                         giftWrapping.dataset.isChecked = 'false';
                                     });
@@ -2693,10 +2726,11 @@
                             }
                         }
         
+                        // Marcar la actualización principal como completa
                         updateComplete = true;
                         checkAllComplete();
         
-                        // Disparar eventos de actualización
+                        // Disparar eventos de actualización del carrito
                         document.dispatchEvent(
                             new CustomEvent('cart-content-updated', { detail: cart })
                         );
