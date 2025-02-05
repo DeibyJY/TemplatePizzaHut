@@ -1717,11 +1717,9 @@
     }
 
     const contendorPrincipal = document.querySelector('.sector-general-opciones-producto');
-    console.log('coleccionNivel3',coleccionNivel3);
     coleccionNivel3.forEach((coleccion, indexCN3) => {
       const variables = extraerVariablesDescripcion(coleccion.description);
-      console.log('coleccion',coleccion);
-      console.log('variables',variables);
+
       
       // Variables que so obtenudas de la descripcion de la coleccion que se esta iterando
       const {variante, min, max,solicitud, tipoSelect} = variables;
@@ -1763,7 +1761,10 @@
         return producto.collections.some(col => col.title == coleccion.title);
       });
 
+      console.log('productosEspecificos',productosEspecificos);
       productosEspecificos.forEach((productoMainItem, indexMainItem) => {
+        console.log('productoMainItem',productoMainItem);
+        console.log('indexMainItem',indexMainItem);
         // Como siempre será un solo elemento, podemos acceder directamente al primer tag
         const idProducto = productoMainItem.tags[0].match(/ID\s*:\s*(\d+)/i)?.[1];
 
