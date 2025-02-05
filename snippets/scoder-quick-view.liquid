@@ -1767,6 +1767,7 @@
         console.log('indexMainItem',indexMainItem);
         // Como siempre será un solo elemento, podemos acceder directamente al primer tag
         const idProducto = productoMainItem.tags[0].match(/ID\s*:\s*(\d+)/i)?.[1];
+        console.log(idProducto)
 
         // Si no hay ID, no se muestra y se va al siguiente producto
         if (!idProducto) {
