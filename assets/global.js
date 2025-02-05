@@ -847,6 +847,10 @@ Shopify.addItemCustomCarrito = function (
 
 // Funcion para actualizar el carrito desde el Popup de pedidos
 Shopify.changeItemPopupCarrito = function(productoSimilar, quantity, callback) {
+    console.log('El valor de la productoSimilar',variant_id);
+    console.log('El valor de la quantity1',quantity);
+
+
     // Validaciones iniciales
     if (!productoSimilar || !quantity) {
         console.error("Parámetros requeridos faltantes");
