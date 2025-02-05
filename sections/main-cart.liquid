@@ -1549,6 +1549,8 @@
         // 3re : Hacer un forEach de los items parseados, al hacer esto buscar dentro de los seleccionados de "carrito.items"
         cuerpoParseado.forEach(data=>{
           const { titulo, itemsVariantesIds } = data;
+          console.log(data);
+          constole.log(itemsVariantesIds);
           contenidoBase += `
           <div class="detalle-item-variante">
             <h4>${titulo}</h4>
