@@ -2489,7 +2489,7 @@
             if(!$.isEmptyObject(cart)){
                 const $sectionId = $('#main-cart-items').data('id');
                 const $cart = $('[data-cart]')
-                // const $cartContent = $cart.find('[data-cart-content]');
+                const $cartContent = $cart.find('[data-cart-content]');
                 const $cartTotals = $cart.find('[data-cart-total]');
                 const $cartLoading = '<div class="loading-overlay loading-overlay--custom">\
                         <div class="loading-overlay__spinner">\
@@ -2521,7 +2521,7 @@
                                 grandTotal = response.find('[data-cart-total] .cart-total-grandtotal').html(),
                                 savings = response.find('[data-cart-total] .cart-total-savings').html();
 
-                            // $cartContent.find('.cart').html(contentCart);
+                            $cartContent.find('.cart').html(contentCart);
                             $cartTotals.find('.cart-total-subtotal').html(subTotal);
                             $cartTotals.find('.cart-total-grandtotal').html(grandTotal);
                             $cartTotals.find('.cart-total-savings').html(savings);
