@@ -1540,7 +1540,7 @@
   }
 
   async function generarListaCarritoCustom() {
-    // Cache translations and DOM queries outside the main loop
+    // Cache DOM queries
     const contenedorPrincipal = document.querySelector('.cart');
     if (!contenedorPrincipal) {
       console.error('No se encontró el contenedor principal del carrito');
@@ -1559,91 +1559,173 @@
       'remove_title': window.cartTranslations?.remove_title || ''
     };
   
-    // Create a DocumentFragment for better performance
-    const fragment = document.createDocumentFragment();
-    const cartHeaderDiv = document.createElement('div');
-    cartHeaderDiv.className = 'cart-header-custom';
-    cartHeaderDiv.innerHTML = `
-      <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
-      <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
-      <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
-      <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
-    `;
-    fragment.appendChild(cartHeaderDiv);
-  
-    const cartListDiv = document.createElement('div');
-    cartListDiv.className = 'cart-list-custom';
-  
-    // Use Promise to get cart data
+    // Use Promise para obtener datos del carrito
     const carrito = await new Promise(resolve => Shopify.getCart(resolve));
-    const carritoSoloProductos = window.cartProducts || []; // Assuming cart products are pre-loaded
+    const carritoSoloProductos = window.cartProducts || [];
   
-    // Pre-filter base items
+    // Pre-filtrar items base
     const itemsBase = carrito.items.filter(item => 
-      item.properties?.ProductoBase && item.properties?.Cuerpo
+      item.properties?.ProductoBase && 
+      item.properties?.Cuerpo
     );
   
-    // Get product details in parallel
+    // Obtener detalles de productos en paralelo
     const productosDetalle = await detalleVarianteProductos(itemsBase);
+    
+    // Crear fragment para mejor rendimiento
+    const fragment = document.createDocumentFragment();
+    
+    // Crear header
+    let contenidoBase = `
+      <div class="cart-header-custom">
+        <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
+        <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
+        <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
+        <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
+      </div>
+      <div class="cart-list-custom">
+    `;
   
-    // Create a Map for faster lookups
+    // Crear Map para búsquedas más rápidas
     const productoDetalleMap = new Map(
       productosDetalle?.data?.map(item => [String(item.legacyResourceId), item]) || []
     );
-    
-    const formatPrice = (cents) => {
-      return window.Shopify.formatMoney(cents, window.shopMoneyFormat);
-    };
   
-    // Process items
-    const processedItems = await Promise.all(itemsBase.map(async item => {
+    // Procesar items
+    for (const item of itemsBase) {
       const datosAuxiliares = productoDetalleMap.get(String(item.variant_id));
       const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
       
-      // Create inventory object once
+      const atributoEdicion = variantesTrabajo?.variants?.[0]?.title?.includes('Default') 
+        ? ' data-cart-edit-productItem' 
+        : '';
+  
+      // Crear objeto de inventario
       if (variantesTrabajo) {
-        window[`cart_selling_array_${variantesTrabajo.id}`] = Object.fromEntries(
+        const inventoryObject = Object.fromEntries(
           variantesTrabajo.variants.map(variant => [variant.id, variant.inventory_policy])
         );
+        window[`cart_selling_array_${variantesTrabajo.id}`] = inventoryObject;
       }
   
+      contenidoBase += `
+        <div class="cart-item-custom" data-line="${item.key}"${atributoEdicion}>
+          <div class="cart-item-block-custom cart-item-info-custom">
+            <div class="cart-item-block-left">
+              <a class="cart-item-image" href="${item.url}" style="width: 100%; height: 100%;">
+                <svg></svg>
+                <img 
+                  srcset="${item.image}" 
+                  src="${item.image}" 
+                  alt="${item.title}"
+                  loading="lazy"
+                  style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+                >
+              </a>
+            </div>
+            <div class="cart-item-block-right">
+              <h3>
+                <a href="${item.url}" class="link link-underline">
+                  <span class="text">${item.title}</span>
+                </a>
+              </h3>
+              <div class="detalle-pedido-variante">
+      `;
+  
+      // Parsear y procesar el cuerpo
       const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
       
-      // Pre-filter sub-items once
+      // Pre-filtrar sub-items
       const subItemsProducto = carrito.items.filter(subItem => 
         subItem.properties?.ProductoBase === item.properties.ProductoBase &&
         subItem.properties?.Precio &&
         !subItem.properties?.Cuerpo
       );
   
+      // Crear Map para sub-items
       const subItemsMap = new Map(
         subItemsProducto.map(subItem => [subItem.variant_id, subItem])
       );
   
-      const itemDiv = document.createElement('div');
-      itemDiv.className = 'cart-item-custom';
-      itemDiv.dataset.line = item.key;
-      
-      if (variantesTrabajo?.variants?.[0]?.title?.includes('Default')) {
-        itemDiv.dataset.cartEditProductitem = '';
+      // Procesar cada sección del cuerpo
+      for (const data of cuerpoParseado) {
+        const { titulo, items: itemsVariantesIds } = data;
+        contenidoBase += `
+          <div class="detalle-item-variante">
+            <h4>${titulo}</h4>
+        `;
+  
+        for (const idVariante of itemsVariantesIds) {
+          const varianteEncontrada = subItemsMap.get(idVariante);
+          if (varianteEncontrada) {
+            const subtotal = varianteEncontrada.properties.Precio * varianteEncontrada.quantity;
+            contenidoBase += `
+              <p>${varianteEncontrada.title}
+                <span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${subtotal}</span>
+              </p>
+            `;
+          }
+        }
+        contenidoBase += `</div>`;
       }
   
-      // Build HTML using template literals (one-time string concatenation)
-      itemDiv.innerHTML = `
-        <div class="cart-item-block-custom cart-item-info-custom">
-          <!-- Rest of your HTML structure -->
-          ${/* Your existing HTML structure here */}
+      // Formatear precio
+      const formatPrice = (cents) => {
+        return Shopify.formatMoney(cents, window.shopMoneyFormat || '');
+      };
+      const price = formatPrice(item.price);
+  
+      contenidoBase += `
+              </div>
+            </div>
+          </div>
+          <div class="cart-item-block-custom cart-item-quantity-custom">
+            <cart-update-quantity class="cart-item-qty" 
+              data-product="${item.product_id}"
+              data-variant="${variantesTrabajo?.variants?.[0]?.id || ''}"
+            >
+              <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
+                ${traduccionesCarrito.quantity_label}
+              </label>
+              <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+              <input
+                class="form-input quantity cart-item-qty-input"
+                name="quantity"
+                id="upsell-update-${item.id}"
+                data-qtt-id1="quantity${item.id}"
+                value="${item.quantity}"
+                type="number"
+                ${datosAuxiliares?.inventoryItem?.tracked && datosAuxiliares?.inventoryQuantity > 0 
+                  ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` 
+                  : ''}
+                data-cart-quantity
+                data-cart-quantity-id="${item.id}"
+                data-line="${item.key}"
+              >
+              <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+            </cart-update-quantity>
+          </div>
+          <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
+          <div class="cart-item-block-custom cart-item-remove-custom">
+            <a
+              class="cart-remove"
+              href="javascript:void(0)"
+              data-cart-remove
+              data-cart-remove-id="${item.id}"
+              data-line="${item.key}"
+              aria-label="${traduccionesCarrito.remove_title}"
+            >
+              <svg></svg>
+            </a>
+          </div>
         </div>
       `;
+    }
   
-      return itemDiv;
-    }));
+    contenidoBase += `</div>`;
   
-    // Append all items at once
-    processedItems.forEach(item => cartListDiv.appendChild(item));
-    fragment.appendChild(cartListDiv);
-    contenedorPrincipal.innerHTML = '';
-    contenedorPrincipal.appendChild(fragment);
+    // Actualizar DOM una sola vez
+    contenedorPrincipal.innerHTML = contenidoBase;
   }
 
   {% comment %} async function generarListaCarritoCustom(){
