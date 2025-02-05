@@ -1456,8 +1456,8 @@
 
   async function generarListaCarritoCustom(){
     Shopify.getCart(async function(carrito) {
-      {% comment %} const carritoSoloProductos = {{ cart.items | map: 'product' | json }}; {% endcomment %}
-      const carritoSoloProductos = carrito.items.map(item => item.product);
+       const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
+      {% comment %} const carritoSoloProductos = carrito.items.map(item => item.product); {% endcomment %}
       console.log('Productos:', carritoSoloProductos);
       const itemsBase = carrito.items.filter(item => {
         return item.properties && 
