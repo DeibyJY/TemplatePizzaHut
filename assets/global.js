@@ -951,12 +951,12 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 (item) => item.variant_id.toString() === idVarianteBase
             );
 
-            console.log("🛒 Item Trabajo:", {
-                encontrado: itemTrabajo,
-                item: itemTrabajo,
-                variant_id: itemTrabajo?.variant_id,
-                properties: itemTrabajo?.properties,
-            });
+            // console.log("🛒 Item Trabajo:", {
+            //     encontrado: itemTrabajo,
+            //     item: itemTrabajo,
+            //     variant_id: itemTrabajo?.variant_id,
+            //     properties: itemTrabajo?.properties,
+            // });
 
             if (!itemTrabajo?.properties?.ProductoBase) {
                 // Si no es un producto base, usar el método simple original
@@ -966,17 +966,17 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
             // Filtrar subproductos y preparar actualizaciones en una sola pasada
             const updates = {};
             updates[variant_id] = quantity;
-            console.log("📦 Cantidad Nueva:", quantity);
+            // console.log("📦 Cantidad Nueva:", quantity);
 
             cart.items.forEach((item) => {
-                console.log("➡️ Procesando Item:", {
-                    variant_id: item.variant_id,
-                    key: item.key,
-                    quantity: item.quantity,
-                    properties: item.properties,
-                    productoBase: item.properties?.ProductoBase,
-                    tieneCuerpo: item.properties?.hasOwnProperty("Cuerpo"),
-                });
+                // console.log("➡️ Procesando Item:", {
+                //     variant_id: item.variant_id,
+                //     key: item.key,
+                //     quantity: item.quantity,
+                //     properties: item.properties,
+                //     productoBase: item.properties?.ProductoBase,
+                //     tieneCuerpo: item.properties?.hasOwnProperty("Cuerpo"),
+                // });
 
                 if (
                     item.properties &&
@@ -987,17 +987,17 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                     const proporcion = item.quantity / itemTrabajo.quantity;
                     updates[item.key] = Math.round(quantity * proporcion);
 
-                    console.log("✨ Actualización:", {
-                        key: item.key,
-                        "item.quantity": item.quantity,
-                        "itemTrabajo.quantity": itemTrabajo.quantity,
-                        proporcion: proporcion,
-                        cantidadNueva: updates[item.key],
-                    });
+                    // console.log("✨ Actualización:", {
+                    //     key: item.key,
+                    //     "item.quantity": item.quantity,
+                    //     "itemTrabajo.quantity": itemTrabajo.quantity,
+                    //     proporcion: proporcion,
+                    //     cantidadNueva: updates[item.key],
+                    // });
                 }
             });
 
-            console.log("📝 Updates Finales:", updates);
+            // console.log("📝 Updates Finales:", updates);
 
             // Realizar la actualización
             $.ajax({
