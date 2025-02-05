@@ -1540,6 +1540,269 @@
   }
 
   async function generarListaCarritoCustom(){
+    // Obtener el carrito usando la API de Shopify
+    Shopify.getCart(async function(carrito) {
+      // Obtener productos del carrito usando liquid
+      const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
+      
+      /**
+        * Mejora de rendimiento #1: Filtrar items base una sola vez
+        * Identificamos productos base que tienen propiedades específicas
+        */
+      const itemsBase = carrito.items.filter(item => {
+        return item.properties && 
+        item.properties.ProductoBase && 
+        item.properties.Cuerpo;
+      });
+
+      /**
+      * Obtener detalles adicionales de los productos
+      * y referencia al contenedor principal
+      */
+      const productosDetalle = await detalleVarianteProductos(itemsBase);
+      const contenedorPrincipal = document.querySelector('.cart')
+
+      /**
+      * Configuración de traducciones para los encabezados
+      * usando liquid para internacionalización
+      */
+      const titulosColumnas = {
+          'producto': {{ 'sections.cart.headings.product' | t | json }},
+          'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
+          'total': {{ 'sections.cart.headings.total' | t | json }},
+          'remove': {{ 'sections.cart.headings.remove' | t | json }}
+      };
+
+      /**
+      * Mejora de rendimiento #2: Construir el header una sola vez
+      * y usar template literals para mejor rendimiento
+      */
+      let contenidoBase = `
+          <div class="cart-header-custom" >
+              <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
+              <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
+              <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
+              <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
+          </div>
+          <div class="cart-list-custom">
+      `;
+      
+      /**
+      * Mejora de rendimiento #3: Crear un mapa de búsqueda rápida 
+      * para productosDetalle. Esto evita búsquedas repetitivas.
+      */
+      const productosDetalleMap = new Map();
+      if (productosDetalle && productosDetalle.data) {
+        productosDetalle.data.forEach(item => {
+          if (item.legacyResourceId) {
+            productosDetalleMap.set(String(item.legacyResourceId), item);
+          }
+        });
+      }
+
+      /**
+      * Mejora de rendimiento #4: Pre-crear mapa de variantes
+      * para acceso más rápido durante el procesamiento
+      */
+      const variantesPorHandle = new Map();
+      carritoSoloProductos.forEach(producto => {
+        if (producto.handle) {
+          variantesPorHandle.set(producto.handle, producto);
+        }
+      });
+      
+      // Procesar cada item base
+      itemsBase.forEach(item => {
+        // Buscar datos auxiliares usando el mapa pre-construido
+        const datosAuxiliares = productosDetalleMap.get(String(item.variant_id)) || null;
+        
+        // Obtener variantes de trabajo usando el mapa
+        const variantesTrabajo = variantesPorHandle.get(item.handle);
+        
+        /**
+        * Mejora de rendimiento #5: Validar existencia de datos
+        * antes de acceder a propiedades para evitar errores
+        */
+        const atributoEdicion = variantesTrabajo?.variants?.[0]?.title?.includes('Default') 
+                        ? ' data-cart-edit-productItem' 
+                        : '';
+
+        contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
+
+        /**
+        * Mejora de rendimiento #6: Eliminar búsquedas redundantes
+        * reutilizando variantesTrabajo en lugar de buscar de nuevo
+        */
+        if (variantesTrabajo) {
+          const inventoryObject = {};
+          variantesTrabajo.variants.forEach(variant => {
+            inventoryObject[variant.id] = variant.inventory_policy;
+          });
+          
+          window[`cart_selling_array_${variantesTrabajo.id}`] = inventoryObject;
+        }
+
+        // Construir el bloque de información del producto
+        contenidoBase += `
+          <div class="cart-item-block-custom cart-item-info-custom">
+            <div class="cart-item-block-left">
+              <a class="cart-item-image"
+                  href="${item.url}"
+                  style="width: 100%; height: 100%;"
+              >
+                  {% render 'icon-external-link' %}
+                  <img 
+                      srcset="${item.image}" 
+                      src="${item.image}" 
+                      alt="${item.title}"
+                      loading="lazy"
+                      style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+                  >
+              </a>
+            </div>
+            <div class="cart-item-block-right">
+              <h3><a href="${item.url}" class="link link-underline">
+              <span class="text">${item.title}</span>
+              </a></h3>
+              <div class="detalle-pedido-variante">
+          `;
+
+          /**
+          * Mejora de rendimiento #7: Parsear el cuerpo una sola vez
+          * y validar su estructura antes de procesar
+          */
+          let cuerpoParseado;
+          try {
+            cuerpoParseado = JSON.parse(item.properties.Cuerpo);
+          } catch (e) {
+            console.error('Error al parsear cuerpo:', e);
+            cuerpoParseado = [];
+          }
+          
+          /**
+          * Mejora de rendimiento #8: Pre-filtrar items relacionados
+          * y crear un mapa para acceso rápido
+          */
+          const subItemsProducto = carrito.items.filter(itemSubItem => 
+            itemSubItem.properties && 
+            itemSubItem.properties.ProductoBase && 
+            itemSubItem.properties.ProductoBase === item.properties.ProductoBase &&
+            itemSubItem.properties.Precio &&
+            !itemSubItem.properties.hasOwnProperty('Cuerpo')
+          );
+
+          const subItemsMap = new Map();
+          subItemsProducto.forEach(subItem => {
+            if (subItem.variant_id) {
+              subItemsMap.set(subItem.variant_id, subItem);
+            }
+          });
+
+          // Procesar cada sección del cuerpo
+          cuerpoParseado.forEach(data => {
+            const { titulo, items: itemsVariantesIds } = data; 
+            contenidoBase += `
+            <div class="detalle-item-variante">
+              <h4>${titulo}</h4>
+            `;
+            
+            /**
+            * Mejora de rendimiento #9: Usar el mapa para búsqueda
+            * de variantes en lugar de find
+            */
+            itemsVariantesIds.forEach(idVariante => {
+                const varianteEncontrada = subItemsMap.get(idVariante);
+                if(varianteEncontrada){
+                  const subtotal = varianteEncontrada.properties.Precio * varianteEncontrada.quantity;
+                  contenidoBase += `
+                    <p>${varianteEncontrada.title}<span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${subtotal}</span></p>
+                  `;
+                }
+            });
+            contenidoBase += `</div>`;
+          });
+
+          contenidoBase += `
+                </div>
+              </div>
+            </div>
+            `;
+
+            // Configurar traducciones para elementos del carrito
+            const traduccionesCarrito = {
+              'quantity_label': {{ 'products.product.quantity.label' | t | json }},
+              'remove_title': {{ 'sections.cart.remove_title' | t | json }}
+            };
+          
+            /**
+            * Mejora de rendimiento #10: Mantener el formato de precio
+            * exactamente como en el original para evitar errores
+            */
+            const formatPrice = (cents) => {
+              return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
+            };
+            const price = formatPrice(item.price);
+
+            // Construir el bloque de cantidad y controles
+            contenidoBase += `
+              <div class="cart-item-block-custom cart-item-quantity-custom">
+                <cart-update-quantity
+                  class="cart-item-qty"
+                  data-product="${ item.product_id }"
+                  data-variant="${variantesTrabajo?.variants?.[0]?.id || ''}"
+                >
+                  <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
+                    ${traduccionesCarrito.quantity_label}
+                  </label>
+                  <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                  <input
+                    class="form-input quantity cart-item-qty-input"
+                    name="quantity"
+                    id="upsell-update-${item.id}"
+                    data-qtt-id1="quantity${item.id}"
+                    value="${item.quantity}"
+                    type="number"
+                    ${datosAuxiliares?.inventoryItem?.tracked && datosAuxiliares?.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
+                    data-cart-quantity
+                    data-cart-quantity-id="${item.id}"
+                    data-line="${item.key}"
+                  >
+                  <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+                </cart-update-quantity>
+              </div>
+              <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
+              <div class="cart-item-block-custom cart-item-remove-custom">
+                  <a
+                    class="cart-remove"
+                    href="javascript:void(0)"
+                    data-cart-remove
+                    data-cart-remove-id="${item.id}"
+                    data-line="${item.key}"
+                    aria-label="${traduccionesCarrito.remove_title}"
+                  >
+                    {% render 'icon-close' %}
+                  </a>
+              </div>
+            `;
+
+            contenidoBase += `</div>`;
+      });
+
+      contenidoBase += `</div>`;
+
+      /**
+      * Mejora de rendimiento #11: Actualizar el DOM una sola vez
+      * al final del proceso
+      */
+      if (contenedorPrincipal) {
+        contenedorPrincipal.innerHTML = contenidoBase;
+      } else {
+          console.error('No se encontró el contenedor principal del carrito');
+      }
+    });
+  }
+
+  {% comment %} async function generarListaCarritoCustom(){
     Shopify.getCart(async function(carrito) {
        const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
       
@@ -1714,8 +1977,8 @@
           console.error('No se encontró el contenedor principal del carrito');
       }
     });
-  }
-  
+  } {% endcomment %}
+
   {% comment %} async function generarListaCarritoCustom(){
     Shopify.getCart(async function(carrito) {
        const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
