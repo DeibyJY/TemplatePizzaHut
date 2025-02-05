@@ -1966,28 +1966,13 @@
                         Shopify.changeItemPopupCarrito(productoSimilar, quantity, (cart) => {
                             if (window.after_add_to_cart.type == 'cart') {
                                 scoder.redirectTo(window.routes.cart);
+                                scoder.updateSidebarCart(cart);
+
                             } else {
-                                if($body.hasClass('template-cart')){
-                                    scoder.updateCart(cart);
-                                    console.log("template-cart");
-                                } else if($body.hasClass('cart-modal-show')){
-                                    console.log("cart-modal-show");
-                                    scoder.updateSidebarCart(cart);
-                                } else if($body.hasClass('cart-sidebar-show')) {
-                                    console.log("cart-sidebar-show changeItemPopupCarrito");
-                                    // Shopify.getCart((cartTotal) => {
-                                        $body.addClass('cart-sidebar-show');
-                                        scoder.updateSidebarCart(cart);
-                                        $body.find('[data-cart-count]').text(cart.item_count);
-                                        $target.removeClass('is-loading');
-                                    // });
-                                    // Shopify.getCart((cartTotal) => {
-                                    //     $body.addClass('cart-sidebar-show');
-                                    //     scoder.updateSidebarCart(cartTotal);
-                                    //     $body.find('[data-cart-count]').text(cartTotal.item_count);
-                                    //     $target.removeClass('is-loading');
-                                    // });
-                                }
+                                $body.addClass('cart-sidebar-show');
+                                scoder.updateSidebarCart(cart);
+                                $body.find('[data-cart-count]').text(cart.item_count);
+                                $target.removeClass('is-loading');
                             }
                             if (!enoughInStock) scoder.showWarning(`${ window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', quantity) }`)
                         });
