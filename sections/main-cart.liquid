@@ -706,169 +706,7 @@
             {%- endif -%}
             <div class="cart-content-wrapper clearfix">
               <div class="cart-content-item" data-cart-content>
-                <div class="cart">
-                  {% comment %}
-                    <div class="cart-header-custom">
-                      <div class="cart-header-item-custom cart-header-info">PRODUCTO</div>
-                      <div class="cart-header-item-custom cart-header-quantity">CANTIDAD</div>
-                      <div class="cart-header-item-custom cart-header-total">TOTAL</div>
-                      <div class="cart-header-item-custom cart-header-remove">REMOVE</div>
-                    </div>
-
-                    <div class="cart-list-custom">
-                      <div class="cart-item-custom">
-                        <div class="cart-item-block-custom cart-item-info-custom">
-                          <div class="cart-item-block-left">
-                            <img
-                              style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
-                              src="https://pizzon.myshopify.com/cdn/shop/files/p1_9c93bb9e-b517-44f1-95d7-872ae8e27bd1_160x.png?v=1712411108"
-                              alt=""
-                            >
-                          </div>
-                          <div class="cart-item-block-right">
-                            <h3>Pizza Jamon</h3>
-                            <div class="detalle-pedido-variante">
-                              <div class="detalle-item-variante">
-                                <h4>TAMAÑO</h4>
-                                <p>Super persona para 2 a 3 personas <span>BS 18x3 : 54</span></p>
-                              </div>
-
-                              <div class="detalle-item-variante">
-                                <h4>EXTRA</h4>
-                                <p>Extra Queso <span>BS 12x3 : 54</span></p>
-                                <p>Extra Pepperoni <span>BS 5x3 : 15</span></p>
-                                <p>Extra Tocino <span>BS 12x5 : 54</span></p>
-                              </div>
-
-                              <div class="detalle-item-variante">
-                                <h4>MASA - BORDE</h4>
-                                <p>Pan pizza + Borde catupiry <span>BS 15x3 : 45</span></p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="cart-item-block-custom cart-item-quantity-custom">
-                          <cart-update-quantity
-                            class="cart-item-qty"
-                            data-product="{{ item.product_id }}"
-                            data-variant="{{ item.variant.id }}"
-                          >
-                            <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
-                              {{ 'products.product.quantity.label' | t }}
-                            </label>
-                            <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                            <input
-                              class="form-input quantity cart-item-qty-input"
-                              name="quantity"
-                              id="upsell-update-{{ item.id }}"
-                              data-qtt-id1="quantity{{ item.id }}"
-                              value="{{ item.quantity }}"
-                              type="number"
-                              {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
-                                data-inventory-quantity="{{ item.variant.inventory_quantity }}"
-                              {% endif %}
-                              data-cart-quantity
-                              data-cart-quantity-id="{{ item.id }}"
-                              data-line="{{ item.key }}"
-                            >
-                            <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                          </cart-update-quantity>
-                        </div>
-
-                        <div class="cart-item-block-custom cart-item-total-custom">BS 100.00</div>
-
-                        <div class="cart-item-block-custom cart-item-remove-custom">
-                          <a
-                            class="cart-remove"
-                            href="javascript:void(0)"
-                            data-cart-remove
-                            data-cart-remove-id="{{ item.id }}"
-                            data-line="{{ item.key }}"
-                            aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-                          >
-                            {% render 'icon-close' %}
-                          </a>
-                        </div>
-                      </div>
-                      <div class="cart-item-custom">
-                        <div class="cart-item-block-custom cart-item-info-custom">
-                          <div class="cart-item-block-left">
-                            <img
-                              style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
-                              src="https://pizzon.myshopify.com/cdn/shop/files/p1_9c93bb9e-b517-44f1-95d7-872ae8e27bd1_160x.png?v=1712411108"
-                              alt=""
-                            >
-                          </div>
-                          <div class="cart-item-block-right">
-                            <h3>Pizza Jamon</h3>
-                            <div class="detalle-pedido-variante">
-                              <div class="detalle-item-variante">
-                                <h4>TAMAÑO</h4>
-                                <p>Super persona para 2 a 3 personas <span>BS 18x3 : 54</span></p>
-                              </div>
-
-                              <div class="detalle-item-variante">
-                                <h4>EXTRA</h4>
-                                <p>Extra Queso <span>BS 12x3 : 54</span></p>
-                                <p>Extra Pepperoni <span>BS 5x3 : 15</span></p>
-                                <p>Extra Tocino <span>BS 12x5 : 54</span></p>
-                              </div>
-
-                              <div class="detalle-item-variante">
-                                <h4>MASA - BORDE</h4>
-                                <p>Pan pizza + Borde catupiry <span>BS 15x3 : 45</span></p>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="cart-item-block-custom cart-item-quantity-custom">
-                          <cart-update-quantity
-                            class="cart-item-qty"
-                            data-product="{{ item.product_id }}"
-                            data-variant="{{ item.variant.id }}"
-                          >
-                            <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
-                              {{ 'products.product.quantity.label' | t }}
-                            </label>
-                            <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                            <input
-                              class="form-input quantity cart-item-qty-input"
-                              name="quantity"
-                              id="upsell-update-{{ item.id }}"
-                              data-qtt-id1="quantity{{ item.id }}"
-                              value="{{ item.quantity }}"
-                              type="number"
-                              {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
-                                data-inventory-quantity="{{ item.variant.inventory_quantity }}"
-                              {% endif %}
-                              data-cart-quantity
-                              data-cart-quantity-id="{{ item.id }}"
-                              data-line="{{ item.key }}"
-                            >
-                            <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                          </cart-update-quantity>
-                        </div>
-
-                        <div class="cart-item-block-custom cart-item-total-custom">BS 100.00</div>
-
-                        <div class="cart-item-block-custom cart-item-remove-custom">
-                          <a
-                            class="cart-remove"
-                            href="javascript:void(0)"
-                            data-cart-remove
-                            data-cart-remove-id="{{ item.id }}"
-                            data-line="{{ item.key }}"
-                            aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-                          >
-                            {% render 'icon-close' %}
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  {% endcomment %}
-                </div>
+                <div class="cart"></div>
                 {% if show_gift_card and product != null and product != blank %}
                   <div id="gift-cards" class="gift-card-container" data-id="{{ id }}" style="display: none;">
                     {% render 'icon-cart-gift' %}
@@ -1796,376 +1634,12 @@
       */
       if (contenedorPrincipal) {
         contenedorPrincipal.innerHTML = contenidoBase;
+        document.dispatchEvent(new CustomEvent('custom-list-generated'));
       } else {
           console.error('No se encontró el contenedor principal del carrito');
       }
     });
   }
-
-  {% comment %} async function generarListaCarritoCustom(){
-    Shopify.getCart(async function(carrito) {
-       const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
-      
-      const itemsBase = carrito.items.filter(item => {
-        return item.properties && 
-        item.properties.ProductoBase && 
-        item.properties.Cuerpo;
-      });
-      
-      const productosDetalle = await detalleVarianteProductos(itemsBase);
-      const contenedorPrincipal = document.querySelector('.cart')
-
-      const titulosColumnas = {
-          'producto': {{ 'sections.cart.headings.product' | t | json }},
-          'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
-          'total': {{ 'sections.cart.headings.total' | t | json }},
-          'remove': {{ 'sections.cart.headings.remove' | t | json }}
-      };
-
-      let contenidoBase = `
-          <div class="cart-header-custom" >
-              <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
-              <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
-              <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
-              <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
-          </div>
-          <div class="cart-list-custom">
-      `;
-      
-      // Única optimización: Crear un mapa de productos detalle para búsqueda más rápida
-      const productosDetalleMap = productosDetalle?.data ? 
-        new Map(productosDetalle.data.map(item => [String(item.legacyResourceId), item])) : new Map();
-      
-      itemsBase.forEach(item => {
-        const datosAuxiliares = productosDetalleMap.get(String(item.variant_id)) || null;
-        const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
-        const atributoEdicion = variantesTrabajo?.length > 0 && 
-                        variantesTrabajo.variants[0].title.includes('Default') 
-                        ? ' data-cart-edit-productItem' 
-                        : '';
-        contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
-
-        const thisHandle = item.handle;
-        const thisProduct = carritoSoloProductos.find(p => p.handle === thisHandle);
-
-        if (thisProduct) {
-          const inventoryObject = {};
-          thisProduct.variants.forEach(variant => {
-            inventoryObject[variant.id] = variant.inventory_policy;
-          });
-          
-          window[`cart_selling_array_${thisProduct.id}`] = inventoryObject;
-        }
-
-        contenidoBase += `
-          <div class="cart-item-block-custom cart-item-info-custom">
-            <div class="cart-item-block-left">
-              <a class="cart-item-image"
-                  href="${item.url}"
-                  style="width: 100%; height: 100%;"
-              >
-                  {% render 'icon-external-link' %}
-                  <img 
-                      srcset="${item.image}" 
-                      src="${item.image}" 
-                      alt="${item.title}"
-                      loading="lazy"
-                      style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
-                  >
-              </a>
-            </div>
-            <div class="cart-item-block-right">
-              <h3><a href="${item.url}" class="link link-underline">
-              <span class="text">${item.title}</span>
-              </a></h3>
-              <div class="detalle-pedido-variante">
-          `;
-
-          const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
-          
-          // Única optimización: Pre-filtrar subItems
-          const subItemsProducto = carrito.items.filter(itemSubItem => 
-            itemSubItem.properties && 
-            itemSubItem.properties.ProductoBase && 
-            itemSubItem.properties.ProductoBase === item.properties.ProductoBase &&
-            itemSubItem.properties.Precio &&
-            !itemSubItem.properties.hasOwnProperty('Cuerpo')
-          );
-
-          cuerpoParseado.forEach(data=>{
-            const { titulo, items: itemsVariantesIds } = data; 
-            contenidoBase += `
-            <div class="detalle-item-variante">
-              <h4>${titulo}</h4>
-            `;
-            itemsVariantesIds.forEach(idVariante => {
-                const varianteEncontrada = subItemsProducto.find(item => item.variant_id === idVariante);
-                if(varianteEncontrada){
-                  contenidoBase += `
-                    <p>${varianteEncontrada.title}<span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${varianteEncontrada.properties.Precio*varianteEncontrada.quantity}</span></p>
-                  `;
-                }
-            });
-            contenidoBase += `</div>`;
-          });
-
-          contenidoBase += `
-                </div>
-              </div>
-            </div>
-            `;
-
-            const traduccionesCarrito = {
-              'quantity_label': {{ 'products.product.quantity.label' | t | json }},
-              'remove_title': {{ 'sections.cart.remove_title' | t | json }}
-            };
-          
-            const formatPrice = (cents) => {
-              return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
-            };
-            const price = formatPrice(item.price);
-  
-            contenidoBase += `
-              <div class="cart-item-block-custom cart-item-quantity-custom">
-                <cart-update-quantity
-                  class="cart-item-qty"
-                  data-product="${ item.product_id }"
-                  data-variant="${variantesTrabajo.variants[0].id}"
-                >
-                  <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
-                    ${traduccionesCarrito.quantity_label}
-                  </label>
-                  <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                  <input
-                    class="form-input quantity cart-item-qty-input"
-                    name="quantity"
-                    id="upsell-update-${item.id}"
-                    data-qtt-id1="quantity${item.id}"
-                    value="${item.quantity}"
-                    type="number"
-                    ${datosAuxiliares?.inventoryItem?.tracked && datosAuxiliares?.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
-                    data-cart-quantity
-                    data-cart-quantity-id="${item.id}"
-                    data-line="${item.key}"
-                  >
-                  <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                </cart-update-quantity>
-              </div>
-              <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
-              <div class="cart-item-block-custom cart-item-remove-custom">
-                  <a
-                    class="cart-remove"
-                    href="javascript:void(0)"
-                    data-cart-remove
-                    data-cart-remove-id="${item.id}"
-                    data-line="${item.key}"
-                    aria-label="${traduccionesCarrito.remove_title}"
-                  >
-                    {% render 'icon-close' %}
-                  </a>
-              </div>
-            `;
-
-            contenidoBase += `</div>`;
-      });
-
-      contenidoBase += `</div>`;
-
-      if (contenedorPrincipal) {
-        contenedorPrincipal.innerHTML = contenidoBase;
-      } else {
-          console.error('No se encontró el contenedor principal del carrito');
-      }
-    });
-  } {% endcomment %}
-
-  {% comment %} async function generarListaCarritoCustom(){
-    Shopify.getCart(async function(carrito) {
-       const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
-      {% comment %} const carritoSoloProductos = carrito.items.map(item => item.product); {% endcomment %}
-      console.log('Productos:', carritoSoloProductos);
-      const itemsBase = carrito.items.filter(item => {
-        return item.properties && 
-        item.properties.ProductoBase && 
-        item.properties.Cuerpo;
-      });
-      const productosDetalle = await detalleVarianteProductos(itemsBase);
-      const contenedorPrincipal = document.querySelector('.cart')
-
-      const titulosColumnas = {
-          'producto': {{ 'sections.cart.headings.product' | t | json }},
-          'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
-          'total': {{ 'sections.cart.headings.total' | t | json }},
-          'remove': {{ 'sections.cart.headings.remove' | t | json }}
-      };
-
-      let contenidoBase = `
-          <div class="cart-header-custom" >
-              <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
-              <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
-              <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
-              <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
-          </div>
-          <div class="cart-list-custom">
-      `;
-      
-      itemsBase.forEach(item => {
-        // Buscar mediante el handle item tiene un "handle" y el producto igual
-        // datosAuxiliares, es una forma en decirlo  que son los datos del item Base en este caso de la primer variante
-        const datosAuxiliares = productosDetalle?.data?.find?.(({legacyResourceId}) => 
-        String(legacyResourceId) === String(item.variant_id)
-        ) || null;
-
-        const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
-        const atributoEdicion = variantesTrabajo.length > 0 && 
-                        variantesTrabajo.variants[0].title.includes('Default') 
-                        ? ' data-cart-edit-productItem' 
-                        : '';
-        contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
-
-        // Para cada item en el carrito
-        const thisHandle = item.handle;
-        const thisProduct = carritoSoloProductos.find(p => p.handle === thisHandle);
-
-
-        // Creamos el objeto de inventario y lo asignamos al window
-        if (thisProduct) {
-          const inventoryObject = {};
-          thisProduct.variants.forEach(variant => {
-            inventoryObject[variant.id] = variant.inventory_policy;
-          });
-          
-          window[`cart_selling_array_${thisProduct.id}`] = inventoryObject;
-        }
-
-        {% comment %} console.log('testing del carrito sections',item); {% endcomment %}
-          contenidoBase += `
-          <div class="cart-item-block-custom cart-item-info-custom">
-            <div class="cart-item-block-left">
-              <a class="cart-item-image"
-                  href="${item.url}"
-                  style="width: 100%; height: 100%;"
-              >
-                  {% render 'icon-external-link' %}
-                  <img 
-                      srcset="${item.image}" 
-                      src="${item.image}" 
-                      alt="${item.title}"
-                      loading="lazy"
-                      style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
-                  >
-              </a>
-            </div>
-            <div class="cart-item-block-right">
-              <h3><a href="${item.url}" class="link link-underline">
-              <span class="text">${item.title}</span>
-              </a></h3>
-              <div class="detalle-pedido-variante">
-          `;
-
-          // 1re : Parsear el Objeto "Cuerpo" del itemBase de trabajo
-          const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
-          
-          // 2do : Hacer una busqueda en el "carrito.items" y traerme todos lo que tenga la propiedad ProductoBase 
-          const subItemsProducto = carrito.items.filter(itemSubItem => 
-            itemSubItem.properties && 
-            itemSubItem.properties.ProductoBase && 
-            itemSubItem.properties.ProductoBase === item.properties.ProductoBase &&
-            itemSubItem.properties.Precio &&
-            !itemSubItem.properties.hasOwnProperty('Cuerpo')
-          );
-
-          // 3re : Hacer un forEach de los items parseados, al hacer esto buscar dentro de los seleccionados de "carrito.items"
-          cuerpoParseado.forEach(data=>{
-            const { titulo, items: itemsVariantesIds } = data; 
-            contenidoBase += `
-            <div class="detalle-item-variante">
-              <h4>${titulo}</h4>
-            `;
-            itemsVariantesIds.forEach(idVariante => {
-                const varianteEncontrada = subItemsProducto.find(item => item.variant_id === idVariante);
-                if(varianteEncontrada){
-                  contenidoBase += `
-                    <p>${varianteEncontrada.title}<span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${varianteEncontrada.properties.Precio*varianteEncontrada.quantity}</span></p>
-                  `;
-                }
-            });
-            contenidoBase += `</div>`;
-            
-
-            {% comment %} contenidoBase+=`</div>`; {% endcomment %}
-          });
-
-          contenidoBase += `
-                </div>
-              </div>
-            </div>
-            `;
-
-            const traduccionesCarrito = {
-              'quantity_label': {{ 'products.product.quantity.label' | t | json }},
-              'remove_title': {{ 'sections.cart.remove_title' | t | json }}
-            };
-          
-            const formatPrice = (cents) => {
-              return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
-            };
-            const price = formatPrice(item.price);
-  
-            contenidoBase += `
-              <div class="cart-item-block-custom cart-item-quantity-custom">
-                <cart-update-quantity
-                  class="cart-item-qty"
-                  data-product="${ item.product_id }"
-                  data-variant="${variantesTrabajo.variants[0].id}"
-                >
-                  <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
-                    ${traduccionesCarrito.quantity_label}
-                  </label>
-                  <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                  <input
-                    class="form-input quantity cart-item-qty-input"
-                    name="quantity"
-                    id="upsell-update-${item.id}"
-                    data-qtt-id1="quantity${item.id}"
-                    value="${item.quantity}"
-                    type="number"
-                    ${datosAuxiliares.inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
-                    data-cart-quantity
-                    data-cart-quantity-id="${item.id}"
-                    data-line="${item.key}"
-                  >
-                  <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                </cart-update-quantity>
-              </div>
-              <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
-              <div class="cart-item-block-custom cart-item-remove-custom">
-                  <a
-                    class="cart-remove"
-                    href="javascript:void(0)"
-                    data-cart-remove
-                    data-cart-remove-id="${item.id}"
-                    data-line="${item.key}"
-                    aria-label="${traduccionesCarrito.remove_title}"
-                  >
-                    {% render 'icon-close' %}
-                  </a>
-              </div>
-            `;
-
-            contenidoBase += `</div>`;
-      });
-
-      contenidoBase += `</div>`;
-
-      // Insertar el contenido en el contenedor principal
-      if (contenedorPrincipal) {
-        contenedorPrincipal.innerHTML = contenidoBase;
-      } else {
-          console.error('No se encontró el contenedor principal del carrito');
-      }
-    });
-  } {% endcomment %}
 
   // Añadimos el listener del evento
   document.addEventListener('cart-content-updated', async function(event) {
@@ -2648,3 +2122,534 @@
   ]
 }
 {% endschema %}
+
+{% comment %}
+  async function generarListaCarritoCustom(){
+    Shopify.getCart(async function(carrito) {
+       const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
+
+      const itemsBase = carrito.items.filter(item => {
+        return item.properties &&
+        item.properties.ProductoBase &&
+        item.properties.Cuerpo;
+      });
+
+      const productosDetalle = await detalleVarianteProductos(itemsBase);
+      const contenedorPrincipal = document.querySelector('.cart')
+
+      const titulosColumnas = {
+          'producto': {{ 'sections.cart.headings.product' | t | json }},
+          'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
+          'total': {{ 'sections.cart.headings.total' | t | json }},
+          'remove': {{ 'sections.cart.headings.remove' | t | json }}
+      };
+
+      let contenidoBase = `
+          <div class="cart-header-custom" >
+              <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
+              <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
+              <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
+              <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
+          </div>
+          <div class="cart-list-custom">
+      `;
+
+      // Única optimización: Crear un mapa de productos detalle para búsqueda más rápida
+      const productosDetalleMap = productosDetalle?.data ?
+        new Map(productosDetalle.data.map(item => [String(item.legacyResourceId), item])) : new Map();
+
+      itemsBase.forEach(item => {
+        const datosAuxiliares = productosDetalleMap.get(String(item.variant_id)) || null;
+        const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
+        const atributoEdicion = variantesTrabajo?.length > 0 &&
+                        variantesTrabajo.variants[0].title.includes('Default')
+                        ? ' data-cart-edit-productItem'
+                        : '';
+        contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
+
+        const thisHandle = item.handle;
+        const thisProduct = carritoSoloProductos.find(p => p.handle === thisHandle);
+
+        if (thisProduct) {
+          const inventoryObject = {};
+          thisProduct.variants.forEach(variant => {
+            inventoryObject[variant.id] = variant.inventory_policy;
+          });
+
+          window[`cart_selling_array_${thisProduct.id}`] = inventoryObject;
+        }
+
+        contenidoBase += `
+          <div class="cart-item-block-custom cart-item-info-custom">
+            <div class="cart-item-block-left">
+              <a class="cart-item-image"
+                  href="${item.url}"
+                  style="width: 100%; height: 100%;"
+              >
+                  {% render 'icon-external-link' %}
+                  <img
+                      srcset="${item.image}"
+                      src="${item.image}"
+                      alt="${item.title}"
+                      loading="lazy"
+                      style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+                  >
+              </a>
+            </div>
+            <div class="cart-item-block-right">
+              <h3><a href="${item.url}" class="link link-underline">
+              <span class="text">${item.title}</span>
+              </a></h3>
+              <div class="detalle-pedido-variante">
+          `;
+
+          const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
+
+          // Única optimización: Pre-filtrar subItems
+          const subItemsProducto = carrito.items.filter(itemSubItem =>
+            itemSubItem.properties &&
+            itemSubItem.properties.ProductoBase &&
+            itemSubItem.properties.ProductoBase === item.properties.ProductoBase &&
+            itemSubItem.properties.Precio &&
+            !itemSubItem.properties.hasOwnProperty('Cuerpo')
+          );
+
+          cuerpoParseado.forEach(data=>{
+            const { titulo, items: itemsVariantesIds } = data;
+            contenidoBase += `
+            <div class="detalle-item-variante">
+              <h4>${titulo}</h4>
+            `;
+            itemsVariantesIds.forEach(idVariante => {
+                const varianteEncontrada = subItemsProducto.find(item => item.variant_id === idVariante);
+                if(varianteEncontrada){
+                  contenidoBase += `
+                    <p>${varianteEncontrada.title}<span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${varianteEncontrada.properties.Precio*varianteEncontrada.quantity}</span></p>
+                  `;
+                }
+            });
+            contenidoBase += `</div>`;
+          });
+
+          contenidoBase += `
+                </div>
+              </div>
+            </div>
+            `;
+
+            const traduccionesCarrito = {
+              'quantity_label': {{ 'products.product.quantity.label' | t | json }},
+              'remove_title': {{ 'sections.cart.remove_title' | t | json }}
+            };
+
+            const formatPrice = (cents) => {
+              return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
+            };
+            const price = formatPrice(item.price);
+
+            contenidoBase += `
+              <div class="cart-item-block-custom cart-item-quantity-custom">
+                <cart-update-quantity
+                  class="cart-item-qty"
+                  data-product="${ item.product_id }"
+                  data-variant="${variantesTrabajo.variants[0].id}"
+                >
+                  <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
+                    ${traduccionesCarrito.quantity_label}
+                  </label>
+                  <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                  <input
+                    class="form-input quantity cart-item-qty-input"
+                    name="quantity"
+                    id="upsell-update-${item.id}"
+                    data-qtt-id1="quantity${item.id}"
+                    value="${item.quantity}"
+                    type="number"
+                    ${datosAuxiliares?.inventoryItem?.tracked && datosAuxiliares?.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
+                    data-cart-quantity
+                    data-cart-quantity-id="${item.id}"
+                    data-line="${item.key}"
+                  >
+                  <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+                </cart-update-quantity>
+              </div>
+              <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
+              <div class="cart-item-block-custom cart-item-remove-custom">
+                  <a
+                    class="cart-remove"
+                    href="javascript:void(0)"
+                    data-cart-remove
+                    data-cart-remove-id="${item.id}"
+                    data-line="${item.key}"
+                    aria-label="${traduccionesCarrito.remove_title}"
+                  >
+                    {% render 'icon-close' %}
+                  </a>
+              </div>
+            `;
+
+            contenidoBase += `</div>`;
+      });
+
+      contenidoBase += `</div>`;
+
+      if (contenedorPrincipal) {
+        contenedorPrincipal.innerHTML = contenidoBase;
+      } else {
+          console.error('No se encontró el contenedor principal del carrito');
+      }
+    });
+  }
+{% endcomment %}
+
+{% comment %}
+  async function generarListaCarritoCustom(){
+    Shopify.getCart(async function(carrito) {
+       const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
+      {% comment %} const carritoSoloProductos = carrito.items.map(item => item.product); {% endcomment %}
+      console.log('Productos:', carritoSoloProductos);
+      const itemsBase = carrito.items.filter(item => {
+        return item.properties &&
+        item.properties.ProductoBase &&
+        item.properties.Cuerpo;
+      });
+      const productosDetalle = await detalleVarianteProductos(itemsBase);
+      const contenedorPrincipal = document.querySelector('.cart')
+
+      const titulosColumnas = {
+          'producto': {{ 'sections.cart.headings.product' | t | json }},
+          'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
+          'total': {{ 'sections.cart.headings.total' | t | json }},
+          'remove': {{ 'sections.cart.headings.remove' | t | json }}
+      };
+
+      let contenidoBase = `
+          <div class="cart-header-custom" >
+              <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
+              <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
+              <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
+              <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
+          </div>
+          <div class="cart-list-custom">
+      `;
+
+      itemsBase.forEach(item => {
+        // Buscar mediante el handle item tiene un "handle" y el producto igual
+        // datosAuxiliares, es una forma en decirlo  que son los datos del item Base en este caso de la primer variante
+        const datosAuxiliares = productosDetalle?.data?.find?.(({legacyResourceId}) =>
+        String(legacyResourceId) === String(item.variant_id)
+        ) || null;
+
+        const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
+        const atributoEdicion = variantesTrabajo.length > 0 &&
+                        variantesTrabajo.variants[0].title.includes('Default')
+                        ? ' data-cart-edit-productItem'
+                        : '';
+        contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
+
+        // Para cada item en el carrito
+        const thisHandle = item.handle;
+        const thisProduct = carritoSoloProductos.find(p => p.handle === thisHandle);
+
+
+        // Creamos el objeto de inventario y lo asignamos al window
+        if (thisProduct) {
+          const inventoryObject = {};
+          thisProduct.variants.forEach(variant => {
+            inventoryObject[variant.id] = variant.inventory_policy;
+          });
+
+          window[`cart_selling_array_${thisProduct.id}`] = inventoryObject;
+        }
+
+        {% comment %} console.log('testing del carrito sections',item); {% endcomment %}
+          contenidoBase += `
+          <div class="cart-item-block-custom cart-item-info-custom">
+            <div class="cart-item-block-left">
+              <a class="cart-item-image"
+                  href="${item.url}"
+                  style="width: 100%; height: 100%;"
+              >
+                  {% render 'icon-external-link' %}
+                  <img
+                      srcset="${item.image}"
+                      src="${item.image}"
+                      alt="${item.title}"
+                      loading="lazy"
+                      style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+                  >
+              </a>
+            </div>
+            <div class="cart-item-block-right">
+              <h3><a href="${item.url}" class="link link-underline">
+              <span class="text">${item.title}</span>
+              </a></h3>
+              <div class="detalle-pedido-variante">
+          `;
+
+          // 1re : Parsear el Objeto "Cuerpo" del itemBase de trabajo
+          const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
+
+          // 2do : Hacer una busqueda en el "carrito.items" y traerme todos lo que tenga la propiedad ProductoBase
+          const subItemsProducto = carrito.items.filter(itemSubItem =>
+            itemSubItem.properties &&
+            itemSubItem.properties.ProductoBase &&
+            itemSubItem.properties.ProductoBase === item.properties.ProductoBase &&
+            itemSubItem.properties.Precio &&
+            !itemSubItem.properties.hasOwnProperty('Cuerpo')
+          );
+
+          // 3re : Hacer un forEach de los items parseados, al hacer esto buscar dentro de los seleccionados de "carrito.items"
+          cuerpoParseado.forEach(data=>{
+            const { titulo, items: itemsVariantesIds } = data;
+            contenidoBase += `
+            <div class="detalle-item-variante">
+              <h4>${titulo}</h4>
+            `;
+            itemsVariantesIds.forEach(idVariante => {
+                const varianteEncontrada = subItemsProducto.find(item => item.variant_id === idVariante);
+                if(varianteEncontrada){
+                  contenidoBase += `
+                    <p>${varianteEncontrada.title}<span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${varianteEncontrada.properties.Precio*varianteEncontrada.quantity}</span></p>
+                  `;
+                }
+            });
+            contenidoBase += `</div>`;
+
+
+            {% comment %} contenidoBase+=`</div>`; {% endcomment %}
+          });
+
+          contenidoBase += `
+                </div>
+              </div>
+            </div>
+            `;
+
+            const traduccionesCarrito = {
+              'quantity_label': {{ 'products.product.quantity.label' | t | json }},
+              'remove_title': {{ 'sections.cart.remove_title' | t | json }}
+            };
+
+            const formatPrice = (cents) => {
+              return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
+            };
+            const price = formatPrice(item.price);
+
+            contenidoBase += `
+              <div class="cart-item-block-custom cart-item-quantity-custom">
+                <cart-update-quantity
+                  class="cart-item-qty"
+                  data-product="${ item.product_id }"
+                  data-variant="${variantesTrabajo.variants[0].id}"
+                >
+                  <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
+                    ${traduccionesCarrito.quantity_label}
+                  </label>
+                  <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                  <input
+                    class="form-input quantity cart-item-qty-input"
+                    name="quantity"
+                    id="upsell-update-${item.id}"
+                    data-qtt-id1="quantity${item.id}"
+                    value="${item.quantity}"
+                    type="number"
+                    ${datosAuxiliares.inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
+                    data-cart-quantity
+                    data-cart-quantity-id="${item.id}"
+                    data-line="${item.key}"
+                  >
+                  <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+                </cart-update-quantity>
+              </div>
+              <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
+              <div class="cart-item-block-custom cart-item-remove-custom">
+                  <a
+                    class="cart-remove"
+                    href="javascript:void(0)"
+                    data-cart-remove
+                    data-cart-remove-id="${item.id}"
+                    data-line="${item.key}"
+                    aria-label="${traduccionesCarrito.remove_title}"
+                  >
+                    {% render 'icon-close' %}
+                  </a>
+              </div>
+            `;
+
+            contenidoBase += `</div>`;
+      });
+
+      contenidoBase += `</div>`;
+
+      // Insertar el contenido en el contenedor principal
+      if (contenedorPrincipal) {
+        contenedorPrincipal.innerHTML = contenidoBase;
+      } else {
+          console.error('No se encontró el contenedor principal del carrito');
+      }
+    });
+  }
+{% endcomment %}
+
+{% comment %}
+  <div class="cart-header-custom">
+    <div class="cart-header-item-custom cart-header-info">PRODUCTO</div>
+    <div class="cart-header-item-custom cart-header-quantity">CANTIDAD</div>
+    <div class="cart-header-item-custom cart-header-total">TOTAL</div>
+    <div class="cart-header-item-custom cart-header-remove">REMOVE</div>
+  </div>
+
+  <div class="cart-list-custom">
+    <div class="cart-item-custom">
+      <div class="cart-item-block-custom cart-item-info-custom">
+        <div class="cart-item-block-left">
+          <img
+            style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+            src="https://pizzon.myshopify.com/cdn/shop/files/p1_9c93bb9e-b517-44f1-95d7-872ae8e27bd1_160x.png?v=1712411108"
+            alt=""
+          >
+        </div>
+        <div class="cart-item-block-right">
+          <h3>Pizza Jamon</h3>
+          <div class="detalle-pedido-variante">
+            <div class="detalle-item-variante">
+              <h4>TAMAÑO</h4>
+              <p>Super persona para 2 a 3 personas <span>BS 18x3 : 54</span></p>
+            </div>
+
+            <div class="detalle-item-variante">
+              <h4>EXTRA</h4>
+              <p>Extra Queso <span>BS 12x3 : 54</span></p>
+              <p>Extra Pepperoni <span>BS 5x3 : 15</span></p>
+              <p>Extra Tocino <span>BS 12x5 : 54</span></p>
+            </div>
+
+            <div class="detalle-item-variante">
+              <h4>MASA - BORDE</h4>
+              <p>Pan pizza + Borde catupiry <span>BS 15x3 : 45</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-item-block-custom cart-item-quantity-custom">
+        <cart-update-quantity
+          class="cart-item-qty"
+          data-product="{{ item.product_id }}"
+          data-variant="{{ item.variant.id }}"
+        >
+          <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
+            {{ 'products.product.quantity.label' | t }}
+          </label>
+          <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+          <input
+            class="form-input quantity cart-item-qty-input"
+            name="quantity"
+            id="upsell-update-{{ item.id }}"
+            data-qtt-id1="quantity{{ item.id }}"
+            value="{{ item.quantity }}"
+            type="number"
+            {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
+              data-inventory-quantity="{{ item.variant.inventory_quantity }}"
+            {% endif %}
+            data-cart-quantity
+            data-cart-quantity-id="{{ item.id }}"
+            data-line="{{ item.key }}"
+          >
+          <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+        </cart-update-quantity>
+      </div>
+
+      <div class="cart-item-block-custom cart-item-total-custom">BS 100.00</div>
+
+      <div class="cart-item-block-custom cart-item-remove-custom">
+        <a
+          class="cart-remove"
+          href="javascript:void(0)"
+          data-cart-remove
+          data-cart-remove-id="{{ item.id }}"
+          data-line="{{ item.key }}"
+          aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+        >
+          {% render 'icon-close' %}
+        </a>
+      </div>
+    </div>
+    <div class="cart-item-custom">
+      <div class="cart-item-block-custom cart-item-info-custom">
+        <div class="cart-item-block-left">
+          <img
+            style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+            src="https://pizzon.myshopify.com/cdn/shop/files/p1_9c93bb9e-b517-44f1-95d7-872ae8e27bd1_160x.png?v=1712411108"
+            alt=""
+          >
+        </div>
+        <div class="cart-item-block-right">
+          <h3>Pizza Jamon</h3>
+          <div class="detalle-pedido-variante">
+            <div class="detalle-item-variante">
+              <h4>TAMAÑO</h4>
+              <p>Super persona para 2 a 3 personas <span>BS 18x3 : 54</span></p>
+            </div>
+
+            <div class="detalle-item-variante">
+              <h4>EXTRA</h4>
+              <p>Extra Queso <span>BS 12x3 : 54</span></p>
+              <p>Extra Pepperoni <span>BS 5x3 : 15</span></p>
+              <p>Extra Tocino <span>BS 12x5 : 54</span></p>
+            </div>
+
+            <div class="detalle-item-variante">
+              <h4>MASA - BORDE</h4>
+              <p>Pan pizza + Borde catupiry <span>BS 15x3 : 45</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cart-item-block-custom cart-item-quantity-custom">
+        <cart-update-quantity
+          class="cart-item-qty"
+          data-product="{{ item.product_id }}"
+          data-variant="{{ item.variant.id }}"
+        >
+          <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
+            {{ 'products.product.quantity.label' | t }}
+          </label>
+          <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+          <input
+            class="form-input quantity cart-item-qty-input"
+            name="quantity"
+            id="upsell-update-{{ item.id }}"
+            data-qtt-id1="quantity{{ item.id }}"
+            value="{{ item.quantity }}"
+            type="number"
+            {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
+              data-inventory-quantity="{{ item.variant.inventory_quantity }}"
+            {% endif %}
+            data-cart-quantity
+            data-cart-quantity-id="{{ item.id }}"
+            data-line="{{ item.key }}"
+          >
+          <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+        </cart-update-quantity>
+      </div>
+
+      <div class="cart-item-block-custom cart-item-total-custom">BS 100.00</div>
+
+      <div class="cart-item-block-custom cart-item-remove-custom">
+        <a
+          class="cart-remove"
+          href="javascript:void(0)"
+          data-cart-remove
+          data-cart-remove-id="{{ item.id }}"
+          data-line="{{ item.key }}"
+          aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+        >
+          {% render 'icon-close' %}
+        </a>
+      </div>
+    </div>
+  </div>
+{% endcomment %}

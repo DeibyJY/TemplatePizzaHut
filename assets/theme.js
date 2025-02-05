@@ -2476,10 +2476,110 @@
             });
         },
 
-        updateCart: function(cart){
-            if(!$.isEmptyObject(cart)){
+        // updateCart: function(cart){
+        //     if(!$.isEmptyObject(cart)){
+        //         const $sectionId = $('#main-cart-items').data('id');
+        //         const $cart = $('[data-cart]')
+        //         const $cartContent = $cart.find('[data-cart-content]');
+        //         const $cartTotals = $cart.find('[data-cart-total]');
+        //         const $cartLoading = '<div class="loading-overlay loading-overlay--custom">\
+        //                 <div class="loading-overlay__spinner">\
+        //                     <svg aria-hidden="true" focusable="false" role="presentation" class="spinner" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">\
+        //                         <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>\
+        //                     </svg>\
+        //                 </div>\
+        //             </div>';
+        //         const loadingClass = 'is-loading';
+
+        //         $cart
+        //             .addClass(loadingClass)
+        //             .prepend($cartLoading);
+
+        //         $.ajax({
+        //             type: 'GET',
+        //             url: `/cart?section_id=${$sectionId}`,
+        //             cache: false,
+        //             success: function (data) {
+        //                 var jsPreventedData = data.replaceAll('cart-coupon-discount', 'div');
+        //                 var response = $(jsPreventedData);
+
+        //                 $cart.removeClass(loadingClass);
+        //                 $cart.find('.loading-overlay').remove();
+
+        //                 if(cart.item_count > 0){
+        //                     var contentCart =  response.find('[data-cart-content] .cart').html(),
+        //                         subTotal = response.find('[data-cart-total] .cart-total-subtotal').html(),
+        //                         grandTotal = response.find('[data-cart-total] .cart-total-grandtotal').html(),
+        //                         savings = response.find('[data-cart-total] .cart-total-savings').html();
+
+        //                     $cartContent.find('.cart').html(contentCart);
+        //                     $cartTotals.find('.cart-total-subtotal').html(subTotal);
+        //                     $cartTotals.find('.cart-total-grandtotal').html(grandTotal);
+        //                     $cartTotals.find('.cart-total-savings').html(savings);
+
+        //                     if(response.find('.scoderCalculatorShipping').length > 0){
+        //                         var calculatorShipping = response.find('.scoderCalculatorShipping');
+
+        //                         $cart.find('.scoderCalculatorShipping').replaceWith(calculatorShipping);
+        //                     }
+
+        //                 } else {
+        //                     var contentCart =  response.find('#main-cart-items').html(),
+        //                         headerCart =  response.find('.page-header').html();
+
+        //                     $('#main-cart-items').html(contentCart);
+        //                     $('.page-header').html(headerCart);
+        //                 }
+        //             },
+        //             error: function (xhr, text) {
+        //                 scoder.showWarning($.parseJSON(xhr.responseText).description);
+        //             },
+        //             complete: function () {
+        //                 $body.find('[data-cart-count]').text(cart.item_count);
+        //                 scoder.dispatchChangeForShippingMessage();
+        //                 if (scoder.checkNeedToConvertCurrency()) {
+        //                     Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
+        //                 }
+        //                 if ($body.hasClass('template-cart')) {
+        //                     const giftWrapping = document.getElementById('cart-gift-wrapp')
+        //                     const isChecked = giftWrapping?.dataset.isChecked
+        //                     const variantId = giftWrapping?.dataset.giftId
+        //                     if (isChecked === 'true') {
+        //                         $('#gift-cards').hide()
+        //                         const giftCardRemoveButton = document.querySelector(`[data-cart-remove-id="${variantId}"]`)
+        //                         const giftCardQuantityInput = document.querySelector(`[data-cart-quantity-id="${variantId}"]`)
+
+        //                         giftCardRemoveButton?.addEventListener('click', () => {
+        //                             giftWrapping.dataset.isChecked = 'false'
+        //                         })
+
+        //                         giftCardQuantityInput?.addEventListener('change', (e) => {
+        //                             const value = Number(e.target.value)
+        //                             if (value  <= 0) {
+        //                                 giftWrapping.dataset.isChecked = 'false'
+        //                             }
+        //                         })
+        //                     } else {
+        //                         $('#gift-cards').show()
+        //                     }
+        //                 }
+
+                        
+        //                 document.dispatchEvent(new CustomEvent('cart-content-updated', { 
+        //                     detail: cart 
+        //                 }));
+        //                 document.dispatchEvent(new CustomEvent('cart-update', { detail: cart }));
+        //             }
+        //         });
+        //     }
+        // },
+
+        // Funcion para actualizar el carrito popup
+        
+        updateCart: function(cart) {
+            if(!$.isEmptyObject(cart)) {
                 const $sectionId = $('#main-cart-items').data('id');
-                const $cart = $('[data-cart]')
+                const $cart = $('[data-cart]');
                 const $cartContent = $cart.find('[data-cart-content]');
                 const $cartTotals = $cart.find('[data-cart-total]');
                 const $cartLoading = '<div class="loading-overlay loading-overlay--custom">\
@@ -2490,11 +2590,32 @@
                         </div>\
                     </div>';
                 const loadingClass = 'is-loading';
-
+        
+                // Agregar loading al inicio
                 $cart
                     .addClass(loadingClass)
                     .prepend($cartLoading);
-
+        
+                let updateComplete = false;
+                let listGenerationComplete = false;
+        
+                // Función para verificar si todo el proceso está completo
+                const checkAllComplete = () => {
+                    if (updateComplete && listGenerationComplete) {
+                        $cart.removeClass(loadingClass);
+                        $cart.find('.loading-overlay').remove();
+                    }
+                };
+        
+                // Escuchar cuando la generación de la lista personalizada termine
+                const listUpdateListener = () => {
+                    listGenerationComplete = true;
+                    checkAllComplete();
+                    // Remover el listener después de usarlo
+                    document.removeEventListener('custom-list-generated', listUpdateListener);
+                };
+                document.addEventListener('custom-list-generated', listUpdateListener);
+        
                 $.ajax({
                     type: 'GET',
                     url: `/cart?section_id=${$sectionId}`,
@@ -2502,79 +2623,90 @@
                     success: function (data) {
                         var jsPreventedData = data.replaceAll('cart-coupon-discount', 'div');
                         var response = $(jsPreventedData);
-
-                        $cart.removeClass(loadingClass);
-                        $cart.find('.loading-overlay').remove();
-
-                        if(cart.item_count > 0){
-                            var contentCart =  response.find('[data-cart-content] .cart').html(),
-                                subTotal = response.find('[data-cart-total] .cart-total-subtotal').html(),
+        
+                        if(cart.item_count > 0) {
+                            var subTotal = response.find('[data-cart-total] .cart-total-subtotal').html(),
                                 grandTotal = response.find('[data-cart-total] .cart-total-grandtotal').html(),
                                 savings = response.find('[data-cart-total] .cart-total-savings').html();
-
-                            $cartContent.find('.cart').html(contentCart);
+        
                             $cartTotals.find('.cart-total-subtotal').html(subTotal);
                             $cartTotals.find('.cart-total-grandtotal').html(grandTotal);
                             $cartTotals.find('.cart-total-savings').html(savings);
-
-                            if(response.find('.scoderCalculatorShipping').length > 0){
+        
+                            if(response.find('.scoderCalculatorShipping').length > 0) {
                                 var calculatorShipping = response.find('.scoderCalculatorShipping');
-
                                 $cart.find('.scoderCalculatorShipping').replaceWith(calculatorShipping);
                             }
-
                         } else {
-                            var contentCart =  response.find('#main-cart-items').html(),
-                                headerCart =  response.find('.page-header').html();
-
+                            var contentCart = response.find('#main-cart-items').html(),
+                                headerCart = response.find('.page-header').html();
+        
                             $('#main-cart-items').html(contentCart);
                             $('.page-header').html(headerCart);
+                            
+                            // Si el carrito está vacío, marcamos ambos como completos
+                            listGenerationComplete = true;
                         }
                     },
                     error: function (xhr, text) {
                         scoder.showWarning($.parseJSON(xhr.responseText).description);
+                        // En caso de error, marcamos ambos como completos
+                        updateComplete = true;
+                        listGenerationComplete = true;
+                        checkAllComplete();
                     },
                     complete: function () {
                         $body.find('[data-cart-count]').text(cart.item_count);
                         scoder.dispatchChangeForShippingMessage();
+                        
                         if (scoder.checkNeedToConvertCurrency()) {
                             Currency.convertAll(window.shop_currency, $('#currencies .active').attr('data-currency'), 'span.money', 'money_format');
                         }
+        
                         if ($body.hasClass('template-cart')) {
-                            const giftWrapping = document.getElementById('cart-gift-wrapp')
-                            const isChecked = giftWrapping?.dataset.isChecked
-                            const variantId = giftWrapping?.dataset.giftId
-                            if (isChecked === 'true') {
-                                $('#gift-cards').hide()
-                                const giftCardRemoveButton = document.querySelector(`[data-cart-remove-id="${variantId}"]`)
-                                const giftCardQuantityInput = document.querySelector(`[data-cart-quantity-id="${variantId}"]`)
-
-                                giftCardRemoveButton?.addEventListener('click', () => {
-                                    giftWrapping.dataset.isChecked = 'false'
-                                })
-
-                                giftCardQuantityInput?.addEventListener('change', (e) => {
-                                    const value = Number(e.target.value)
-                                    if (value  <= 0) {
-                                        giftWrapping.dataset.isChecked = 'false'
-                                    }
-                                })
-                            } else {
-                                $('#gift-cards').show()
+                            const giftWrapping = document.getElementById('cart-gift-wrapp');
+                            if (giftWrapping) {
+                                const isChecked = giftWrapping.dataset.isChecked;
+                                const variantId = giftWrapping.dataset.giftId;
+                                
+                                if (isChecked === 'true') {
+                                    $('#gift-cards').hide();
+                                    const giftCardRemoveButton = document.querySelector(
+                                        `[data-cart-remove-id="${variantId}"]`
+                                    );
+                                    const giftCardQuantityInput = document.querySelector(
+                                        `[data-cart-quantity-id="${variantId}"]`
+                                    );
+        
+                                    giftCardRemoveButton?.addEventListener('click', () => {
+                                        giftWrapping.dataset.isChecked = 'false';
+                                    });
+        
+                                    giftCardQuantityInput?.addEventListener('change', (e) => {
+                                        if (Number(e.target.value) <= 0) {
+                                            giftWrapping.dataset.isChecked = 'false';
+                                        }
+                                    });
+                                } else {
+                                    $('#gift-cards').show();
+                                }
                             }
                         }
-
-                        
-                        document.dispatchEvent(new CustomEvent('cart-content-updated', { 
-                            detail: cart 
-                        }));
-                        document.dispatchEvent(new CustomEvent('cart-update', { detail: cart }));
+        
+                        updateComplete = true;
+                        checkAllComplete();
+        
+                        // Disparar eventos de actualización
+                        document.dispatchEvent(
+                            new CustomEvent('cart-content-updated', { detail: cart })
+                        );
+                        document.dispatchEvent(
+                            new CustomEvent('cart-update', { detail: cart })
+                        );
                     }
                 });
             }
         },
-
-        // Funcion para actualizar el carrito popup
         updateQuantityItemQuickCart: function(){
             $doc.on('change', '[data-cart-quantity]', (event) => {
                 console.log('updateQuantityItemQuickCart');
