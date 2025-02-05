@@ -1469,7 +1469,6 @@
     // console.log(carrito); 
     // console.log(itemsBase);
     // console.log(carritoSoloProductos);
-    console.log(productosDetalle);
 
     {% comment %} const contenidoBase= `
                   <div class="cart-item-custom">
@@ -1584,7 +1583,6 @@
       const thisHandle = item.handle;
       const thisProduct = carritoSoloProductos.find(p => p.handle === thisHandle);
 
-      console.log('Este es el producto' ,thisProduct);
 
       // Creamos el objeto de inventario y lo asignamos al window
       if (thisProduct) {
@@ -1596,6 +1594,7 @@
         window[`cart_selling_array_${thisProduct.id}`] = inventoryObject;
       }
 
+      console.log('testing del carrito sections',item);
         contenidoBase += `
         <div class="cart-item-block-custom cart-item-info-custom">
           <div class="cart-item-block-left">
@@ -1641,7 +1640,6 @@
           `;
           itemsVariantesIds.forEach(idVariante => {
               const varianteEncontrada = subItemsProducto.find(item => item.variant_id === idVariante);
-              console.log('Esto es la varianteEncontrada',varianteEncontrada);
               if(varianteEncontrada){
                 contenidoBase += `
                   <p>${varianteEncontrada.title}<span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${varianteEncontrada.properties.Precio*varianteEncontrada.quantity}</span></p>
@@ -1709,8 +1707,6 @@
               </a>
           </div>
         `;
-          
-     
     });
 
     contenidoBase += `</div>`;
