@@ -927,7 +927,11 @@ Shopify.changeItemPopupCarrito = function(productoSimilar, quantity, callback) {
     });
 };
 
+// Funcion para actualizar el carrito page-product
 Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
+    console.log('El valor de la variant_id',variant_id);
+    console.log('El valor de la quantity',quantity);
+
     // Validaciones rápidas iniciales
     if (!variant_id || quantity < 0) return;
 
