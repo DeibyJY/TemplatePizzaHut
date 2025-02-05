@@ -1457,6 +1457,7 @@
   async function generarListaCarritoCustom(){
     {% comment %} HOLA MUNDO {% endcomment %}
     const carrito = {{cart | json }}
+    console.log('El carrito testing',carrito);
     const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
     const itemsBase = carrito.items.filter(item => {
       return item.properties && 

@@ -2574,11 +2574,12 @@
                         }
 
                         
-                        document.dispatchEvent(new CustomEvent('cart-content-updated', { 
-                            detail: cart 
-                        }));
+                        
                         document.dispatchEvent(new CustomEvent('cart-update', { detail: cart }));
                     }
+                    document.dispatchEvent(new CustomEvent('cart-content-updated', { 
+                        detail: cart 
+                    }));
                 });
             }
         },
