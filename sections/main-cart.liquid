@@ -1566,6 +1566,11 @@
     
     itemsBase.forEach(item => {
       // Buscar mediante el handle item tiene un "handle" y el producto igual
+      // datosAuxiliares, es una forma en decirlo  que son los datos del item Base en este caso de la primer variante
+      const datosAuxiliares = productosDetalle?.data?.find?.(({legacyResourceId}) => 
+      String(legacyResourceId) === String(item.variant_id)
+      ) || null;
+
       const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
       const atributoEdicion = variantesTrabajo.length > 0 && 
                        variantesTrabajo.variants[0].title.includes('Default') 
@@ -1656,11 +1661,13 @@
         };
       
         console.log(variantesTrabajo.variants[0]);
-        const inventoryAttr = variantesTrabajo.variants[0].inventory_management != null && 
+
+
+        {% comment %} const inventoryAttr = variantesTrabajo.variants[0].inventory_management != null && 
                      variantesTrabajo.variants[0].inventory_quantity > 0 
                      ? `data-inventory-quantity="${variantesTrabajo.variants[0].inventory_quantity}"` 
                      : '';
-        console.log(inventoryAttr);
+        console.log(inventoryAttr); {% endcomment %}
         contenidoBase += `
           <div class="cart-item-block-custom cart-item-quantity-custom">
             <cart-update-quantity
@@ -1679,7 +1686,7 @@
                 data-qtt-id1="quantity${item.id}"
                 value="${item.quantity }"
                 type="number"
-                ${inventoryAttr}
+                ${datosAuxiliares.inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
                 data-cart-quantity
                 data-cart-quantity-id="${item.id}"
                 data-line="${item.key}"
