@@ -1541,23 +1541,22 @@
 
   async function generarListaCarritoCustom(){
     Shopify.getCart(async function(carrito) {
-       const carritoSoloProductos = window.cartProducts;
+       const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
       
-      // Optimización: Pre-filtrar items base una sola vez
       const itemsBase = carrito.items.filter(item => {
         return item.properties && 
         item.properties.ProductoBase && 
         item.properties.Cuerpo;
       });
-
+      
       const productosDetalle = await detalleVarianteProductos(itemsBase);
       const contenedorPrincipal = document.querySelector('.cart')
 
       const titulosColumnas = {
-          'producto': window.translations?.product || '',
-          'cantidad': window.translations?.quantity || '',
-          'total': window.translations?.total || '',
-          'remove': window.translations?.remove || ''
+          'producto': {{ 'sections.cart.headings.product' | t | json }},
+          'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
+          'total': {{ 'sections.cart.headings.total' | t | json }},
+          'remove': {{ 'sections.cart.headings.remove' | t | json }}
       };
 
       let contenidoBase = `
@@ -1570,28 +1569,22 @@
           <div class="cart-list-custom">
       `;
       
-      // Optimización: Crear un Map para búsquedas más rápidas
-      const productosDetalleMap = new Map();
-      if (productosDetalle?.data) {
-        productosDetalle.data.forEach(item => {
-          productosDetalleMap.set(String(item.legacyResourceId), item);
-        });
-      }
+      // Única optimización: Crear un mapa de productos detalle para búsqueda más rápida
+      const productosDetalleMap = productosDetalle?.data ? 
+        new Map(productosDetalle.data.map(item => [String(item.legacyResourceId), item])) : new Map();
       
-      for (const item of itemsBase) {
+      itemsBase.forEach(item => {
         const datosAuxiliares = productosDetalleMap.get(String(item.variant_id)) || null;
         const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
-        
-        const atributoEdicion = variantesTrabajo?.variants?.[0]?.title?.includes('Default') 
+        const atributoEdicion = variantesTrabajo?.length > 0 && 
+                        variantesTrabajo.variants[0].title.includes('Default') 
                         ? ' data-cart-edit-productItem' 
                         : '';
-                        
         contenidoBase += `<div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>`;
 
         const thisHandle = item.handle;
         const thisProduct = carritoSoloProductos.find(p => p.handle === thisHandle);
 
-        // Optimización: Crear el objeto de inventario de forma más eficiente
         if (thisProduct) {
           const inventoryObject = {};
           thisProduct.variants.forEach(variant => {
@@ -1608,6 +1601,7 @@
                   href="${item.url}"
                   style="width: 100%; height: 100%;"
               >
+                  {% render 'icon-external-link' %}
                   <img 
                       srcset="${item.image}" 
                       src="${item.image}" 
@@ -1626,7 +1620,7 @@
 
           const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
           
-          // Optimización: Pre-filtrar subItems una sola vez
+          // Única optimización: Pre-filtrar subItems
           const subItemsProducto = carrito.items.filter(itemSubItem => 
             itemSubItem.properties && 
             itemSubItem.properties.ProductoBase && 
@@ -1635,21 +1629,14 @@
             !itemSubItem.properties.hasOwnProperty('Cuerpo')
           );
 
-          // Optimización: Crear un Map para búsquedas más rápidas de variantes
-          const subItemsMap = new Map();
-          subItemsProducto.forEach(subItem => {
-            subItemsMap.set(subItem.variant_id, subItem);
-          });
-
-          cuerpoParseado.forEach(data => {
+          cuerpoParseado.forEach(data=>{
             const { titulo, items: itemsVariantesIds } = data; 
             contenidoBase += `
             <div class="detalle-item-variante">
               <h4>${titulo}</h4>
             `;
-            
             itemsVariantesIds.forEach(idVariante => {
-                const varianteEncontrada = subItemsMap.get(idVariante);
+                const varianteEncontrada = subItemsProducto.find(item => item.variant_id === idVariante);
                 if(varianteEncontrada){
                   contenidoBase += `
                     <p>${varianteEncontrada.title}<span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : ${varianteEncontrada.properties.Precio*varianteEncontrada.quantity}</span></p>
@@ -1666,12 +1653,12 @@
             `;
 
             const traduccionesCarrito = {
-              'quantity_label': window.translations?.quantity_label || '',
-              'remove_title': window.translations?.remove_title || ''
+              'quantity_label': {{ 'products.product.quantity.label' | t | json }},
+              'remove_title': {{ 'sections.cart.remove_title' | t | json }}
             };
           
             const formatPrice = (cents) => {
-              return Shopify.formatMoney(cents, window.shopMoneyFormat);
+              return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
             };
             const price = formatPrice(item.price);
   
@@ -1680,7 +1667,7 @@
                 <cart-update-quantity
                   class="cart-item-qty"
                   data-product="${ item.product_id }"
-                  data-variant="${variantesTrabajo?.variants?.[0]?.id || ''}"
+                  data-variant="${variantesTrabajo.variants[0].id}"
                 >
                   <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
                     ${traduccionesCarrito.quantity_label}
@@ -1711,15 +1698,13 @@
                     data-line="${item.key}"
                     aria-label="${traduccionesCarrito.remove_title}"
                   >
-                    <svg class="icon icon-close" aria-hidden="true" focusable="false">
-                      <use href="#icon-close" />
-                    </svg>
+                    {% render 'icon-close' %}
                   </a>
               </div>
             `;
 
             contenidoBase += `</div>`;
-      }
+      });
 
       contenidoBase += `</div>`;
 
@@ -1730,7 +1715,7 @@
       }
     });
   }
-
+  
   {% comment %} async function generarListaCarritoCustom(){
     Shopify.getCart(async function(carrito) {
        const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
