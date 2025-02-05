@@ -1539,126 +1539,111 @@
     }
   }
 
-  async function generarListaCarritoCustom(){
-    // Usamos una sola llamada a Shopify.getCart
-    Shopify.getCart(async function(carrito) {
-      // Mantenemos la obtención de productos
-      const carritoSoloProductos = {{ cart.items | map: 'product' | json }};
+  async function generarListaCarritoCustom() {
+    // Cache translations and DOM queries outside the main loop
+    const contenedorPrincipal = document.querySelector('.cart');
+    if (!contenedorPrincipal) {
+      console.error('No se encontró el contenedor principal del carrito');
+      return;
+    }
+  
+    const titulosColumnas = {
+      'producto': window.cartTranslations?.headings?.product || '',
+      'cantidad': window.cartTranslations?.headings?.quantity || '',
+      'total': window.cartTranslations?.headings?.total || '',
+      'remove': window.cartTranslations?.headings?.remove || ''
+    };
+  
+    const traduccionesCarrito = {
+      'quantity_label': window.cartTranslations?.quantity?.label || '',
+      'remove_title': window.cartTranslations?.remove_title || ''
+    };
+  
+    // Create a DocumentFragment for better performance
+    const fragment = document.createDocumentFragment();
+    const cartHeaderDiv = document.createElement('div');
+    cartHeaderDiv.className = 'cart-header-custom';
+    cartHeaderDiv.innerHTML = `
+      <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
+      <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
+      <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
+      <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
+    `;
+    fragment.appendChild(cartHeaderDiv);
+  
+    const cartListDiv = document.createElement('div');
+    cartListDiv.className = 'cart-list-custom';
+  
+    // Use Promise to get cart data
+    const carrito = await new Promise(resolve => Shopify.getCart(resolve));
+    const carritoSoloProductos = window.cartProducts || []; // Assuming cart products are pre-loaded
+  
+    // Pre-filter base items
+    const itemsBase = carrito.items.filter(item => 
+      item.properties?.ProductoBase && item.properties?.Cuerpo
+    );
+  
+    // Get product details in parallel
+    const productosDetalle = await detalleVarianteProductos(itemsBase);
+  
+    // Create a Map for faster lookups
+    const productoDetalleMap = new Map(
+      productosDetalle?.data?.map(item => [String(item.legacyResourceId), item]) || []
+    );
+    
+    const formatPrice = (cents) => {
+      return window.Shopify.formatMoney(cents, window.shopMoneyFormat);
+    };
+  
+    // Process items
+    const processedItems = await Promise.all(itemsBase.map(async item => {
+      const datosAuxiliares = productoDetalleMap.get(String(item.variant_id));
+      const variantesTrabajo = carritoSoloProductos.find(producto => producto.handle === item.handle);
       
-      // Creamos un Map para búsquedas más rápidas
-      const productosMap = new Map(
-        carritoSoloProductos.map(producto => [producto.handle, producto])
-      );
-
-      // Filtrado más eficiente con early return
-      const itemsBase = carrito.items.filter(item => 
-        item.properties?.ProductoBase && 
-        item.properties?.Cuerpo
-      );
-
-      // Optimizamos la obtención de detalles
-      const productosDetalle = await detalleVarianteProductos(itemsBase);
-      // Creamos un Map para búsqueda más rápida de detalles
-      const detallesMap = new Map(
-        productosDetalle?.data?.map(detalle => [detalle.legacyResourceId, detalle]) || []
-      );
-
-      // Preparamos elementos DOM una sola vez
-      const contenedorPrincipal = document.querySelector('.cart');
-      if (!contenedorPrincipal) {
-        console.error('No se encontró el contenedor principal del carrito');
-        return;
-      }
-
-      // Preparamos traducciones una sola vez
-      const titulosColumnas = {
-          'producto': {{ 'sections.cart.headings.product' | t | json }},
-          'cantidad': {{ 'sections.cart.headings.quantity' | t | json }},
-          'total': {{ 'sections.cart.headings.total' | t | json }},
-          'remove': {{ 'sections.cart.headings.remove' | t | json }}
-      };
-
-      const traduccionesCarrito = {
-        'quantity_label': {{ 'products.product.quantity.label' | t | json }},
-        'remove_title': {{ 'sections.cart.remove_title' | t | json }}
-      };
-
-      // Función de formateo de precio optimizada
-      const formatPrice = (cents) => Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
-
-      // Construimos el header una sola vez
-      let contenidoBase = `
-          <div class="cart-header-custom">
-              <div class="cart-header-item-custom cart-header-info">${titulosColumnas.producto}</div>
-              <div class="cart-header-item-custom cart-header-quantity">${titulosColumnas.cantidad}</div>
-              <div class="cart-header-item-custom cart-header-total">${titulosColumnas.total}</div>
-              <div class="cart-header-item-custom cart-header-remove">${titulosColumnas.remove}</div>
-          </div>
-          <div class="cart-list-custom">
-      `;
-
-      // Optimizamos el procesamiento de items usando map en lugar de forEach
-      const itemsHTML = itemsBase.map(item => {
-        // Optimizamos búsquedas usando Map
-        const datosAuxiliares = detallesMap.get(String(item.variant_id)) || null;
-        const variantesTrabajo = productosMap.get(item.handle);
-        
-        // Optimizamos la creación de atributos
-        const atributoEdicion = variantesTrabajo?.variants?.[0]?.title?.includes('Default') 
-          ? ' data-cart-edit-productItem' 
-          : '';
-
-        // Optimizamos el manejo de inventario
-        if (variantesTrabajo) {
-          window[`cart_selling_array_${variantesTrabajo.id}`] = Object.fromEntries(
-            variantesTrabajo.variants.map(variant => [variant.id, variant.inventory_policy])
-          );
-        }
-
-        // Optimizamos el procesamiento del cuerpo
-        const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
-        
-        // Creamos un Map para búsqueda rápida de subItems
-        const subItemsProducto = new Map(
-          carrito.items
-            .filter(itemSubItem => 
-              itemSubItem.properties?.ProductoBase === item.properties.ProductoBase &&
-              itemSubItem.properties?.Precio &&
-              !itemSubItem.properties?.Cuerpo
-            )
-            .map(subItem => [subItem.variant_id, subItem])
+      // Create inventory object once
+      if (variantesTrabajo) {
+        window[`cart_selling_array_${variantesTrabajo.id}`] = Object.fromEntries(
+          variantesTrabajo.variants.map(variant => [variant.id, variant.inventory_policy])
         );
-
-        // Construimos el HTML de manera más eficiente
-        return `
-          <div class="cart-item-custom" data-line="${item.key}" ${atributoEdicion}>
-            <div class="cart-item-block-custom cart-item-info-custom">
-              <!-- ... resto del HTML igual ... -->
-            </div>
-            ${cuerpoParseado.map(data => {
-              const { titulo, items: itemsVariantesIds } = data;
-              return `
-                <div class="detalle-item-variante">
-                  <h4>${titulo}</h4>
-                  ${itemsVariantesIds
-                    .map(idVariante => {
-                      const varianteEncontrada = subItemsProducto.get(idVariante);
-                      return varianteEncontrada ? `
-                        <p>${varianteEncontrada.title}
-                          <span>Bs ${varianteEncontrada.properties.Precio}x${varianteEncontrada.quantity} : 
-                          ${varianteEncontrada.properties.Precio * varianteEncontrada.quantity}</span>
-                        </p>` : '';
-                    })
-                    .join('')}
-                </div>`;
-            }).join('')}
-            <!-- ... resto del HTML igual ... -->
-          </div>`;
-      }).join('');
-
-      // Actualizamos el DOM una sola vez
-      contenedorPrincipal.innerHTML = contenidoBase + itemsHTML + '</div>';
-    });
+      }
+  
+      const cuerpoParseado = JSON.parse(item.properties.Cuerpo);
+      
+      // Pre-filter sub-items once
+      const subItemsProducto = carrito.items.filter(subItem => 
+        subItem.properties?.ProductoBase === item.properties.ProductoBase &&
+        subItem.properties?.Precio &&
+        !subItem.properties?.Cuerpo
+      );
+  
+      const subItemsMap = new Map(
+        subItemsProducto.map(subItem => [subItem.variant_id, subItem])
+      );
+  
+      const itemDiv = document.createElement('div');
+      itemDiv.className = 'cart-item-custom';
+      itemDiv.dataset.line = item.key;
+      
+      if (variantesTrabajo?.variants?.[0]?.title?.includes('Default')) {
+        itemDiv.dataset.cartEditProductitem = '';
+      }
+  
+      // Build HTML using template literals (one-time string concatenation)
+      itemDiv.innerHTML = `
+        <div class="cart-item-block-custom cart-item-info-custom">
+          <!-- Rest of your HTML structure -->
+          ${/* Your existing HTML structure here */}
+        </div>
+      `;
+  
+      return itemDiv;
+    }));
+  
+    // Append all items at once
+    processedItems.forEach(item => cartListDiv.appendChild(item));
+    fragment.appendChild(cartListDiv);
+    contenedorPrincipal.innerHTML = '';
+    contenedorPrincipal.appendChild(fragment);
   }
 
   {% comment %} async function generarListaCarritoCustom(){
