@@ -1656,67 +1656,69 @@
             {% comment %} contenidoBase+=`</div>`; {% endcomment %}
           });
 
-          const traduccionesCarrito = {
-            'quantity_label': {{ 'products.product.quantity.label' | t | json }},
-            'remove_title': {{ 'sections.cart.remove_title' | t | json }}
-          };
-        
-          const formatPrice = (cents) => {
-            return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
-          };
-          const price = formatPrice(item.price);
-
-          contenidoBase += `
-            <div class="cart-item-block-custom cart-item-quantity-custom">
-              <cart-update-quantity
-                class="cart-item-qty"
-                data-product="${ item.product_id }"
-                data-variant="${variantesTrabajo.variants[0].id}"
-              >
-                <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
-                  ${traduccionesCarrito.quantity_label}
-                </label>
-                <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                <input
-                  class="form-input quantity cart-item-qty-input"
-                  name="quantity"
-                  id="upsell-update-${item.id}"
-                  data-qtt-id1="quantity${item.id}"
-                  value="${item.quantity}"
-                  type="number"
-                  ${datosAuxiliares.inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
-                  data-cart-quantity
-                  data-cart-quantity-id="${item.id}"
-                  data-line="${item.key}"
-                >
-                <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-              </cart-update-quantity>
-            </div>
-            <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
-            <div class="cart-item-block-custom cart-item-remove-custom">
-                <a
-                  class="cart-remove"
-                  href="javascript:void(0)"
-                  data-cart-remove
-                  data-cart-remove-id="${item.id}"
-                  data-line="${item.key}"
-                  aria-label="${traduccionesCarrito.remove_title}"
-                >
-                  {% render 'icon-close' %}
-                </a>
-            </div>
-          `;
-
           contenidoBase += `
                 </div>
               </div>
             </div>
             `;
 
+            const traduccionesCarrito = {
+              'quantity_label': {{ 'products.product.quantity.label' | t | json }},
+              'remove_title': {{ 'sections.cart.remove_title' | t | json }}
+            };
           
+            const formatPrice = (cents) => {
+              return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
+            };
+            const price = formatPrice(item.price);
+  
+            contenidoBase += `
+              <div class="cart-item-block-custom cart-item-quantity-custom">
+                <cart-update-quantity
+                  class="cart-item-qty"
+                  data-product="${ item.product_id }"
+                  data-variant="${variantesTrabajo.variants[0].id}"
+                >
+                  <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
+                    ${traduccionesCarrito.quantity_label}
+                  </label>
+                  <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                  <input
+                    class="form-input quantity cart-item-qty-input"
+                    name="quantity"
+                    id="upsell-update-${item.id}"
+                    data-qtt-id1="quantity${item.id}"
+                    value="${item.quantity}"
+                    type="number"
+                    ${datosAuxiliares.inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
+                    data-cart-quantity
+                    data-cart-quantity-id="${item.id}"
+                    data-line="${item.key}"
+                  >
+                  <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+                </cart-update-quantity>
+              </div>
+              <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
+              <div class="cart-item-block-custom cart-item-remove-custom">
+                  <a
+                    class="cart-remove"
+                    href="javascript:void(0)"
+                    data-cart-remove
+                    data-cart-remove-id="${item.id}"
+                    data-line="${item.key}"
+                    aria-label="${traduccionesCarrito.remove_title}"
+                  >
+                    {% render 'icon-close' %}
+                  </a>
+              </div>
+            `;
+
+            contenidoBase += `</div>`;
       });
 
       contenidoBase += `</div>`;
+
+
 
       // Insertar el contenido en el contenedor principal
       if (contenedorPrincipal) {
