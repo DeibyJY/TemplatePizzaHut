@@ -1659,16 +1659,14 @@
         });
 
         const traduccionesCarrito = {
-          'quantity_label': {{ 'products.product.quantity.label' | t | json }}
+          'quantity_label': {{ 'products.product.quantity.label' | t | json }},
+          'remove_title': {{ 'sections.cart.remove_title' | t | json }}
         };
       
         const formatPrice = (cents) => {
           return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
         };
         const price = formatPrice(item.price);
-        const traduccionesCarrito = {
-          'remove_title': {{ 'sections.cart.remove_title' | t | json }}
-      };
 
         contenidoBase += `
           <div class="cart-item-block-custom cart-item-quantity-custom">
