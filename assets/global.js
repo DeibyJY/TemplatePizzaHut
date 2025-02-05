@@ -1005,7 +1005,7 @@ Shopify.changeItemCustomCarrito = function (variant_id, quantity, callback) {
                 }
             });
 
-            // console.log("📝 Updates Finales:", updates);
+            console.log("📝 Updates Finales:", updates);
 
             // Realizar la actualización
             $.ajax({
