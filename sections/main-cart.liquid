@@ -1574,7 +1574,10 @@
           contenidoBase+=`</div>`;
         });
 
-        const auxTexto = {{ 'products.product.quantity.label' | t }};
+        const traduccionesCarrito = {
+          'quantity_label': {{ 'products.product.quantity.label' | t | json }}
+        };
+      
         contenidoBase += `
           <div class="cart-item-block-custom cart-item-quantity-custom">
             <cart-update-quantity
@@ -1583,7 +1586,7 @@
               data-variant="${variantesTrabajo[0].id}"
             >
               <label class="form-label hiddenLabels" for="upsell-update-${item.id}">
-                ${auxTexto}
+                ${traduccionesCarrito.quantity_label}
               </label>
               <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
               <input
