@@ -2050,7 +2050,6 @@
         contendorPrincipal.innerHTML += subItemProducto;
       }
     });
-
   
     // Imprimir resultados
     // console.log('Colecciones Nivel 2:', coleccionNivel2);
@@ -2931,52 +2930,6 @@
     updateValoresDeBajoOpciones()
   }
 
-  {% comment %} function updateHermanosInputsQuantity() {
-        // Buscamos los elementos por el atributo que comienza con data-quantity
-        const visibleInput = document.querySelector('input[data-quantity-visible]');
-        const hiddenInput = document.querySelector('input[data-quantity-hidden]');
-        
-        console.log('Buscando inputs...');
-        console.log('Selector usado para visible:', '[data-quantity-visible-]');
-        console.log('Input visible encontrado:', visibleInput);
-        console.log('Input hidden encontrado:', hiddenInput);
-        
-        if (visibleInput && hiddenInput) {
-            hiddenInput.value = visibleInput.value;
-            console.log('✅ Valores actualizados:', {
-                visible: visibleInput.value,
-                hidden: hiddenInput.value
-            });
-        } else {
-            console.log('❌ No se encontraron los inputs  a a a a ');
-            
-            // Debuggeamos todos los data attributes en la página
-            const allDataAttributes = document.querySelectorAll('[data-quantity-visible]');
-            console.log('Todos los elementos con data-quantity-visible:', allDataAttributes);
-        }
-  }
-
-  // Al cargar el DOM
-  document.addEventListener('DOMContentLoaded', function() {
-      console.log('DOM Cargado - Buscando inputs...');
-      
-      const visibleInput = document.querySelector('input[data-quantity-visible]');
-      
-      if (visibleInput) {
-          visibleInput.addEventListener('input', updateHermanosInputsQuantity);
-          visibleInput.addEventListener('change', updateHermanosInputsQuantity);
-          console.log('✅ Eventos agregados al input visible');
-      } else {
-          console.log('❌ No se encontró el input visible b b  bb ');
-          
-          // Debuggeamos todos los elementos con cualquier atributo data
-          const allInputs = document.querySelectorAll('input[data-*]');
-          console.log('Todos los inputs con data attributes:', allInputs);
-      }
-  }); {% endcomment %}
-
-
-
   function updateHermanosInputsQuantity() {
     // Referencias a los inputs (las buscamos una sola vez)
     const visibleInput = document.querySelector('input[data-quantity-visible]');
@@ -3015,3 +2968,49 @@
     }
   });
 </script>
+
+{% comment %}
+  function updateHermanosInputsQuantity() {
+        // Buscamos los elementos por el atributo que comienza con data-quantity
+        const visibleInput = document.querySelector('input[data-quantity-visible]');
+        const hiddenInput = document.querySelector('input[data-quantity-hidden]');
+
+        console.log('Buscando inputs...');
+        console.log('Selector usado para visible:', '[data-quantity-visible-]');
+        console.log('Input visible encontrado:', visibleInput);
+        console.log('Input hidden encontrado:', hiddenInput);
+
+        if (visibleInput && hiddenInput) {
+            hiddenInput.value = visibleInput.value;
+            console.log('✅ Valores actualizados:', {
+                visible: visibleInput.value,
+                hidden: hiddenInput.value
+            });
+        } else {
+            console.log('❌ No se encontraron los inputs  a a a a ');
+
+            // Debuggeamos todos los data attributes en la página
+            const allDataAttributes = document.querySelectorAll('[data-quantity-visible]');
+            console.log('Todos los elementos con data-quantity-visible:', allDataAttributes);
+        }
+  }
+
+  // Al cargar el DOM
+  document.addEventListener('DOMContentLoaded', function() {
+      console.log('DOM Cargado - Buscando inputs...');
+
+      const visibleInput = document.querySelector('input[data-quantity-visible]');
+
+      if (visibleInput) {
+          visibleInput.addEventListener('input', updateHermanosInputsQuantity);
+          visibleInput.addEventListener('change', updateHermanosInputsQuantity);
+          console.log('✅ Eventos agregados al input visible');
+      } else {
+          console.log('❌ No se encontró el input visible b b  bb ');
+
+          // Debuggeamos todos los elementos con cualquier atributo data
+          const allInputs = document.querySelectorAll('input[data-*]');
+          console.log('Todos los inputs con data attributes:', allInputs);
+      }
+  });
+{% endcomment %}
