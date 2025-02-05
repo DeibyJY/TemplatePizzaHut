@@ -2080,8 +2080,8 @@
     marcarOpcionesRequeridas();
     // Verificar estados iniciales
     verificarRequeridos();
-    {% comment %} // Inicializar visibilidad de sub-items
-    actualizarVisibilidadSubItems(); {% endcomment %}
+    // Inicializar visibilidad de sub-items
+    actualizarVisibilidadSubItems();
   }
 
   // Funcion para marcar opciones requeridas
@@ -2278,6 +2278,7 @@
       // Radio buttons
       const radiosSeleccionados = menuItem.querySelectorAll('input[type="radio"]:checked');
       radiosSeleccionados.forEach(radio => {
+        console.log(radio);
         const idProducto = radio.getAttribute('id-producto');
         mostrarSubItemsRelacionados(menuItemId, idProducto);
       });
@@ -2898,7 +2899,6 @@
               try {
                   initializeProductMenu();
                   console.log('✅ Menu del producto inicializado');
-                  actualizarVisibilidadSubItems();
                   // agregarAlCarrito();
                   // console.log('Carrito agregado');
                   
