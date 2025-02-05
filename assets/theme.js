@@ -2541,6 +2541,10 @@
 
                                 $cart.find('.scoderCalculatorShipping').replaceWith(calculatorShipping);
                             }
+
+                            document.dispatchEvent(new CustomEvent('cart-content-updated', { 
+                                detail: cart 
+                            }));
                         } else {
                             var contentCart =  response.find('#main-cart-items').html(),
                                 headerCart =  response.find('.page-header').html();
