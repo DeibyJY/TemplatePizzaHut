@@ -1391,7 +1391,7 @@
       const query = `
         query {
           ${items.forEach((item, index) => `
-            variant${index}: productVariant(id: "gid://shopify/ProductVariant/${item}") {
+            variant${index}: productVariant(id: "gid://shopify/ProductVariant/${item.id}") {
               id
               legacyResourceId
               displayName
