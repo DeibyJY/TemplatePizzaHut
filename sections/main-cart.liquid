@@ -1578,6 +1578,12 @@
           'quantity_label': {{ 'products.product.quantity.label' | t | json }}
         };
       
+        console.log(variantesTrabajo.variants[0]);
+        const inventoryAttr = variantesTrabajo.variants[0].inventory_management != null && 
+                     variantesTrabajo.variants[0].inventory_quantity > 0 
+                     ? `data-inventory-quantity="${variantesTrabajo.variants[0].inventory_quantity}"` 
+                     : '';
+        console.log(inventoryAttr);
         contenidoBase += `
           <div class="cart-item-block-custom cart-item-quantity-custom">
             <cart-update-quantity
@@ -1596,12 +1602,10 @@
                 data-qtt-id1="quantity${item.id}"
                 value="${item.quantity }"
                 type="number"
-                {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
-                  data-inventory-quantity="{{ item.variant.inventory_quantity }}"
-                {% endif %}
+                ${inventoryAttr}
                 data-cart-quantity
-                data-cart-quantity-id="{{ item.id }}"
-                data-line="{{ item.key }}"
+                data-cart-quantity-id="${item.id}"
+                data-line="${item.key}"
               >
               <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
             </cart-update-quantity>
