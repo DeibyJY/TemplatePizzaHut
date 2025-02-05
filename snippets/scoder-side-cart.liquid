@@ -956,8 +956,6 @@
                         data-qtt-id1="quantity${ productoTrabajo.id }"
                         value="${ productoTrabajo.quantity }"
                         type="number"
-                        data-prueba-test1="${datosAuxiliares.inventoryItem.tracked}"
-                        data-prueba-test2="${datosAuxiliares.inventoryQuantity}"
                         ${datosAuxiliares.inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
                         data-cart-quantity
                         data-cart-quantity-id="${ productoTrabajo.id }"

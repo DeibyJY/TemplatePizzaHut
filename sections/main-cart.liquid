@@ -707,90 +707,92 @@
             <div class="cart-content-wrapper clearfix">
               <div class="cart-content-item" data-cart-content>
                 <div class="cart">
-                  <div class="cart-header-custom">
-                    <div class="cart-header-item-custom cart-header-info">PRODUCTO</div>
-                    <div class="cart-header-item-custom cart-header-quantity">CANTIDAD</div>
-                    <div class="cart-header-item-custom cart-header-total">TOTAL</div>
-                    <div class="cart-header-item-custom cart-header-remove">REMOVE</div>
-                  </div>
+                  {% comment %}
+                    <div class="cart-header-custom">
+                      <div class="cart-header-item-custom cart-header-info">PRODUCTO</div>
+                      <div class="cart-header-item-custom cart-header-quantity">CANTIDAD</div>
+                      <div class="cart-header-item-custom cart-header-total">TOTAL</div>
+                      <div class="cart-header-item-custom cart-header-remove">REMOVE</div>
+                    </div>
 
-                  <div class="cart-list-custom">
-                    <div class="cart-item-custom">
-                      <div class="cart-item-block-custom cart-item-info-custom">
-                        <div class="cart-item-block-left">
-                          <img
-                            style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
-                            src="https://pizzon.myshopify.com/cdn/shop/files/p1_9c93bb9e-b517-44f1-95d7-872ae8e27bd1_160x.png?v=1712411108"
-                            alt=""
-                          >
-                        </div>
-                        <div class="cart-item-block-right">
-                          <h3>Pizza Jamon</h3>
-                          <div class="detalle-pedido-variante">
-                            <div class="detalle-item-variante">
-                              <h4>TAMAÑO</h4>
-                              <p>Super persona para 2 a 3 personas <span>BS 18x3 : 54</span></p>
-                            </div>
+                    <div class="cart-list-custom">
+                      <div class="cart-item-custom">
+                        <div class="cart-item-block-custom cart-item-info-custom">
+                          <div class="cart-item-block-left">
+                            <img
+                              style="width: 100%; height: 100%; object-fit: contain; object-position: center;"
+                              src="https://pizzon.myshopify.com/cdn/shop/files/p1_9c93bb9e-b517-44f1-95d7-872ae8e27bd1_160x.png?v=1712411108"
+                              alt=""
+                            >
+                          </div>
+                          <div class="cart-item-block-right">
+                            <h3>Pizza Jamon</h3>
+                            <div class="detalle-pedido-variante">
+                              <div class="detalle-item-variante">
+                                <h4>TAMAÑO</h4>
+                                <p>Super persona para 2 a 3 personas <span>BS 18x3 : 54</span></p>
+                              </div>
 
-                            <div class="detalle-item-variante">
-                              <h4>EXTRA</h4>
-                              <p>Extra Queso <span>BS 12x3 : 54</span></p>
-                              <p>Extra Pepperoni <span>BS 5x3 : 15</span></p>
-                              <p>Extra Tocino <span>BS 12x5 : 54</span></p>
-                            </div>
+                              <div class="detalle-item-variante">
+                                <h4>EXTRA</h4>
+                                <p>Extra Queso <span>BS 12x3 : 54</span></p>
+                                <p>Extra Pepperoni <span>BS 5x3 : 15</span></p>
+                                <p>Extra Tocino <span>BS 12x5 : 54</span></p>
+                              </div>
 
-                            <div class="detalle-item-variante">
-                              <h4>MASA - BORDE</h4>
-                              <p>Pan pizza + Borde catupiry <span>BS 15x3 : 45</span></p>
+                              <div class="detalle-item-variante">
+                                <h4>MASA - BORDE</h4>
+                                <p>Pan pizza + Borde catupiry <span>BS 15x3 : 45</span></p>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div class="cart-item-block-custom cart-item-quantity-custom">
-                        <cart-update-quantity
-                          class="cart-item-qty"
-                          data-product="{{ item.product_id }}"
-                          data-variant="{{ item.variant.id }}"
-                        >
-                          <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
-                            {{ 'products.product.quantity.label' | t }}
-                          </label>
-                          <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
-                          <input
-                            class="form-input quantity cart-item-qty-input"
-                            name="quantity"
-                            id="upsell-update-{{ item.id }}"
-                            data-qtt-id1="quantity{{ item.id }}"
-                            value="{{ item.quantity }}"
-                            type="number"
-                            {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
-                              data-inventory-quantity="{{ item.variant.inventory_quantity }}"
-                            {% endif %}
-                            data-cart-quantity
-                            data-cart-quantity-id="{{ item.id }}"
-                            data-line="{{ item.key }}"
+                        <div class="cart-item-block-custom cart-item-quantity-custom">
+                          <cart-update-quantity
+                            class="cart-item-qty"
+                            data-product="{{ item.product_id }}"
+                            data-variant="{{ item.variant.id }}"
                           >
-                          <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
-                        </cart-update-quantity>
-                      </div>
+                            <label class="form-label hiddenLabels" for="upsell-update-{{ item.id }}">
+                              {{ 'products.product.quantity.label' | t }}
+                            </label>
+                            <a href="javascript:void(0)" data-minus-quantity-cart="" class="minus btn-quantity"></a>
+                            <input
+                              class="form-input quantity cart-item-qty-input"
+                              name="quantity"
+                              id="upsell-update-{{ item.id }}"
+                              data-qtt-id1="quantity{{ item.id }}"
+                              value="{{ item.quantity }}"
+                              type="number"
+                              {% if item.variant.inventory_management != null and item.variant.inventory_quantity > 0 %}
+                                data-inventory-quantity="{{ item.variant.inventory_quantity }}"
+                              {% endif %}
+                              data-cart-quantity
+                              data-cart-quantity-id="{{ item.id }}"
+                              data-line="{{ item.key }}"
+                            >
+                            <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
+                          </cart-update-quantity>
+                        </div>
 
-                      <div class="cart-item-block-custom cart-item-total-custom">BS 100.00</div>
+                        <div class="cart-item-block-custom cart-item-total-custom">BS 100.00</div>
 
-                      <div class="cart-item-block-custom cart-item-remove-custom">
-                        <a
-                          class="cart-remove"
-                          href="javascript:void(0)"
-                          data-cart-remove
-                          data-cart-remove-id="{{ item.id }}"
-                          data-line="{{ item.key }}"
-                          aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
-                        >
-                          {% render 'icon-close' %}
-                        </a>
+                        <div class="cart-item-block-custom cart-item-remove-custom">
+                          <a
+                            class="cart-remove"
+                            href="javascript:void(0)"
+                            data-cart-remove
+                            data-cart-remove-id="{{ item.id }}"
+                            data-line="{{ item.key }}"
+                            aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}"
+                          >
+                            {% render 'icon-close' %}
+                          </a>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  {% endcomment %}
                 </div>
                 {% if show_gift_card and product != null and product != blank %}
                   <div id="gift-cards" class="gift-card-container" data-id="{{ id }}" style="display: none;">
@@ -1660,14 +1662,14 @@
           'quantity_label': {{ 'products.product.quantity.label' | t | json }}
         };
       
-        console.log(variantesTrabajo.variants[0]);
+        const formatPrice = (cents) => {
+          return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
+        };
+        const price = formatPrice(item.price);
+        const traduccionesCarrito = {
+          'remove_title': {{ 'sections.cart.remove_title' | t | json }}
+      };
 
-
-        {% comment %} const inventoryAttr = variantesTrabajo.variants[0].inventory_management != null && 
-                     variantesTrabajo.variants[0].inventory_quantity > 0 
-                     ? `data-inventory-quantity="${variantesTrabajo.variants[0].inventory_quantity}"` 
-                     : '';
-        console.log(inventoryAttr); {% endcomment %}
         contenidoBase += `
           <div class="cart-item-block-custom cart-item-quantity-custom">
             <cart-update-quantity
@@ -1684,7 +1686,7 @@
                 name="quantity"
                 id="upsell-update-${item.id}"
                 data-qtt-id1="quantity${item.id}"
-                value="${item.quantity }"
+                value="${item.quantity}"
                 type="number"
                 ${datosAuxiliares.inventoryItem.tracked == true && datosAuxiliares.inventoryQuantity > 0 ? `data-inventory-quantity="${datosAuxiliares.inventoryQuantity}"` : ''}
                 data-cart-quantity
@@ -1694,9 +1696,29 @@
               <a href="javascript:void(0)" data-plus-quantity-cart="" class="plus btn-quantity"></a>
             </cart-update-quantity>
           </div>
+          <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
+            <div class="cart-item-block-custom cart-item-remove-custom">
+              <a
+                class="cart-remove"
+                href="javascript:void(0)"
+                data-cart-remove
+                data-cart-remove-id="${item.id}"
+                data-line="${item.key}"
+                aria-label="${traduccionesCarrito.remove_title}
+              >
+                {% render 'icon-close' %}
+              </a>
+            </div>
         `;
           
       contenidoBase += `</div>`;
+
+      // Insertar el contenido en el contenedor principal
+      if (contenedorPrincipal) {
+        contenedorPrincipal.innerHTML = contenidoBase;
+      } else {
+          console.error('No se encontró el contenedor principal del carrito');
+      }
     });
   }
 
