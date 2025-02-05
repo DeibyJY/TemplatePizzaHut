@@ -1649,14 +1649,15 @@
               }
           });
           contenidoBase += `</div>`;
-          contenidoBase += `
+          
+
+          {% comment %} contenidoBase+=`</div>`; {% endcomment %}
+        });
+        contenidoBase += `
               </div>
             </div>
           </div>
           `;
-
-          contenidoBase+=`</div>`;
-        });
 
         const traduccionesCarrito = {
           'quantity_label': {{ 'products.product.quantity.label' | t | json }},
@@ -1695,29 +1696,31 @@
             </cart-update-quantity>
           </div>
           <div class="cart-item-block-custom cart-item-total-custom">${price}</div>
-            <div class="cart-item-block-custom cart-item-remove-custom">
+          <div class="cart-item-block-custom cart-item-remove-custom">
               <a
                 class="cart-remove"
                 href="javascript:void(0)"
                 data-cart-remove
                 data-cart-remove-id="${item.id}"
                 data-line="${item.key}"
-                aria-label="${traduccionesCarrito.remove_title}
+                aria-label="${traduccionesCarrito.remove_title}"
               >
                 {% render 'icon-close' %}
               </a>
-            </div>
+          </div>
         `;
           
-      contenidoBase += `</div>`;
-
-      // Insertar el contenido en el contenedor principal
-      if (contenedorPrincipal) {
-        contenedorPrincipal.innerHTML = contenidoBase;
-      } else {
-          console.error('No se encontró el contenedor principal del carrito');
-      }
+     
     });
+
+    contenidoBase += `</div>`;
+
+    // Insertar el contenido en el contenedor principal
+    if (contenedorPrincipal) {
+      contenedorPrincipal.innerHTML = contenidoBase;
+    } else {
+        console.error('No se encontró el contenedor principal del carrito');
+    }
   }
 
   generarListaCarritoCustom();
