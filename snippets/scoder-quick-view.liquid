@@ -2278,9 +2278,12 @@
       // Radio buttons
       const radiosSeleccionados = menuItem.querySelectorAll('input[type="radio"]:checked');
       radiosSeleccionados.forEach(radio => {
-        const idProducto = radio.getAttribute('id-producto');
-        console.log('testing idProducto',idProducto);
-        mostrarSubItemsRelacionados(menuItemId, idProducto);
+        const group = radio.getAttribute('data-group');
+        const productoId = radio.getAttribute('data-producto-id');
+        console.log('testing group',group);
+        console.log('testing productoId',productoId);
+
+        mostrarSubItemsRelacionados(group, productoId);
       });
 
       // Checkboxes
