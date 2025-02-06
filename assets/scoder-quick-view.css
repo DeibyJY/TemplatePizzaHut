@@ -27,6 +27,7 @@
   background: var(--bin-bg-color);
   border-color: var(--bin-border-color);
   box-shadow: unset;
+  cursor: pointer;
   border: 1px solid;
   display: flex !important;
   flex-direction: column !important;
