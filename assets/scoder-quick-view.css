@@ -9,6 +9,7 @@
 }
 
 .buttton-payment-checkout-custom {
+  /* Mantenemos tus estilos originales */
   width: 100%;
   padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
   overflow: hidden;
@@ -21,7 +22,6 @@
   text-align: center;
   letter-spacing: var(--button-letter-spacing);
   line-height: var(--button-line-height);
-  transition: all 0.4s ease;
   border-radius: var(--button-border-radius);
   color: var(--bin-color);
   background: var(--bin-bg-color);
@@ -42,6 +42,22 @@
     var(--shopify-accelerated-checkout-button-block-size, 44px),
     55px
   );
+
+  /* Agregamos transición para todos los cambios */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Efecto hover que invierte los colores */
+.buttton-payment-checkout-custom:hover {
+  color: var(
+    --bin-bg-color
+  ) !important; /* El texto toma el color del fondo original */
+  background: var(
+    --bin-color
+  ) !important; /* El fondo toma el color del texto original */
+  border-color: var(
+    --bin-color
+  ) !important; /* El borde mantiene el color oscuro */
 }
 
 .detalle-producto-left {
@@ -158,6 +174,7 @@
   display: flex !important;
   flex-direction: column !important;
   padding-right: 4px;
+  padding-bottom: 30px;
 }
 
 .sector-general-opciones-producto .menu-item-producto {
