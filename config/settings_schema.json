@@ -4,8 +4,79 @@
     "theme_name": "Pizzon",
     "theme_version": "1.0.2",
     "theme_author": "TemplatesCoder",
-    "theme_documentation_url": "https:\/\/themes.templatescoder.com\/Pizzon\/documentation",
-    "theme_support_url": "https:\/\/templatescoder.com\/support\/?redirect_to=http"
+    "theme_documentation_url": "https://themes.templatescoder.com/Pizzon/documentation",
+    "theme_support_url": "https://templatescoder.com/support/?redirect_to=http"
+  },
+  {
+    "name": "Setting Farmacorp",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Ciudades farmamovil"
+      },
+      {
+        "type": "textarea",
+        "id": "citys",
+        "label": "Ciudades",
+        "info": "Ciudades donde existen bodegas farmamovil, agregar separadas por coma(,)."
+      },
+      {
+        "type": "textarea",
+        "id": "citysConfig",
+        "label": "Ciudades configuración",
+        "info": "Variable(Array) Javascript con la configuracion de latitud, longitud y código de región."
+      },
+      {
+        "type": "header",
+        "content": "Google Map"
+      },
+      {
+        "type": "text",
+        "id": "keyGoogleMap",
+        "label": "Api key google map",
+        "info": "Api key google map."
+      },
+      {
+        "type": "header",
+        "content": "Api farmacorp"
+      },
+      {
+        "type": "text",
+        "id": "key_domain",
+        "label": "Api key domain from backend",
+        "info": "Api key domain from backend."
+      },
+      {
+        "type": "text",
+        "id": "key_client_id",
+        "label": "Api key client_id from backend",
+        "info": "Api key client_id from backend."
+      },
+      {
+        "type": "text",
+        "id": "key_client_secret",
+        "label": "Api key client_secre from backend",
+        "info": "Api key client_secre from backend."
+      },
+      {
+        "type": "text",
+        "id": "url_tracking",
+        "label": "Url de tracking",
+        "info": "Url de tracking."
+      },
+      {
+        "type": "text",
+        "id": "estado_tracking",
+        "label": "Estado para habilitar tracking",
+        "info": "Estado para habilitar tracking."
+      },
+      {
+        "type": "text",
+        "id": "mensaje_fuera_cobertura_movil",
+        "label": "Mensaje fuera de cobertura en aplicación móvil.",
+        "info": "Puede utilzar el comodin {ciudad} para indicar concatenación en el mensaje final."
+      }
+    ]
   },
   {
     "name": "t:settings_schema.multiple_layouts.name",
@@ -1637,7 +1708,7 @@
         "type": "text",
         "id": "share_product_script",
         "label": "t:settings_schema.general.settings.share.label__4",
-        "default": "<div class=\"addthis_inline_share_toolbox\"><\/div>\n  <script type=\"text\/javascript\" src=\"\/\/s7.addthis.com\/js\/300\/addthis_widget.js#pubid=ra-595b0ea2fb9c5869\"><\/script>"
+        "default": "<div class=\"addthis_inline_share_toolbox\"></div>\n  <script type=\"text/javascript\" src=\"//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-595b0ea2fb9c5869\"></script>"
       },
       {
         "type": "select",
@@ -1659,7 +1730,7 @@
         "type": "text",
         "id": "share_article_script",
         "label": "t:settings_schema.general.settings.share.label__4",
-        "default": "<div class=\"addthis_inline_share_toolbox\"><\/div>\n  <script type=\"text\/javascript\" src=\"\/\/s7.addthis.com\/js\/300\/addthis_widget.js#pubid=ra-595b0ea2fb9c5869\"><\/script>"
+        "default": "<div class=\"addthis_inline_share_toolbox\"></div>\n  <script type=\"text/javascript\" src=\"//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-595b0ea2fb9c5869\"></script>"
       },
       {
         "type": "header",
