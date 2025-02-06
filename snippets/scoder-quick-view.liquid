@@ -1170,21 +1170,21 @@
             </div>
           </noscript>
           {%- assign product_form_id = 'product-quick-view-form-' | append: product.id -%}
-          {%- form 'product',
-            product,
-            id: product_form_id,
-            class: 'form productView-action',
-            novalidate: 'novalidate',
-            data-type: 'add-to-cart-form'
-          -%}
-            <div
-              class="productView-group"
-              style="
-                display: flex !important;
-                flex-direction: row !important;
-                gap : 1% !important;
-              "
-            >
+          <div
+            class="productView-group"
+            style="
+              display: flex !important;
+              flex-direction: row !important;
+              gap : 1% !important;
+            "
+          >
+            {%- form 'product',
+              product,
+              id: product_form_id,
+              class: 'form productView-action',
+              novalidate: 'novalidate',
+              data-type: 'add-to-cart-form'
+            -%}
               <input type="hidden" name="id" value="{{ current_variant.id }}">
               <div class="productView-groupTop">
                 <div
@@ -1300,22 +1300,22 @@
                   </div>
                 </div>
               </div>
-              {%- if show_dynamic_checkout -%}
-                <div class="productView-groupBottom">
-                  <div class="productView-groupItem">
-                    <div
-                      class="productView-payment"
-                      id="product-checkout-{{ product.id }}"
-                      style="--bin-color: #232323;--bin-bg-color: #ffffff;--bin-border-color: #acacac;--bin-color-hover: #ffffff;--bin-bg-color-hover: #232323;--bin-border-color-hover: #232323"
-                    >
-                      {% comment %} {{ form | payment_button }} {% endcomment %}
-                      <button class="buttton-payment-checkout-custom">Comprar Ahora</button>
-                    </div>
+            {%- endform -%}
+            {%- if show_dynamic_checkout -%}
+              <div class="productView-groupBottom">
+                <div class="productView-groupItem">
+                  <div
+                    class="productView-payment"
+                    id="product-checkout-{{ product.id }}"
+                    style="--bin-color: #232323;--bin-bg-color: #ffffff;--bin-border-color: #acacac;--bin-color-hover: #ffffff;--bin-bg-color-hover: #232323;--bin-border-color-hover: #232323"
+                  >
+                    {% comment %} {{ form | payment_button }} {% endcomment %}
+                    <button class="buttton-payment-checkout-custom">Comprar Ahora</button>
                   </div>
                 </div>
-              {%- endif -%}
-            </div>
-          {%- endform -%}
+              </div>
+            {%- endif -%}
+          </div>
           {%- if show_quick_view_customer_viewing or show_quick_view_trust_image -%}
             <div class="productView-more">
               {%- if show_quick_view_customer_viewing -%}
