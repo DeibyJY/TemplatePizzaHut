@@ -8,6 +8,42 @@
   overflow: hidden !important;
 }
 
+.buttton-payment-checkout-custom {
+  width: 100%;
+  padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-button-family);
+  font-size: var(--font-button-size);
+  font-weight: var(--font-button-weight);
+  text-transform: var(--button-text-transform);
+  text-align: center;
+  letter-spacing: var(--button-letter-spacing);
+  line-height: var(--button-line-height);
+  transition: all 0.4s ease;
+  border-radius: var(--button-border-radius);
+  color: var(--bin-color);
+  background: var(--bin-bg-color);
+  border-color: var(--bin-border-color);
+  box-shadow: unset;
+  border: 1px solid;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  height: clamp(
+    25px,
+    var(--shopify-accelerated-checkout-button-block-size, 44px),
+    55px
+  );
+  min-height: clamp(
+    25px,
+    var(--shopify-accelerated-checkout-button-block-size, 44px),
+    55px
+  );
+}
+
 .detalle-producto-left {
   flex: 0 0 40% !important;
   height: 100% !important;
