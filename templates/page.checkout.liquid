@@ -1,0 +1,2539 @@
+<head>
+  <!-- Google Tag Manager -->
+  <script>
+    (function (w, d, s, l, i) {
+      w[l] = w[l] || [];
+      w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+      var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s),
+        dl = l != 'dataLayer' ? '&l=' + l : '';
+      j.async = true;
+      j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+      f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-MXV392D');
+  </script>
+  <!-- End Google Tag Manager -->
+  <script>
+    console.log('Page Load Started');
+  </script>
+  {% render 'ultimate-datalayer' %}
+  <link rel="icon" href="https://cdn.shopify.com/s/files/1/0368/1363/5716/files/Star.svg?v=1734739016" type="image/png">
+</head>
+
+{% layout none %}
+{% assign shopKey = 'FCB' %}
+{% assign montoMinimo = settings.monto_minimo_valor %}
+{% assign subTotal = cart.total_price | divided_by: 100.0 %}
+{% assign primaryColor = '00539B' %}
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<!-- CSS & JS Dependencies -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+  crossorigin="anonymous"
+>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+  integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+  integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+  crossorigin="anonymous"
+></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.all.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css">
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+  </symbol>
+  <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+  </symbol>
+  <symbol id="exclamation-triangle-fill" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+  </symbol>
+</svg>
+
+<!-- Assets -->
+<link rel="stylesheet" href="{{ 'checkout.css' | asset_url }}">
+<script src="{{ 'checkout.js' | asset_url }}" defer></script>
+<script
+  defer
+  src="https://maps.googleapis.com/maps/api/js?key={{settings.keyGoogleMap}}&libraries=places"
+></script>
+
+{% assign ciudad = customer.default_address.city %}
+{% assign ciudad_filtrada = settings.citysConfig | where: 'city', ciudad | where: 'metodoEntrega', true %}
+{% assign metodoEntrega = false %}
+{% if ciudad_filtrada.size > 0 %}
+  {% assign metodoEntrega = true %}
+{% endif %}
+
+<!-- Main Content -->
+{% if customer %}
+  <!--
+    <img src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/christmas-flying-santa-claus-png-free-download-31573589179ib7l3o10cd_1.png?v=1733519592" alt="Carro de Santa Claus" class="santa-car">
+    <div class="sparkles-container" id="sparklesContainer"></div>
+  -->
+
+  <div class="header-fixed">
+    <div class="header-content">
+      <div class="left-section">
+        <a href="/cart" class="back-link">&lsaquo; Salir</a>
+      </div>
+      <div class="center-section">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0368/1363/5716/files/Farmacorp-Logo.svg?v=1734739375"
+          alt="Amarket"
+          class="logo"
+        >
+      </div>
+      <div class="right-section">
+        <span class="user-info">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="#{{primaryColor}}"
+            class="bi bi-person-circle"
+            viewBox="0 0 16 16"
+          >
+            <path d="M13 8a5 5 0 1 0-10 0 5 5 0 0 0 10 0zM8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1z"></path>
+            <path d="M8 8.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1c-2.33 0-4.39 1.17-5.63 2.9C2.745 12.1 3.815 13 5.146 13h5.708c1.331 0 2.401-.9 2.776-1.6C12.39 10.67 10.33 9.5 8 9.5z"></path>
+          </svg>
+          {{ customer.first_name }}
+          {{ customer.last_name }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="row justify-content-center mb-3">
+      <h1 class="text-center" id="titulo">¿Cómo deseas recibir tu pedido?</h1>
+    </div>
+
+    <!-- Delivery Options -->
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 retiro">
+        <div class="tab-container d-flex justify-content-center">
+          <div class="row  row-cols-1 row-cols-md-2">
+            <div class="col">
+              <div class="tab" data-option="retiro">
+                <input type="radio" class="tabRadio" id="retiro" name="pedido" style="  display: none;">
+                <label for="retiro" class="tab-option">
+                  <div class="check-circle">✔</div>
+                  <img
+                    src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/storefront_2.svg?v=1732204646"
+                    alt="Icono de Retiro en Tienda"
+                    class="tab-icon"
+                  >
+                  <div class="tab-text">
+                    <p class="tab-title">Retiro en tienda</p>
+                    <p class="tab-subtitle">Sin costo alguno</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="tab" data-option="envio">
+                <input type="radio" class="tabRadio" id="envio" name="pedido" checked style="  display: none;">
+                <label for="envio" class="tab-option">
+                  <div class="check-circle">✔</div>
+                  <img
+                    src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/Delivery.svg?v=1732204194"
+                    alt="Icono de Envío a Domicilio"
+                    class="tab-icon"
+                  >
+                  <div class="tab-text">
+                    <p class="tab-title">Envío a domicilio</p>
+                    <p id="tabEnvioPrice" class="tab-subtitle">...</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="alert-container">
+        {% if subTotal < montoMinimo %}
+          <br>
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ settings.monto_minimo_leyenda }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endif %}
+
+        <div id="alertContainer" class="mt-3"></div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="direccionModal"
+      tabindex="-1"
+      aria-labelledby="direccionModalLabel"
+      aria-hidden="true"
+      data-bs-backdrop="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="box-shadow: none; border: none;">
+          <div class="modal-header">
+            <h5 class="modal-title" id="direccionModalLabel">Nueva dirección</h5>
+            <button type="button" id="close-mapa" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-info d-flex align-items-center" role="alert">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                fill="#004AAD"
+                class="me-2 bi bi-info-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533z"/>
+                <circle cx="8" cy="4.5" r="1"/>
+              </svg>
+              Si es necesario, cambia la ubicación del pin en el mapa.
+            </div>
+            <div id="mapa" style="width: 100%; height: 400px; border: 1px solid #ddd; margin-top: 20px;"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="confirmarDireccionBtn"
+              onclick="document.getElementById('close-mapa').click();"
+              data-bs-toggle="modal"
+              data-bs-target="#nuevaDireccionModal"
+              class="btn-custom-next"
+            >
+              Confirmar dirección
+            </button>
+            <button
+              type="button"
+              id="cancelarMapa"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              class="btn-custom-cancel"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="EnvioView" style="display:none">
+      <div class="row justify-content-center mt-3 mb-3">
+        <div class="order-container">
+          <div class="custom-select-container">
+            <h4 class="mb-3">Dirección de envío</h4>
+            <label for="direccionSelect" class="form-label">Seleccionar dirección</label>
+            <div class="form-group">
+              <div class="custom-select-container">
+                <div class="custom-select" id="customSelect">
+                  <div class="custom-select-header">
+                    <span class="select-title">{{ customer.default_address.last_name }}</span>
+                    <span class="select-subtitle">
+                      {{- customer.default_address.city }}, {{ customer.default_address.address1 -}}
+                    </span>
+                  </div>
+                  <div class="custom-select-icon ">
+                    <image
+                      src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_down.svg?v=1732905430"
+                    ></image>
+                  </div>
+                </div>
+                <select id="addressSelect" class="hidden-select">
+                  {% for address in customer.addresses %}
+                    <option
+                      value="{{ address.id }}"
+                      {% if address.id == customer.default_address.id %}
+                        selected
+                      {% endif %}
+                      selected
+                      data-title="{{ address.last_name }}"
+                      data-city="{{ address.city }}"
+                      data-subtitle="{{ address.city }}, {{ address.address1 }}"
+                    >
+                      {{ address.last_name }}
+                    </option>
+                  {% endfor %}
+                </select>
+                <div class="custom-options hidden" id="customOptions">
+                  {% for address in customer.addresses %}
+                    <div
+                      class="custom-option"
+                      data-value="{{ address.id }}"
+                      data-city="{{ address.city }}"
+                      data-title="{{ address.last_name }}"
+                      data-subtitle="{{ address.city }}, {{ address.address1 }}"
+                    >
+                      <span class="select-title">{{ address.last_name }}</span>
+                      <span class="select-subtitle">{{ address.city }}, {{ address.address1 }}</span>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-center mt-4">
+                <button
+                  type="button"
+                  class="btn btn-custom-outline-primary"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalNuevaDireccion"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="#{{ primaryColor }}"
+                    class="bi bi-plus-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M8 1a7 7 0 1 1 0 14A7 7 0 0 1 8 1Zm0 13a6 6 0 1 0 0-12 6 6 0 0 0 0 12Z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3H4.5a.5.5 0 0 1 0-1H7V4.5A.5.5 0 0 1 8 4Z"/>
+                  </svg>
+                  <span class="ms-2">Añadir nueva dirección</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Programacion Entrega -->
+      <div class="row justify-content-center mt-3 mb-3 retiro">
+        <div class="order-container">
+          <h4 class="mt-4 pl-3">Programación de entrega</h4>
+          <div id="envioProgramado" style="display: block;">
+            <div class="mb-3">
+              <label for="formGroupNombre" class="form-label">Dia de entrega</label>
+              <div class="form-group">
+                <select class="form-select" id="dateSelect"></select>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="formGroupApellidos" class="form-label">Hora de entrega</label>
+              <div class="form-group">
+                <select class="form-select" id="timeSelect"></select>
+              </div>
+            </div>
+          </div>
+          <div id="envioExpress" style="display: none;">
+            <div class="mb-3">
+              <span class="shipping-title"
+                >Envío Express⚡<span class="shipping-note">(entrega en 30 minutos)</span></span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal nueva direccion -->
+      <div
+        class="modal fade"
+        id="modalNuevaDireccion"
+        tabindex="-1"
+        aria-labelledby="modalNuevaDireccionLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalNuevaDireccionLabel">Nueva dirección</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>Ingresar dirección o usar mi ubicación actual</p>
+              <button
+                type="button"
+                class="btn-custom-location"
+                onclick="initMap('current');"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#direccionModal"
+              >
+                <img
+                  class="primary-icon"
+                  src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/my_location.svg?v=1732218475"
+                >
+                Usar mi ubicación actual
+              </button>
+              <div class="d-flex justify-content-center align-items-center mb-3">
+                <hr class="flex-grow-1">
+                <span class="px-2">O</span>
+                <hr class="flex-grow-1">
+              </div>
+              <div>
+                <div style="position: relative; width: 100%; margin: 0 auto;">
+                  <input
+                    type="text"
+                    id="direccionInput"
+                    class="form-control"
+                    placeholder="Ingresar dirección o punto de referencia"
+                    style="width: 100%;"
+                  >
+                  <ul id="sugerencias" class="list-group"></ul>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                id="siguienteBtn"
+                class="btn-custom-next"
+                onclick="initMap('places');"
+                data-bs-dismiss="modal"
+                data-bs-toggle="modal"
+                data-bs-target="#direccionModal"
+                disabled
+              >
+                Siguiente
+              </button>
+              <button type="button" data-bs-dismiss="modal" aria-label="Close" class="btn-custom-cancel">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="nuevaDireccionModal"
+        tabindex="-1"
+        aria-labelledby="nuevaDireccionModalLabel"
+        aria-hidden="true"
+        data-bs-backdrop="true"
+      >
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content" style="box-shadow: none; border: none;">
+            <div class="modal-header">
+              <button type="button" class="btn-back" data-bs-dismiss="modal" aria-label="Volver">&#8592;</button>
+              <h5 class="modal-title" id="nuevaDireccionModalLabel">Nueva dirección</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-4">
+                <label for="indicacionDireccion" class="form-label">Indicaciones acerca de tu dirección</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="indicacionDireccion"
+                  placeholder="Ingresar referencia para tu dirección"
+                >
+              </div>
+              <div class="mb-4">
+                <label for="aliasDireccion" class="form-label">Alias</label>
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <img
+                      class="primary-icon"
+                      src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/search.svg?v=1732318616"
+                    >
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="aliasDireccion"
+                    placeholder="Ingresar o seleccionar"
+                    list="aliasOptions"
+                  >
+                  <datalist id="aliasOptions">
+                    <option value="Casa"></option>
+                    <option value="Oficina"></option>
+                    <option value="Escuela"></option>
+                    <!-- Agrega más opciones aquí -->
+                  </datalist>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer d-flex flex-column">
+              <button
+                type="button"
+                id="guardarDireccionBtn"
+                class="btn-custom-next"
+                onclick="crearDireccion();"
+                disabled
+                data-bs-dismiss="modal"
+              >
+                Guardar dirección
+              </button>
+              <button type="button" class="btn-custom-cancel mt-2" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="pickupView">
+      <div class="row justify-content-center mt-3 mb-3">
+        <div class="order-container">
+          <h4 class="mb-3">Seleccionar tienda</h4>
+          <p class="text-danger mb-4">* Campos obligatorios</p>
+
+          <div class="mb-4">
+            <label for="customSelectSucursal" class="form-label">Sucursal <span class="text-danger">*</span></label>
+
+            <div class="custom-select-container">
+              <div class="input-group">
+                <button
+                  type="button"
+                  class="form-control btn btn-light d-flex align-items-center justify-content-between"
+                  id="customSelectSucursal"
+                >
+                  <span id="selectedSucursalText" class="text-muted">Seleccionar o buscar sucursal</span>
+                  <image
+                    src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_down.svg?v=1732905430"
+                  ></image>
+                </button>
+                <button type="button" class="btn btn-outline-secondary" id="clearSucursalButton" style="display: none;">
+                  &times;
+                </button>
+                <div class="invalid-feedback">Debe seleccionar una sucursal</div>
+              </div>
+
+              <div class="custom-options hidden" id="customOptionsSucursal"></div>
+            </div>
+            <div id="sucursalInfo" class="mt-3" style="display: none;">
+              <p><strong id="sucursalNombre"></strong></p>
+              <span id="sucursalDetalle"></span> |
+              <img
+                src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/arrow_outward.svg?v=1732208032"
+                class="primary-icon"
+              >
+              <a href="#" id="sucursalMapa" target="_blank" class="primay-text"> Ver dirección en mapa </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="row justify-content-center mt-3 mb-3">
+      <div class="order-container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="mt-4 pl-3">Datos de contacto</h4>
+          <a id="editButtonContactInformation" class="edit-cart-link primay-text clickable"
+            ><img
+              class="primary-icon"
+              src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694"
+
+            >Editar datos</a
+          >
+        </div>
+
+        <div id="summaryViewContactInformation" class="mt-2">
+          <p class="summaryText">
+            {{ customer.first_name }} | {{ customer.last_name }} |
+            {% if customer.email contains '@temp.com' %}
+              {{ customer.metafields.farmacorp.emailAlterno.value }}
+            {% else %}
+              {{ customer.email }}
+            {% endif %}
+            | {{ customer.metafields.farmacorp.telefono }} | {{ customer.metafields.farmacorp.documentoIdentidad }}
+          </p>
+        </div>
+        <div id="editViewContactInformation" class="mt-3" style="display: none;">
+          <div class="mb-3">
+            <label for="formGroupNombre" class="form-label">Nombres</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupNombre"
+              placeholder="Nombres"
+              value="{{ customer.first_name }}"
+            >
+          </div>
+          <div class="mb-3">
+            <label for="formGroupApellidos" class="form-label">Apellidos</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupApellidos"
+              placeholder="Apellidos"
+              value="{{ customer.last_name }}"
+            >
+          </div>
+          <div class="mb-3">
+            <label for="formGroupEmail" class="form-label">Correo Electrónico</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupEmail"
+              placeholder="Correo Electrónico"
+              {% if customer.email contains '@temp.com' %}
+                value="{{ customer.metafields.farmacorp.emailAlterno.value }}"
+              {% else %}
+                value="{{ customer.email }}" readonly
+              {% endif %}
+              {% if customer.metafields.farmacorp.emailAlterno != blank %}
+                readonly
+              {% endif -%}
+              }
+              aria-describedby="EmailHelp"
+            >
+            <div id="EmailHelp" class="form-text">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-info-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+              </svg>
+              En esta dirección recibirás la confirmación de tus compras.
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="formGroupPhone" class="form-label">Celular <span class="text-danger">*</span></label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupPhone"
+              placeholder="Celular"
+              maxlength="8"
+              pattern="[0-9]{8}"
+              value="{{ customer.metafields.farmacorp.telefono }}"
+              aria-describedby="CelularHelp"
+              required
+            >
+            <div id="CelularHelp" class="form-text">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-info-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+              </svg>
+              Para contactarte cuando entreguemos tu pedido.
+            </div>
+            <div class="invalid-feedback">El número de telefono es un dato requerido.</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="formGroupCI" class="form-label"
+              >Nº Carnet de identidad (C.I.) <span class="text-danger">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupCI"
+              placeholder="Nº Carnet de identidad"
+              value="{{ customer.metafields.farmacorp.documentoIdentidad }}"
+              aria-describedby="CIHelp"
+              required
+            >
+            <div id="CIHelp" class="form-text">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-info-circle"
+                viewBox="0 0 16 16"
+              >
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+              </svg>
+              Este campo es obligatorio
+            </div>
+            <div class="invalid-feedback">El número de Nº Carnet de identidad es un dato requerido.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Options -->
+
+    <div class="row justify-content-center mt-3 mb-3">
+      <div class="order-container">
+        <h4 class="mt-4 pl-3">Datos de Pago</h4>
+        <h5>Selecciona un método de pago.</h5>
+
+        <div id="requiredPayment" style="display:none;">
+          <div class="alert alert-danger d-flex align-items-center" role="alert">
+            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:">
+              <use xlink:href="#exclamation-triangle-fill"/>
+            </svg>
+            <div>Es obligatorio seleccionar un metodo de pago</div>
+          </div>
+        </div>
+        <div class="payment-option" data-payment-code="Pago Simple QR">
+          <div class="circle"></div>
+          <img
+            src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/qr_code.svg?v=1732205282"
+            class="tab-icon"
+            alt="Código QR"
+          >
+          <div class="payment-option-content">
+            <p class="payment-option-title">Código QR</p>
+            <p class="payment-option-subtitle">Paga ahora usando un QR desde la app de tu banco.</p>
+          </div>
+        </div>
+
+        <div class="payment-option" data-payment-code="Pago en efectivo al momento de la entrega">
+          <div class="circle"></div>
+          <img
+            src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/payments.svg?v=1732205282"
+            class="tab-icon"
+            alt="Efectivo"
+          >
+          <div class="payment-option-content">
+            <p class="payment-option-title">Efectivo</p>
+            <p class="payment-option-subtitle">Paga en efectivo al momento de recibir tu compra.</p>
+          </div>
+        </div>
+
+        <div class="payment-option" data-payment-code="Tarjeta de Crédito / Débito">
+          <div class="circle"></div>
+          <img
+            src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/credit_card.svg?v=1732205282"
+            class="tab-icon"
+            alt="Tarjeta en persona"
+          >
+          <div class="payment-option-content">
+            <p class="payment-option-title">Tarjeta (en persona)</p>
+            <p class="payment-option-subtitle">Paga con tu tarjeta de crédito o débito al momento de la entrega.</p>
+          </div>
+        </div>
+        <!-- Additional Fields for "Tarjeta (en persona)" -->
+        <div
+          id="additional-card-fields"
+          style="display: none; margin-top: 20px; margin-bottom: 20px; padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #fff;"
+        >
+          <p class="info">Tu tarjeta debe estar habilitada para pagos por internet</p>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <label class="digit" for="first-four-digits"
+                  >Primeros 4 dígitos de la tarjeta<span class="text-danger">*</span></label
+                >
+                <input type="text" id="first-four-digits" class="form-control" maxlength="4" placeholder="XXXX">
+                <div class="invalid-feedback">Los primeros dígitos son requeridos.</div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <label class="digit" for="last-four-digits"
+                  >Últimos 4 dígitos de la tarjeta<span class="text-danger">*</span></label
+                >
+                <input type="text" id="last-four-digits" class="form-control" maxlength="4" placeholder="XXXX">
+                <div class="invalid-feedback">Los últimos dígitos son requeridos.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-option" data-payment-code="Pago online">
+          <div class="circle"></div>
+          <img
+            src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/credit_card.svg?v=1732205282"
+            class="tab-icon"
+            alt="Tarjeta online"
+          >
+          <div class="payment-option-content">
+            <p class="payment-option-title">Tarjeta (online)</p>
+            <p class="payment-option-subtitle">Paga ahora usando una tarjeta de crédito o débito.</p>
+          </div>
+        </div>
+
+        <div class="payment-option" data-payment-code="Credito Farmacorp">
+          <div class="circle"></div>
+          <img
+            src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/badge.svg?v=1732205282"
+            class="tab-icon"
+            alt="Colaboradores crédito"
+          >
+          <div class="payment-option-content">
+            <p class="payment-option-title">Colaboradores (crédito)</p>
+            <p class="payment-option-subtitle">Paga con tu crédito.</p>
+          </div>
+        </div>
+
+        <div class="payment-option" data-payment-code="Colaboradores (Crédito/Puntos)">
+          <div class="circle"></div>
+          <img
+            src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/badge.svg?v=1732205282"
+            class="tab-icon"
+            alt="Colaboradores puntos"
+          >
+          <div class="payment-option-content">
+            <p class="payment-option-title">Colaboradores (puntos)</p>
+            <p class="payment-option-subtitle">Paga con tus puntos de Farmaclub.</p>
+          </div>
+        </div>
+        <!-- Additional Fields for Colaboradores (Crédito/Puntos) -->
+        <div
+          id="additional-points-fields"
+          style="display: none; margin-top: 20px; margin-bottom: 20px; padding: 15px; border: 1px solid #e0e0e0; border-radius: 8px; background-color: #fff;"
+        >
+          <p class="info">Paga el 70% de tu compra con puntos</p>
+          <p class="payment-option-subtitle mb-3">¿Cómo deseas pagar el saldo de tu compra?</p>
+          <div class="row">
+            <div class="col">
+              <div class="form-group">
+                <input
+                  type="radio"
+                  class="btn-check"
+                  name="options-outlined"
+                  id="pointEfectivo"
+                  autocomplete="off"
+                  checked
+                >
+                <label class="btn btn-outline-Dark " for="pointEfectivo">Efectivo</label>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group">
+                <input type="radio" class="btn-check" name="options-outlined" id="pointCredito" autocomplete="off">
+                <label class="btn btn-outline-Dark" for="pointCredito">Crédito</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Billing Information -->
+    {% assign fiscal_data = customer.metafields.farmacorp.LastFiscalNitNombre.value | parse_json %}
+    <div class="row justify-content-center mt-3 mb-3">
+      <div class="order-container">
+        <div class="d-flex justify-content-between align-items-center">
+          <h4 class="mt-4 pl-3">Datos facturación</h4>
+          <a id="editButtonBillingInformation" class="edit-cart-link primay-text clickable"
+            ><img
+              class="primary-icon"
+              src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694"
+
+            >Editar datos</a
+          >
+        </div>
+        <!-- Vista Resumen -->
+        <div id="summaryViewBillingInformation" class="mt-2">
+          <p class="summaryText">{{ fiscal_data.Name }} | {{ fiscal_data.DocumentIdentity }}</p>
+        </div>
+        <!-- Vista Editable (Oculta por defecto) -->
+        <div id="editViewBillingInformation" class="mt-3" style="display: none;">
+          <div class="mb-3">
+            <label for="formGroupNombre" class="form-label">Nombre o razón social</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupNombre"
+              placeholder="Razón social"
+              value="{{ fiscal_data.Name }}"
+            >
+          </div>
+          <div class="mb-3">
+            <label for="formGroupDocumento" class="form-label">Nº de C.I. o N.I.T.</label>
+            <input
+              type="text"
+              class="form-control"
+              id="formGroupDocumento"
+              placeholder="Nº de C.I. o N.I.T."
+              value="{{ fiscal_data.DocumentIdentity }}"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Summary -->
+    <div class="row justify-content-center mt-3 mb-3">
+      <div class="order-container">
+        <div class="cart-header">
+          <div class="header-left">
+            <h2>Resumen</h2>
+            <span class="separator">|</span>
+            <img
+              class="primary-icon"
+              src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/Items_Off.svg?v=1732207683"
+            >
+            <a href="/cart" class="edit-cart-link primay-text">Editar carrito</a>
+          </div>
+        </div>
+        <ul class="cart-items">
+          {% for item in cart.items %}
+            <li class="cart-item">
+              <div class="product-image">
+                <img src="{{ item.image | img_url: 'small' }}" alt="{{ item.product.title }}">
+              </div>
+              <div class="product-details">
+                <span class="product-title">{{ item.product.title | truncate: 35 }}</span>
+              </div>
+              <div class="product-details-quantity">
+                <span class="product-quantity">x{{ item.quantity }}</span>
+              </div>
+              <div class="product-prices">
+                <div class="current-price">
+                  <span class="currency">Bs</span> {{ item.final_price | divided_by: 100.0 }}
+                </div>
+                {% if item.variant.compare_at_price > item.final_price %}
+                  <div class="original-price">
+                    <span class="currency">Bs</span> {{ item.variant.compare_at_price | divided_by: 100.0 }}
+                  </div>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+
+        <!-- Subtotal, Delivery y Total -->
+        <div class="cart-summary mt-4">
+          <div class="summary-item">
+            <span class="label">Subtotal</span>
+            <span class="value"><span class="currency">Bs</span> {{ cart.total_price | divided_by: 100.0 }}</span>
+          </div>
+
+          <div id="shipping-div" style="display:none">
+            <div class="shipping-options">
+              <form id="shippingOptions">
+                <div class="shipping-option">
+                  <input type="radio" id="envio-domicilio" name="shipping" value="domicilio" checked>
+                  <label for="envio-domicilio">
+                    <span class="shipping-title"
+                      ><span id="costoDelivery" class="shipping-price"></span> Envío a domicilio
+                    </span>
+                    <span id="costoDeliverylabel" class="currency"></span>
+                  </label>
+                </div>
+                <div class="retiro">
+                  <div class="shipping-option">
+                    <input type="radio" id="envio-express" name="shipping" value="express">
+                    <label for="envio-express">
+                      <span class="shipping-title"
+                        ><span id="costoDeliverExpress" class="shipping-price"></span> Envío Express⚡<span class="shipping-note"
+                          >(entrega en 30 minutos)</span
+                        ></span
+                      >
+                      <span id="costoDeliverExpressLabel" class="currency"></span>
+                    </label>
+                  </div>
+                </div>
+              </form>
+              <div id="alertExpress"></div>
+            </div>
+          </div>
+          <div class="summary-item total">
+            <span class="label">Total</span>
+            <span id="costoTotal" class="value"><span class="currency">Bs</span> </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Notes -->
+    <div class="row justify-content-center mt-3 mb-3">
+      <div class="order-container">
+        <h4 class="mt-4 pl-3">Nota para el pedido</h4>
+        <div class="mb-3">
+          <label for="order-note" class="form-label">Información adicional</label>
+          <textarea
+            id="order-note"
+            class="order-note-textarea"
+            placeholder="Ingresa indicaciones específicas para tu pedido"
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="row justify-content-center mt-3 mb-3">
+      {% if subTotal < montoMinimo %}
+      {% else %}
+        <div class="button-container">
+          <button class="btn-enabled" id="createOrderBtn" onclick="crearOrden()">Finalizar</button>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div id="spinner" class="spinner-overlay">
+    <div id="spinner" class="spinner-container">
+      <img
+        src="https://cdn.shopify.com/s/files/1/0368/1363/5716/files/Star.svg?v=1734739016"
+        alt="Spinner"
+        class="spinner-image"
+      >
+    </div>
+  </div>
+{% else %}
+  <script>
+    window.location.href = '/account/login?checkout_url=/pages/checkout';
+  </script>
+{% endif %}
+<script>
+  let coordenadas = null;
+{% assign coordenadasArray = "" %}
+{% assign keyAddressMetafields = customer.default_address.id | downcase %}
+
+ {%- for address in customer.metafields.CustAddressInfo -%}
+   {% if keyAddressMetafields == address[0]  %}    
+        coordenadas = JSON.parse('{{ address[1] }}'.replaceAll('=>', ':'));
+   {% endif %}
+ {%- endfor -%}
+
+
+
+
+{%- for address in customer.metafields.CustAddressInfo -%}
+ {% assign coordenadas = address[1] | replace: '=>', ':' | parse_json %}
+ {% if coordenadasArray != "" %}
+   {% assign coordenadasArray = coordenadasArray | append: "," %}
+ {% endif %}
+ {% assign coordenadaJson = '{"id":"' | append: address[0] | append: '", "data":' | append: coordenadas | append: '}' %}
+ {% assign coordenadasArray = coordenadasArray | append: coordenadaJson %}
+{%- endfor -%}
+
+{% assign coordenadasArray = "[" | append: coordenadasArray | append: "]" %}
+
+ const coordenadasArray = {{ coordenadasArray }};
+
+  
+ const paramSlotGenerinc = {
+            detail: [
+                 {% for item in cart.items %}
+                 {
+                     id: "{{ item.sku }}",
+                     name: "{{ item.product.title }}",
+                     photoUrl: "https:{{ item.image | img_url: 'large' }}",
+                     subUnit: "{{ item.product.metafields.inventory.unidad_medida.value }}",
+                     quantity: {{ item.quantity }},
+                     Unit: "Set",
+                     subUnit:"{{ item.product.metafields.inventory.FactorPeso.value }}",
+                     subQuantity: 1, // Cambiar si tienes sub cantidades
+                     barcodes: [
+                         {% for barcode in item.variant.barcode %}
+                         "{{ barcode }}"{% if forloop.last == false %},{% endif %}
+                         {% endfor %}
+                     ],
+                     price: {{ item.final_price | divided_by: 100.0 }},
+                     comment: "",                     
+                 }{% if forloop.last == false %},{% endif %}
+                 {% endfor %}
+             ],
+             destination: {
+                 name: "{{ customer.default_address.first_name }} {{ customer.default_address.last_name }}",
+                 address: "{{ customer.default_address.address1 }}",
+                 addressTwo: "{{ customer.default_address.address2 }}",
+                 description: "{{ customer.default_address.company }} {{ keyAddressMetafields }}",
+                 city: "{{ customer.default_address.city }}",
+                 latitude: coordenadas ? coordenadas.latitud : null,
+                 longitude: coordenadas ? coordenadas.longitud : null
+             }
+         };
+
+   const paramPickup = {
+             detail: paramSlotGenerinc.detail,
+             destination: paramSlotGenerinc.destination
+         };
+  
+   const now = new Date();
+   const utcStart = now.toISOString(); 
+   const utcEndDate = new Date(now);
+   utcEndDate.setUTCDate(now.getUTCDate() + 3); 
+
+   const paramScheduled = {
+            utcStart:  utcStart,
+            utcEnd:  utcEndDate.toISOString(), 
+            detail: paramSlotGenerinc.detail,
+            destination: paramSlotGenerinc.destination
+         };
+
+function getUTCDates(daysToAdd = 3) {
+ const now = new Date();
+ const utcStart = now.toISOString(); 
+
+ const utcEndDate = new Date(now);
+ utcEndDate.setUTCDate(now.getUTCDate() + daysToAdd);
+
+ return {
+   utcStart,
+   utcEnd: utcEndDate.toISOString(), 
+ };
+}
+
+
+ function initMap(tipo) {
+
+
+   const modalElement = document.getElementById("modalNuevaDireccion");
+   const modal = new bootstrap.Modal(modalElement);
+   modal.hide();
+
+   
+     if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition(
+         function (position) {
+           let userLocation = {
+             lat: position.coords.latitude,
+             lng: position.coords.longitude,
+           };
+ 
+           if(tipo == 'places'){            
+                 const locationString = localStorage.getItem('location_places');
+                 if (locationString) {
+                     const location = JSON.parse(locationString);
+                     userLocation = location;
+                 } else {
+                     console.log('No se encontró la ubicación en el localStorage.');
+                 }  
+           }
+           
+           localStorage.setItem('location_save', JSON.stringify(userLocation));
+           const map = new google.maps.Map(document.getElementById("mapa"), {
+             center: userLocation,
+             zoom: 14,
+           });
+ 
+           const marker = new google.maps.Marker({
+             position: userLocation,
+             map: map,
+             title: "Arrastra para ajustar tu ubicación",
+             draggable: true, 
+           });
+ 
+          
+           google.maps.event.addListener(marker, "dragend", function () {
+             const newPosition = marker.getPosition();
+ 
+             localStorage.setItem('location_save', JSON.stringify(newPosition));
+             // You can update hidden fields or UI elements with the new coordinates
+             //document.getElementById("latitud").value = newPosition.lat();
+             //document.getElementById("longitud").value = newPosition.lng();
+           });
+         },
+         function (error) {
+           console.error("Error obteniendo la ubicación:", error);
+           alert("No se pudo obtener tu ubicación actual.");
+         }
+       );
+     } else {
+       alert("Geolocalización no está soportada por tu navegador.");
+     }
+ } 
+
+ function autoCompleteAddress(){
+  
+     const input = document.getElementById('direccionInput');
+     const sugerencias = document.getElementById('sugerencias');
+   
+     const autocompleteService = new google.maps.places.AutocompleteService();
+     const placesService = new google.maps.places.PlacesService(document.createElement('div'));
+   
+   
+     input.addEventListener('input', (e) => {
+     const query = e.target.value;
+     sugerencias.innerHTML = '';
+   
+     if (query.length > 1) {
+       autocompleteService.getPlacePredictions(
+          {
+           input: query,
+           types: ['geocode'],
+           componentRestrictions: { country: 'BO' }, 
+         },
+         (predictions, status) => {
+           if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+             sugerencias.style.display = 'block'; 
+   
+             predictions.forEach((prediction) => {
+               const li = document.createElement('li');
+               li.classList.add('list-group-item');
+               li.textContent = prediction.description;
+   
+               li.addEventListener('click', () => {
+                 input.value = prediction.description;
+                 sugerencias.style.display = 'none'; 
+                   placesService.getDetails(
+                   { placeId: prediction.place_id },
+                   (place, status) => {
+                     if (status === google.maps.places.PlacesServiceStatus.OK && place.geometry) {
+                       const lat = place.geometry.location.lat();
+                       const lng = place.geometry.location.lng();
+                       console.log(`Latitud: ${lat}, Longitud: ${lng}`);
+                       localStorage.setItem('location_places', JSON.stringify(place.geometry.location));
+                       const siguienteBtn = document.getElementById('siguienteBtn');
+                       siguienteBtn.disabled = false;
+                     
+                     }
+                   }
+                 );
+               });
+   
+               sugerencias.appendChild(li); 
+             });
+           }
+         }
+       );
+     } else {
+       sugerencias.style.display = 'none'; 
+     }
+   });
+   
+     document.addEventListener('click', (e) => {
+       if (!sugerencias.contains(e.target) && e.target !== input) {
+         sugerencias.style.display = 'none';
+       }
+     });
+   }
+
+function handleScheduledResponse(res) {
+
+ enableCreateOrder();
+ AlertClean();
+
+ const dateSelect = document.getElementById('dateSelect');
+ const timeSelect = document.getElementById('timeSelect');
+
+ clearNonDisabledOptions(dateSelect);
+ clearNonDisabledOptions(timeSelect);
+ 
+ if (res.coverageError || res.notSlotAvailable) {
+   displayCoverageError(res.coverageError || res.notSlotAvailable);
+   return;
+ }
+
+ 
+ localStorage.setItem("keyBodega", res.data.keyBodega);
+
+ const groupedDates = groupTimeSlotsByDate(res.data.timeSlots);
+ setupDateSelect(groupedDates);
+}
+
+function displayCoverageError(errorMessage) {
+ const alertHtml = `
+   <div class="alert alert-danger alert-dismissible fade show" role="alert">
+       ${errorMessage}
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+ `;
+ const alertContainer = document.getElementById('alertContainer');
+ alertContainer.innerHTML = alertHtml;
+
+disableCreateOrder();
+}
+
+function disableCreateOrder(){
+   createOrderBtn.disabled = true;
+   createOrderBtn.classList.add("btn-disabled");
+}
+
+function enableCreateOrder(){
+   createOrderBtn.disabled = false;
+   createOrderBtn.classList.remove("btn-disabled");
+}
+
+function groupTimeSlotsByDate(timeSlots) {
+ const groupedDates = {};
+ timeSlots.forEach((slot) => {
+   const date = new Date(slot.from).toLocaleString().split(',')[0]; // Extraer solo la fecha
+   const timeRange = `${new Date(slot.from).toLocaleTimeString([], {
+     hour: '2-digit',
+     minute: '2-digit',
+   })} - ${new Date(slot.to).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+   if (!groupedDates[date]) {
+     groupedDates[date] = [];
+   }
+   groupedDates[date].push({
+     timeRange: timeRange,
+     id: slot.id,
+   });
+ });
+
+ return groupedDates;
+}
+  
+function clearNonDisabledOptions(selectElement) {
+ const options = selectElement.querySelectorAll('option:not([disabled])');
+ options.forEach(option => option.remove());
+}
+
+function setupDateSelect(groupedDates) {
+ const dateSelect = document.getElementById('dateSelect');
+ const timeSelect = document.getElementById('timeSelect');
+
+ clearNonDisabledOptions(dateSelect);
+ clearNonDisabledOptions(timeSelect);
+
+ populateDateSelect(dateSelect, groupedDates);
+
+ function updateTimeSelectForDate(selectedDate) {
+   const timeRanges = groupedDates[selectedDate];
+   populateTimeSelect(timeSelect, timeRanges);
+ }
+
+ updateTimeSelectForDate(dateSelect.value);
+
+ dateSelect.addEventListener('change', () => {
+   updateTimeSelectForDate(dateSelect.value);
+ });
+
+ timeSelect.addEventListener('change', () => {
+ });
+}
+
+function populateDateSelect(dateSelect, groupedDates) {
+
+ for (const date in groupedDates) {
+   const option = document.createElement('option');
+   option.value = date;
+   option.textContent = date; 
+   dateSelect.appendChild(option);
+ }
+}
+
+function populateTimeSelect(timeSelect, timeRanges) {
+ timeSelect.innerHTML = '';
+ let isFirstOption = true; 
+ timeRanges.forEach((rangeObj) => {
+   const option = document.createElement('option');
+   option.value = rangeObj.id; 
+   option.textContent = `de ${rangeObj.timeRange} Hrs`;
+   if (isFirstOption) {
+       option.selected = true; 
+       isFirstOption = false; 
+   }
+   timeSelect.appendChild(option);
+ });
+}
+
+  function handlePickupResponse(res) {
+  
+ if (res.coverageError || res.notSlotAvailable) {
+     AlertClean();
+   displayPickupCoverageError(res.coverageError || res.notSlotAvailable);
+   return;
+ }
+
+
+ const customOptionsSucursal = document.getElementById("customOptionsSucursal");
+ customOptionsSucursal.innerHTML = "";
+
+ populateSucursalList(customOptionsSucursal, res.data);
+
+}
+
+function displayPickupCoverageError(errorMessage) {
+ const alertHtml = `
+   <div class="alert alert-danger alert-dismissible fade show" role="alert">
+       ${errorMessage}
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+ `;
+ const alertContainer = document.getElementById("alertContainer");
+ alertContainer.innerHTML = alertHtml;
+}
+
+function populateSucursalList(customOptionsSucursal, sucursales) {
+ sucursales.forEach((sucursal) => {
+   const listItemDiv = createSucursalDiv(sucursal);
+   customOptionsSucursal.appendChild(listItemDiv);
+ });
+}
+
+
+function createSucursalDiv(sucursal) {
+ const div = document.createElement("div");
+
+ div.classList.add("custom-option");
+ div.setAttribute("data-keyBodega", sucursal.keyBodega);
+ div.setAttribute("data-title", sucursal.name);
+ div.setAttribute("data-subtitle", sucursal.address);
+  div.setAttribute("data-timeSlotId", sucursal.timeSlot.id);
+   div.setAttribute(
+   "data-mapa",
+   `https://www.google.com/maps?q=${sucursal.latitud},${sucursal.longitud}`
+ );
+
+ div.innerHTML = `
+   <span class="select-title">${sucursal.name}</span>
+   <span class="select-subtitle">${sucursal.address}</span>
+    <span class="select-subtitle">Listo para retirar en 30 minutos</span>
+ `;
+
+div.addEventListener("click", (e) => {
+   const value = div.getAttribute("data-value");
+   const title = div.getAttribute("data-title");
+   const subtitle = div.getAttribute("data-subtitle");
+
+   // Actualizar detalles de la sucursal
+   const nombre = div.dataset.title;
+   const detalle = div.dataset.subtitle;
+   const mapa = div.dataset.mapa;
+   localStorage.setItem("keyBodega", div.dataset.keybodega);
+   localStorage.setItem("timeSlotIdPickup", div.dataset.timeslotid);
+
+   selectedSucursalText.textContent = nombre;
+   sucursalNombre.textContent = nombre;
+   sucursalDetalle.textContent = detalle;
+   sucursalMapa.href = mapa;
+
+   sucursalInfo.style.display = "block";
+   clearSucursalButton.style.display = "inline";
+
+  const customOptions = document.getElementById("customOptionsSucursal");
+   customOptions.classList.add("hidden");
+
+ });
+ 
+ return div;
+}
+  
+
+  function PintarShipping(res){
+     localStorage.setItem(`costoDeliveryAux`,  res[0].price);
+     localStorage.setItem(`costoDelivery`,  res[0].price);
+     localStorage.setItem(`nameDeliveryAux`, res[0].name);
+
+     const costoDelivery = document.getElementById('costoDelivery');
+     costoDelivery.innerHTML = `Bs ${res[0].price.toFixed(2)}`;     
+
+      const tabEnvioPrice = document.getElementById('tabEnvioPrice');
+      if(res[0].price == 0){
+        tabEnvioPrice.innerHTML = `¡Envío Gratis!`;  
+      }else{
+        tabEnvioPrice.innerHTML = `Envío a Bs ${res[0].price.toFixed(2)}`;  
+      }
+
+     const costoDeliverylabel = document.getElementById('costoDeliverylabel');
+     costoDeliverylabel.innerHTML = `Bs ${res[0].price.toFixed(2)}`;     
+    
+  }
+
+  function dameCostoDelivery(costoDelivery, nameDelivery){
+          
+         const total = costoDelivery + {{ cart.total_price | divided_by: 100.0 }};
+         const costoTotal = document.getElementById('costoTotal');
+         costoTotal.innerHTML = `Bs ${total.toFixed(2)}`; 
+         localStorage.setItem(`costoTotal`, total);
+         localStorage.setItem(`costoDelivery`, costoDelivery);
+         localStorage.setItem(`nameDelivery`, nameDelivery);
+
+  }
+
+    function PintarShippingExpress(res){
+       const costoDelivery = res.price;
+       const costoD = document.getElementById('costoDeliverExpress');
+       costoD.innerHTML = `Bs ${costoDelivery.toFixed(2)}`;    
+       localStorage.setItem(`costoDeliveryExpressAux`, costoDelivery);       
+  }
+
+  
+
+ function eventosModalNuevaDireccion(){
+ const inputField = document.getElementById('indicacionDireccion');
+     const saveButton = document.getElementById('guardarDireccionBtn');
+   
+     inputField.addEventListener('input', () => {
+       if (inputField.value.trim() !== '') {
+         saveButton.disabled = false; // Habilitar el botón
+       } else {
+         saveButton.disabled = true; // Deshabilitar el botón si está vacío
+       }
+     });
+
+    
+  }
+
+   const sucursalInfo = document.getElementById('sucursalInfo');   
+   const isSucursalSelected = () => sucursalInfo.style.display !== "none";
+   const paymentOptions = document.querySelectorAll(".payment-option");       
+   const createOrderBtn = document.getElementById("createOrderBtn");
+   const phoneInput = document.getElementById("formGroupPhone");    
+   let selectedPaymentCode = null;    
+   
+   const isPaymentSelected = () => selectedPaymentCode !== null;
+
+  function datosAdicionalesPagoTarjeta(){
+       const paymentOptions = document.querySelectorAll(".payment-option");
+       const additionalCardFields = document.getElementById("additional-card-fields");
+       const additionalPointsFields = document.getElementById("additional-points-fields");
+     
+       paymentOptions.forEach(option => {
+         option.addEventListener("click", () => {
+             paymentOptions.forEach(opt => opt.classList.remove("selected"));
+             option.classList.add("selected");
+       
+             if (option.getAttribute("data-payment-code") === "Tarjeta de Crédito / Débito") {
+               additionalCardFields.style.display = "block";
+             } else {
+               additionalCardFields.style.display = "none";
+             }
+
+            if (option.getAttribute("data-payment-code") === "Colaboradores (Crédito/Puntos)") {
+               additionalPointsFields.style.display = "block";
+             } else {
+               additionalPointsFields.style.display = "none";
+             }
+
+             document.getElementById("createOrderBtn").textContent = "Finalizar";
+             if (option.getAttribute("data-payment-code") === "Pago Simple QR" 
+                || option.getAttribute("data-payment-code") === "Pago online" ){
+                 document.getElementById("createOrderBtn").textContent = "Continuar con el pago";
+             }
+         });
+       });
+  }
+
+  function handleShippingOption(option) {
+    document.getElementById("costoDeliverExpressLabel").innerHTML = '';
+    document.getElementById("costoDeliverylabel").innerHTML = '';
+    
+   if (option === "domicilio") {      
+        const costoDelivery = Number(localStorage.getItem('costoDeliveryAux'));
+        document.getElementById("costoDeliverylabel").innerHTML = `Bs ${costoDelivery.toFixed(2)}`;      
+        dameCostoDelivery(costoDelivery, option);
+
+        document.getElementById("envioProgramado").style.display = "block";
+        document.getElementById("envioExpress").style.display = "none";
+     
+   } else if (option === "express") {
+         const costoDeliveryExpressAux = Number(localStorage.getItem('costoDeliveryExpressAux'));
+        document.getElementById("costoDeliverExpressLabel").innerHTML = `Bs ${costoDeliveryExpressAux.toFixed(2)}`;
+        dameCostoDelivery(costoDeliveryExpressAux, option);
+     
+        document.getElementById("envioProgramado").style.display = "none";
+        document.getElementById("envioExpress").style.display = "block";
+         ValidarEnvioExpress();
+
+
+     
+   } else {
+     console.log("Opción no reconocida");
+   }
+ }
+  function shippingEventos(){
+     const shippingOptions = document.getElementById("shippingOptions");
+     shippingOptions.addEventListener("change", (event) => {
+         if (event.target.name === "shipping") {
+             handleShippingOption(event.target.value);
+         }
+     });
+  }
+
+  
+function displayExpressError(errorMessage) {
+ const alertHtml = `
+   <div class="alert alert-warning alert-dismissible fade show" role="alert">
+       ${errorMessage}
+       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+   </div>
+ `;
+ const alertContainer = document.getElementById('alertExpress');
+ alertContainer.innerHTML = alertHtml;
+}
+  function ValidarEnvioExpress(){
+     dameExpress(paramPickup)
+     .then((res) => {
+
+          if (res.coverageError || res.notSlotAvailable) {
+                 displayExpressError(res.coverageError || res.notSlotAvailable);
+                const radioExpress = document.getElementById('envio-express');
+                radioExpress.checked = false;
+                
+                const radioDomicilio = document.getElementById('envio-domicilio');
+                radioDomicilio.click();
+               return;
+         }
+       
+         localStorage.setItem("keyBodega", res.data.keyBodega);
+         localStorage.setItem(`timeSlotIdExpress`, res.data.timeSlots[0].id);        
+     })
+     .catch((error) => {
+       console.error("Error processing pickup request:", error);
+     });
+
+    
+  }
+
+
+  function lanzarModalMapa(){
+
+    document.getElementById("direccionModalLabel").textContent = "Registra tu dirección";
+    document.getElementById("close-mapa").style.display = "none";
+    document.getElementById("cancelarMapa").style.display = "none";
+    
+      const modalElement = document.getElementById("direccionModal");
+      const modal = new bootstrap.Modal(modalElement, {
+         backdrop: true,
+         backdrop: 'static',
+     });
+    
+      modal.show();
+      initMap('current');
+
+
+    const button = document.getElementById("confirmarDireccionBtn");
+    
+     button.removeAttribute("data-bs-toggle");
+     button.removeAttribute("data-bs-target");
+    
+     button.onclick = function() {
+      updateDireccion();
+     };
+  }
+
+ function AlertClean(){
+   const alertContainer = document.getElementById('alertContainer');
+   alertContainer.innerHTML = '';
+ }
+
+   function ocultarMetodoDeEntrega(hidden) {
+     const elementos = document.querySelectorAll('.retiro');
+     elementos.forEach(elemento => {
+       elemento.style.display = hidden? 'none' : 'block';
+     });
+
+      const titulo = document.getElementById('titulo');
+      titulo.textContent = hidden?"Finaliza tu pedido":"¿Cómo deseas recibir tu pedido?";     
+
+     if(hidden)
+     localStorage.setItem('selectedOption','envio');
+   }
+
+  function MetodoEntregaInicio(){
+     var cities = {{settings.citysConfig }};
+     const city = '{{ customer.default_address.city }}';
+     const cityData = cities.find(item => item.city === city);
+     ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
+    return cityData.metodoEntrega;
+  }
+function validateCity(cityUser, idAddress) {
+ return new Promise((resolve, reject) => {
+   if (
+     typeof localStorage["city"] === "undefined" || 
+     localStorage["city"] === null || 
+     localStorage["city"] === ""
+   ) {
+     localStorage["city"] = "Santa Cruz";
+   }
+
+   if (cityUser.toLowerCase() !== localStorage["city"].toLowerCase()) {
+     Swal.fire({
+       title: "{{ menu_item.title }}",
+       text: "{{ 'general.modal.cambioDireccionMsg1' |t}} {{ 'general.modal.cambioDireccionMsg2' |t}}",
+       icon: "warning",
+       showCancelButton: true,
+       confirmButtonText: "Si, continuar",
+       cancelButtonText: "Cancelar",
+       reverseButtons: true
+     }).then((result) => {
+       if (result.isConfirmed) {
+         fetch('/cart/clear.js', {
+               method: 'POST',
+               headers: {
+                 'Content-Type': 'application/json',
+               },
+             })
+               .then((response) => {
+                   if (response.ok) {  
+                      setDefaultAdreess(idAddress)
+                               .then((response2) => 
+                               {
+                                 if(response2) window.location.href = '/cart';
+                               }).catch(function(err) {
+                                 
+                               });
+                    }                   
+               })
+               .catch((error) => {
+                 console.error('Hubo un problema al vaciar el carrito:', error);
+               }); 
+        
+       } else {
+         resolve(false);
+       }
+     });
+   } else {
+     resolve(true);
+   }
+ });
+}
+  
+  function loadAddress(){
+    const customSelect = document.getElementById("customSelect");
+     const customOptions = document.getElementById("customOptions");
+     const hiddenSelect = document.getElementById("addressSelect");
+     const options = document.querySelectorAll(".custom-option");
+     
+     customSelect.addEventListener("click", () => {
+       customOptions.classList.toggle("hidden");
+     });
+     
+     options.forEach((option) => {
+       option.addEventListener("click", () => {    
+            const city = option.getAttribute("data-city");
+           const value = option.getAttribute("data-value");
+             validateCity(city, value).then((result) => {
+               if (result) {
+
+                     var cities = {{settings.citysConfig }};                     
+                     const cityData = cities.find(item => item.city === city);
+                     ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
+                     const title = option.getAttribute("data-title");
+                     const subtitle = option.getAttribute("data-subtitle");       
+                 
+                      if(cityData.metodoEntrega){                                                         
+                          const result = coordenadasArray.find(item => item.id === value);
+                          if (result) {
+                               const latitud = result.data.latitud;
+                               const longitud = result.data.longitud;
+               
+               
+                               const { utcStart, utcEnd } = getUTCDates(3);
+               
+                               paramScheduled.utcStart = utcStart;
+                               paramScheduled.utcEnd = utcEnd;
+                               paramScheduled.destination.latitude = latitud;
+                               paramScheduled.destination.city = city;
+                               paramScheduled.destination.longitude = longitud;
+                               dameScheduled(paramScheduled)
+                               .then((res) => {  
+                 
+                                 handleScheduledResponse(res);
+                               })
+                               .catch((error) => {
+                                 console.error('Error processing scheduled request:', error);
+                               });
+                 
+                               const radioExpress = document.getElementById('envio-express');
+                               if (radioExpress.checked) {
+                                   ValidarEnvioExpress();
+                               }
+                         }
+                     }
+         
+                     customSelect.querySelector(".select-title").innerText = title;
+                     customSelect.querySelector(".select-subtitle").innerText = subtitle;
+                     
+                     hiddenSelect.value = value;
+                     
+                     customOptions.classList.add("hidden");
+                 
+                 
+               }
+             }).catch((error) => {
+               console.error("Error en la validación de la ciudad:", error);
+             });
+            
+       });
+     });
+     
+     document.addEventListener("click", (event) => {
+       if (
+         !customSelect.contains(event.target) &&
+         !customOptions.contains(event.target)
+       ) {
+         customOptions.classList.add("hidden");
+       }
+     });
+  }
+
+function loadSucursal(){
+    const customSelect = document.getElementById("customSelectSucursal");
+     const customOptions = document.getElementById("customOptionsSucursal");   
+     const hiddenSelect = document.getElementById("sucursalSelect");
+     
+     customSelect.addEventListener("click", () => {
+       customOptions.classList.toggle("hidden");
+     });      
+     document.addEventListener("click", (event) => {
+       if (
+         !customSelect.contains(event.target) &&
+         !customOptions.contains(event.target)
+       ) {
+         customOptions.classList.add("hidden");
+       }
+     });
+  }
+
+   function expandBillingInformation(){
+      const editButton = document.getElementById('editButtonBillingInformation');
+      const summaryView = document.getElementById('summaryViewBillingInformation');
+      const editView = document.getElementById('editViewBillingInformation');
+      editButton.innerHTML = `<img class="tab-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`;
+      summaryView.style.display = 'none';
+      editView.style.display = 'block';    
+  }
+  function colapsableBillingInformation(){
+      const editButton = document.getElementById('editButtonBillingInformation');
+     const summaryView = document.getElementById('summaryViewBillingInformation');
+     const editView = document.getElementById('editViewBillingInformation');
+   
+     editButton.addEventListener('click', () => {
+
+         if(summaryView.style.display != 'none'){
+            editButton.innerHTML = `<img class="primary-icon"  src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
+            summaryView.style.display = 'none';
+            editView.style.display = 'block';
+         }else{
+           const name = document.getElementById('formGroupNombre').value;
+           const documentIdentity = document.getElementById('formGroupDocumento').value;
+       
+           summaryView.innerHTML = `${name} | ${documentIdentity}`;
+            editButton.innerHTML = `<a id="editButtonContactInformation" class="edit-cart-link primay-text clickable"><img class="primary-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694">Editar datos</a>`
+           editView.style.display = 'none';
+           summaryView.style.display = 'block';
+         }
+     });     
+  }
+
+  function expandContactInformation(){
+       const editButton = document.getElementById('editButtonContactInformation');
+       const summaryView = document.getElementById('summaryViewContactInformation');
+       const editView = document.getElementById('editViewContactInformation');
+    
+       summaryView.style.display = 'none';
+       editButton.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
+       editView.style.display = 'block'; 
+  }
+
+   function colapsableContactInformation(){
+      const editButton = document.getElementById('editButtonContactInformation');
+     const summaryView = document.getElementById('summaryViewContactInformation');
+     const editView = document.getElementById('editViewContactInformation');
+   
+     editButton.addEventListener('click', () => {
+
+         if(summaryView.style.display != 'none'){
+           summaryView.style.display = 'none';
+           editButton.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
+           editView.style.display = 'block';
+         }else{
+           const name = document.getElementById('formGroupNombre').value;
+           const lastName = document.getElementById('formGroupApellidos').value;
+           const email = document.getElementById('formGroupEmail').value;
+           const phone = document.getElementById('formGroupPhone').value;
+           const documentIdentity = document.getElementById('formGroupCI').value;
+       
+           summaryView.innerHTML = `${name} | ${lastName} | ${email} | ${phone} | ${documentIdentity}`;
+           editButton.innerHTML = `<a id="editButtonContactInformation" class="edit-cart-link primay-text clickable"><img class="primary-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694">Editar datos</a>`
+           editView.style.display = 'none';
+           summaryView.style.display = 'block';
+         }
+     });     
+  }
+  
+   document.addEventListener('DOMContentLoaded', () => { 
+
+     {% if cart.item_count == 0 %}
+         window.location.href = "/cart";
+     {% endif %}
+     
+     if(coordenadas == null){
+       lanzarModalMapa();
+     }else
+     {
+       const metodoEntrega = MetodoEntregaInicio();
+       colapsableBillingInformation();
+       colapsableContactInformation();
+       datosAdicionalesPagoTarjeta();
+       autoCompleteAddress();
+       shippingEventos();
+       loadAddress();
+       loadSucursal();
+       fetchShippingRates('{{ customer.default_address.city }}')
+        .then((res) => {           
+             PintarShipping(res);
+             let storedOption = localStorage.getItem('selectedOption');
+             if (!storedOption) { 
+               storedOption = "envio";
+               localStorage.setItem('selectedOption', storedOption); 
+             }
+           
+             if (storedOption) {
+                 tabs.forEach(tab => {
+                     const input = tab.querySelector('input[type="radio"]');
+                     const label = tab.querySelector('.tab-option');
+                     const img = tab.querySelector('.tab-icon');
+                     
+                     if (input.id === storedOption) {
+                         input.checked = true;
+                         label.classList.add('active');
+                         img.classList.add('active-icon');
+                       
+                          eventoSelectedTab(storedOption);
+                     } else {
+                         label.classList.remove('active');
+                         img.classList.remove('active-icon');
+                     }
+                 });
+           }   
+         })
+         .catch((error) => {
+             console.error('Error processing pickup request:', error);
+         });
+ 
+         fetchShippingRatesExpreess()
+        .then((res) => {           
+             PintarShippingExpress(res)
+           })
+           .catch((error) => {
+               console.error('Error processing pickup request:', error);
+           });
+       
+       eventosModalNuevaDireccion();
+
+
+       if(metodoEntrega){
+               const { utcStart, utcEnd } = getUTCDates(3);
+       
+               paramScheduled.utcStart = utcStart;
+               paramScheduled.utcEnd = utcEnd;
+         
+              dameScheduled(paramScheduled)
+             .then((res) => {
+               handleScheduledResponse(res);
+             })
+             .catch((error) => {
+               console.error('Error processing scheduled request:', error);
+             });
+               
+         
+             paramPickup.utcStart = utcStart;
+             paramPickup.utcEnd = utcEnd;
+               
+               damePickup(paramPickup)
+               .then((res) => {
+                 handlePickupResponse(res);
+               })
+               .catch((error) => {
+                 console.error("Error processing pickup request:", error);
+               });
+             }
+     }
+     
+
+       const direccionSelect = document.getElementById('direccionSelect');
+       const dropdownItems = document.querySelectorAll('.dropdown-item');
+     
+       dropdownItems.forEach(item => {
+         item.addEventListener('click', (e) => {
+           e.preventDefault();
+     
+           const address1 = item.getAttribute('data-address1');
+           const city = item.getAttribute('data-city');
+           direccionSelect.innerHTML = `
+             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#004AAD" class="bi bi-geo-alt" viewBox="0 0 16 16">
+               <path d="M12.166 8.94c-.63 1.05-1.295 2.012-1.953 2.832A30.15 30.15 0 0 1 8.97 13.75c-.02.014-.04.029-.062.043-.098.064-.24.132-.413.18-.105.03-.208.048-.315.048s-.21-.017-.315-.048c-.173-.048-.315-.116-.413-.18a.836.836 0 0 1-.062-.043 30.15 30.15 0 0 1-1.242-1.978c-.659-.82-1.324-1.782-1.953-2.832C3.265 7.867 2.5 6.54 2.5 5c0-1.75 1.433-3 3.5-3s3.5 1.25 3.5 3c0 1.54-.765 2.867-2.166 3.94ZM8 3.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0ZM6.5 5.5A.5.5 0 1 1 7 5a.5.5 0 0 1-.5.5ZM8 12.5c.983.847 2.049 1.837 3.2 2.988C10.22 15.91 8.61 16 8 16s-2.22-.09-3.2-.512C5.951 14.337 7.017 13.347 8 12.5Z"/>
+             </svg>
+             Casa: ${address1}, ${city}
+           `;
+         });
+       });
+
+      
+     
+        paymentOptions.forEach((option) => {
+         option.addEventListener("click", () => {
+           paymentOptions.forEach((opt) => opt.classList.remove("selected"));
+           option.classList.add("selected");
+           selectedPaymentCode = option.dataset.paymentCode;
+           localStorage.setItem('selectedPaymentGateway', selectedPaymentCode);
+          
+           const firtsDigits = document.getElementById('first-four-digits');
+           const lastDigits = document.getElementById('last-four-digits');
+           if(selectedPaymentCode == 'Tarjeta de Crédito / Débito'){
+              firtsDigits.required = true; 
+              lastDigits.required = true; 
+           }else{
+              firtsDigits.required = false; 
+              lastDigits.required = false;               
+           }
+         });
+       });
+
+       const updateSucursalInfo = (nombre, detalle, mapa) => {
+           const sucursalNombre = document.getElementById("sucursalNombre");
+           const sucursalDetalle = document.getElementById("sucursalDetalle");
+           const sucursalMapa = document.getElementById("sucursalMapa");
+     
+           sucursalNombre.textContent = nombre;
+           sucursalDetalle.textContent = detalle;
+           sucursalMapa.href = mapa;
+     
+           sucursalInfo.style.display = "block";
+     
+       };
+
+
+       const selectedSucursalText = document.getElementById('selectedSucursalText');
+      
+       const sucursalNombre = document.getElementById('sucursalNombre');
+       const sucursalDetalle = document.getElementById('sucursalDetalle');
+       const sucursalMapa = document.getElementById('sucursalMapa');
+       const clearSucursalButton = document.getElementById('clearSucursalButton');
+   
+     clearSucursalButton.addEventListener('click', function () {
+       selectedSucursalText.textContent = 'Seleccionar o buscar sucursal';
+       sucursalInfo.style.display = 'none';
+       clearSucursalButton.style.display = 'none';
+     });
+
+       const dropdownButton = document.getElementById("dropdownMenuButton");
+       
+       dropdownItems.forEach((item) => {
+           item.addEventListener("click", function (e) {
+               e.preventDefault();
+               const selectedText = this.querySelector("strong").textContent;
+               dropdownButton.textContent = selectedText; // Actualiza el texto del botón
+
+           });
+       });
+
+       const tabs = document.querySelectorAll('.tab');
+
+       tabs.forEach(tab => {
+           tab.addEventListener('click', () => {
+               tabs.forEach(t => {
+                   const option = t.querySelector('.tab-option');
+                   option.classList.remove('active');
+                   t.querySelector('input[type="radio"]').checked = false;
+
+                   const img = t.querySelector('.tab-icon');
+                   if (img) {
+                       img.classList.remove('active-icon'); 
+                   }
+               });
+
+
+               const activeImg = tab.querySelector('.tab-icon');
+               if (activeImg) {
+                   activeImg.classList.add('active-icon'); 
+               }
+             
+               const selectedOption = tab.querySelector('.tab-option');
+               selectedOption.classList.add('active');
+               tab.querySelector('input[type="radio"]').checked = true;
+               eventoSelectedTab(selectedOption.htmlFor);
+               localStorage.setItem('selectedOption', tab.querySelector('input[type="radio"]').id);
+           });
+       });           
+   });        
+
+function eventoSelectedTab(storedOption){
+   const pickupView = document.getElementById('pickupView');  
+   const EnvioView = document.getElementById('EnvioView');  
+   const ShippingDiv = document.getElementById('shipping-div');  
+  
+   if (storedOption == 'retiro') {
+         pickupView.style.display = 'block';
+         EnvioView.style.display = 'none';
+         ShippingDiv.style.display = 'none';
+         dameCostoDelivery(0, '');
+     } else {                  
+         pickupView.style.display = 'none';
+         EnvioView.style.display = 'block';
+
+        ShippingDiv.style.display = 'block';
+        const costoDeliveryAux = Number(localStorage.getItem('costoDeliveryAux'));                  
+        dameCostoDelivery(costoDeliveryAux, 'Delivery');                       
+     }
+}
+
+  function hideKeyboard() {
+ const activeElement = document.activeElement;
+
+ if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+   activeElement.blur();
+ }
+}
+
+  function validarCamposObligatorios(){
+
+   let isValid = true;
+   let firstInvalidField = null;     
+
+    const storedOption = localStorage.getItem('selectedOption');
+    if (storedOption != 'envio') {
+       const customSelectSucursal = document.getElementById("customSelectSucursal"); 
+       const selectedSucursalText = document.getElementById("selectedSucursalText");
+       if (selectedSucursalText.textContent.trim() === "Seleccionar o buscar sucursal") {
+         customSelectSucursal.classList.add("is-invalid"); 
+         isValid = false;
+         if (!firstInvalidField) {
+            firstInvalidField = customSelectSucursal; 
+         }    
+       } else {
+         customSelectSucursal.classList.remove("is-invalid");
+       }
+    }
+  
+    if (!isPaymentSelected()) {
+     const requiredPayment = document.getElementById("requiredPayment"); 
+     requiredPayment.style.display = 'block';
+     firstInvalidField = requiredPayment; 
+     isValid = false;
+   }
+
+
+    expandContactInformation();
+    expandBillingInformation();
+   const inputs = document.querySelectorAll("input[required], textarea[required], select[required]"); // Selecciona todos los campos requeridos
+
+   inputs.forEach((input) => {
+     if (!input.value.trim()) {
+       input.classList.add("is-invalid");
+       input.classList.remove("is-valid");
+       if (!firstInvalidField) {
+         firstInvalidField = input; 
+       }
+       isValid = false;
+     } else {
+       input.classList.remove("is-invalid"); 
+       input.classList.add("is-valid"); 
+     }
+   });
+
+   if (firstInvalidField) {
+     firstInvalidField.scrollIntoView({ behavior: "smooth", block: "center" }); 
+     firstInvalidField.focus(); 
+   }
+
+   if (isValid) {
+    return true;
+   } else {
+    return false
+   }
+  }
+
+    const getSelectedOptionPointPay = () => {
+      if(localStorage.getItem('selectedPaymentGateway') == "Colaboradores (Crédito/Puntos)"){
+       const selectedOption = document.querySelector('input[name="options-outlined"]:checked');
+       if (selectedOption) {
+           const label = document.querySelector(`label[for="${selectedOption.id}"]`);
+           return label ? label.textContent.trim() : "";
+       }
+       return "";
+      }
+      return "";
+      
+   };
+  
+ function crearOrden(){
+
+   hideKeyboard();
+   if(validarCamposObligatorios()){
+     
+       const email = "{{ customer.email }}";
+       const idOwner = "{{ customer.id}}";
+   
+       const lines = [];
+       {% for item in cart.items %}
+       lines.push({
+           variantId: "{{ item.variant_id }}",
+           quantity: {{ item.quantity }},
+           price: {{ item.final_price | divided_by: 100.0 }},
+           discountAmout: 0, // Actualiza si tienes descuentos
+           discountTitle: "",
+           discountType: "",
+           isCampaign2x1: false, // Actualiza si tienes una lógica para promociones
+           shopKey: "{{shopKey}}",
+           name: "{{ item.product.title }}",
+           title: "{{ item.product.title }}",
+       });
+       {% endfor %}
+   
+       const shippingAddress = {
+           firstName: "{{ customer.default_address.first_name }}",
+           lastName: "{{ customer.default_address.last_name }}",
+           address1: "{{ customer.default_address.address1 }}",
+           address2: "{{ customer.default_address.address2 }}",
+           phone: "{{ customer.default_address.phone }}",
+           city:  paramScheduled.destination.city ,
+       };
+
+
+     
+      var cities = {{settings.citysConfig }};
+      const cityData = cities.find(item => item.city === shippingAddress.city);
+      const native = !cityData.metodoEntrega;
+   
+       const documentoInput = document.getElementById("formGroupDocumento").value;
+       const nombreInput = document.getElementById("formGroupNombre").value;
+       const facturacionInfo = {
+           documento: documentoInput,
+           tipoDocumentoId: "5",
+           tipoDocumentoDescripcion: "NIT - NÚMERO DE IDENTIFICACIÓN TRIBUTARIA",
+           complementoDocumento: "",
+           nombre: nombreInput,
+           email: "{{ customer.email }}",
+           telefono: document.getElementById("formGroupPhone")?.value || "",
+       };
+
+        let instaleapInfo =[];
+       if(!native){
+     
+           const storedOption = localStorage.getItem('selectedOption');
+           
+           if (storedOption == 'envio') {
+               const selectedRadio = document.querySelector('input[name="shipping"]:checked');
+       
+               if (selectedRadio) {
+                   localStorage.setItem(`operationCode`, 'scheduled');
+                   localStorage.setItem(`operationDescription`, 'Envío a domicilio');                
+                   localStorage.setItem(`timeSlotId`, document.getElementById('timeSelect').value);
+               }else{
+                   localStorage.setItem(`operationCode`, 'express');
+                   localStorage.setItem(`operationDescription`, 'Envío Express');                
+                   localStorage.setItem(`timeSlotId`, localStorage.getItem("timeSlotIdExpress"));
+               }
+           }else{      
+               localStorage.setItem(`operationCode`, 'pickup');
+               localStorage.setItem(`operationDescription`, 'Recojo en tienda');                    
+               localStorage.setItem(`timeSlotId`, localStorage.getItem("timeSlotIdPickup"));
+           }
+           
+            instaleapInfo = [
+               {
+                   shopKey: "{{shopKey}}",
+                   codigoOperacion: localStorage.getItem("operationCode"),
+                   operacion: localStorage.getItem("operationDescription"), 
+                   bodega: localStorage.getItem("keyBodega"), 
+                   slotInstaleap: localStorage.getItem("timeSlotId"),
+               },
+           ];
+         
+       }
+   
+       let cardNumber = '';
+       const firstFourDigits = document.getElementById("first-four-digits")?.value || "";
+       const lastFourDigits = document.getElementById("last-four-digits")?.value || "";
+   
+       if (firstFourDigits && lastFourDigits) {
+           cardNumber = `${firstFourDigits}00000000${lastFourDigits}`;
+       }   
+       
+       const bankCode = "";
+       const bankDescription = "";
+       const shippingCode = localStorage.getItem("nameDelivery")|| "DEFAULT_SHIPPING"
+       const shippingAmount = parseFloat(localStorage.getItem("costoDelivery")) || 0;
+       const paymentGatewayCode = localStorage.getItem('selectedPaymentGateway') || "DEFAULT_CODE";
+       const paymentGatewayAmount = parseFloat(localStorage.getItem("costoTotal")) || 0;
+       const keySource = "web";
+       const appVersion = "1.0.0";
+       const discountAmout = 0; 
+       const discountTitle = "";
+       const discountType = "";
+       const note = document.getElementById("order-note")?.value || "";
+       const colaboradoresPuntosOptionSelected = getSelectedOptionPointPay();
+   
+       const orderData = {
+           email,
+           idOwner,
+           lines,
+           shippingAddress,
+           facturacionInfo,
+           instaleapInfo,
+           cardNumber,
+           bankCode,
+           bankDescription,
+           latitud: coordenadas.latitud,
+           longitud: coordenadas.longitud,
+           shippingCode,
+           shippingAmount,
+           paymentGatewayCode,
+           paymentGatewayAmount,
+           keySource,
+           appVersion,
+           discountAmout,
+           discountTitle,
+           discountType,
+           note,
+           colaboradoresPuntosOptionSelected
+       };
+
+       const first_name = document.getElementById("formGroupNombre")?.value || "";
+       const last_name = document.getElementById("formGroupApellidos")?.value || "";
+       const emailAux = document.getElementById("formGroupEmail")?.value || "";
+       const phone = document.getElementById("formGroupPhone")?.value || "";
+       const documento = document.getElementById("formGroupCI")?.value || "";
+
+     try{
+       associateFarmaclubV2(`{{ customer.first_name }}`,`{{ customer.last_name }}`, `{{ customer.email }}`, phone, ``,documento, `{{ customer.id | json }}`,`{{ customer.email }}`)
+                   .then((response) =>{ 
+
+                       if(response.data.cedula){
+                         attachFarmaclub( response.data.cedula, response.data.idFarmacorp)
+                             .then((response2) => { 
+                             }).catch(function(err) {
+                               
+                             });
+                       }
+                   })
+                   .catch(function(err) {
+                   });
+      } catch (error) {
+       console.error('Error al realizar la solicitud:', error);
+   }      
+     
+     UpdateCustomer(first_name, last_name,phone,emailAux, idOwner);  
+     createOrder(orderData).then((res) => {                     
+         if(res){
+             const operationCode = localStorage.getItem("operationCode");
+             if(res[0].paymentWebViewHtmlResponse)
+             {
+               const parser = new DOMParser();
+               const doc = parser.parseFromString(res[0].paymentWebViewHtmlResponse, 'text/html');
+               const inputElement = doc.querySelector('input[name="mp"]');
+               const tipo = inputElement ? inputElement.getAttribute('value') : null;
+
+               window.location.href = `{{ settings.checkout_domain }}pages/liveess?nocache={{ 'now' | date: '%s' }}&tipo=${tipo}&order=${res[0].orderNumber}&orderid=${res[0].orderId}&operationCode=${operationCode}&native=${native}&monto=${paymentGatewayAmount}`;
+               
+             }else{
+               
+                 setTimeout(() => {
+                     clearCartAndRedirect(res[0].orderId,operationCode, native);
+                 }, 4000);
+             }
+         }         
+       })
+       .catch((error) => {
+           console.error('Error processing pickup request:', error);
+       });
+   }
+ }
+function clearCartAndRedirect(orderId, operationCode, native) {
+ fetch('/cart/clear.js', {
+   method: 'POST',
+   headers: {
+     'Content-Type': 'application/json',
+   },
+ })
+   .then((response) => {
+     if (!response.ok) {
+       throw new Error('Error al vaciar el carrito');
+     }
+
+     if(native == true){
+         window.location.href = `{{ settings.checkout_domain }}pages/thankyou?orderId=${orderId}`;
+     }else{
+            dameOrderInfo(orderId).then((res) => {                     
+                         if(res.data){
+                            const jobId = res.data.data[0].instaleapJobId;
+                           if(jobId!=='')
+                              window.location.href = `{{ settings.checkout_domain }}pages/lst?jobId=${jobId}&type=${operationCode}`;
+                           else
+                             clearCartAndRedirect(orderId, operationCode);
+                         }
+                        
+                       })
+                       .catch((error) => {
+                           console.error('Error processing pickup request:', error);
+                       });        
+       }
+   })
+   .catch((error) => {
+     console.error('Hubo un problema al vaciar el carrito:', error);
+   });
+}
+
+function HidenModalNuevaDireccion(){
+   const modalElement = document.getElementById("nuevaDireccionModal");
+   const modal = new bootstrap.Modal(modalElement);
+   modal.hide();
+}
+  
+function crearDireccion(){
+
+ const cities ={{settings.citysConfig}};
+ const locationString = localStorage.getItem('location_save');
+ if (locationString) {
+     const loc = JSON.parse(locationString);
+
+     const closestCity = getClosestCity(cities, loc.lat, loc.lng);
+   
+
+     const addressData = {
+       customerId:  "{{ customer.id}}",
+       id: '',
+       firstName: "",
+       lastName: document.getElementById('aliasDireccion').value,
+       phone: "",
+       city: closestCity.city,
+       address:  document.getElementById('indicacionDireccion').value,
+       reference: "",
+       zoom: 15,
+       latitud: loc.lat,
+       longitud: loc.lng,
+       default: true,
+     };
+      validateCobertura(loc.lat,loc.lng ,closestCity.city).then((res) => {  
+
+         if(res.data){
+              upsertAddress(addressData).then((res) => {                                 
+               location.reload();
+              })
+              .catch((error) => {
+                console.error('Error processing pickup request:', error);
+              });
+         }else
+         {
+             HidenModalNuevaDireccion();
+             displayCoverageError('Dirección fuera de cobertura');            
+         }
+      })
+      .catch((error) => {
+        console.error('Error processing pickup request:', error);
+      });
+   
+     
+     
+ }
+}
+
+function getPlaceDescription(lat, lng) {
+   return new Promise((resolve, reject) => {
+       const geocoder = new google.maps.Geocoder();
+       const latLng = { lat: lat, lng: lng };
+
+       geocoder.geocode({ location: latLng }, function(results, status) {
+           if (status === google.maps.GeocoderStatus.OK) {
+               if (results[0]) {
+                   resolve(results[0].formatted_address); // Retorna la descripción
+               } else {
+                   reject("No se encontraron resultados para la ubicación.");
+               }
+           } else {
+               reject(`Error al geocodificar la ubicación: ${status}`);
+           }
+       });
+   });
+}
+
+function updateDireccion(){
+
+ const cities ={{settings.citysConfig}};
+ const locationString = localStorage.getItem('location_save');
+ if (locationString) {
+     const loc = JSON.parse(locationString);
+
+     const closestCity = getClosestCity(cities, loc.lat, loc.lng);
+
+   getPlaceDescription(loc.lat, loc.lng)
+       .then(description => {
+                 const addressData = {
+                   customerId:  "{{ customer.id}}",
+                   id: "{{customer.default_address.id}}",
+                   firstName: "{{customer.default_address.first_name}}",
+                   lastName: "{{customer.default_address.last_name}}",
+                   phone: "{{customer.default_address.phone}}",
+                   city: closestCity.city,
+                   address:  description,
+                   reference: "Nueva dirección",
+                   zoom: 15,
+                   latitud: loc.lat,
+                   longitud: loc.lng,
+                   default: true,
+                 };
+               
+           
+                 validateCobertura(loc.lat,loc.lng ,closestCity.city).then((res) => {  
+           
+                     if(res.data){
+                         upsertAddress(addressData).then((res) => {   
+                            location.reload();              
+                        })
+                        .catch((error) => {
+                          console.error('Error processing pickup request:', error);
+                        });
+                     }else
+                     {
+                         HidenModalNuevaDireccion();
+                         displayCoverageError('Dirección fuera de cobertura');            
+                     }
+                  })
+                  .catch((error) => {
+                    console.error('Error processing pickup request:', error);
+                  });
+           })
+           .catch(error => {
+               console.error(error);
+           });       
+ }
+}
+  
+  function getClosestCity(cities, targetLat, targetLng) {
+ function haversine(lat1, lng1, lat2, lng2) {
+   const toRadians = (degrees) => degrees * (Math.PI / 180);
+
+   const R = 6371; // Radio de la Tierra en kilómetros
+   const dLat = toRadians(lat2 - lat1);
+   const dLng = toRadians(lng2 - lng1);
+
+   const a =
+     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+     Math.cos(toRadians(lat1)) *
+       Math.cos(toRadians(lat2)) *
+       Math.sin(dLng / 2) *
+       Math.sin(dLng / 2);
+
+   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+   return R * c; // Distancia en kilómetros
+ }
+
+ let closestCity = null;
+ let smallestDistance = Infinity;
+
+ cities.forEach((city) => {
+   const distance = haversine(
+     parseFloat(city.latitud),
+     parseFloat(city.longitud),
+     parseFloat(targetLat),
+     parseFloat(targetLng)
+   );
+
+   if (distance < smallestDistance) {
+     smallestDistance = distance;
+     closestCity = city;
+   }
+ });
+
+ return closestCity;
+}
+</script>
+
+{% comment %}
+  <script>
+     const sparklesContainer = document.getElementById("sparklesContainer");
+
+     // Crear múltiples chispas
+     for (let i = 0; i < 30; i++) {
+       const sparkle = document.createElement("div");
+       sparkle.className = "sparkle";
+
+       // Posicionar las chispas alrededor del carro
+       sparkle.style.left = `${Math.random() * 100}px`;
+       sparkle.style.bottom = `${Math.random() * 30}px`;
+
+       // Añadir un retraso aleatorio para cada chispa
+       sparkle.style.animationDelay = `${Math.random() * 2}s`;
+
+       sparklesContainer.appendChild(sparkle);
+     }
+   </script>
+{% endcomment %}

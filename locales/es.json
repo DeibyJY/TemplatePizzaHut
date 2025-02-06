@@ -9,6 +9,12 @@
  */
 {
   "general": {
+    "modal": {
+      "cambioDireccionMsg1": "¿Esta seguro que desea cambiar de ciudad?",
+      "cambioDireccionMsg2": "Al cambiar ciudad, los productos se eliminarán del carrito.",
+      "detectoDireccionMsg1": "Armaste tu carrito en una ciudad distinta",
+      "detectoDireccionMsg2": "Tu carrito se eliminara."
+    },
     "text": {
       "search": "Search",
       "my_account": "My Account",
