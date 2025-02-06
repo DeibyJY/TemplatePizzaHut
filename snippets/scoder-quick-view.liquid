@@ -1308,7 +1308,8 @@
                       id="product-checkout-{{ product.id }}"
                       style="--bin-color: #232323;--bin-bg-color: #ffffff;--bin-border-color: #acacac;--bin-color-hover: #ffffff;--bin-bg-color-hover: #232323;--bin-border-color-hover: #232323"
                     >
-                      {{ form | payment_button }}
+                      {% comment %} {{ form | payment_button }} {% endcomment %}
+                      <button class="buttton-payment-checkout-custom">Comprar Ahora</button>
                     </div>
                   </div>
                 </div>
