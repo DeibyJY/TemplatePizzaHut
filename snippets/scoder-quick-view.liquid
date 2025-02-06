@@ -2847,7 +2847,7 @@
         let cantidadProductoActual = 1;
         const quantityContainer = document.querySelector('.quantity__container');
         if(quantityContainer) {
-            const quantityInput = quantityContainer.querySelector('.form-input.quantity__input.quantity');
+            const quantityInput = quantityContainer.querySelector('.buttton-payment-checkout-custom');
             if(quantityInput) {
                 const valorInput = parseInt(quantityInput.value);
                 cantidadProductoActual = !isNaN(valorInput) && valorInput >= 1 ? valorInput : 1;
