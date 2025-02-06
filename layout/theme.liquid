@@ -12,6 +12,17 @@
 -%}
 <html class="no-js" lang="{{ request.locale.iso_code }}"{% if settings.enable_layout_rtl and enable_iso_rtl %} dir="rtl"{% endif %}>
     <head>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            if (window.location.pathname === "/account") {
+              const redirectUrl = sessionStorage.getItem("redirect_after_login");
+              if (redirectUrl) {
+                sessionStorage.removeItem("redirect_after_login");
+                window.location.href = redirectUrl;
+              }
+            }
+          });
+        </script>
         <!-- Google Tag Manager -->
         <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
