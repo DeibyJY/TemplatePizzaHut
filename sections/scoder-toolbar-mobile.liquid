@@ -33,7 +33,7 @@
             >
               <a
                 {% unless is_contained %}
-                  href="{{ routes.account_login_url }}"
+                  href="/account/login"
                 {% endunless -%}
                 {% if link == blank %}
                   role="link" aria-disabled="true"
