@@ -11,8 +11,6 @@
   "current": {
     "citysConfig": "[\n    {\n      city: \"Santa Cruz\",\n\t  latitud: \"-17.783318\",\n\t  longitud: \"-63.182126\",\n\t  keyRegion : \"001\",\n          metodoEntrega: true\n    },\n\t{\n      city: \"Pando\",\n\t  latitud: \"-11.023339\",\n\t  longitud: \"-68.766269\",\n\t  keyRegion : \"008\",\n          metodoEntrega: false\n\t},\n    {\n      city: \"Cochabamba\",\n\t  latitud: \"-17.396394\",\n\t  longitud: \"-66.162779\",\n\t  keyRegion : \"002\",\n          metodoEntrega: false\n    },\n    {\n      city: \"Oruro\",\n\t  latitud: \"-17.969568\",\n\t  longitud: \"-67.114624\",\n\t  keyRegion : \"005\",\n          metodoEntrega: false\n    },\n    {\n      city: \"Potosí\",\n\t  latitud: \"-19.576795\",\n\t  longitud: \"-65.757412\",\n\t  keyRegion : \"009\",\n          metodoEntrega: false\n    },\n    {\n      city: \"Beni\",\n\t  latitud: \"-14.835039\",\n\t  longitud: \"-64.904141\",\n\t  keyRegion : \"007\",\n          metodoEntrega: false\n    },\n    {\n      city: \"Tarija\",\n\t  latitud: \"-21.533895\",\n\t  longitud: \"-64.734285\",\n\t  keyRegion : \"004\",\n          metodoEntrega: false\n    },\n    {\n      city: \"Chuquisaca\",\n\t  latitud: \"-19.047752\",\n\t  longitud: \"-65.259527\",\n\t  keyRegion : \"006\",\n          metodoEntrega: false\n    },\n    {\n      city: \"La Paz\",\n\t  latitud: \"-16.498447\",\n\t  longitud: \"-68.126580\",\n\t  keyRegion : \"003\",\n          metodoEntrega: false\n    }\n  ]",
     "keyGoogleMap": "AIzaSyAzBQg6Gbsg-bvZ3_jPAjoCbCj5Xva-Bls",
-    "monto_minimo_leyenda": "Monto mínimo de compra en Farmacorp. Bs 30,00",
-    "checkout_domain": "https://pizza-hut-bo.myshopify.com/",
     "layout_header": "custom_width",
     "header_custom_width_size": 1230,
     "header_layout": "01",
@@ -278,6 +276,8 @@
       "lemon-juice",
       "extra-drink"
     ],
+    "monto_minimo_leyenda": "Monto mínimo de compra en Farmacorp. Bs 30,00",
+    "checkout_domain": "https://pizza-hut-bo.myshopify.com/",
     "product_wishlist_color": "#111111",
     "product_wishlist_color_added": "#ffffff",
     "product_wishlist_bg_added": "#111111",
@@ -497,8 +497,6 @@
           "border_color": "#000000",
           "logo_menu": false,
           "icon_menu": false,
-          "logo": "shopify://shop_images/header-logo.png",
-          "logo_transparent": "shopify://shop_images/header-logo.png",
           "logo_width": 130,
           "logo_width_table": 130,
           "logo_width_mobile": 130,
@@ -574,11 +572,15 @@
         "blocks": {
           "announcement-bar-0": {
             "type": "announcement",
-            "settings": { "text": "Mid-Season Sale Up to 70% Off. Shop Now" }
+            "settings": {
+              "text": "Mid-Season Sale Up to 70% Off. Shop Now"
+            }
           },
           "8a721761-30e4-4c4d-9658-4bbf6dfa9961": {
             "type": "announcement",
-            "settings": { "text": "Mid-Season Sale Up to 50% Off. Shop Now" }
+            "settings": {
+              "text": "Mid-Season Sale Up to 50% Off. Shop Now"
+            }
           }
         },
         "block_order": [
@@ -623,7 +625,6 @@
               "mg_bottom_desktop": 0,
               "mg_bottom_tablet": 30,
               "mg_bottom_mobile": 30,
-              "logo": "shopify://shop_images/header-logo.png",
               "logo__space_bottom": 10,
               "logo__space_bottom_tb": 10,
               "logo__space_bottom_mb": 10,
@@ -672,7 +673,7 @@
               "mg_bottom_tablet": 30,
               "mg_bottom_mobile": 30,
               "heading": "INFORMATION",
-              "menu": "footer-information"
+              "menu": ""
             }
           },
           "1c458c88-d7ea-4053-86cc-a534b8be24b1": {
@@ -685,7 +686,7 @@
               "mg_bottom_tablet": 30,
               "mg_bottom_mobile": 30,
               "heading": "TOP ITEMS",
-              "menu": "footer-top-items"
+              "menu": ""
             }
           },
           "06bf791f-2992-42b1-a363-ad108d5ad8a4": {
@@ -1408,7 +1409,14 @@
         }
       }
     },
-    "content_for_index": []
+    "content_for_index": [],
+    "blocks": {
+      "10025992882218306672": {
+        "type": "shopify://apps/ctx-whatsapp-chat-marketing/blocks/app-embed/7bea84d9-a54b-47f1-9ebf-40f235a03c1c",
+        "disabled": false,
+        "settings": {}
+      }
+    }
   },
   "presets": {
     "Default": {
@@ -1540,5 +1548,7 @@
       "cart_drawer_collection": ""
     }
   },
-  "platform_customizations": { "custom_css": [] }
+  "platform_customizations": {
+    "custom_css": []
+  }
 }
