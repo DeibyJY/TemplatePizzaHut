@@ -997,6 +997,8 @@
   {% assign coordenadasArray = "" %}
   {% assign keyAddressMetafields = customer.default_address.id | downcase %}
 
+  console.log('Metafield específico:', {{ customer.metafields.CustAddressInfo['9587920568452'] | json }});
+
   {%- for address in customer.metafields.CustAddressInfo -%}
     {% if keyAddressMetafields == address[0]  %}    
          coordenadas = JSON.parse('{{ address[1] }}'.replaceAll('=>', ':'));
