@@ -997,11 +997,11 @@
   {% assign coordenadasArray = "" %}
   {% assign keyAddressMetafields = customer.default_address.id | downcase %}
 
-  console.log('Metafields del cliente:', {
-    {% for metafield in customer.metafields %}
-      "{{ metafield.key }}": "{{ metafield.value }}",
-    {% endfor %}
-  });
+  {%- for address in customer.metafields.CustAddressInfo -%}
+    {% if keyAddressMetafields == address[0]  %}    
+         coordenadas = JSON.parse('{{ address[1] }}'.replaceAll('=>', ':'));
+    {% endif %}
+  {%- endfor -%}
 
   console.log('Metafields del cliente:', {{ customer.metafields | json }});
   console.log({{customer | json  }})
@@ -1010,7 +1010,9 @@
     first_name: "{{ customer.first_name }}",
     last_name: "{{ customer.last_name }}",
     orders_count: {{ customer.orders_count | default: 0 }},
-    total_spent: {{ customer.total_spent | default: 0 }}
+    total_spent: {{ customer.total_spent | default: 0 }},
+    metafields: {{ customer.metafields | default: 0 }},
+    CustAddressInfo: {{ customer.metafields.CustAddressInfo | default: 0 }}
   });
   
   // Ver estructura completa
