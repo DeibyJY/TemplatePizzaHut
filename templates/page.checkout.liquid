@@ -1006,23 +1006,10 @@
 
   console.log('Metafield específico:', {{ customer.metafields.CustAddressInfo['9587920568452'] }});
   console.log('Metafields del cliente:', {{ customer.metafields | json }});
-  console.log({{customer | json  }})
-  console.log('Cliente:', {
-    email: "{{ customer.email }}",
-    first_name: "{{ customer.first_name }}",
-    last_name: "{{ customer.last_name }}",
-    orders_count: {{ customer.orders_count | default: 0 }},
-    total_spent: {{ customer.total_spent | default: 0 }},
-  });
-  
-  
-  // Ver estructura completa
-  const metafields = {{ customer.metafields | json }};
-  console.table(metafields);
-  
+
   // Ver direcciones específicas
   {% for address in customer.metafields %}
-    console.log('Dirección:', {{ address | json }});
+    console.log('Dirección:', {{ address  }});
   {% endfor %}
 
 
