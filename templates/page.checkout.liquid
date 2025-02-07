@@ -1004,6 +1004,7 @@
   {%- endfor -%}
 
   console.log('Metafields del cliente:', {{ customer.metafields | json }});
+  console.log({{customer | json   }})
   
   // Ver estructura completa
   const metafields = {{ customer.metafields | json }};
