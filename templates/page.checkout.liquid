@@ -2399,7 +2399,10 @@ function crearDireccion(){
 
   const cities ={{settings.citysConfig}};
   const locationString = localStorage.getItem('location_save');
+  console.log('locationString',locationString);
   if (locationString) {
+
+    console.log('HolaMundo si llegiue a entrar');
       const loc = JSON.parse(locationString);
 
       const closestCity = getClosestCity(cities, loc.lat, loc.lng);
