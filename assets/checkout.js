@@ -1,8 +1,3 @@
-
-
-
-
-
 function uHeaders(){  
  if(!localStorage.as)
     window.location.href = '/account/logout';

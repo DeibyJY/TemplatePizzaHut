@@ -1643,8 +1643,7 @@ function validateCity(cityUser, idAddress) {
     if (cityUser.toLowerCase() !== localStorage["city"].toLowerCase()) {
       Swal.fire({
         title: "{{ menu_item.title }}",
-        text: "{{ 'farmacorp.modal.cambioDireccionMsg1' |t}} {{ 'farmacorp.modal.cambioDireccionMsg2' |t}}",
-        icon: "warning",
+        text: "{{ 'general.modal.cambioDireccionMsg1' | t }} {{ 'general.modal.cambioDireccionMsg2' | t }}",        icon: "warning",
         showCancelButton: true,
         confirmButtonText: "Si, continuar",
         cancelButtonText: "Cancelar",
@@ -1855,6 +1854,8 @@ function validateCity(cityUser, idAddress) {
       {% endif %}
       
       if(coordenadas == null){
+        console.log("No se encontraron coordenadas");
+        console.log(coordenadas)
         lanzarModalMapa();
       }else
       {
@@ -2440,6 +2441,7 @@ function updateDireccion(){
   const cities ={{settings.citysConfig}};
   const locationString = localStorage.getItem('location_save');
   if (locationString) {
+      console.log('Hola Mundo');
       const loc = JSON.parse(locationString);
 
       const closestCity = getClosestCity(cities, loc.lat, loc.lng);
