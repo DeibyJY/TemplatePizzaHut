@@ -1004,16 +1004,29 @@
          console.log(coordenadas);
     {% endif %}
   {%- endfor -%}
-  coordenadas = JSON.parse('{"latitud":-17.7492891,"longitud":-63.2148283,"zoom":12,"hash":"d216a36e2736e3225ac045c2aefe5376","guid":"06562843-9f58-4630-8299-ea3f82a681b0","lastEditDate":"2024-12-17T12:29:47.2677283-04:00"}');
-  console.log(coordenadas);
-  console.log('Metafield específico:', {{ customer.metafields.CustAddressInfo['9587920568452'] }});
-  console.log('Metafields del cliente:', {{ customer.metafields }});
-
-  // Ver direcciones específicas
-  {% for address in customer.metafields.CustAddressInfo %}
-    {% comment %} console.log('Dirección:', {{ address  }}); {% endcomment %}
-  {% endfor %}
-
+  
+  {%- for address in customer.metafields.CustAddressInfo -%}
+    console.log('Procesando address:', {
+      key: '{{ address[0] }}',
+      value: '{{ address[1] }}'
+    });
+    
+    console.log('keyAddressMetafields actual:', '{{ keyAddressMetafields }}');
+    
+    {% if keyAddressMetafields == address[0] %}
+      console.log('¡Coincidencia encontrada!');
+      console.log('Datos antes de parse:', '{{ address[1] }}');
+      console.log('Datos después de replaceAll:', '{{ address[1] }}'.replaceAll('=>', ':'));
+      
+      try {
+        const coordenadas = JSON.parse('{{ address[1] }}'.replaceAll('=>', ':'));
+        console.log('Coordenadas parseadas exitosamente:', coordenadas);
+      } catch(error) {
+        console.error('Error al parsear coordenadas:', error);
+        console.log('Datos que causaron el error:', '{{ address[1] }}');
+      }
+    {% endif %}
+  {%- endfor -%}
 
 {%- for address in customer.metafields.CustAddressInfo -%}
   {% assign coordenadas = address[1] | replace: '=>', ':' | parse_json %}
