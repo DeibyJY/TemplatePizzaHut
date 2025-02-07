@@ -25,8 +25,6 @@
 {% assign montoMinimo = settings.monto_minimo_valor %}
 {% assign subTotal = cart.total_price | divided_by: 100.0 %}
 {% assign primaryColor = '00539B' %}
-{% assign default_image = '//pizza-hut-bo.myshopify.com/cdn/shopifycloud/shopify/assets/no-image-100-c91dd4bdb56513f2cbf4fc15436ca35e9d4ecd014546c8d421b1aece861dfecf_small.gif' %}
-
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <!-- CSS & JS Dependencies -->
 <link
@@ -881,7 +879,7 @@
             <li class="cart-item">
               <div class="product-image">
                 <img
-                  src="{% if item.image.src contains 'assets/no-image' %}https://cdn.shopify.com/s/files/1/0911/7781/2252/files/foto-auxiliar.png?v=1738901559{% else %}{{ item.image | img_url: 'small' }}{% endif %}"
+                  src="{% if item.image contains '/assets/no-image' %}https://cdn.shopify.com/s/files/1/0911/7781/2252/files/foto-auxiliar.png?v=1738901559{% else %}{{ item.image | img_url: 'small' }}{% endif %}"
                   alt="{{ item.product.title }}"
                 >
               </div>
