@@ -1650,6 +1650,9 @@ function displayExpressError(errorMessage) {
       var cities = {{settings.citysConfig }};
       const city = '{{ customer.default_address.city }}';
       const cityData = cities.find(item => item.city === city);
+      console.log('city',city);
+      console.log('cityData',cityData);
+
       ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
      return cityData.metodoEntrega;
    }
