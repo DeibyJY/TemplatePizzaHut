@@ -994,8 +994,8 @@
 {% endif %}
 <script>
    let coordenadas = null;
-{% assign coordenadasArray = "" %}
-{% assign keyAddressMetafields = customer.default_address.id | downcase %}
+  {% assign coordenadasArray = "" %}
+  {% assign keyAddressMetafields = customer.default_address.id | downcase %}
 
   {%- for address in customer.metafields.CustAddressInfo -%}
     {% if keyAddressMetafields == address[0]  %}    
@@ -1003,7 +1003,16 @@
     {% endif %}
   {%- endfor -%}
 
-
+  console.log('Metafields del cliente:', {{ customer.metafields | json }});
+  
+  // Ver estructura completa
+  const metafields = {{ customer.metafields | json }};
+  console.table(metafields);
+  
+  // Ver direcciones específicas
+  {% for address in customer.metafields %}
+    console.log('Dirección:', {{ address | json }});
+  {% endfor %}
 
 
 {%- for address in customer.metafields.CustAddressInfo -%}
