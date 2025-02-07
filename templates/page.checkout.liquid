@@ -1011,7 +1011,7 @@
 
   // Ver direcciones específicas
   {% for address in customer.metafields.CustAddressInfo %}
-    console.log('Dirección:', {{ address  }});
+    {% comment %} console.log('Dirección:', {{ address  }}); {% endcomment %}
   {% endfor %}
 
 
