@@ -878,9 +878,8 @@
           {% for item in cart.items %}
             <li class="cart-item">
               <div class="product-image">
-                <p>Hola</p>
                 <img
-                  src="{% if item.image contains 'no-image' %}https://cdn.shopify.com/s/files/1/0911/7781/2252/files/foto-auxiliar.png?v=1738901559{% else %}{{ item.image | img_url: 'small' }}{% endif %}"
+                  src="{% if item.image == '//pizza-hut-bo.myshopify.com/cdn/shopifycloud/shopify/assets/no-image-100-c91dd4bdb56513f2cbf4fc15436ca35e9d4ecd014546c8d421b1aece861dfecf_small.gif' %}https://cdn.shopify.com/s/files/1/0911/7781/2252/files/foto-auxiliar.png?v=1738901559{% else %}{{ item.image | img_url: 'small' }}{% endif %}"
                   alt="{{ item.product.title }}"
                 >
               </div>
