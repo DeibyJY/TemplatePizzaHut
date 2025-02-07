@@ -1004,7 +1004,8 @@
          console.log(coordenadas);
     {% endif %}
   {%- endfor -%}
-
+  coordenadas = JSON.parse('{"latitud":-17.7492891,"longitud":-63.2148283,"zoom":12,"hash":"d216a36e2736e3225ac045c2aefe5376","guid":"06562843-9f58-4630-8299-ea3f82a681b0","lastEditDate":"2024-12-17T12:29:47.2677283-04:00"}');
+  console.log(coordenadas);
   console.log('Metafield específico:', {{ customer.metafields.CustAddressInfo['9587920568452'] }});
   console.log('Metafields del cliente:', {{ customer.metafields }});
 
