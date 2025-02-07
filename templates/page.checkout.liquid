@@ -1005,7 +1005,7 @@
     {% endif %}
   {%- endfor -%}
 
-  console.log('Metafield específico:', {{ customer.metafields.CustAddressInfo['9587920568452'] | json }});
+  console.log('Metafield específico:', {{ customer.metafields.CustAddressInfo['9587920568452'] }});
   console.log('Metafields del cliente:', {{ customer.metafields | json }});
   console.log({{customer | json  }})
   console.log('Cliente:', {
