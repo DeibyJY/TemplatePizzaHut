@@ -878,6 +878,7 @@
           {% for item in cart.items %}
             <li class="cart-item">
               <div class="product-image">
+                <p>Hola</p>
                 <img
                   src="{% if item.image contains '/assets/no-image' %}https://cdn.shopify.com/s/files/1/0911/7781/2252/files/foto-auxiliar.png?v=1738901559{% else %}{{ item.image | img_url: 'small' }}{% endif %}"
                   alt="{{ item.product.title }}"
