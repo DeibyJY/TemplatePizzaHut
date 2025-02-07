@@ -997,7 +997,7 @@
   {% assign coordenadasArray = "" %}
   {% assign keyAddressMetafields = customer.default_address.id | downcase %}
 
-  console('keyAddressMetafields :',keyAddressMetafields);
+  console('keyAddressMetafields :',{{keyAddressMetafields}});
 
   {%- for address in customer.metafields.CustAddressInfo -%}
     {% if keyAddressMetafields == address[0]  %}    
