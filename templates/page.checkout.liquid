@@ -2440,6 +2440,7 @@ function updateDireccion(){
 
   const cities ={{settings.citysConfig}};
   const locationString = localStorage.getItem('location_save');
+  console.log(cities);
   if (locationString) {
       console.log('Hola Mundo');
       const loc = JSON.parse(locationString);
