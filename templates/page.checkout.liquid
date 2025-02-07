@@ -997,6 +997,8 @@
   {% assign coordenadasArray = "" %}
   {% assign keyAddressMetafields = customer.default_address.id | downcase %}
 
+  console('keyAddressMetafields :',keyAddressMetafields);
+
   {%- for address in customer.metafields.CustAddressInfo -%}
     {% if keyAddressMetafields == address[0]  %}    
          {% comment %} coordenadas = JSON.parse('{{ address[1] }}'.replaceAll('=>', ':')); {% endcomment %}
@@ -1004,7 +1006,7 @@
          console.log(coordenadas);
     {% endif %}
   {%- endfor -%}
-  
+
   {%- for address in customer.metafields.CustAddressInfo -%}
     console.log('Procesando address:', {
       key: '{{ address[0] }}',
