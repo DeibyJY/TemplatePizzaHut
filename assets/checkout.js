@@ -69,7 +69,6 @@ function uHeaders(){
     }
   }
 
-
    async function fetchShippingRatesExpreess() {
     showSpinner();
     const url = `https://apicloud.farmacorp.com/apishopify/api/v2.0/order/shipping/EnvioExpress`;
@@ -90,7 +89,6 @@ function uHeaders(){
         console.error('Error fetching shipping rates:', error);
     }
   }
-
 
   async function createOrder(orderData) {
     showSpinner();
@@ -122,7 +120,9 @@ function uHeaders(){
 }
 
 async function upsertAddress(addressData) {
+
     showSpinner();
+    console.log('addressData', addressData);
     const url = 'https://apicloud.farmacorp.com/apishopify/api/v1.0/customer/address/store';
     try {
         const response = await fetch(url, {
@@ -136,6 +136,7 @@ async function upsertAddress(addressData) {
         }
 
         const data = await response.json();
+        console.log('data upsertAddress', data);
         hideSpinner();
         return data;
     } catch (error) {
