@@ -1005,6 +1005,7 @@
     {% endif %}
   {%- endfor -%}
 
+  console.log('Metafield específico:', {{ customer.metafields.CustAddressInfo['9587920568452'] | json }});
   console.log('Metafields del cliente:', {{ customer.metafields | json }});
   console.log({{customer | json  }})
   console.log('Cliente:', {
@@ -1013,9 +1014,8 @@
     last_name: "{{ customer.last_name }}",
     orders_count: {{ customer.orders_count | default: 0 }},
     total_spent: {{ customer.total_spent | default: 0 }},
-    metafields: {{ customer.metafields | default: 0 }},
-    CustAddressInfo: {{ customer.metafields.CustAddressInfo | default: 0 }}
   });
+  
   
   // Ver estructura completa
   const metafields = {{ customer.metafields | json }};
