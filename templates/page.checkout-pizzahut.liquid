@@ -1108,18 +1108,21 @@
       item.properties.Cuerpo;
     });
 
-    const productosComplementarios = carrito.items.filter(item => {
-      if(item.properties.ProductoBase && item.properties.ProductoBase == productosBase.properties.ProductoBase){
-        return item;
-      }
-    });
+   
 
     productosBase.forEach( producto =>{
       contenidoContruccion += `
         <div class="cart-item-custom">
       `;
 
+      const productosComplementarios = carrito.items.filter(item => {
+        if(item.properties.ProductoBase && item.properties.ProductoBase == producto.properties.ProductoBase){
+          return item;
+        }
+      });
+
       console.log(productosComplementarios);
+
 
       contenidoContruccion += `</div>`;
     });
