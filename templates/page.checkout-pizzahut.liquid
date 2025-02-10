@@ -1062,7 +1062,10 @@
     const carrito = {{ cart | json }};
     const contenedorBase = document.querySelector('.cart-items');
     const formatPrice = (cents) => {
-      return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
+      // Convertir de centavos a decimal
+      const price = cents / 100;
+      // Formatear con 2 decimales y agregar el prefijo "Bs"
+      return `Bs ${price.toFixed(2)}`;
     };
 
     let contenidoContruccion = ``;
