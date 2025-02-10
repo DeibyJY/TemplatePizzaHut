@@ -1121,50 +1121,56 @@
         }
       });
 
-      productosComplementarios.forEach(productoComple =>{
-        contenidoContruccion += `
-          <div class="product-image-custom">
-              <img
-                src="${producto.img}"
-                alt="${producto.title}"
-              >
+      const cuerpoParseado = JSON.parse(producto.properties.Cuerpo);
+
+      contenidoContruccion += `
+        <div class="product-image-custom">
+            <img
+              src="${producto.img}"
+              alt="${producto.title}"
+            >
+        </div>
+        <div class="product-details-custom">
+      `;
+
+      cuerpoParseado.forEach( data => {
+        const {titulo, items : itemsVariantesIds} = data;
+
+        itemsVariantesIds.forEach(idVariante => {
+          const varianteEncontrada = productosComplementarios.get(idVariante);
+          console.log(varianteEncontrada);
+          contenidoContruccion += `
+            <div class="cantidad-titulo-producto">
+              <div class="cantidad-custom">x${varianteEncontrada}</div>
+              <p class="product-title">Pizza Pepperoni Lovers</p>
+              <p class="product-price">Bs 52.00</p>
             </div>
-            <div class="product-details-custom">
-              <div class="cantidad-titulo-producto">
-                <div class="cantidad-custom">x2</div>
-                <p class="product-title">Pizza Pepperoni Lovers</p>
-                <p class="product-price">Bs 52.00</p>
+            <div class="details-custom">
+              <p class="product-title">Tamaño</p>
+              <div class="producto-primario">
+                <p>Mediana para 3 a 4 personas</p>
+                <p class="price">Bs 44.00</p>
               </div>
-
-              <div class="details-custom">
-                <div class="producto-primario">
-                  <p>Mediana para 3 a 4 personas</p>
-                  <p class="price">Bs 44.00</p>
-                </div>
-
-                <div class="producto-secundario">
-                  <p>Extra Piña</p>
-                  <p class="price">Bs 7.00</p>
-                </div>
-
-                <div class="producto-secundario">
-                  <p>Extra Choclo</p>
-                  <p class="price">Bs 7.00</p>
-                </div>
-
-                <div class="producto-secundario">
-                  <p>Extra Pepperoni</p>
-                  <p class="price">Bs 7.00</p>
-                </div>
+              <p class="product-title">Extra</p>
+              <div class="producto-primario">
+                <p>Extra Piña</p>
+                <p class="price">Bs 7.00</p>
               </div>
-             </div>
-        `;
-          
+              <div class="producto-primario">
+                <p>Extra Choclo</p>
+                <p class="price">Bs 7.00</p>
+              </div>
+              <div class="producto-primario">
+                <p>Extra Pepperoni</p>
+                <p class="price">Bs 7.00</p>
+              </div>
+            </div>
+          `;
+        });
       });
-      console.log(productosComplementarios);
-
-
-      contenidoContruccion += `</div>`;
+      contenidoContruccion += `
+        </div>
+      </div>`;
     });
   }
 
@@ -2734,7 +2740,7 @@
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     padding: 10px;
-    gap: 12px;
+    gap: 8px;
   }
 
   .product-image-custom {
