@@ -1057,6 +1057,73 @@
 {% endif %}
 
 <script>
+  function contruccionListaCarrito(){
+    const carrito = {{ cart | json }};
+    const contenedorBase = document.querySelector('.cart-items');
+
+    let contenidoContruccion = `
+      <div class="cart-item-custom">
+            <div class="product-image-custom">
+              <img
+                src="https://cdn.shopify.com/s/files/1/0911/7781/2252/files/p3_940x_15293957-d178-439b-a289-5739c97ddd09.webp?v=1736363915"
+                alt="Pizza"
+              >
+            </div>
+
+            <div class="product-details-custom">
+              <div class="cantidad-titulo-producto">
+                <div class="cantidad-custom">x2</div>
+                <p class="product-title">Pizza Pepperoni Lovers</p>
+                <p class="product-price">Bs 52.00</p>
+              </div>
+
+              <div class="details-custom">
+                <div class="producto-primario">
+                  <p>Mediana para 3 a 4 personas</p>
+                  <p class="price">Bs 44.00</p>
+                </div>
+
+                <div class="producto-secundario">
+                  <p>Extra Piña</p>
+                  <p class="price">Bs 7.00</p>
+                </div>
+
+                <div class="producto-secundario">
+                  <p>Extra Choclo</p>
+                  <p class="price">Bs 7.00</p>
+                </div>
+
+                <div class="producto-secundario">
+                  <p>Extra Pepperoni</p>
+                  <p class="price">Bs 7.00</p>
+                </div>
+              </div>
+            </div>
+      </div>
+    `;
+
+    const productosBase = carrito.items.filter(item => {
+      return item.properties && 
+      item.properties.ProductoBase && 
+      item.properties.Cuerpo;
+    });
+
+    
+
+    productosBase.forEach( producto =>{
+      contenidoContruccion += `
+        <div class="cart-item-custom">
+      `;
+
+      console.log(producto);
+
+      contenidoContruccion += `</div>`;
+    });
+  }
+
+  contruccionListaCarrito();
+
+
   let coordenadas = null;
   {% assign coordenadasArray = "" %}
   {% assign keyAddressMetafields = customer.default_address.id | downcase %}
@@ -2619,7 +2686,7 @@
     background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    padding: 12px;
+    padding: 10px;
     gap: 12px;
   }
 
