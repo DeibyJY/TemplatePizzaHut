@@ -1061,54 +1061,17 @@
   function contruccionListaCarrito(){
     const carrito = {{ cart | json }};
     const contenedorBase = document.querySelector('.cart-items');
+    const formatPrice = (cents) => {
+      return Shopify.formatMoney(cents, '{{ shop.money_format | json }}');
+    };
 
-    let contenidoContruccion = `
-      <div class="cart-item-custom">
-            <div class="product-image-custom">
-              <img
-                src="https://cdn.shopify.com/s/files/1/0911/7781/2252/files/p3_940x_15293957-d178-439b-a289-5739c97ddd09.webp?v=1736363915"
-                alt="Pizza"
-              >
-            </div>
-            <div class="product-details-custom">
-              <div class="cantidad-titulo-producto">
-                <div class="cantidad-custom">x2</div>
-                <p class="product-title">Pizza Pepperoni Lovers</p>
-                <p class="product-price">Bs 52.00</p>
-              </div>
-
-              <div class="details-custom">
-                <div class="producto-primario">
-                  <p>Mediana para 3 a 4 personas</p>
-                  <p class="price">Bs 44.00</p>
-                </div>
-
-                <div class="producto-secundario">
-                  <p>Extra Piña</p>
-                  <p class="price">Bs 7.00</p>
-                </div>
-
-                <div class="producto-secundario">
-                  <p>Extra Choclo</p>
-                  <p class="price">Bs 7.00</p>
-                </div>
-
-                <div class="producto-secundario">
-                  <p>Extra Pepperoni</p>
-                  <p class="price">Bs 7.00</p>
-                </div>
-              </div>
-            </div>
-      </div>
-    `;
+    let contenidoContruccion = ``;
 
     const productosBase = carrito.items.filter(item => {
       return item.properties && 
       item.properties.ProductoBase && 
       item.properties.Cuerpo;
     });
-
-   
 
     productosBase.forEach( producto =>{
       contenidoContruccion += `
@@ -1127,7 +1090,7 @@
           productosComplementariosMap.set(item.variant_id,item);
         }
       });
-      console.log('productosComplementariosMap : ',productosComplementariosMap);
+      {% comment %} console.log('productosComplementariosMap : ',productosComplementariosMap); {% endcomment %}
 
       const cuerpoParseado = JSON.parse(producto.properties.Cuerpo);
 
@@ -1139,47 +1102,37 @@
             >
         </div>
         <div class="product-details-custom">
+        <div class="cantidad-titulo-producto">
+              <div class="cantidad-custom">x${producto.quantity}</div>
+              <p class="product-title">${producto.title}</p>
+              <p class="product-price">${formatPrice(producto.price)}</p>
+        </div>
       `;
 
       cuerpoParseado.forEach( data => {
         const {titulo, items : itemsVariantesIds} = data;
-
+        contenidoContruccion += `
+          <div class="details-custom">
+           <p class="product-title">${titulo}</p>
+        `;
         itemsVariantesIds.forEach(idVariante => {
           const varianteEncontrada = productosComplementariosMap.get(idVariante);
-          console.log(varianteEncontrada);
+          {% comment %} console.log(varianteEncontrada); {% endcomment %}
+          const priceProduct = formatPrice(varianteEncontrada.price);
           contenidoContruccion += `
-            <div class="cantidad-titulo-producto">
-              <div class="cantidad-custom">x${varianteEncontrada}</div>
-              <p class="product-title">Pizza Pepperoni Lovers</p>
-              <p class="product-price">Bs 52.00</p>
-            </div>
-            <div class="details-custom">
-              <p class="product-title">Tamaño</p>
               <div class="producto-primario">
-                <p>Mediana para 3 a 4 personas</p>
-                <p class="price">Bs 44.00</p>
+                <p>${varianteEncontrada.title}</p>
+                <p class="price">${formatPrice(varianteEncontrada.price)}</p>
               </div>
-              <p class="product-title">Extra</p>
-              <div class="producto-primario">
-                <p>Extra Piña</p>
-                <p class="price">Bs 7.00</p>
-              </div>
-              <div class="producto-primario">
-                <p>Extra Choclo</p>
-                <p class="price">Bs 7.00</p>
-              </div>
-              <div class="producto-primario">
-                <p>Extra Pepperoni</p>
-                <p class="price">Bs 7.00</p>
-              </div>
-            </div>
           `;
         });
+        contenidoContruccion += `</div>`;
       });
       contenidoContruccion += `
         </div>
       </div>`;
     });
+    contenedorBase.innerHTML = contenidoContruccion;
   }
 
   contruccionListaCarrito();
