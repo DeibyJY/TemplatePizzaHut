@@ -1121,6 +1121,16 @@
         }
       });
 
+      const productosComplementariosMap = new Map();
+      productosComplementarios.forEach( item => {
+        if(productosComplementariosMap.has(item.variant_id)){
+          productosComplementariosMap.set(item.variant_id, productosComplementariosMap.get(item.variant_id) + 1);
+        }else{
+          productosComplementariosMap.set(item.variant_id, 1);
+        }
+      });
+      console.log('productosComplementariosMap : ',productosComplementariosMap);
+
       const cuerpoParseado = JSON.parse(producto.properties.Cuerpo);
 
       contenidoContruccion += `
@@ -1137,7 +1147,7 @@
         const {titulo, items : itemsVariantesIds} = data;
 
         itemsVariantesIds.forEach(idVariante => {
-          const varianteEncontrada = productosComplementarios.get(idVariante);
+          const varianteEncontrada = productosComplementariosMap.get(idVariante);
           console.log(varianteEncontrada);
           contenidoContruccion += `
             <div class="cantidad-titulo-producto">
