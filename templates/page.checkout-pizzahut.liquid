@@ -1773,7 +1773,8 @@
 
     function MetodoEntregaInicio(){
        var cities = {{settings.citysConfig }};
-       const city = '{{ customer.default_address.city }}';
+       {% comment %} const city = '{{ customer.default_address.city }}'; {% endcomment %}
+       const city = 'Santa Cruz';
        const cityData = cities.find(item => item.city === city);
        ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
       return cityData.metodoEntrega;
