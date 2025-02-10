@@ -276,6 +276,9 @@ filter: brightness(0) saturate(100%) invert(17%) sepia(44%) saturate(4860%) hue-
   list-style: none;
   padding: 0;
   margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .cart-item {
