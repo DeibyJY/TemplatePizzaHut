@@ -868,29 +868,43 @@
           </div>
         </div>
         <ul class="cart-items">
-          {% for item in cart.items %}
-            <li class="cart-item">
-              <div class="product-image">
-                <img src="{{ item.image | img_url: 'small' }}" alt="{{ item.product.title }}">
-              </div>
-              <div class="product-details">
-                <span class="product-title">{{ item.product.title | truncate: 35 }}</span>
-              </div>
-              <div class="product-details-quantity">
-                <span class="product-quantity">x{{ item.quantity }}</span>
-              </div>
-              <div class="product-prices">
-                <div class="current-price">
-                  <span class="currency">Bs</span> {{ item.final_price | divided_by: 100.0 }}
+          {% comment %}
+            {% for item in cart.items %}
+              <li class="cart-item">
+                <div class="product-image">
+                  <img src="{{ item.image | img_url: 'small' }}" alt="{{ item.product.title }}">
                 </div>
-                {% if item.variant.compare_at_price > item.final_price %}
-                  <div class="original-price">
-                    <span class="currency">Bs</span> {{ item.variant.compare_at_price | divided_by: 100.0 }}
+                <div class="product-details">
+                  <span class="product-title">{{ item.product.title | truncate: 35 }}</span>
+                </div>
+                <div class="product-details-quantity">
+                  <span class="product-quantity">x{{ item.quantity }}</span>
+                </div>
+                <div class="product-prices">
+                  <div class="current-price">
+                    <span class="currency">Bs</span> {{ item.final_price | divided_by: 100.0 }}
                   </div>
-                {% endif %}
-              </div>
-            </li>
-          {% endfor %}
+                  {% if item.variant.compare_at_price > item.final_price %}
+                    <div class="original-price">
+                      <span class="currency">Bs</span> {{ item.variant.compare_at_price | divided_by: 100.0 }}
+                    </div>
+                  {% endif %}
+                </div>
+              </li>
+            {% endfor %}
+          {% endcomment %}
+          <div style="display: flex; width: 100%;" class="cart-item-custom">
+            <div
+              style="width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: rgba(166, 9, 9, 0.83);"
+              class="product-image-custom"
+            ></div>
+            <div
+              style="display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; background-color: rgba(9, 166, 38, 0.83);"
+              class="product-details-custom"
+            >
+              <div class="cantidad-producto-titulo"></div>
+            </div>
+          </div>
         </ul>
 
         <!-- Subtotal, Delivery y Total -->
