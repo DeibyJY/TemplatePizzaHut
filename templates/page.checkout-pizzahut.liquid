@@ -1020,28 +1020,28 @@
 
 <script>
   let coordenadas = null;
-{% assign coordenadasArray = "" %}
-{% assign keyAddressMetafields = customer.default_address.id | downcase %}
+  {% assign coordenadasArray = "" %}
+  {% assign keyAddressMetafields = customer.default_address.id | downcase %}
 
- {%- for address in customer.metafields.CustAddressInfo -%}
-   {% if keyAddressMetafields == address[0]  %}    
-        coordenadas = JSON.parse('{{ address[1] }}'.replaceAll('=>', ':'));
+   {%- for address in customer.metafields.CustAddressInfo -%}
+     {% if keyAddressMetafields == address[0]  %}    
+          coordenadas = JSON.parse('{{ address[1] }}'.replaceAll('=>', ':'));
+     {% endif %}
+   {%- endfor -%}
+
+
+
+
+  {%- for address in customer.metafields.CustAddressInfo -%}
+   {% assign coordenadas = address[1] | replace: '=>', ':' | parse_json %}
+   {% if coordenadasArray != "" %}
+     {% assign coordenadasArray = coordenadasArray | append: "," %}
    {% endif %}
- {%- endfor -%}
+   {% assign coordenadaJson = '{"id":"' | append: address[0] | append: '", "data":' | append: coordenadas | append: '}' %}
+   {% assign coordenadasArray = coordenadasArray | append: coordenadaJson %}
+  {%- endfor -%}
 
-
-
-
-{%- for address in customer.metafields.CustAddressInfo -%}
- {% assign coordenadas = address[1] | replace: '=>', ':' | parse_json %}
- {% if coordenadasArray != "" %}
-   {% assign coordenadasArray = coordenadasArray | append: "," %}
- {% endif %}
- {% assign coordenadaJson = '{"id":"' | append: address[0] | append: '", "data":' | append: coordenadas | append: '}' %}
- {% assign coordenadasArray = coordenadasArray | append: coordenadaJson %}
-{%- endfor -%}
-
-{% assign coordenadasArray = "[" | append: coordenadasArray | append: "]" %}
+  {% assign coordenadasArray = "[" | append: coordenadasArray | append: "]" %}
 
  const coordenadasArray = {{ coordenadasArray }};
 
@@ -1096,18 +1096,18 @@
             destination: paramSlotGenerinc.destination
          };
 
-function getUTCDates(daysToAdd = 3) {
- const now = new Date();
- const utcStart = now.toISOString(); 
+  function getUTCDates(daysToAdd = 3) {
+   const now = new Date();
+   const utcStart = now.toISOString(); 
 
- const utcEndDate = new Date(now);
- utcEndDate.setUTCDate(now.getUTCDate() + daysToAdd);
+   const utcEndDate = new Date(now);
+   utcEndDate.setUTCDate(now.getUTCDate() + daysToAdd);
 
- return {
-   utcStart,
-   utcEnd: utcEndDate.toISOString(), 
- };
-}
+   return {
+     utcStart,
+     utcEnd: utcEndDate.toISOString(), 
+   };
+  }
 
 
  function initMap(tipo) {
@@ -1234,1357 +1234,1359 @@ function getUTCDates(daysToAdd = 3) {
      });
    }
 
-function handleScheduledResponse(res) {
+  function handleScheduledResponse(res) {
 
- enableCreateOrder();
- AlertClean();
+   enableCreateOrder();
+   AlertClean();
 
- const dateSelect = document.getElementById('dateSelect');
- const timeSelect = document.getElementById('timeSelect');
+   const dateSelect = document.getElementById('dateSelect');
+   const timeSelect = document.getElementById('timeSelect');
 
- clearNonDisabledOptions(dateSelect);
- clearNonDisabledOptions(timeSelect);
- 
- if (res.coverageError || res.notSlotAvailable) {
-   displayCoverageError(res.coverageError || res.notSlotAvailable);
-   return;
- }
-
- 
- localStorage.setItem("keyBodega", res.data.keyBodega);
-
- const groupedDates = groupTimeSlotsByDate(res.data.timeSlots);
- setupDateSelect(groupedDates);
-}
-
-function displayCoverageError(errorMessage) {
- const alertHtml = `
-   <div class="alert alert-danger alert-dismissible fade show" role="alert">
-       ${errorMessage}
-       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-   </div>
- `;
- const alertContainer = document.getElementById('alertContainer');
- alertContainer.innerHTML = alertHtml;
-
-disableCreateOrder();
-}
-
-function disableCreateOrder(){
-   createOrderBtn.disabled = true;
-   createOrderBtn.classList.add("btn-disabled");
-}
-
-function enableCreateOrder(){
-   createOrderBtn.disabled = false;
-   createOrderBtn.classList.remove("btn-disabled");
-}
-
-function groupTimeSlotsByDate(timeSlots) {
- const groupedDates = {};
- timeSlots.forEach((slot) => {
-   const date = new Date(slot.from).toLocaleString().split(',')[0]; // Extraer solo la fecha
-   const timeRange = `${new Date(slot.from).toLocaleTimeString([], {
-     hour: '2-digit',
-     minute: '2-digit',
-   })} - ${new Date(slot.to).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-
-   if (!groupedDates[date]) {
-     groupedDates[date] = [];
+   clearNonDisabledOptions(dateSelect);
+   clearNonDisabledOptions(timeSelect);
+  
+   if (res.coverageError || res.notSlotAvailable) {
+     displayCoverageError(res.coverageError || res.notSlotAvailable);
+     return;
    }
-   groupedDates[date].push({
-     timeRange: timeRange,
-     id: slot.id,
-   });
- });
-
- return groupedDates;
-}
-  
-function clearNonDisabledOptions(selectElement) {
- const options = selectElement.querySelectorAll('option:not([disabled])');
- options.forEach(option => option.remove());
-}
-
-function setupDateSelect(groupedDates) {
- const dateSelect = document.getElementById('dateSelect');
- const timeSelect = document.getElementById('timeSelect');
-
- clearNonDisabledOptions(dateSelect);
- clearNonDisabledOptions(timeSelect);
-
- populateDateSelect(dateSelect, groupedDates);
-
- function updateTimeSelectForDate(selectedDate) {
-   const timeRanges = groupedDates[selectedDate];
-   populateTimeSelect(timeSelect, timeRanges);
- }
-
- updateTimeSelectForDate(dateSelect.value);
-
- dateSelect.addEventListener('change', () => {
-   updateTimeSelectForDate(dateSelect.value);
- });
-
- timeSelect.addEventListener('change', () => {
- });
-}
-
-function populateDateSelect(dateSelect, groupedDates) {
-
- for (const date in groupedDates) {
-   const option = document.createElement('option');
-   option.value = date;
-   option.textContent = date; 
-   dateSelect.appendChild(option);
- }
-}
-
-function populateTimeSelect(timeSelect, timeRanges) {
- timeSelect.innerHTML = '';
- let isFirstOption = true; 
- timeRanges.forEach((rangeObj) => {
-   const option = document.createElement('option');
-   option.value = rangeObj.id; 
-   option.textContent = `de ${rangeObj.timeRange} Hrs`;
-   if (isFirstOption) {
-       option.selected = true; 
-       isFirstOption = false; 
-   }
-   timeSelect.appendChild(option);
- });
-}
-
-  function handlePickupResponse(res) {
-  
- if (res.coverageError || res.notSlotAvailable) {
-     AlertClean();
-   displayPickupCoverageError(res.coverageError || res.notSlotAvailable);
-   return;
- }
 
 
- const customOptionsSucursal = document.getElementById("customOptionsSucursal");
- customOptionsSucursal.innerHTML = "";
+   localStorage.setItem("keyBodega", res.data.keyBodega);
 
- populateSucursalList(customOptionsSucursal, res.data);
-
-}
-
-function displayPickupCoverageError(errorMessage) {
- const alertHtml = `
-   <div class="alert alert-danger alert-dismissible fade show" role="alert">
-       ${errorMessage}
-       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-   </div>
- `;
- const alertContainer = document.getElementById("alertContainer");
- alertContainer.innerHTML = alertHtml;
-}
-
-function populateSucursalList(customOptionsSucursal, sucursales) {
- sucursales.forEach((sucursal) => {
-   const listItemDiv = createSucursalDiv(sucursal);
-   customOptionsSucursal.appendChild(listItemDiv);
- });
-}
-
-
-function createSucursalDiv(sucursal) {
- const div = document.createElement("div");
-
- div.classList.add("custom-option");
- div.setAttribute("data-keyBodega", sucursal.keyBodega);
- div.setAttribute("data-title", sucursal.name);
- div.setAttribute("data-subtitle", sucursal.address);
-  div.setAttribute("data-timeSlotId", sucursal.timeSlot.id);
-   div.setAttribute(
-   "data-mapa",
-   `https://www.google.com/maps?q=${sucursal.latitud},${sucursal.longitud}`
- );
-
- div.innerHTML = `
-   <span class="select-title">${sucursal.name}</span>
-   <span class="select-subtitle">${sucursal.address}</span>
-    <span class="select-subtitle">Listo para retirar en 30 minutos</span>
- `;
-
-div.addEventListener("click", (e) => {
-   const value = div.getAttribute("data-value");
-   const title = div.getAttribute("data-title");
-   const subtitle = div.getAttribute("data-subtitle");
-
-   // Actualizar detalles de la sucursal
-   const nombre = div.dataset.title;
-   const detalle = div.dataset.subtitle;
-   const mapa = div.dataset.mapa;
-   localStorage.setItem("keyBodega", div.dataset.keybodega);
-   localStorage.setItem("timeSlotIdPickup", div.dataset.timeslotid);
-
-   selectedSucursalText.textContent = nombre;
-   sucursalNombre.textContent = nombre;
-   sucursalDetalle.textContent = detalle;
-   sucursalMapa.href = mapa;
-
-   sucursalInfo.style.display = "block";
-   clearSucursalButton.style.display = "inline";
-
-  const customOptions = document.getElementById("customOptionsSucursal");
-   customOptions.classList.add("hidden");
-
- });
- 
- return div;
-}
-  
-
-  function PintarShipping(res){
-     localStorage.setItem(`costoDeliveryAux`,  res[0].price);
-     localStorage.setItem(`costoDelivery`,  res[0].price);
-     localStorage.setItem(`nameDeliveryAux`, res[0].name);
-
-     const costoDelivery = document.getElementById('costoDelivery');
-     costoDelivery.innerHTML = `Bs ${res[0].price.toFixed(2)}`;     
-
-      const tabEnvioPrice = document.getElementById('tabEnvioPrice');
-      if(res[0].price == 0){
-        tabEnvioPrice.innerHTML = `¡Envío Gratis!`;  
-      }else{
-        tabEnvioPrice.innerHTML = `Envío a Bs ${res[0].price.toFixed(2)}`;  
-      }
-
-     const costoDeliverylabel = document.getElementById('costoDeliverylabel');
-     costoDeliverylabel.innerHTML = `Bs ${res[0].price.toFixed(2)}`;     
-    
+   const groupedDates = groupTimeSlotsByDate(res.data.timeSlots);
+   setupDateSelect(groupedDates);
   }
 
-  function dameCostoDelivery(costoDelivery, nameDelivery){
-          
-         const total = costoDelivery + {{ cart.total_price | divided_by: 100.0 }};
-         const costoTotal = document.getElementById('costoTotal');
-         costoTotal.innerHTML = `Bs ${total.toFixed(2)}`; 
-         localStorage.setItem(`costoTotal`, total);
-         localStorage.setItem(`costoDelivery`, costoDelivery);
-         localStorage.setItem(`nameDelivery`, nameDelivery);
+  function displayCoverageError(errorMessage) {
+   const alertHtml = `
+     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+         ${errorMessage}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>
+   `;
+   const alertContainer = document.getElementById('alertContainer');
+   alertContainer.innerHTML = alertHtml;
 
+  disableCreateOrder();
   }
 
-    function PintarShippingExpress(res){
-       const costoDelivery = res.price;
-       const costoD = document.getElementById('costoDeliverExpress');
-       costoD.innerHTML = `Bs ${costoDelivery.toFixed(2)}`;    
-       localStorage.setItem(`costoDeliveryExpressAux`, costoDelivery);       
+  function disableCreateOrder(){
+     createOrderBtn.disabled = true;
+     createOrderBtn.classList.add("btn-disabled");
   }
 
-  
+  function enableCreateOrder(){
+     createOrderBtn.disabled = false;
+     createOrderBtn.classList.remove("btn-disabled");
+  }
 
- function eventosModalNuevaDireccion(){
- const inputField = document.getElementById('indicacionDireccion');
-     const saveButton = document.getElementById('guardarDireccionBtn');
-   
-     inputField.addEventListener('input', () => {
-       if (inputField.value.trim() !== '') {
-         saveButton.disabled = false; // Habilitar el botón
-       } else {
-         saveButton.disabled = true; // Deshabilitar el botón si está vacío
-       }
+  function groupTimeSlotsByDate(timeSlots) {
+   const groupedDates = {};
+   timeSlots.forEach((slot) => {
+     const date = new Date(slot.from).toLocaleString().split(',')[0]; // Extraer solo la fecha
+     const timeRange = `${new Date(slot.from).toLocaleTimeString([], {
+       hour: '2-digit',
+       minute: '2-digit',
+     })} - ${new Date(slot.to).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+     if (!groupedDates[date]) {
+       groupedDates[date] = [];
+     }
+     groupedDates[date].push({
+       timeRange: timeRange,
+       id: slot.id,
      });
+   });
 
-    
+   return groupedDates;
   }
 
-   const sucursalInfo = document.getElementById('sucursalInfo');   
-   const isSucursalSelected = () => sucursalInfo.style.display !== "none";
-   const paymentOptions = document.querySelectorAll(".payment-option");       
-   const createOrderBtn = document.getElementById("createOrderBtn");
-   const phoneInput = document.getElementById("formGroupPhone");    
-   let selectedPaymentCode = null;    
-   
-   const isPaymentSelected = () => selectedPaymentCode !== null;
+  function clearNonDisabledOptions(selectElement) {
+   const options = selectElement.querySelectorAll('option:not([disabled])');
+   options.forEach(option => option.remove());
+  }
 
-  function datosAdicionalesPagoTarjeta(){
-       const paymentOptions = document.querySelectorAll(".payment-option");
-       const additionalCardFields = document.getElementById("additional-card-fields");
-       const additionalPointsFields = document.getElementById("additional-points-fields");
+  function setupDateSelect(groupedDates) {
+   const dateSelect = document.getElementById('dateSelect');
+   const timeSelect = document.getElementById('timeSelect');
+
+   clearNonDisabledOptions(dateSelect);
+   clearNonDisabledOptions(timeSelect);
+
+   populateDateSelect(dateSelect, groupedDates);
+
+   function updateTimeSelectForDate(selectedDate) {
+     const timeRanges = groupedDates[selectedDate];
+     populateTimeSelect(timeSelect, timeRanges);
+   }
+
+   updateTimeSelectForDate(dateSelect.value);
+
+   dateSelect.addEventListener('change', () => {
+     updateTimeSelectForDate(dateSelect.value);
+   });
+
+   timeSelect.addEventListener('change', () => {
+   });
+  }
+
+  function populateDateSelect(dateSelect, groupedDates) {
+
+   for (const date in groupedDates) {
+     const option = document.createElement('option');
+     option.value = date;
+     option.textContent = date; 
+     dateSelect.appendChild(option);
+   }
+  }
+
+  function populateTimeSelect(timeSelect, timeRanges) {
+   timeSelect.innerHTML = '';
+   let isFirstOption = true; 
+   timeRanges.forEach((rangeObj) => {
+     const option = document.createElement('option');
+     option.value = rangeObj.id; 
+     option.textContent = `de ${rangeObj.timeRange} Hrs`;
+     if (isFirstOption) {
+         option.selected = true; 
+         isFirstOption = false; 
+     }
+     timeSelect.appendChild(option);
+   });
+  }
+
+    function handlePickupResponse(res) {
+    
+   if (res.coverageError || res.notSlotAvailable) {
+       AlertClean();
+     displayPickupCoverageError(res.coverageError || res.notSlotAvailable);
+     return;
+   }
+
+
+   const customOptionsSucursal = document.getElementById("customOptionsSucursal");
+   customOptionsSucursal.innerHTML = "";
+
+   populateSucursalList(customOptionsSucursal, res.data);
+
+  }
+
+  function displayPickupCoverageError(errorMessage) {
+   const alertHtml = `
+     <div class="alert alert-danger alert-dismissible fade show" role="alert">
+         ${errorMessage}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>
+   `;
+   const alertContainer = document.getElementById("alertContainer");
+   alertContainer.innerHTML = alertHtml;
+  }
+
+  function populateSucursalList(customOptionsSucursal, sucursales) {
+   sucursales.forEach((sucursal) => {
+     const listItemDiv = createSucursalDiv(sucursal);
+     customOptionsSucursal.appendChild(listItemDiv);
+   });
+  }
+
+
+  function createSucursalDiv(sucursal) {
+   const div = document.createElement("div");
+
+   div.classList.add("custom-option");
+   div.setAttribute("data-keyBodega", sucursal.keyBodega);
+   div.setAttribute("data-title", sucursal.name);
+   div.setAttribute("data-subtitle", sucursal.address);
+    div.setAttribute("data-timeSlotId", sucursal.timeSlot.id);
+     div.setAttribute(
+     "data-mapa",
+     `https://www.google.com/maps?q=${sucursal.latitud},${sucursal.longitud}`
+   );
+
+   div.innerHTML = `
+     <span class="select-title">${sucursal.name}</span>
+     <span class="select-subtitle">${sucursal.address}</span>
+      <span class="select-subtitle">Listo para retirar en 30 minutos</span>
+   `;
+
+  div.addEventListener("click", (e) => {
+     const value = div.getAttribute("data-value");
+     const title = div.getAttribute("data-title");
+     const subtitle = div.getAttribute("data-subtitle");
+
+     // Actualizar detalles de la sucursal
+     const nombre = div.dataset.title;
+     const detalle = div.dataset.subtitle;
+     const mapa = div.dataset.mapa;
+     localStorage.setItem("keyBodega", div.dataset.keybodega);
+     localStorage.setItem("timeSlotIdPickup", div.dataset.timeslotid);
+
+     selectedSucursalText.textContent = nombre;
+     sucursalNombre.textContent = nombre;
+     sucursalDetalle.textContent = detalle;
+     sucursalMapa.href = mapa;
+
+     sucursalInfo.style.display = "block";
+     clearSucursalButton.style.display = "inline";
+
+    const customOptions = document.getElementById("customOptionsSucursal");
+     customOptions.classList.add("hidden");
+
+   });
+
+   return div;
+  }
+
+
+    function PintarShipping(res){
+       localStorage.setItem(`costoDeliveryAux`,  res[0].price);
+       localStorage.setItem(`costoDelivery`,  res[0].price);
+       localStorage.setItem(`nameDeliveryAux`, res[0].name);
+
+       const costoDelivery = document.getElementById('costoDelivery');
+       costoDelivery.innerHTML = `Bs ${res[0].price.toFixed(2)}`;     
+
+        const tabEnvioPrice = document.getElementById('tabEnvioPrice');
+        if(res[0].price == 0){
+          tabEnvioPrice.innerHTML = `¡Envío Gratis!`;  
+        }else{
+          tabEnvioPrice.innerHTML = `Envío a Bs ${res[0].price.toFixed(2)}`;  
+        }
+
+       const costoDeliverylabel = document.getElementById('costoDeliverylabel');
+       costoDeliverylabel.innerHTML = `Bs ${res[0].price.toFixed(2)}`;     
+      
+    }
+
+    function dameCostoDelivery(costoDelivery, nameDelivery){
+
+           const total = costoDelivery + {{ cart.total_price | divided_by: 100.0 }};
+           const costoTotal = document.getElementById('costoTotal');
+           costoTotal.innerHTML = `Bs ${total.toFixed(2)}`; 
+           localStorage.setItem(`costoTotal`, total);
+           localStorage.setItem(`costoDelivery`, costoDelivery);
+           localStorage.setItem(`nameDelivery`, nameDelivery);
+
+    }
+
+      function PintarShippingExpress(res){
+         const costoDelivery = res.price;
+         const costoD = document.getElementById('costoDeliverExpress');
+         costoD.innerHTML = `Bs ${costoDelivery.toFixed(2)}`;    
+         localStorage.setItem(`costoDeliveryExpressAux`, costoDelivery);       
+    }
+
+
+
+   function eventosModalNuevaDireccion(){
+   const inputField = document.getElementById('indicacionDireccion');
+       const saveButton = document.getElementById('guardarDireccionBtn');
+
+       inputField.addEventListener('input', () => {
+         if (inputField.value.trim() !== '') {
+           saveButton.disabled = false; // Habilitar el botón
+         } else {
+           saveButton.disabled = true; // Deshabilitar el botón si está vacío
+         }
+       });
+
      
-       paymentOptions.forEach(option => {
-         option.addEventListener("click", () => {
-             paymentOptions.forEach(opt => opt.classList.remove("selected"));
-             option.classList.add("selected");
-       
-             if (option.getAttribute("data-payment-code") === "Tarjeta de Crédito / Débito") {
-               additionalCardFields.style.display = "block";
-             } else {
-               additionalCardFields.style.display = "none";
-             }
+    }
 
-            if (option.getAttribute("data-payment-code") === "Colaboradores (Crédito/Puntos)") {
-               additionalPointsFields.style.display = "block";
-             } else {
-               additionalPointsFields.style.display = "none";
-             }
+     const sucursalInfo = document.getElementById('sucursalInfo');   
+     const isSucursalSelected = () => sucursalInfo.style.display !== "none";
+     const paymentOptions = document.querySelectorAll(".payment-option");       
+     const createOrderBtn = document.getElementById("createOrderBtn");
+     const phoneInput = document.getElementById("formGroupPhone");    
+     let selectedPaymentCode = null;    
 
-             document.getElementById("createOrderBtn").textContent = "Finalizar";
-             if (option.getAttribute("data-payment-code") === "Pago Simple QR" 
-                || option.getAttribute("data-payment-code") === "Pago online" ){
-                 document.getElementById("createOrderBtn").textContent = "Continuar con el pago";
-             }
+     const isPaymentSelected = () => selectedPaymentCode !== null;
+
+    function datosAdicionalesPagoTarjeta(){
+         const paymentOptions = document.querySelectorAll(".payment-option");
+         const additionalCardFields = document.getElementById("additional-card-fields");
+         const additionalPointsFields = document.getElementById("additional-points-fields");
+
+         paymentOptions.forEach(option => {
+           option.addEventListener("click", () => {
+               paymentOptions.forEach(opt => opt.classList.remove("selected"));
+               option.classList.add("selected");
+          
+               if (option.getAttribute("data-payment-code") === "Tarjeta de Crédito / Débito") {
+                 additionalCardFields.style.display = "block";
+               } else {
+                 additionalCardFields.style.display = "none";
+               }
+
+              if (option.getAttribute("data-payment-code") === "Colaboradores (Crédito/Puntos)") {
+                 additionalPointsFields.style.display = "block";
+               } else {
+                 additionalPointsFields.style.display = "none";
+               }
+
+               document.getElementById("createOrderBtn").textContent = "Finalizar";
+               if (option.getAttribute("data-payment-code") === "Pago Simple QR" 
+                  || option.getAttribute("data-payment-code") === "Pago online" ){
+                   document.getElementById("createOrderBtn").textContent = "Continuar con el pago";
+               }
+           });
+         });
+    }
+
+    function handleShippingOption(option) {
+      document.getElementById("costoDeliverExpressLabel").innerHTML = '';
+      document.getElementById("costoDeliverylabel").innerHTML = '';
+
+     if (option === "domicilio") {      
+          const costoDelivery = Number(localStorage.getItem('costoDeliveryAux'));
+          document.getElementById("costoDeliverylabel").innerHTML = `Bs ${costoDelivery.toFixed(2)}`;      
+          dameCostoDelivery(costoDelivery, option);
+
+          document.getElementById("envioProgramado").style.display = "block";
+          document.getElementById("envioExpress").style.display = "none";
+
+     } else if (option === "express") {
+           const costoDeliveryExpressAux = Number(localStorage.getItem('costoDeliveryExpressAux'));
+          document.getElementById("costoDeliverExpressLabel").innerHTML = `Bs ${costoDeliveryExpressAux.toFixed(2)}`;
+          dameCostoDelivery(costoDeliveryExpressAux, option);
+
+          document.getElementById("envioProgramado").style.display = "none";
+          document.getElementById("envioExpress").style.display = "block";
+           ValidarEnvioExpress();
+
+
+
+     } else {
+       console.log("Opción no reconocida");
+     }
+   }
+    function shippingEventos(){
+       const shippingOptions = document.getElementById("shippingOptions");
+       shippingOptions.addEventListener("change", (event) => {
+           if (event.target.name === "shipping") {
+               handleShippingOption(event.target.value);
+           }
+       });
+    }
+
+
+  function displayExpressError(errorMessage) {
+   const alertHtml = `
+     <div class="alert alert-warning alert-dismissible fade show" role="alert">
+         ${errorMessage}
+         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+     </div>
+   `;
+   const alertContainer = document.getElementById('alertExpress');
+   alertContainer.innerHTML = alertHtml;
+  }
+    function ValidarEnvioExpress(){
+       dameExpress(paramPickup)
+       .then((res) => {
+
+            if (res.coverageError || res.notSlotAvailable) {
+                   displayExpressError(res.coverageError || res.notSlotAvailable);
+                  const radioExpress = document.getElementById('envio-express');
+                  radioExpress.checked = false;
+
+                  const radioDomicilio = document.getElementById('envio-domicilio');
+                  radioDomicilio.click();
+                 return;
+           }
+         
+           localStorage.setItem("keyBodega", res.data.keyBodega);
+           localStorage.setItem(`timeSlotIdExpress`, res.data.timeSlots[0].id);        
+       })
+       .catch((error) => {
+         console.error("Error processing pickup request:", error);
+       });
+
+     
+    }
+
+
+    function lanzarModalMapa(){
+
+      document.getElementById("direccionModalLabel").textContent = "Registra tu dirección";
+      document.getElementById("close-mapa").style.display = "none";
+      document.getElementById("cancelarMapa").style.display = "none";
+
+        const modalElement = document.getElementById("direccionModal");
+        const modal = new bootstrap.Modal(modalElement, {
+           backdrop: true,
+           backdrop: 'static',
+       });
+     
+        modal.show();
+        initMap('current');
+
+
+      const button = document.getElementById("confirmarDireccionBtn");
+     
+       button.removeAttribute("data-bs-toggle");
+       button.removeAttribute("data-bs-target");
+     
+       button.onclick = function() {
+        updateDireccion();
+       };
+    }
+
+   function AlertClean(){
+     const alertContainer = document.getElementById('alertContainer');
+     alertContainer.innerHTML = '';
+   }
+
+     function ocultarMetodoDeEntrega(hidden) {
+       const elementos = document.querySelectorAll('.retiro');
+       elementos.forEach(elemento => {
+         elemento.style.display = hidden? 'none' : 'block';
+       });
+
+        const titulo = document.getElementById('titulo');
+        titulo.textContent = hidden?"Finaliza tu pedido":"¿Cómo deseas recibir tu pedido?";     
+
+       if(hidden)
+       localStorage.setItem('selectedOption','envio');
+     }
+
+    function MetodoEntregaInicio(){
+       var cities = {{settings.citysConfig }};
+       const city = '{{ customer.default_address.city }}';
+       const cityData = cities.find(item => item.city === city);
+       ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
+      return cityData.metodoEntrega;
+    }
+  function validateCity(cityUser, idAddress) {
+   return new Promise((resolve, reject) => {
+     if (
+       typeof localStorage["city"] === "undefined" || 
+       localStorage["city"] === null || 
+       localStorage["city"] === ""
+     ) {
+       localStorage["city"] = "Santa Cruz";
+     }
+
+     if (cityUser.toLowerCase() !== localStorage["city"].toLowerCase()) {
+       Swal.fire({
+         title: "{{ menu_item.title }}",
+         text: "{{ 'farmacorp.modal.cambioDireccionMsg1' |t}} {{ 'farmacorp.modal.cambioDireccionMsg2' |t}}",
+         icon: "warning",
+         showCancelButton: true,
+         confirmButtonText: "Si, continuar",
+         cancelButtonText: "Cancelar",
+         reverseButtons: true
+       }).then((result) => {
+         if (result.isConfirmed) {
+           fetch('/cart/clear.js', {
+                 method: 'POST',
+                 headers: {
+                   'Content-Type': 'application/json',
+                 },
+               })
+                 .then((response) => {
+                     if (response.ok) {  
+                        setDefaultAdreess(idAddress)
+                                 .then((response2) => 
+                                 {
+                                   if(response2) window.location.href = '/cart';
+                                 }).catch(function(err) {
+
+                                 });
+                      }                   
+                 })
+                 .catch((error) => {
+                   console.error('Hubo un problema al vaciar el carrito:', error);
+                 }); 
+               
+         } else {
+           resolve(false);
+         }
+       });
+     } else {
+       resolve(true);
+     }
+   });
+  }
+
+    function loadAddress(){
+      const customSelect = document.getElementById("customSelect");
+       const customOptions = document.getElementById("customOptions");
+       const hiddenSelect = document.getElementById("addressSelect");
+       const options = document.querySelectorAll(".custom-option");
+
+       customSelect.addEventListener("click", () => {
+         customOptions.classList.toggle("hidden");
+       });
+
+       options.forEach((option) => {
+         option.addEventListener("click", () => {    
+              const city = option.getAttribute("data-city");
+             const value = option.getAttribute("data-value");
+               validateCity(city, value).then((result) => {
+                 if (result) {
+
+                       var cities = {{settings.citysConfig }};                     
+                       const cityData = cities.find(item => item.city === city);
+                       ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
+                       const title = option.getAttribute("data-title");
+                       const subtitle = option.getAttribute("data-subtitle");       
+
+                        if(cityData.metodoEntrega){                                                         
+                            const result = coordenadasArray.find(item => item.id === value);
+                            if (result) {
+                                 const latitud = result.data.latitud;
+                                 const longitud = result.data.longitud;
+                            
+                            
+                                 const { utcStart, utcEnd } = getUTCDates(3);
+                            
+                                 paramScheduled.utcStart = utcStart;
+                                 paramScheduled.utcEnd = utcEnd;
+                                 paramScheduled.destination.latitude = latitud;
+                                 paramScheduled.destination.city = city;
+                                 paramScheduled.destination.longitude = longitud;
+                                 dameScheduled(paramScheduled)
+                                 .then((res) => {  
+                                
+                                   handleScheduledResponse(res);
+                                 })
+                                 .catch((error) => {
+                                   console.error('Error processing scheduled request:', error);
+                                 });
+                               
+                                 const radioExpress = document.getElementById('envio-express');
+                                 if (radioExpress.checked) {
+                                     ValidarEnvioExpress();
+                                 }
+                           }
+                       }
+                     
+                       customSelect.querySelector(".select-title").innerText = title;
+                       customSelect.querySelector(".select-subtitle").innerText = subtitle;
+
+                       hiddenSelect.value = value;
+
+                       customOptions.classList.add("hidden");
+                     
+                     
+                 }
+               }).catch((error) => {
+                 console.error("Error en la validación de la ciudad:", error);
+               });
+             
          });
        });
-  }
 
-  function handleShippingOption(option) {
-    document.getElementById("costoDeliverExpressLabel").innerHTML = '';
-    document.getElementById("costoDeliverylabel").innerHTML = '';
-    
-   if (option === "domicilio") {      
-        const costoDelivery = Number(localStorage.getItem('costoDeliveryAux'));
-        document.getElementById("costoDeliverylabel").innerHTML = `Bs ${costoDelivery.toFixed(2)}`;      
-        dameCostoDelivery(costoDelivery, option);
-
-        document.getElementById("envioProgramado").style.display = "block";
-        document.getElementById("envioExpress").style.display = "none";
-     
-   } else if (option === "express") {
-         const costoDeliveryExpressAux = Number(localStorage.getItem('costoDeliveryExpressAux'));
-        document.getElementById("costoDeliverExpressLabel").innerHTML = `Bs ${costoDeliveryExpressAux.toFixed(2)}`;
-        dameCostoDelivery(costoDeliveryExpressAux, option);
-     
-        document.getElementById("envioProgramado").style.display = "none";
-        document.getElementById("envioExpress").style.display = "block";
-         ValidarEnvioExpress();
-
-
-     
-   } else {
-     console.log("Opción no reconocida");
-   }
- }
-  function shippingEventos(){
-     const shippingOptions = document.getElementById("shippingOptions");
-     shippingOptions.addEventListener("change", (event) => {
-         if (event.target.name === "shipping") {
-             handleShippingOption(event.target.value);
+       document.addEventListener("click", (event) => {
+         if (
+           !customSelect.contains(event.target) &&
+           !customOptions.contains(event.target)
+         ) {
+           customOptions.classList.add("hidden");
          }
-     });
-  }
-
-  
-function displayExpressError(errorMessage) {
- const alertHtml = `
-   <div class="alert alert-warning alert-dismissible fade show" role="alert">
-       ${errorMessage}
-       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-   </div>
- `;
- const alertContainer = document.getElementById('alertExpress');
- alertContainer.innerHTML = alertHtml;
-}
-  function ValidarEnvioExpress(){
-     dameExpress(paramPickup)
-     .then((res) => {
-
-          if (res.coverageError || res.notSlotAvailable) {
-                 displayExpressError(res.coverageError || res.notSlotAvailable);
-                const radioExpress = document.getElementById('envio-express');
-                radioExpress.checked = false;
-                
-                const radioDomicilio = document.getElementById('envio-domicilio');
-                radioDomicilio.click();
-               return;
-         }
-       
-         localStorage.setItem("keyBodega", res.data.keyBodega);
-         localStorage.setItem(`timeSlotIdExpress`, res.data.timeSlots[0].id);        
-     })
-     .catch((error) => {
-       console.error("Error processing pickup request:", error);
-     });
-
-    
-  }
-
-
-  function lanzarModalMapa(){
-
-    document.getElementById("direccionModalLabel").textContent = "Registra tu dirección";
-    document.getElementById("close-mapa").style.display = "none";
-    document.getElementById("cancelarMapa").style.display = "none";
-    
-      const modalElement = document.getElementById("direccionModal");
-      const modal = new bootstrap.Modal(modalElement, {
-         backdrop: true,
-         backdrop: 'static',
-     });
-    
-      modal.show();
-      initMap('current');
-
-
-    const button = document.getElementById("confirmarDireccionBtn");
-    
-     button.removeAttribute("data-bs-toggle");
-     button.removeAttribute("data-bs-target");
-    
-     button.onclick = function() {
-      updateDireccion();
-     };
-  }
-
- function AlertClean(){
-   const alertContainer = document.getElementById('alertContainer');
-   alertContainer.innerHTML = '';
- }
-
-   function ocultarMetodoDeEntrega(hidden) {
-     const elementos = document.querySelectorAll('.retiro');
-     elementos.forEach(elemento => {
-       elemento.style.display = hidden? 'none' : 'block';
-     });
-
-      const titulo = document.getElementById('titulo');
-      titulo.textContent = hidden?"Finaliza tu pedido":"¿Cómo deseas recibir tu pedido?";     
-
-     if(hidden)
-     localStorage.setItem('selectedOption','envio');
-   }
-
-  function MetodoEntregaInicio(){
-     var cities = {{settings.citysConfig }};
-     const city = '{{ customer.default_address.city }}';
-     const cityData = cities.find(item => item.city === city);
-     ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
-    return cityData.metodoEntrega;
-  }
-function validateCity(cityUser, idAddress) {
- return new Promise((resolve, reject) => {
-   if (
-     typeof localStorage["city"] === "undefined" || 
-     localStorage["city"] === null || 
-     localStorage["city"] === ""
-   ) {
-     localStorage["city"] = "Santa Cruz";
-   }
-
-   if (cityUser.toLowerCase() !== localStorage["city"].toLowerCase()) {
-     Swal.fire({
-       title: "{{ menu_item.title }}",
-       text: "{{ 'farmacorp.modal.cambioDireccionMsg1' |t}} {{ 'farmacorp.modal.cambioDireccionMsg2' |t}}",
-       icon: "warning",
-       showCancelButton: true,
-       confirmButtonText: "Si, continuar",
-       cancelButtonText: "Cancelar",
-       reverseButtons: true
-     }).then((result) => {
-       if (result.isConfirmed) {
-         fetch('/cart/clear.js', {
-               method: 'POST',
-               headers: {
-                 'Content-Type': 'application/json',
-               },
-             })
-               .then((response) => {
-                   if (response.ok) {  
-                      setDefaultAdreess(idAddress)
-                               .then((response2) => 
-                               {
-                                 if(response2) window.location.href = '/cart';
-                               }).catch(function(err) {
-                                 
-                               });
-                    }                   
-               })
-               .catch((error) => {
-                 console.error('Hubo un problema al vaciar el carrito:', error);
-               }); 
-        
-       } else {
-         resolve(false);
-       }
-     });
-   } else {
-     resolve(true);
-   }
- });
-}
-  
-  function loadAddress(){
-    const customSelect = document.getElementById("customSelect");
-     const customOptions = document.getElementById("customOptions");
-     const hiddenSelect = document.getElementById("addressSelect");
-     const options = document.querySelectorAll(".custom-option");
-     
-     customSelect.addEventListener("click", () => {
-       customOptions.classList.toggle("hidden");
-     });
-     
-     options.forEach((option) => {
-       option.addEventListener("click", () => {    
-            const city = option.getAttribute("data-city");
-           const value = option.getAttribute("data-value");
-             validateCity(city, value).then((result) => {
-               if (result) {
-
-                     var cities = {{settings.citysConfig }};                     
-                     const cityData = cities.find(item => item.city === city);
-                     ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
-                     const title = option.getAttribute("data-title");
-                     const subtitle = option.getAttribute("data-subtitle");       
-                 
-                      if(cityData.metodoEntrega){                                                         
-                          const result = coordenadasArray.find(item => item.id === value);
-                          if (result) {
-                               const latitud = result.data.latitud;
-                               const longitud = result.data.longitud;
-               
-               
-                               const { utcStart, utcEnd } = getUTCDates(3);
-               
-                               paramScheduled.utcStart = utcStart;
-                               paramScheduled.utcEnd = utcEnd;
-                               paramScheduled.destination.latitude = latitud;
-                               paramScheduled.destination.city = city;
-                               paramScheduled.destination.longitude = longitud;
-                               dameScheduled(paramScheduled)
-                               .then((res) => {  
-                 
-                                 handleScheduledResponse(res);
-                               })
-                               .catch((error) => {
-                                 console.error('Error processing scheduled request:', error);
-                               });
-                 
-                               const radioExpress = document.getElementById('envio-express');
-                               if (radioExpress.checked) {
-                                   ValidarEnvioExpress();
-                               }
-                         }
-                     }
-         
-                     customSelect.querySelector(".select-title").innerText = title;
-                     customSelect.querySelector(".select-subtitle").innerText = subtitle;
-                     
-                     hiddenSelect.value = value;
-                     
-                     customOptions.classList.add("hidden");
-                 
-                 
-               }
-             }).catch((error) => {
-               console.error("Error en la validación de la ciudad:", error);
-             });
-            
        });
-     });
-     
-     document.addEventListener("click", (event) => {
-       if (
-         !customSelect.contains(event.target) &&
-         !customOptions.contains(event.target)
-       ) {
-         customOptions.classList.add("hidden");
-       }
-     });
-  }
+    }
 
-function loadSucursal(){
-    const customSelect = document.getElementById("customSelectSucursal");
-     const customOptions = document.getElementById("customOptionsSucursal");   
-     const hiddenSelect = document.getElementById("sucursalSelect");
-     
-     customSelect.addEventListener("click", () => {
-       customOptions.classList.toggle("hidden");
-     });      
-     document.addEventListener("click", (event) => {
-       if (
-         !customSelect.contains(event.target) &&
-         !customOptions.contains(event.target)
-       ) {
-         customOptions.classList.add("hidden");
-       }
-     });
-  }
+  function loadSucursal(){
+      const customSelect = document.getElementById("customSelectSucursal");
+       const customOptions = document.getElementById("customOptionsSucursal");   
+       const hiddenSelect = document.getElementById("sucursalSelect");
 
-   function expandBillingInformation(){
-      const editButton = document.getElementById('editButtonBillingInformation');
-      const summaryView = document.getElementById('summaryViewBillingInformation');
-      const editView = document.getElementById('editViewBillingInformation');
-      editButton.innerHTML = `<img class="tab-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`;
-      summaryView.style.display = 'none';
-      editView.style.display = 'block';    
-  }
-  function colapsableBillingInformation(){
-      const editButton = document.getElementById('editButtonBillingInformation');
-     const summaryView = document.getElementById('summaryViewBillingInformation');
-     const editView = document.getElementById('editViewBillingInformation');
-   
-     editButton.addEventListener('click', () => {
-
-         if(summaryView.style.display != 'none'){
-            editButton.innerHTML = `<img class="primary-icon"  src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
-            summaryView.style.display = 'none';
-            editView.style.display = 'block';
-         }else{
-           const name = document.getElementById('formGroupNombre').value;
-           const documentIdentity = document.getElementById('formGroupDocumento').value;
-       
-           summaryView.innerHTML = `${name} | ${documentIdentity}`;
-            editButton.innerHTML = `<a id="editButtonContactInformation" class="edit-cart-link primay-text clickable"><img class="primary-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694">Editar datos</a>`
-           editView.style.display = 'none';
-           summaryView.style.display = 'block';
+       customSelect.addEventListener("click", () => {
+         customOptions.classList.toggle("hidden");
+       });      
+       document.addEventListener("click", (event) => {
+         if (
+           !customSelect.contains(event.target) &&
+           !customOptions.contains(event.target)
+         ) {
+           customOptions.classList.add("hidden");
          }
-     });     
-  }
+       });
+    }
 
-  function expandContactInformation(){
-       const editButton = document.getElementById('editButtonContactInformation');
+     function expandBillingInformation(){
+        const editButton = document.getElementById('editButtonBillingInformation');
+        const summaryView = document.getElementById('summaryViewBillingInformation');
+        const editView = document.getElementById('editViewBillingInformation');
+        editButton.innerHTML = `<img class="tab-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`;
+        summaryView.style.display = 'none';
+        editView.style.display = 'block';    
+    }
+    function colapsableBillingInformation(){
+        const editButton = document.getElementById('editButtonBillingInformation');
+       const summaryView = document.getElementById('summaryViewBillingInformation');
+       const editView = document.getElementById('editViewBillingInformation');
+    
+       editButton.addEventListener('click', () => {
+
+           if(summaryView.style.display != 'none'){
+              editButton.innerHTML = `<img class="primary-icon"  src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
+              summaryView.style.display = 'none';
+              editView.style.display = 'block';
+           }else{
+             const name = document.getElementById('formGroupNombre').value;
+             const documentIdentity = document.getElementById('formGroupDocumento').value;
+          
+             summaryView.innerHTML = `${name} | ${documentIdentity}`;
+              editButton.innerHTML = `<a id="editButtonContactInformation" class="edit-cart-link primay-text clickable"><img class="primary-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694">Editar datos</a>`
+             editView.style.display = 'none';
+             summaryView.style.display = 'block';
+           }
+       });     
+    }
+
+    function expandContactInformation(){
+         const editButton = document.getElementById('editButtonContactInformation');
+         const summaryView = document.getElementById('summaryViewContactInformation');
+         const editView = document.getElementById('editViewContactInformation');
+
+         summaryView.style.display = 'none';
+         editButton.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
+         editView.style.display = 'block'; 
+    }
+
+     function colapsableContactInformation(){
+        const editButton = document.getElementById('editButtonContactInformation');
        const summaryView = document.getElementById('summaryViewContactInformation');
        const editView = document.getElementById('editViewContactInformation');
     
-       summaryView.style.display = 'none';
-       editButton.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
-       editView.style.display = 'block'; 
-  }
+       editButton.addEventListener('click', () => {
 
-   function colapsableContactInformation(){
-      const editButton = document.getElementById('editButtonContactInformation');
-     const summaryView = document.getElementById('summaryViewContactInformation');
-     const editView = document.getElementById('editViewContactInformation');
-   
-     editButton.addEventListener('click', () => {
+           if(summaryView.style.display != 'none'){
+             summaryView.style.display = 'none';
+             editButton.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
+             editView.style.display = 'block';
+           }else{
+             const name = document.getElementById('formGroupNombre').value;
+             const lastName = document.getElementById('formGroupApellidos').value;
+             const email = document.getElementById('formGroupEmail').value;
+             const phone = document.getElementById('formGroupPhone').value;
+             const documentIdentity = document.getElementById('formGroupCI').value;
+          
+             summaryView.innerHTML = `${name} | ${lastName} | ${email} | ${phone} | ${documentIdentity}`;
+             editButton.innerHTML = `<a id="editButtonContactInformation" class="edit-cart-link primay-text clickable"><img class="primary-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694">Editar datos</a>`
+             editView.style.display = 'none';
+             summaryView.style.display = 'block';
+           }
+       });     
+    }
 
-         if(summaryView.style.display != 'none'){
-           summaryView.style.display = 'none';
-           editButton.innerHTML = `<img src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/keyboard_arrow_up.svg?v=1733916629">`
-           editView.style.display = 'block';
-         }else{
-           const name = document.getElementById('formGroupNombre').value;
-           const lastName = document.getElementById('formGroupApellidos').value;
-           const email = document.getElementById('formGroupEmail').value;
-           const phone = document.getElementById('formGroupPhone').value;
-           const documentIdentity = document.getElementById('formGroupCI').value;
-       
-           summaryView.innerHTML = `${name} | ${lastName} | ${email} | ${phone} | ${documentIdentity}`;
-           editButton.innerHTML = `<a id="editButtonContactInformation" class="edit-cart-link primay-text clickable"><img class="primary-icon" src="https://cdn.shopify.com/s/files/1/0517/5495/9018/files/edit.svg?v=1733912694">Editar datos</a>`
-           editView.style.display = 'none';
-           summaryView.style.display = 'block';
-         }
-     });     
-  }
-  
-   document.addEventListener('DOMContentLoaded', () => { 
+     document.addEventListener('DOMContentLoaded', () => { 
 
-     {% if cart.item_count == 0 %}
-         window.location.href = "/cart";
-     {% endif %}
-     
-     if(coordenadas == null){
-       lanzarModalMapa();
-     }else
-     {
-       const metodoEntrega = MetodoEntregaInicio();
-       colapsableBillingInformation();
-       colapsableContactInformation();
-       datosAdicionalesPagoTarjeta();
-       autoCompleteAddress();
-       shippingEventos();
-       loadAddress();
-       loadSucursal();
-       fetchShippingRates('{{ customer.default_address.city }}')
-        .then((res) => {           
-             PintarShipping(res);
-             let storedOption = localStorage.getItem('selectedOption');
-             if (!storedOption) { 
-               storedOption = "envio";
-               localStorage.setItem('selectedOption', storedOption); 
-             }
-           
-             if (storedOption) {
-                 tabs.forEach(tab => {
-                     const input = tab.querySelector('input[type="radio"]');
-                     const label = tab.querySelector('.tab-option');
-                     const img = tab.querySelector('.tab-icon');
-                     
-                     if (input.id === storedOption) {
-                         input.checked = true;
-                         label.classList.add('active');
-                         img.classList.add('active-icon');
-                       
-                          eventoSelectedTab(storedOption);
-                     } else {
-                         label.classList.remove('active');
-                         img.classList.remove('active-icon');
-                     }
-                 });
-           }   
-         })
-         .catch((error) => {
-             console.error('Error processing pickup request:', error);
-         });
- 
-         fetchShippingRatesExpreess()
-        .then((res) => {           
-             PintarShippingExpress(res)
+       {% if cart.item_count == 0 %}
+           window.location.href = "/cart";
+       {% endif %}
+
+       if(coordenadas == null){
+         lanzarModalMapa();
+       }else
+       {
+         const metodoEntrega = MetodoEntregaInicio();
+         colapsableBillingInformation();
+         colapsableContactInformation();
+         datosAdicionalesPagoTarjeta();
+         autoCompleteAddress();
+         shippingEventos();
+         loadAddress();
+         loadSucursal();
+         fetchShippingRates('{{ customer.default_address.city }}')
+          .then((res) => {           
+               PintarShipping(res);
+               let storedOption = localStorage.getItem('selectedOption');
+               if (!storedOption) { 
+                 storedOption = "envio";
+                 localStorage.setItem('selectedOption', storedOption); 
+               }
+             
+               if (storedOption) {
+                   tabs.forEach(tab => {
+                       const input = tab.querySelector('input[type="radio"]');
+                       const label = tab.querySelector('.tab-option');
+                       const img = tab.querySelector('.tab-icon');
+
+                       if (input.id === storedOption) {
+                           input.checked = true;
+                           label.classList.add('active');
+                           img.classList.add('active-icon');
+
+                            eventoSelectedTab(storedOption);
+                       } else {
+                           label.classList.remove('active');
+                           img.classList.remove('active-icon');
+                       }
+                   });
+             }   
            })
            .catch((error) => {
                console.error('Error processing pickup request:', error);
            });
-       
-       eventosModalNuevaDireccion();
-
-
-       if(metodoEntrega){
-               const { utcStart, utcEnd } = getUTCDates(3);
-       
-               paramScheduled.utcStart = utcStart;
-               paramScheduled.utcEnd = utcEnd;
          
-              dameScheduled(paramScheduled)
-             .then((res) => {
-               handleScheduledResponse(res);
+           fetchShippingRatesExpreess()
+          .then((res) => {           
+               PintarShippingExpress(res)
              })
              .catch((error) => {
-               console.error('Error processing scheduled request:', error);
+                 console.error('Error processing pickup request:', error);
              });
-               
-         
-             paramPickup.utcStart = utcStart;
-             paramPickup.utcEnd = utcEnd;
-               
-               damePickup(paramPickup)
+           
+         eventosModalNuevaDireccion();
+
+
+         if(metodoEntrega){
+                 const { utcStart, utcEnd } = getUTCDates(3);
+        
+                 paramScheduled.utcStart = utcStart;
+                 paramScheduled.utcEnd = utcEnd;
+
+                dameScheduled(paramScheduled)
                .then((res) => {
-                 handlePickupResponse(res);
+                 handleScheduledResponse(res);
                })
                .catch((error) => {
-                 console.error("Error processing pickup request:", error);
-               });
-             }
-     }
-     
-
-       const direccionSelect = document.getElementById('direccionSelect');
-       const dropdownItems = document.querySelectorAll('.dropdown-item');
-     
-       dropdownItems.forEach(item => {
-         item.addEventListener('click', (e) => {
-           e.preventDefault();
-     
-           const address1 = item.getAttribute('data-address1');
-           const city = item.getAttribute('data-city');
-           direccionSelect.innerHTML = `
-             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#004AAD" class="bi bi-geo-alt" viewBox="0 0 16 16">
-               <path d="M12.166 8.94c-.63 1.05-1.295 2.012-1.953 2.832A30.15 30.15 0 0 1 8.97 13.75c-.02.014-.04.029-.062.043-.098.064-.24.132-.413.18-.105.03-.208.048-.315.048s-.21-.017-.315-.048c-.173-.048-.315-.116-.413-.18a.836.836 0 0 1-.062-.043 30.15 30.15 0 0 1-1.242-1.978c-.659-.82-1.324-1.782-1.953-2.832C3.265 7.867 2.5 6.54 2.5 5c0-1.75 1.433-3 3.5-3s3.5 1.25 3.5 3c0 1.54-.765 2.867-2.166 3.94ZM8 3.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0ZM6.5 5.5A.5.5 0 1 1 7 5a.5.5 0 0 1-.5.5ZM8 12.5c.983.847 2.049 1.837 3.2 2.988C10.22 15.91 8.61 16 8 16s-2.22-.09-3.2-.512C5.951 14.337 7.017 13.347 8 12.5Z"/>
-             </svg>
-             Casa: ${address1}, ${city}
-           `;
-         });
-       });
-
-      
-     
-        paymentOptions.forEach((option) => {
-         option.addEventListener("click", () => {
-           paymentOptions.forEach((opt) => opt.classList.remove("selected"));
-           option.classList.add("selected");
-           selectedPaymentCode = option.dataset.paymentCode;
-           localStorage.setItem('selectedPaymentGateway', selectedPaymentCode);
-          
-           const firtsDigits = document.getElementById('first-four-digits');
-           const lastDigits = document.getElementById('last-four-digits');
-           if(selectedPaymentCode == 'Tarjeta de Crédito / Débito'){
-              firtsDigits.required = true; 
-              lastDigits.required = true; 
-           }else{
-              firtsDigits.required = false; 
-              lastDigits.required = false;               
-           }
-         });
-       });
-
-       const updateSucursalInfo = (nombre, detalle, mapa) => {
-           const sucursalNombre = document.getElementById("sucursalNombre");
-           const sucursalDetalle = document.getElementById("sucursalDetalle");
-           const sucursalMapa = document.getElementById("sucursalMapa");
-     
-           sucursalNombre.textContent = nombre;
-           sucursalDetalle.textContent = detalle;
-           sucursalMapa.href = mapa;
-     
-           sucursalInfo.style.display = "block";
-     
-       };
-
-
-       const selectedSucursalText = document.getElementById('selectedSucursalText');
-      
-       const sucursalNombre = document.getElementById('sucursalNombre');
-       const sucursalDetalle = document.getElementById('sucursalDetalle');
-       const sucursalMapa = document.getElementById('sucursalMapa');
-       const clearSucursalButton = document.getElementById('clearSucursalButton');
-   
-     clearSucursalButton.addEventListener('click', function () {
-       selectedSucursalText.textContent = 'Seleccionar o buscar sucursal';
-       sucursalInfo.style.display = 'none';
-       clearSucursalButton.style.display = 'none';
-     });
-
-       const dropdownButton = document.getElementById("dropdownMenuButton");
-       
-       dropdownItems.forEach((item) => {
-           item.addEventListener("click", function (e) {
-               e.preventDefault();
-               const selectedText = this.querySelector("strong").textContent;
-               dropdownButton.textContent = selectedText; // Actualiza el texto del botón
-
-           });
-       });
-
-       const tabs = document.querySelectorAll('.tab');
-
-       tabs.forEach(tab => {
-           tab.addEventListener('click', () => {
-               tabs.forEach(t => {
-                   const option = t.querySelector('.tab-option');
-                   option.classList.remove('active');
-                   t.querySelector('input[type="radio"]').checked = false;
-
-                   const img = t.querySelector('.tab-icon');
-                   if (img) {
-                       img.classList.remove('active-icon'); 
-                   }
+                 console.error('Error processing scheduled request:', error);
                });
 
-
-               const activeImg = tab.querySelector('.tab-icon');
-               if (activeImg) {
-                   activeImg.classList.add('active-icon'); 
-               }
              
-               const selectedOption = tab.querySelector('.tab-option');
-               selectedOption.classList.add('active');
-               tab.querySelector('input[type="radio"]').checked = true;
-               eventoSelectedTab(selectedOption.htmlFor);
-               localStorage.setItem('selectedOption', tab.querySelector('input[type="radio"]').id);
+               paramPickup.utcStart = utcStart;
+               paramPickup.utcEnd = utcEnd;
+
+                 damePickup(paramPickup)
+                 .then((res) => {
+                   handlePickupResponse(res);
+                 })
+                 .catch((error) => {
+                   console.error("Error processing pickup request:", error);
+                 });
+               }
+       }
+
+
+         const direccionSelect = document.getElementById('direccionSelect');
+         const dropdownItems = document.querySelectorAll('.dropdown-item');
+
+         dropdownItems.forEach(item => {
+           item.addEventListener('click', (e) => {
+             e.preventDefault();
+          
+             const address1 = item.getAttribute('data-address1');
+             const city = item.getAttribute('data-city');
+             direccionSelect.innerHTML = `
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#004AAD" class="bi bi-geo-alt" viewBox="0 0 16 16">
+                 <path d="M12.166 8.94c-.63 1.05-1.295 2.012-1.953 2.832A30.15 30.15 0 0 1 8.97 13.75c-.02.014-.04.029-.062.043-.098.064-.24.132-.413.18-.105.03-.208.048-.315.048s-.21-.017-.315-.048c-.173-.048-.315-.116-.413-.18a.836.836 0 0 1-.062-.043 30.15 30.15 0 0 1-1.242-1.978c-.659-.82-1.324-1.782-1.953-2.832C3.265 7.867 2.5 6.54 2.5 5c0-1.75 1.433-3 3.5-3s3.5 1.25 3.5 3c0 1.54-.765 2.867-2.166 3.94ZM8 3.5a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0ZM6.5 5.5A.5.5 0 1 1 7 5a.5.5 0 0 1-.5.5ZM8 12.5c.983.847 2.049 1.837 3.2 2.988C10.22 15.91 8.61 16 8 16s-2.22-.09-3.2-.512C5.951 14.337 7.017 13.347 8 12.5Z"/>
+               </svg>
+               Casa: ${address1}, ${city}
+             `;
            });
-       });           
-   });        
+         });
 
-function eventoSelectedTab(storedOption){
-   const pickupView = document.getElementById('pickupView');  
-   const EnvioView = document.getElementById('EnvioView');  
-   const ShippingDiv = document.getElementById('shipping-div');  
-  
-   if (storedOption == 'retiro') {
-         pickupView.style.display = 'block';
-         EnvioView.style.display = 'none';
-         ShippingDiv.style.display = 'none';
-         dameCostoDelivery(0, '');
-     } else {                  
-         pickupView.style.display = 'none';
-         EnvioView.style.display = 'block';
+       
+       
+          paymentOptions.forEach((option) => {
+           option.addEventListener("click", () => {
+             paymentOptions.forEach((opt) => opt.classList.remove("selected"));
+             option.classList.add("selected");
+             selectedPaymentCode = option.dataset.paymentCode;
+             localStorage.setItem('selectedPaymentGateway', selectedPaymentCode);
 
-        ShippingDiv.style.display = 'block';
-        const costoDeliveryAux = Number(localStorage.getItem('costoDeliveryAux'));                  
-        dameCostoDelivery(costoDeliveryAux, 'Delivery');                       
-     }
-}
+             const firtsDigits = document.getElementById('first-four-digits');
+             const lastDigits = document.getElementById('last-four-digits');
+             if(selectedPaymentCode == 'Tarjeta de Crédito / Débito'){
+                firtsDigits.required = true; 
+                lastDigits.required = true; 
+             }else{
+                firtsDigits.required = false; 
+                lastDigits.required = false;               
+             }
+           });
+         });
 
-  function hideKeyboard() {
- const activeElement = document.activeElement;
+         const updateSucursalInfo = (nombre, detalle, mapa) => {
+             const sucursalNombre = document.getElementById("sucursalNombre");
+             const sucursalDetalle = document.getElementById("sucursalDetalle");
+             const sucursalMapa = document.getElementById("sucursalMapa");
+        
+             sucursalNombre.textContent = nombre;
+             sucursalDetalle.textContent = detalle;
+             sucursalMapa.href = mapa;
+        
+             sucursalInfo.style.display = "block";
+        
+         };
 
- if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
-   activeElement.blur();
- }
-}
 
-  function validarCamposObligatorios(){
+         const selectedSucursalText = document.getElementById('selectedSucursalText');
+       
+         const sucursalNombre = document.getElementById('sucursalNombre');
+         const sucursalDetalle = document.getElementById('sucursalDetalle');
+         const sucursalMapa = document.getElementById('sucursalMapa');
+         const clearSucursalButton = document.getElementById('clearSucursalButton');
+       
+       clearSucursalButton.addEventListener('click', function () {
+         selectedSucursalText.textContent = 'Seleccionar o buscar sucursal';
+         sucursalInfo.style.display = 'none';
+         clearSucursalButton.style.display = 'none';
+       });
 
-   let isValid = true;
-   let firstInvalidField = null;     
+         const dropdownButton = document.getElementById("dropdownMenuButton");
 
-    const storedOption = localStorage.getItem('selectedOption');
-    if (storedOption != 'envio') {
-       const customSelectSucursal = document.getElementById("customSelectSucursal"); 
-       const selectedSucursalText = document.getElementById("selectedSucursalText");
-       if (selectedSucursalText.textContent.trim() === "Seleccionar o buscar sucursal") {
-         customSelectSucursal.classList.add("is-invalid"); 
-         isValid = false;
-         if (!firstInvalidField) {
-            firstInvalidField = customSelectSucursal; 
-         }    
-       } else {
-         customSelectSucursal.classList.remove("is-invalid");
+         dropdownItems.forEach((item) => {
+             item.addEventListener("click", function (e) {
+                 e.preventDefault();
+                 const selectedText = this.querySelector("strong").textContent;
+                 dropdownButton.textContent = selectedText; // Actualiza el texto del botón
+
+             });
+         });
+
+         const tabs = document.querySelectorAll('.tab');
+
+         tabs.forEach(tab => {
+             tab.addEventListener('click', () => {
+                 tabs.forEach(t => {
+                     const option = t.querySelector('.tab-option');
+                     option.classList.remove('active');
+                     t.querySelector('input[type="radio"]').checked = false;
+
+                     const img = t.querySelector('.tab-icon');
+                     if (img) {
+                         img.classList.remove('active-icon'); 
+                     }
+                 });
+
+
+                 const activeImg = tab.querySelector('.tab-icon');
+                 if (activeImg) {
+                     activeImg.classList.add('active-icon'); 
+                 }
+               
+                 const selectedOption = tab.querySelector('.tab-option');
+                 selectedOption.classList.add('active');
+                 tab.querySelector('input[type="radio"]').checked = true;
+                 eventoSelectedTab(selectedOption.htmlFor);
+                 localStorage.setItem('selectedOption', tab.querySelector('input[type="radio"]').id);
+             });
+         });           
+     });        
+
+  function eventoSelectedTab(storedOption){
+     const pickupView = document.getElementById('pickupView');  
+     const EnvioView = document.getElementById('EnvioView');  
+     const ShippingDiv = document.getElementById('shipping-div');  
+
+     if (storedOption == 'retiro') {
+           pickupView.style.display = 'block';
+           EnvioView.style.display = 'none';
+           ShippingDiv.style.display = 'none';
+           dameCostoDelivery(0, '');
+       } else {                  
+           pickupView.style.display = 'none';
+           EnvioView.style.display = 'block';
+
+          ShippingDiv.style.display = 'block';
+          const costoDeliveryAux = Number(localStorage.getItem('costoDeliveryAux'));                  
+          dameCostoDelivery(costoDeliveryAux, 'Delivery');                       
        }
-    }
-  
-    if (!isPaymentSelected()) {
-     const requiredPayment = document.getElementById("requiredPayment"); 
-     requiredPayment.style.display = 'block';
-     firstInvalidField = requiredPayment; 
-     isValid = false;
-   }
+  }
 
+    function hideKeyboard() {
+   const activeElement = document.activeElement;
 
-    expandContactInformation();
-    expandBillingInformation();
-   const inputs = document.querySelectorAll("input[required], textarea[required], select[required]"); // Selecciona todos los campos requeridos
-
-   inputs.forEach((input) => {
-     if (!input.value.trim()) {
-       input.classList.add("is-invalid");
-       input.classList.remove("is-valid");
-       if (!firstInvalidField) {
-         firstInvalidField = input; 
-       }
-       isValid = false;
-     } else {
-       input.classList.remove("is-invalid"); 
-       input.classList.add("is-valid"); 
-     }
-   });
-
-   if (firstInvalidField) {
-     firstInvalidField.scrollIntoView({ behavior: "smooth", block: "center" }); 
-     firstInvalidField.focus(); 
-   }
-
-   if (isValid) {
-    return true;
-   } else {
-    return false
+   if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+     activeElement.blur();
    }
   }
 
-    const getSelectedOptionPointPay = () => {
-      if(localStorage.getItem('selectedPaymentGateway') == "Colaboradores (Crédito/Puntos)"){
-       const selectedOption = document.querySelector('input[name="options-outlined"]:checked');
-       if (selectedOption) {
-           const label = document.querySelector(`label[for="${selectedOption.id}"]`);
-           return label ? label.textContent.trim() : "";
-       }
-       return "";
+    function validarCamposObligatorios(){
+
+     let isValid = true;
+     let firstInvalidField = null;     
+
+      const storedOption = localStorage.getItem('selectedOption');
+      if (storedOption != 'envio') {
+         const customSelectSucursal = document.getElementById("customSelectSucursal"); 
+         const selectedSucursalText = document.getElementById("selectedSucursalText");
+         if (selectedSucursalText.textContent.trim() === "Seleccionar o buscar sucursal") {
+           customSelectSucursal.classList.add("is-invalid"); 
+           isValid = false;
+           if (!firstInvalidField) {
+              firstInvalidField = customSelectSucursal; 
+           }    
+         } else {
+           customSelectSucursal.classList.remove("is-invalid");
+         }
       }
-      return "";
-      
-   };
-  
- function crearOrden(){
-
-   hideKeyboard();
-   if(validarCamposObligatorios()){
-     
-       const email = "{{ customer.email }}";
-       const idOwner = "{{ customer.id}}";
-   
-       const lines = [];
-       {% for item in cart.items %}
-       lines.push({
-           variantId: "{{ item.variant_id }}",
-           quantity: {{ item.quantity }},
-           price: {{ item.final_price | divided_by: 100.0 }},
-           discountAmout: 0, // Actualiza si tienes descuentos
-           discountTitle: "",
-           discountType: "",
-           isCampaign2x1: false, // Actualiza si tienes una lógica para promociones
-           shopKey: "{{shopKey}}",
-           name: "{{ item.product.title }}",
-           title: "{{ item.product.title }}",
-       });
-       {% endfor %}
-   
-       const shippingAddress = {
-           firstName: "{{ customer.default_address.first_name }}",
-           lastName: "{{ customer.default_address.last_name }}",
-           address1: "{{ customer.default_address.address1 }}",
-           address2: "{{ customer.default_address.address2 }}",
-           phone: "{{ customer.default_address.phone }}",
-           city:  paramScheduled.destination.city ,
-       };
-
-
-     
-      var cities = {{settings.citysConfig }};
-      const cityData = cities.find(item => item.city === shippingAddress.city);
-      const native = !cityData.metodoEntrega;
-   
-       const documentoInput = document.getElementById("formGroupDocumento").value;
-       const nombreInput = document.getElementById("formGroupNombre").value;
-       const facturacionInfo = {
-           documento: documentoInput,
-           tipoDocumentoId: "5",
-           tipoDocumentoDescripcion: "NIT - NÚMERO DE IDENTIFICACIÓN TRIBUTARIA",
-           complementoDocumento: "",
-           nombre: nombreInput,
-           email: "{{ customer.email }}",
-           telefono: document.getElementById("formGroupPhone")?.value || "",
-       };
-
-        let instaleapInfo =[];
-       if(!native){
-     
-           const storedOption = localStorage.getItem('selectedOption');
-           
-           if (storedOption == 'envio') {
-               const selectedRadio = document.querySelector('input[name="shipping"]:checked');
-       
-               if (selectedRadio) {
-                   localStorage.setItem(`operationCode`, 'scheduled');
-                   localStorage.setItem(`operationDescription`, 'Envío a domicilio');                
-                   localStorage.setItem(`timeSlotId`, document.getElementById('timeSelect').value);
-               }else{
-                   localStorage.setItem(`operationCode`, 'express');
-                   localStorage.setItem(`operationDescription`, 'Envío Express');                
-                   localStorage.setItem(`timeSlotId`, localStorage.getItem("timeSlotIdExpress"));
-               }
-           }else{      
-               localStorage.setItem(`operationCode`, 'pickup');
-               localStorage.setItem(`operationDescription`, 'Recojo en tienda');                    
-               localStorage.setItem(`timeSlotId`, localStorage.getItem("timeSlotIdPickup"));
-           }
-           
-            instaleapInfo = [
-               {
-                   shopKey: "{{shopKey}}",
-                   codigoOperacion: localStorage.getItem("operationCode"),
-                   operacion: localStorage.getItem("operationDescription"), 
-                   bodega: localStorage.getItem("keyBodega"), 
-                   slotInstaleap: localStorage.getItem("timeSlotId"),
-               },
-           ];
-         
-       }
-   
-       let cardNumber = '';
-       const firstFourDigits = document.getElementById("first-four-digits")?.value || "";
-       const lastFourDigits = document.getElementById("last-four-digits")?.value || "";
-   
-       if (firstFourDigits && lastFourDigits) {
-           cardNumber = `${firstFourDigits}00000000${lastFourDigits}`;
-       }   
-       
-       const bankCode = "";
-       const bankDescription = "";
-       const shippingCode = localStorage.getItem("nameDelivery")|| "DEFAULT_SHIPPING"
-       const shippingAmount = parseFloat(localStorage.getItem("costoDelivery")) || 0;
-       const paymentGatewayCode = localStorage.getItem('selectedPaymentGateway') || "DEFAULT_CODE";
-       const paymentGatewayAmount = parseFloat(localStorage.getItem("costoTotal")) || 0;
-       const keySource = "web";
-       const appVersion = "1.0.0";
-       const discountAmout = 0; 
-       const discountTitle = "";
-       const discountType = "";
-       const note = document.getElementById("order-note")?.value || "";
-       const colaboradoresPuntosOptionSelected = getSelectedOptionPointPay();
-   
-       const orderData = {
-           email,
-           idOwner,
-           lines,
-           shippingAddress,
-           facturacionInfo,
-           instaleapInfo,
-           cardNumber,
-           bankCode,
-           bankDescription,
-           latitud: coordenadas.latitud,
-           longitud: coordenadas.longitud,
-           shippingCode,
-           shippingAmount,
-           paymentGatewayCode,
-           paymentGatewayAmount,
-           keySource,
-           appVersion,
-           discountAmout,
-           discountTitle,
-           discountType,
-           note,
-           colaboradoresPuntosOptionSelected
-       };
-
-       const first_name = document.getElementById("formGroupNombre")?.value || "";
-       const last_name = document.getElementById("formGroupApellidos")?.value || "";
-       const emailAux = document.getElementById("formGroupEmail")?.value || "";
-       const phone = document.getElementById("formGroupPhone")?.value || "";
-       const documento = document.getElementById("formGroupCI")?.value || "";
-
-     try{
-       associateFarmaclubV2(`{{ customer.first_name }}`,`{{ customer.last_name }}`, `{{ customer.email }}`, phone, ``,documento, `{{ customer.id | json }}`,`{{ customer.email }}`)
-                   .then((response) =>{ 
-
-                       if(response.data.cedula){
-                         attachFarmaclub( response.data.cedula, response.data.idFarmacorp)
-                             .then((response2) => { 
-                             }).catch(function(err) {
-                               
-                             });
-                       }
-                   })
-                   .catch(function(err) {
-                   });
-      } catch (error) {
-       console.error('Error al realizar la solicitud:', error);
-   }      
-     
-     UpdateCustomer(first_name, last_name,phone,emailAux, idOwner);  
-     createOrder(orderData).then((res) => {                     
-         if(res){
-             const operationCode = localStorage.getItem("operationCode");
-             if(res[0].paymentWebViewHtmlResponse)
-             {
-               const parser = new DOMParser();
-               const doc = parser.parseFromString(res[0].paymentWebViewHtmlResponse, 'text/html');
-               const inputElement = doc.querySelector('input[name="mp"]');
-               const tipo = inputElement ? inputElement.getAttribute('value') : null;
-
-               window.location.href = `{{ settings.checkout_domain }}pages/liveess?nocache={{ 'now' | date: '%s' }}&tipo=${tipo}&order=${res[0].orderNumber}&orderid=${res[0].orderId}&operationCode=${operationCode}&native=${native}&monto=${paymentGatewayAmount}`;
-               
-             }else{
-               
-                 setTimeout(() => {
-                     clearCartAndRedirect(res[0].orderId,operationCode, native);
-                 }, 4000);
-             }
-         }         
-       })
-       .catch((error) => {
-           console.error('Error processing pickup request:', error);
-       });
-   }
- }
-function clearCartAndRedirect(orderId, operationCode, native) {
- fetch('/cart/clear.js', {
-   method: 'POST',
-   headers: {
-     'Content-Type': 'application/json',
-   },
- })
-   .then((response) => {
-     if (!response.ok) {
-       throw new Error('Error al vaciar el carrito');
+    
+      if (!isPaymentSelected()) {
+       const requiredPayment = document.getElementById("requiredPayment"); 
+       requiredPayment.style.display = 'block';
+       firstInvalidField = requiredPayment; 
+       isValid = false;
      }
 
-     if(native == true){
-         window.location.href = `{{ settings.checkout_domain }}pages/thankyou?orderId=${orderId}`;
-     }else{
-            dameOrderInfo(orderId).then((res) => {                     
-                         if(res.data){
-                            const jobId = res.data.data[0].instaleapJobId;
-                           if(jobId!=='')
-                              window.location.href = `{{ settings.checkout_domain }}pages/lst?jobId=${jobId}&type=${operationCode}`;
-                           else
-                             clearCartAndRedirect(orderId, operationCode);
-                         }
-                        
-                       })
-                       .catch((error) => {
-                           console.error('Error processing pickup request:', error);
-                       });        
-       }
-   })
-   .catch((error) => {
-     console.error('Hubo un problema al vaciar el carrito:', error);
-   });
-}
 
-function HidenModalNuevaDireccion(){
-   const modalElement = document.getElementById("nuevaDireccionModal");
-   const modal = new bootstrap.Modal(modalElement);
-   modal.hide();
-}
-  
-function crearDireccion(){
+      expandContactInformation();
+      expandBillingInformation();
+     const inputs = document.querySelectorAll("input[required], textarea[required], select[required]"); // Selecciona todos los campos requeridos
 
- const cities ={{settings.citysConfig}};
- const locationString = localStorage.getItem('location_save');
- if (locationString) {
-     const loc = JSON.parse(locationString);
-
-     const closestCity = getClosestCity(cities, loc.lat, loc.lng);
-   
-
-     const addressData = {
-       customerId:  "{{ customer.id}}",
-       id: '',
-       firstName: "",
-       lastName: document.getElementById('aliasDireccion').value,
-       phone: "",
-       city: closestCity.city,
-       address:  document.getElementById('indicacionDireccion').value,
-       reference: "",
-       zoom: 15,
-       latitud: loc.lat,
-       longitud: loc.lng,
-       default: true,
-     };
-      validateCobertura(loc.lat,loc.lng ,closestCity.city).then((res) => {  
-
-         if(res.data){
-              upsertAddress(addressData).then((res) => {                                 
-               location.reload();
-              })
-              .catch((error) => {
-                console.error('Error processing pickup request:', error);
-              });
-         }else
-         {
-             HidenModalNuevaDireccion();
-             displayCoverageError('Dirección fuera de cobertura');            
+     inputs.forEach((input) => {
+       if (!input.value.trim()) {
+         input.classList.add("is-invalid");
+         input.classList.remove("is-valid");
+         if (!firstInvalidField) {
+           firstInvalidField = input; 
          }
-      })
-      .catch((error) => {
-        console.error('Error processing pickup request:', error);
-      });
+         isValid = false;
+       } else {
+         input.classList.remove("is-invalid"); 
+         input.classList.add("is-valid"); 
+       }
+     });
+
+     if (firstInvalidField) {
+       firstInvalidField.scrollIntoView({ behavior: "smooth", block: "center" }); 
+       firstInvalidField.focus(); 
+     }
+
+     if (isValid) {
+      return true;
+     } else {
+      return false
+     }
+    }
+
+      const getSelectedOptionPointPay = () => {
+        if(localStorage.getItem('selectedPaymentGateway') == "Colaboradores (Crédito/Puntos)"){
+         const selectedOption = document.querySelector('input[name="options-outlined"]:checked');
+         if (selectedOption) {
+             const label = document.querySelector(`label[for="${selectedOption.id}"]`);
+             return label ? label.textContent.trim() : "";
+         }
+         return "";
+        }
+        return "";
+
+     };
    
-     
-     
- }
-}
+   function crearOrden(){
 
-function getPlaceDescription(lat, lng) {
-   return new Promise((resolve, reject) => {
-       const geocoder = new google.maps.Geocoder();
-       const latLng = { lat: lat, lng: lng };
+     hideKeyboard();
+     if(validarCamposObligatorios()){
 
-       geocoder.geocode({ location: latLng }, function(results, status) {
-           if (status === google.maps.GeocoderStatus.OK) {
-               if (results[0]) {
-                   resolve(results[0].formatted_address); // Retorna la descripción
-               } else {
-                   reject("No se encontraron resultados para la ubicación.");
+         const email = "{{ customer.email }}";
+         const idOwner = "{{ customer.id}}";
+    
+         const lines = [];
+         {% for item in cart.items %}
+         lines.push({
+             variantId: "{{ item.variant_id }}",
+             quantity: {{ item.quantity }},
+             price: {{ item.final_price | divided_by: 100.0 }},
+             discountAmout: 0, // Actualiza si tienes descuentos
+             discountTitle: "",
+             discountType: "",
+             isCampaign2x1: false, // Actualiza si tienes una lógica para promociones
+             shopKey: "{{shopKey}}",
+             name: "{{ item.product.title }}",
+             title: "{{ item.product.title }}",
+         });
+         {% endfor %}
+       
+         const shippingAddress = {
+             firstName: "{{ customer.default_address.first_name }}",
+             lastName: "{{ customer.default_address.last_name }}",
+             address1: "{{ customer.default_address.address1 }}",
+             address2: "{{ customer.default_address.address2 }}",
+             phone: "{{ customer.default_address.phone }}",
+             city:  paramScheduled.destination.city ,
+         };
+
+
+       
+        var cities = {{settings.citysConfig }};
+        const cityData = cities.find(item => item.city === shippingAddress.city);
+        const native = !cityData.metodoEntrega;
+       
+         const documentoInput = document.getElementById("formGroupDocumento").value;
+         const nombreInput = document.getElementById("formGroupNombre").value;
+         const facturacionInfo = {
+             documento: documentoInput,
+             tipoDocumentoId: "5",
+             tipoDocumentoDescripcion: "NIT - NÚMERO DE IDENTIFICACIÓN TRIBUTARIA",
+             complementoDocumento: "",
+             nombre: nombreInput,
+             email: "{{ customer.email }}",
+             telefono: document.getElementById("formGroupPhone")?.value || "",
+         };
+
+          let instaleapInfo =[];
+         if(!native){
+        
+             const storedOption = localStorage.getItem('selectedOption');
+
+             if (storedOption == 'envio') {
+                 const selectedRadio = document.querySelector('input[name="shipping"]:checked');
+            
+                 if (selectedRadio) {
+                     localStorage.setItem(`operationCode`, 'scheduled');
+                     localStorage.setItem(`operationDescription`, 'Envío a domicilio');                
+                     localStorage.setItem(`timeSlotId`, document.getElementById('timeSelect').value);
+                 }else{
+                     localStorage.setItem(`operationCode`, 'express');
+                     localStorage.setItem(`operationDescription`, 'Envío Express');                
+                     localStorage.setItem(`timeSlotId`, localStorage.getItem("timeSlotIdExpress"));
+                 }
+             }else{      
+                 localStorage.setItem(`operationCode`, 'pickup');
+                 localStorage.setItem(`operationDescription`, 'Recojo en tienda');                    
+                 localStorage.setItem(`timeSlotId`, localStorage.getItem("timeSlotIdPickup"));
+             }
+
+              instaleapInfo = [
+                 {
+                     shopKey: "{{shopKey}}",
+                     codigoOperacion: localStorage.getItem("operationCode"),
+                     operacion: localStorage.getItem("operationDescription"), 
+                     bodega: localStorage.getItem("keyBodega"), 
+                     slotInstaleap: localStorage.getItem("timeSlotId"),
+                 },
+             ];
+           
+         }
+       
+         let cardNumber = '';
+         const firstFourDigits = document.getElementById("first-four-digits")?.value || "";
+         const lastFourDigits = document.getElementById("last-four-digits")?.value || "";
+       
+         if (firstFourDigits && lastFourDigits) {
+             cardNumber = `${firstFourDigits}00000000${lastFourDigits}`;
+         }   
+
+         const bankCode = "";
+         const bankDescription = "";
+         const shippingCode = localStorage.getItem("nameDelivery")|| "DEFAULT_SHIPPING"
+         const shippingAmount = parseFloat(localStorage.getItem("costoDelivery")) || 0;
+         const paymentGatewayCode = localStorage.getItem('selectedPaymentGateway') || "DEFAULT_CODE";
+         const paymentGatewayAmount = parseFloat(localStorage.getItem("costoTotal")) || 0;
+         const keySource = "web";
+         const appVersion = "1.0.0";
+         const discountAmout = 0; 
+         const discountTitle = "";
+         const discountType = "";
+         const note = document.getElementById("order-note")?.value || "";
+         const colaboradoresPuntosOptionSelected = getSelectedOptionPointPay();
+       
+         const orderData = {
+             email,
+             idOwner,
+             lines,
+             shippingAddress,
+             facturacionInfo,
+             instaleapInfo,
+             cardNumber,
+             bankCode,
+             bankDescription,
+             latitud: coordenadas.latitud,
+             longitud: coordenadas.longitud,
+             shippingCode,
+             shippingAmount,
+             paymentGatewayCode,
+             paymentGatewayAmount,
+             keySource,
+             appVersion,
+             discountAmout,
+             discountTitle,
+             discountType,
+             note,
+             colaboradoresPuntosOptionSelected
+         };
+
+         const first_name = document.getElementById("formGroupNombre")?.value || "";
+         const last_name = document.getElementById("formGroupApellidos")?.value || "";
+         const emailAux = document.getElementById("formGroupEmail")?.value || "";
+         const phone = document.getElementById("formGroupPhone")?.value || "";
+         const documento = document.getElementById("formGroupCI")?.value || "";
+
+       try{
+         associateFarmaclubV2(`{{ customer.first_name }}`,`{{ customer.last_name }}`, `{{ customer.email }}`, phone, ``,documento, `{{ customer.id | json }}`,`{{ customer.email }}`)
+                     .then((response) =>{ 
+
+                         if(response.data.cedula){
+                           attachFarmaclub( response.data.cedula, response.data.idFarmacorp)
+                               .then((response2) => { 
+                               }).catch(function(err) {
+
+                               });
+                         }
+                     })
+                     .catch(function(err) {
+                     });
+        } catch (error) {
+         console.error('Error al realizar la solicitud:', error);
+     }      
+
+       UpdateCustomer(first_name, last_name,phone,emailAux, idOwner);  
+       createOrder(orderData).then((res) => {                     
+           if(res){
+               const operationCode = localStorage.getItem("operationCode");
+               if(res[0].paymentWebViewHtmlResponse)
+               {
+                 const parser = new DOMParser();
+                 const doc = parser.parseFromString(res[0].paymentWebViewHtmlResponse, 'text/html');
+                 const inputElement = doc.querySelector('input[name="mp"]');
+                 const tipo = inputElement ? inputElement.getAttribute('value') : null;
+
+                 window.location.href = `{{ settings.checkout_domain }}pages/liveess?nocache={{ 'now' | date: '%s' }}&tipo=${tipo}&order=${res[0].orderNumber}&orderid=${res[0].orderId}&operationCode=${operationCode}&native=${native}&monto=${paymentGatewayAmount}`;
+
+               }else{
+
+                   setTimeout(() => {
+                       clearCartAndRedirect(res[0].orderId,operationCode, native);
+                   }, 4000);
                }
-           } else {
-               reject(`Error al geocodificar la ubicación: ${status}`);
-           }
-       });
-   });
-}
-
-function updateDireccion(){
-
- const cities ={{settings.citysConfig}};
- const locationString = localStorage.getItem('location_save');
- if (locationString) {
-     const loc = JSON.parse(locationString);
-
-     const closestCity = getClosestCity(cities, loc.lat, loc.lng);
-
-   getPlaceDescription(loc.lat, loc.lng)
-       .then(description => {
-                 const addressData = {
-                   customerId:  "{{ customer.id}}",
-                   id: "{{customer.default_address.id}}",
-                   firstName: "{{customer.default_address.first_name}}",
-                   lastName: "{{customer.default_address.last_name}}",
-                   phone: "{{customer.default_address.phone}}",
-                   city: closestCity.city,
-                   address:  description,
-                   reference: "Nueva dirección",
-                   zoom: 15,
-                   latitud: loc.lat,
-                   longitud: loc.lng,
-                   default: true,
-                 };
-               
-           
-                 validateCobertura(loc.lat,loc.lng ,closestCity.city).then((res) => {  
-           
-                     if(res.data){
-                         upsertAddress(addressData).then((res) => {   
-                            location.reload();              
-                        })
-                        .catch((error) => {
-                          console.error('Error processing pickup request:', error);
-                        });
-                     }else
-                     {
-                         HidenModalNuevaDireccion();
-                         displayCoverageError('Dirección fuera de cobertura');            
-                     }
-                  })
-                  .catch((error) => {
-                    console.error('Error processing pickup request:', error);
-                  });
-           })
-           .catch(error => {
-               console.error(error);
-           });       
- }
-}
-  
-  function getClosestCity(cities, targetLat, targetLng) {
- function haversine(lat1, lng1, lat2, lng2) {
-   const toRadians = (degrees) => degrees * (Math.PI / 180);
-
-   const R = 6371; // Radio de la Tierra en kilómetros
-   const dLat = toRadians(lat2 - lat1);
-   const dLng = toRadians(lng2 - lng1);
-
-   const a =
-     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-     Math.cos(toRadians(lat1)) *
-       Math.cos(toRadians(lat2)) *
-       Math.sin(dLng / 2) *
-       Math.sin(dLng / 2);
-
-   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-   return R * c; // Distancia en kilómetros
- }
-
- let closestCity = null;
- let smallestDistance = Infinity;
-
- cities.forEach((city) => {
-   const distance = haversine(
-     parseFloat(city.latitud),
-     parseFloat(city.longitud),
-     parseFloat(targetLat),
-     parseFloat(targetLng)
-   );
-
-   if (distance < smallestDistance) {
-     smallestDistance = distance;
-     closestCity = city;
+           }         
+         })
+         .catch((error) => {
+             console.error('Error processing pickup request:', error);
+         });
+     }
    }
- });
+  function clearCartAndRedirect(orderId, operationCode, native) {
+   fetch('/cart/clear.js', {
+     method: 'POST',
+     headers: {
+       'Content-Type': 'application/json',
+     },
+   })
+     .then((response) => {
+       if (!response.ok) {
+         throw new Error('Error al vaciar el carrito');
+       }
 
- return closestCity;
-}
+       if(native == true){
+           window.location.href = `{{ settings.checkout_domain }}pages/thankyou?orderId=${orderId}`;
+       }else{
+              dameOrderInfo(orderId).then((res) => {                     
+                           if(res.data){
+                              const jobId = res.data.data[0].instaleapJobId;
+                             if(jobId!=='')
+                                window.location.href = `{{ settings.checkout_domain }}pages/lst?jobId=${jobId}&type=${operationCode}`;
+                             else
+                               clearCartAndRedirect(orderId, operationCode);
+                           }
+                         
+                         })
+                         .catch((error) => {
+                             console.error('Error processing pickup request:', error);
+                         });        
+         }
+     })
+     .catch((error) => {
+       console.error('Hubo un problema al vaciar el carrito:', error);
+     });
+  }
+
+  function HidenModalNuevaDireccion(){
+     const modalElement = document.getElementById("nuevaDireccionModal");
+     const modal = new bootstrap.Modal(modalElement);
+     modal.hide();
+  }
+
+  function crearDireccion(){
+
+   const cities ={{settings.citysConfig}};
+   const locationString = localStorage.getItem('location_save');
+   if (locationString) {
+       const loc = JSON.parse(locationString);
+
+       const closestCity = getClosestCity(cities, loc.lat, loc.lng);
+
+
+       const addressData = {
+         customerId:  "{{ customer.id}}",
+         id: '',
+         firstName: "",
+         lastName: document.getElementById('aliasDireccion').value,
+         phone: "",
+         city: closestCity.city,
+         address:  document.getElementById('indicacionDireccion').value,
+         reference: "",
+         zoom: 15,
+         latitud: loc.lat,
+         longitud: loc.lng,
+         default: true,
+       };
+        validateCobertura(loc.lat,loc.lng ,closestCity.city).then((res) => {  
+
+           if(res.data){
+                upsertAddress(addressData).then((res) => {                                 
+                 location.reload();
+                })
+                .catch((error) => {
+                  console.error('Error processing pickup request:', error);
+                });
+           }else
+           {
+               HidenModalNuevaDireccion();
+               displayCoverageError('Dirección fuera de cobertura');            
+           }
+        })
+        .catch((error) => {
+          console.error('Error processing pickup request:', error);
+        });
+      
+      
+      
+   }
+  }
+
+  function getPlaceDescription(lat, lng) {
+     return new Promise((resolve, reject) => {
+         const geocoder = new google.maps.Geocoder();
+         const latLng = { lat: lat, lng: lng };
+
+         geocoder.geocode({ location: latLng }, function(results, status) {
+             if (status === google.maps.GeocoderStatus.OK) {
+                 if (results[0]) {
+                     resolve(results[0].formatted_address); // Retorna la descripción
+                 } else {
+                     reject("No se encontraron resultados para la ubicación.");
+                 }
+             } else {
+                 reject(`Error al geocodificar la ubicación: ${status}`);
+             }
+         });
+     });
+  }
+
+  function updateDireccion(){
+
+   const cities ={{settings.citysConfig}};
+   const locationString = localStorage.getItem('location_save');
+   if (locationString) {
+       const loc = JSON.parse(locationString);
+
+       const closestCity = getClosestCity(cities, loc.lat, loc.lng);
+
+     getPlaceDescription(loc.lat, loc.lng)
+         .then(description => {
+                   const addressData = {
+                     customerId:  "{{ customer.id}}",
+                     id: "{{customer.default_address.id}}",
+                     firstName: "{{customer.default_address.first_name}}",
+                     lastName: "{{customer.default_address.last_name}}",
+                     phone: "{{customer.default_address.phone}}",
+                     city: closestCity.city,
+                     address:  description,
+                     reference: "Nueva dirección",
+                     zoom: 15,
+                     latitud: loc.lat,
+                     longitud: loc.lng,
+                     default: true,
+                   };
+                 
+                 
+                   validateCobertura(loc.lat,loc.lng ,closestCity.city).then((res) => {  
+                  
+                       if(res.data){
+                           upsertAddress(addressData).then((res) => {   
+                              location.reload();              
+                          })
+                          .catch((error) => {
+                            console.error('Error processing pickup request:', error);
+                          });
+                       }else
+                       {
+                           HidenModalNuevaDireccion();
+                           displayCoverageError('Dirección fuera de cobertura');            
+                       }
+                    })
+                    .catch((error) => {
+                      console.error('Error processing pickup request:', error);
+                    });
+             })
+             .catch(error => {
+                 console.error(error);
+             });       
+   }
+  }
+
+    function getClosestCity(cities, targetLat, targetLng) {
+   function haversine(lat1, lng1, lat2, lng2) {
+     const toRadians = (degrees) => degrees * (Math.PI / 180);
+
+     const R = 6371; // Radio de la Tierra en kilómetros
+     const dLat = toRadians(lat2 - lat1);
+     const dLng = toRadians(lng2 - lng1);
+
+     const a =
+       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+       Math.cos(toRadians(lat1)) *
+         Math.cos(toRadians(lat2)) *
+         Math.sin(dLng / 2) *
+         Math.sin(dLng / 2);
+
+     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+     return R * c; // Distancia en kilómetros
+   }
+
+   let closestCity = null;
+   let smallestDistance = Infinity;
+
+   cities.forEach((city) => {
+     const distance = haversine(
+       parseFloat(city.latitud),
+       parseFloat(city.longitud),
+       parseFloat(targetLat),
+       parseFloat(targetLng)
+     );
+
+     if (distance < smallestDistance) {
+       smallestDistance = distance;
+       closestCity = city;
+     }
+   });
+
+   return closestCity;
+  }
 </script>
 
 <style>
-  .cart-container {
+  .cart-grid {
     display: grid;
     gap: 16px;
     padding: 16px;
     width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   /* Grid responsivo */
   @media (min-width: 768px) {
-    .cart-container {
+    .cart-grid {
       grid-template-columns: repeat(2, 1fr);
     }
   }
 
   @media (min-width: 1024px) {
-    .cart-container {
+    .cart-grid {
       grid-template-columns: repeat(3, 1fr);
     }
   }
 
   .cart-item-custom {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    padding: 10px 0;
-    border-bottom: 1px solid #e0e0e0;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    gap: 12px;
   }
 
   .product-image-custom {
-    margin-right: 10px;
-    width: 40px;
-    height: 40px;
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -2594,75 +2596,158 @@ function updateDireccion(){
     width: 100%;
     height: 100%;
     object-fit: cover;
+    border-radius: 4px;
   }
 
   .product-details-custom {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
     flex: 1;
+    min-width: 0;
+    gap: 8px;
   }
 
-  .cantidad-titulo-producto {
-    width: 100%;
+  {% comment %} .cantidad-titulo-producto {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
     align-items: center;
+    gap: 8px;
+    width: 100%;
+  } {% endcomment %}
+
+  .cantidad-titulo-producto {
+    align-items: flex-start; /* Cambiado de center para mejor alineación con múltiples líneas */
+    padding: 2px 0; /* Añadido para mejor espaciado */
   }
 
   .cantidad-custom {
+    flex-shrink: 0;
     width: 28px;
     height: 28px;
     border: solid 1px #da1a32;
     border-radius: 4px;
     font-size: 14px;
-    text-align: center;
-    margin-right: 10px;
-    margin-inline-end: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .cantidad-titulo-producto p {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  .cantidad-titulo-producto p:first-of-type {
+  {% comment %} .product-title {
     font-weight: 700;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } {% endcomment %}
+
+  .product-title {
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Cambiado de nowrap a normal */
+    line-height: 1.2; /* Añadido para mejor espaciado entre líneas */
   }
 
-  .cantidad-titulo-producto p:last-of-type {
+
+  .product-price {
+    margin: 0;
     color: #212529;
-    margin-left: auto !important;
+    margin-left: auto;
+    flex-shrink: 0;
+    padding-left: 8px;
   }
 
   .details-custom {
     display: flex;
     flex-direction: column;
-    margin: 10px 0px;
-    width: 100%;
+    gap: 4px;
     color: #5a6e8f;
   }
 
-  .producto-primario,
+  {% comment %} .producto-primario,
   .producto-secundario {
     display: flex;
     justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+  } {% endcomment %}
+
+  .producto-primario,
+  .producto-secundario {
+    align-items: flex-start; /* Alinear al inicio para múltiples líneas */
+    padding: 2px 0; /* Añadido para mejor espaciado */
   }
 
   .producto-secundario {
-    text-indent: 10px;
+    padding-left: 10px;
   }
 
   .producto-primario p,
   .producto-secundario p {
-    margin: 0 !important;
+    margin: 0;
+    font-size: 13px;
   }
 
-  .producto-primario p:last-child,
-  .producto-secundario p:last-child {
+  {% comment %} .producto-primario p:first-child,
+  .producto-secundario p:first-child {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  } {% endcomment %}
+
+  .producto-primario p:first-child,
+  .producto-secundario p:first-child {
+    flex: 1;
+    min-width: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal; /* Cambiado de nowrap a normal */
+    line-height: 1.3; /* Añadido para mejor espaciado entre líneas */
+  }
+
+  .price {
     color: #212529;
+    flex-shrink: 0;
+  }
+
+  /* Ajustes responsivos adicionales */
+  @media (max-width: 480px) {
+    .cart-grid {
+      gap: 12px;
+      padding: 12px;
+    }
+
+    .cart-item-custom {
+      padding: 8px;
+    }
+
+    .product-image-custom {
+      width: 48px;
+      height: 48px;
+    }
+
+    .cantidad-custom {
+      width: 24px;
+      height: 24px;
+      font-size: 12px;
+    }
+
+    .product-title,
+    .product-price {
+      font-size: 14px;
+    }
   }
 </style>
 
