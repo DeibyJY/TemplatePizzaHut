@@ -2576,6 +2576,8 @@
 
   .cart-item-custom {
     display: flex;
+    justify-content: center;
+    align-items: center;
     background: #fff;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -2631,9 +2633,14 @@
     margin: 0;
     flex: 1;
     min-width: 0;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.2;
+    word-break: break-word;
+    height: auto;
   }
 
   .product-price {
@@ -2673,9 +2680,14 @@
   .producto-secundario p:first-child {
     flex: 1;
     min-width: 0;
-    white-space: nowrap;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
+    line-height: 1.3;
+    word-break: break-word;
+    height: auto;
   }
 
   .price {
