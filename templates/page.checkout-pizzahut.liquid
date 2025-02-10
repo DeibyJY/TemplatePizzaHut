@@ -1109,7 +1109,7 @@
     });
 
     const productosComplementarios = carrito.items.filter(item => {
-      if(item.properties.ProductoBase && item.properties.ProductoBase === productosBase.properties.ProductoBase){
+      if(item.properties.ProductoBase && item.properties.ProductoBase == productosBase.properties.ProductoBase){
         return item;
       }
     });
