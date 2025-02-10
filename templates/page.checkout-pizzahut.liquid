@@ -1108,14 +1108,18 @@
       item.properties.Cuerpo;
     });
 
-    
+    const productosComplementarios = carrito.items.filter(item => {
+      if( item.properties.Cuerpo === productosBase.properties.Cuerpo){
+        return item;
+      }
+    });
 
     productosBase.forEach( producto =>{
       contenidoContruccion += `
         <div class="cart-item-custom">
       `;
 
-      console.log(producto);
+      console.log(productosComplementarios);
 
       contenidoContruccion += `</div>`;
     });
