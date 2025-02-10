@@ -580,8 +580,8 @@ filter: brightness(0) saturate(100%) invert(17%) sepia(44%) saturate(4860%) hue-
 }
 
 .center-section .logo {
-  height: 40px;
-  max-width: 200px;
+  height: 40px !important;
+  max-width: 200px !important;
 }
 
 /* Estilo de la sección derecha */
