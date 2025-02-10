@@ -2607,16 +2607,11 @@
     gap: 8px;
   }
 
-  {% comment %} .cantidad-titulo-producto {
+  .cantidad-titulo-producto {
     display: flex;
     align-items: center;
     gap: 8px;
     width: 100%;
-  } {% endcomment %}
-
-  .cantidad-titulo-producto {
-    align-items: flex-start; /* Cambiado de center para mejor alineación con múltiples líneas */
-    padding: 2px 0; /* Añadido para mejor espaciado */
   }
 
   .cantidad-custom {
@@ -2631,7 +2626,7 @@
     justify-content: center;
   }
 
-  {% comment %} .product-title {
+  .product-title {
     font-weight: 700;
     margin: 0;
     flex: 1;
@@ -2639,22 +2634,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  } {% endcomment %}
-
-  .product-title {
-    font-weight: 700;
-    margin: 0;
-    flex: 1;
-    min-width: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal; /* Cambiado de nowrap a normal */
-    line-height: 1.2; /* Añadido para mejor espaciado entre líneas */
   }
-
 
   .product-price {
     margin: 0;
@@ -2671,18 +2651,12 @@
     color: #5a6e8f;
   }
 
-  {% comment %} .producto-primario,
+  .producto-primario,
   .producto-secundario {
     display: flex;
     justify-content: space-between;
     gap: 8px;
     width: 100%;
-  } {% endcomment %}
-
-  .producto-primario,
-  .producto-secundario {
-    align-items: flex-start; /* Alinear al inicio para múltiples líneas */
-    padding: 2px 0; /* Añadido para mejor espaciado */
   }
 
   .producto-secundario {
@@ -2695,26 +2669,13 @@
     font-size: 13px;
   }
 
-  {% comment %} .producto-primario p:first-child,
+  .producto-primario p:first-child,
   .producto-secundario p:first-child {
     flex: 1;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-  } {% endcomment %}
-
-  .producto-primario p:first-child,
-  .producto-secundario p:first-child {
-    flex: 1;
-    min-width: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal; /* Cambiado de nowrap a normal */
-    line-height: 1.3; /* Añadido para mejor espaciado entre líneas */
   }
 
   .price {
