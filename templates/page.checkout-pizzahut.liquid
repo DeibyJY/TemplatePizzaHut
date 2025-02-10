@@ -1123,10 +1123,8 @@
 
       const productosComplementariosMap = new Map();
       productosComplementarios.forEach( item => {
-        if(productosComplementariosMap.has(item.variant_id)){
-          productosComplementariosMap.set(item.variant_id, productosComplementariosMap.get(item.variant_id) + 1);
-        }else{
-          productosComplementariosMap.set(item.variant_id, 1);
+        if(item.variant_id){
+          productosComplementariosMap.set(item.variant_id,item);
         }
       });
       console.log('productosComplementariosMap : ',productosComplementariosMap);
