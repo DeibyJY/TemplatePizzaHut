@@ -2611,9 +2611,11 @@
 
   .cantidad-titulo-producto {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     width: 100%;
+    min-height: fit-content;
+    padding: 2px 0;
   }
 
   .cantidad-custom {
@@ -2641,6 +2643,7 @@
     line-height: 1.2;
     word-break: break-word;
     height: auto;
+    white-space: normal;
   }
 
   .product-price {
