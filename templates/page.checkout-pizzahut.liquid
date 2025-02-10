@@ -894,7 +894,12 @@
             {% endfor %}
           {% endcomment %}
           <div
-            style="display: flex; width: 100%; padding: 10px 0; border-bottom: 1px solid #e0e0e0;"
+            style="
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              width: 100%; padding: 10px 0; border-bottom: 1px solid #e0e0e0;
+            "
             class="cart-item-custom"
           >
             <div
@@ -903,7 +908,16 @@
                 width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; background-color: rgba(166, 9, 9, 0.83);
               "
               class="product-image-custom"
-            ></div>
+            >
+              <img
+                style="
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                "
+                src="https://cdn.shopify.com/s/files/1/0911/7781/2252/files/p3_940x_15293957-d178-439b-a289-5739c97ddd09.webp?v=1736363915"
+              >
+            </div>
             <div
               style="display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1; background-color: rgba(9, 166, 38, 0.83);"
               class="product-details-custom"
