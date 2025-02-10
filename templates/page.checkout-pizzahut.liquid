@@ -893,169 +893,40 @@
               </li>
             {% endfor %}
           {% endcomment %}
-          <div
-            style="
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              width: 100%; padding: 10px 0; border-bottom: 1px solid #e0e0e0;
-            "
-            class="cart-item-custom"
-          >
-            <div
-              style="
-                 margin-right: 10px;
-                 width: 40px; height: 40px; display: flex; justify-content: center; align-items: center;
-                /* background-color: rgba(166, 9, 9, 0.83); */
-              "
-              class="product-image-custom"
-            >
+          <div class="cart-item-custom">
+            <div class="product-image-custom">
               <img
-                style="
-                  width: 100%;
-                  height: 100%;
-                  object-fit: cover;
-                "
                 src="https://cdn.shopify.com/s/files/1/0911/7781/2252/files/p3_940x_15293957-d178-439b-a289-5739c97ddd09.webp?v=1736363915"
+                alt="Pizza"
               >
             </div>
-            <div
-              style="
-                display: flex; flex-direction: column; justify-content: center; align-items: center; flex: 1;
-                /* background-color: rgba(9, 166, 38, 0.83);*/
-              "
-              class="product-details-custom"
-            >
-              <div
-                style="
-                  width: 100%;
-                  display: flex;
-                  flex-direction: row;
-                  justify-content: center;
-                  align-items: center;
-                "
-                class="cantidad-titulo-producto"
-              >
-                <div
-                  style="
-                    width: 28px;
-                    height: 28px;
-                    border: solid 1px #da1a32;
-                    border-radius: 4px;
-                    font-size: 14px;
-                    text-align: center;
-                    margin-right: 10px;
-                    margin-inline-end: 10px;
-                  "
-                  class="cantidad-custom"
-                >
-                  x2
-                </div>
-                <p
-                  style="
-                    font-weight: 700;
-                    padding: 0 !important;
-                    margin: 0 !important;
-                  "
-                >
-                  Pizza Pepperoni Lovers
-                </p>
-                <p
-                  style="
-                    padding: 0 !important;
-                    margin: 0 !important;
-                    color: #212529;
-                    padding: 0 !important;
-                    margin-left: auto !important;
-                  "
-                >
-                  Bs 52.00
-                </p>
+
+            <div class="product-details-custom">
+              <div class="cantidad-titulo-producto">
+                <div class="cantidad-custom">x2</div>
+                <p class="product-title">Pizza Pepperoni Lovers</p>
+                <p class="product-price">Bs 52.00</p>
               </div>
-              <div
-                style="
-                  display: flex;
-                  flex-direction: column;
-                  margin: 10px 0px;
-                  width: 100%;
-                  color: #5a6e8f;
-                "
-                class="details-custom;"
-              >
-                <div
-                  style="
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                  class="producto-primario"
-                >
-                  <p
-                    style="margin: 0 !important;"
-                  >
-                    Mediana para 3 a 4 personas
-                  </p>
-                  <p
-                    style="margin: 0 !important; color: #212529;"
-                  >
-                    Bs44.00
-                  </p>
+
+              <div class="details-custom">
+                <div class="producto-primario">
+                  <p>Mediana para 3 a 4 personas</p>
+                  <p class="price">Bs 44.00</p>
                 </div>
-                <div
-                  style="
-                    text-indent: 10px;
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                  class="producto-secundario"
-                >
-                  <p
-                    style="margin: 0 !important;"
-                  >
-                    Extra Piña
-                  </p>
-                  <p
-                    style="margin: 0 !important; color: #212529;"
-                  >
-                    Bs7.00
-                  </p>
+
+                <div class="producto-secundario">
+                  <p>Extra Piña</p>
+                  <p class="price">Bs 7.00</p>
                 </div>
-                <div
-                  style="
-                    text-indent: 10px;
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                  class="producto-secundario"
-                >
-                  <p
-                    style="margin: 0 !important;"
-                  >
-                    Extra Choclo
-                  </p>
-                  <p
-                    style="margin: 0 !important; color: #212529;"
-                  >
-                    Bs7.00
-                  </p>
+
+                <div class="producto-secundario">
+                  <p>Extra Choclo</p>
+                  <p class="price">Bs 7.00</p>
                 </div>
-                <div
-                  style="
-                    text-indent: 10px;
-                    display: flex;
-                    justify-content: space-between;
-                  "
-                  class="producto-secundario"
-                >
-                  <p
-                    style="margin: 0 !important;"
-                  >
-                    Extra Pepperoni
-                  </p>
-                  <p
-                    style="margin: 0 !important; color: #212529;"
-                  >
-                    Bs7.00
-                  </p>
+
+                <div class="producto-secundario">
+                  <p>Extra Pepperoni</p>
+                  <p class="price">Bs 7.00</p>
                 </div>
               </div>
             </div>
@@ -1146,6 +1017,7 @@
     window.location.href = '/account/login?checkout_url=/pages/checkout';
   </script>
 {% endif %}
+
 <script>
   let coordenadas = null;
 {% assign coordenadasArray = "" %}
@@ -2678,6 +2550,145 @@ function updateDireccion(){
  return closestCity;
 }
 </script>
+
+<style>
+  .cart-item-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #e0e0e0;
+    gap: 10px;
+  }
+
+  .product-image-custom {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .product-image-custom img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .product-details-custom {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0; /* Importante para que el texto no desborde */
+    gap: 10px;
+  }
+
+  .cantidad-titulo-producto {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .cantidad-custom {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border: solid 1px #da1a32;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .product-title {
+    font-weight: 700;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .product-price {
+    margin: 0;
+    color: #212529;
+    margin-left: auto;
+    flex-shrink: 0;
+    padding-left: 10px;
+  }
+
+  .details-custom {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    color: #5a6e8f;
+    gap: 5px;
+  }
+
+  .producto-primario,
+  .producto-secundario {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .producto-secundario {
+    padding-left: 10px;
+  }
+
+  .producto-primario p,
+  .producto-secundario p {
+    margin: 0;
+  }
+
+  .producto-primario p:first-child,
+  .producto-secundario p:first-child {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .price {
+    color: #212529;
+    flex-shrink: 0;
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .cart-item-custom {
+      padding: 8px;
+    }
+
+    .product-image-custom {
+      width: 32px;
+      height: 32px;
+    }
+
+    .cantidad-custom {
+      width: 24px;
+      height: 24px;
+      font-size: 12px;
+    }
+
+    .product-title,
+    .product-price {
+      font-size: 14px;
+    }
+
+    .details-custom {
+      font-size: 13px;
+    }
+  }
+</style>
 
 {% comment %}
   <script>
