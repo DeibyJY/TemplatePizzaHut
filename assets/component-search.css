@@ -1,3 +1,8 @@
+.custom-icono-location{
+    stroke: #ffffff !important;
+    fill: #ffffff !important;
+}
+
 .search-modal {
     display: block;
     opacity: 0;
