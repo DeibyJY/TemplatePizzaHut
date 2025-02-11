@@ -141,7 +141,9 @@
                                           box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
                                           opacity: 1;
                                           z-index: 9999;
-                                          position: fixed;
+                                          position: absolute; /* Cambiado de fixed a absolute */
+                                          top: calc(100% + 10px); /* Posiciona 10px debajo del botón */
+                                          right: 0; /* Alinea con el lado derecho del botón */
                                           background: #ffffff;
                                           border-radius: 8px;
                                           padding: 24px;
