@@ -138,6 +138,7 @@
                                         style="
                                             width: 300px;
                                             height: auto;
+                                            min-height: 200px; /* Asegura un espacio mínimo */
                                             box-shadow: 0 3px 7px #0003;
                                             opacity: 1;
                                             z-index: 9999;
@@ -147,6 +148,8 @@
                                             right: 1%;
                                             padding: 24px;
                                             border-radius: 8px;
+                                            display: flex;
+                                            flex-direction: column;
                                         "
                                         class="mensaje-localizacion-principal">
                                         <!-- Esto es el triángulo simple -->
@@ -161,7 +164,12 @@
                                             right: 20px;
                                         "></div>
                                         <!-- Contenido detalle mensaje -->
-                                        <div class="contenido-detalle-mensaje" style="display: flex; flex-direction: column; gap: 16px;">
+                                        <div class="contenido-detalle-mensaje" style="
+                                            display: flex;
+                                            flex-direction: column;
+                                            gap: 16px;
+                                            height: 100%;
+                                        ">
                                           <h3 style="
                                               margin: 0;
                                               font-size: 16px;
@@ -181,20 +189,21 @@
                                             Descubre locales cerca de ti, promociones y mucho más.
                                           </p>
                                   
-                                          <button style="
-                                              margin-top: 8px;
-                                              padding: 12px 24px;
-                                              background: #FF0060;
-                                              color: white;
-                                              border: none;
-                                              border-radius: 8px;
-                                              font-size: 14px;
-                                              font-weight: 500;
-                                              cursor: pointer;
-                                              align-self: flex-end;
-                                          ">
-                                            Entendido
-                                          </button>
+                                          <div style="margin-top: auto;">
+                                            <button style="
+                                                padding: 12px 24px;
+                                                background: #FF0060;
+                                                color: white;
+                                                border: none;
+                                                border-radius: 8px;
+                                                font-size: 14px;
+                                                font-weight: 500;
+                                                cursor: pointer;
+                                                float: right;
+                                            ">
+                                              Entendido
+                                            </button>
+                                          </div>
                                         </div>
                                       </div>
                                     </button>
