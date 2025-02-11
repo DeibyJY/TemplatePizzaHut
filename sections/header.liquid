@@ -472,36 +472,32 @@
 
 <script>
   function getLocation() {
-    if (navigator.geolocation) {
-        // Solicitamos la ubicación usando las opciones que fuerzan un nuevo prompt
-        const options = {
-            enableHighAccuracy: true,
-            maximumAge: 0  // Esto fuerza una nueva solicitud cada vez
+    // Primero verificamos el estado actual del permiso de geolocalización
+    navigator.permissions.query({name: 'geolocation'}).then(function(permissionStatus) {
+        // permissionStatus.state puede ser 'granted', 'denied', o 'prompt'
+        console.log('Estado del permiso:', permissionStatus.state);
+        
+        // Nos suscribimos a cambios en el estado del permiso
+        permissionStatus.onchange = function() {
+            console.log('Permiso cambiado a:', this.state);
         };
-
-        navigator.geolocation.getCurrentPosition(
-            // Si acepta
-            function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
-                console.log('Ubicación obtenida:', latitude, longitude);
-            },
-            // Si deniega o hay error
-            function(error) {
-                if (error.code === error.PERMISSION_DENIED) {
-                    // Esto mostrará el diálogo nativo del navegador para habilitar la ubicación
-                    navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
-                        if (result.state === 'denied') {
-                            // El navegador mostrará automáticamente su diálogo nativo 
-                            // sugiriendo al usuario que active los permisos
-                            navigator.geolocation.getCurrentPosition(() => {}, () => {});
-                        }
-                    });
+        
+        // Si el permiso está denegado o no se ha solicitado aún
+        if (permissionStatus.state === 'denied' || permissionStatus.state === 'prompt') {
+            // Esto provocará que el navegador muestre su diálogo nativo de permisos
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    // Si acepta, obtenemos las coordenadas
+                    console.log('Ubicación:', position.coords.latitude, position.coords.longitude);
+                },
+                function(error) {
+                    // Si deniega, el navegador mostrará automáticamente
+                    // el diálogo para ir a la configuración
+                    console.log('Se denegó el acceso a la ubicación');
                 }
-            },
-            options
-        );
-    }
+            );
+        }
+    });
   }
 
   function menu_right(){
