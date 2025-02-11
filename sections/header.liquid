@@ -130,82 +130,22 @@
                                     </li>
                                   {% endif %}
                                   <li>
-                                    <button class="custom-buttton-icon-location" style="position: relative;"
-                                      
-                                    >
+                                    <button class="custom-buttton-icon-location">
                                       {% render 'icon-location' %}
-                                      <div 
-                                        style="
-                                            cursor: default;
-                                            width: 300px;
-                                            height: auto;
-                                            box-shadow: 0 3px 7px #0003;
-                                            opacity: 1;
-                                            z-index: 9999;
-                                             position: fixed;
-                                            background: var(--bg-white);
-                                            top: 13%;
-                                            right: 2%;
-                                            border-radius: 4px;
-                                            padding: 16px;
-                                        "
-                                        class="mensaje-localizacion-principal">
-                                        <!-- Esto es el triángulo simple -->
-                                        <div style="
-                                            width: 0;
-                                            height: 0;
-                                            border-left: 8px solid transparent;
-                                            border-right: 8px solid transparent;
-                                            border-bottom: 8px solid white;
-                                            position: absolute;
-                                            top: -7px;
-                                            right: 10px;
-                                        "></div>
-                                        <!-- Contenido detalle mensaje -->
-                                        <div 
-                                          style="
-                                            display: flex;
-                                            -webkit-box-pack: justify;
-                                            justify-content: space-between;
-                                            flex-direction: column;
-                                          "
-                                          class="contenido-detalle-mensaje">
-                                          <h3 style="
-                                              margin: 0 0 8px 0;
-                                              font-size: 16px;
-                                              font-weight: 600;
-                                              color: #333;
-                                              text-transform: uppercase;
-                                              letter-spacing: 0.5px;
-                                          ">
+                                      <div class="mensaje-localizacion-principal">
+                                        <!-- Triángulo -->
+                                        <div class="mensaje-triangulo"></div>
+                                        <!-- Contenido -->
+                                        <div class="contenido-detalle-mensaje">
+                                          <h3 class="mensaje-titulo">
                                             Completa los detalles de tu ubicación
                                           </h3>
-                                          <p style="
-                                              margin: 0;
-                                              font-size: 14px;
-                                              color: #666;
-                                              line-height: 1.4;
-                                          ">
+                                          <p class="mensaje-descripcion">
                                             Descubre locales cerca de ti, promociones y mucho más.
                                           </p>
-                                          <a
-                                            onclick="getLocation()"
-                                            style="
-                                            font-weight: 600;
-                                            font-size: 14px;
-                                            line-height: 20px;
-                                            text-decoration: underline;
-                                            visibility: visible;
-                                            white-space: pre;
-                                            padding-top: 10px;
-                                            font-family: var(--font-heading-family);
-                                            font-style: var(--font-heading-style);
-                                            text-transform: uppercase;
-                                            color: #333333;
-                                            letter-spacing: 0.5px;  
-                                            padding-top: 6px;                                
-                                            "
-                                          >Entendido</a>
+                                          <a onclick="getLocation()" class="mensaje-boton">
+                                            Entendido
+                                          </a>
                                         </div>
                                       </div>
                                     </button>
@@ -576,49 +516,124 @@
   });
 </script>
 
+<style>
+  .custom-buttton-icon-location {
+    position: relative;
+  }
+  
+  .mensaje-localizacion-principal {
+    cursor: default;
+    width: 300px;
+    height: auto;
+    box-shadow: 0 3px 7px #0003;
+    z-index: 9999;
+    position: fixed;
+    background: var(--bg-white);
+    top: 13%;
+    right: 2%;
+    border-radius: 4px;
+    padding: 16px;
+    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-20px);
+  }
+  
+  .mensaje-triangulo {
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+    position: absolute;
+    top: -7px;
+    right: 10px;
+  }
+  
+  .contenido-detalle-mensaje {
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+  
+  .mensaje-titulo {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .mensaje-descripcion {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+    line-height: 1.4;
+  }
+  
+  .mensaje-boton {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    text-decoration: underline;
+    visibility: visible;
+    white-space: pre;
+    padding-top: 6px;
+    font-family: var(--font-heading-family);
+    font-style: var(--font-heading-style);
+    text-transform: uppercase;
+    color: #333333;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Clase para mostrar el mensaje con animación */
+  .mensaje-localizacion-principal.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+</style>
+
 <script>
   function getLocation() {
-    // Primero verificamos si el navegador soporta geolocalización
     if (!navigator.geolocation) {
         console.log('Tu navegador no soporta geolocalización');
         return;
     }
 
-    // Ocultamos el div del mensaje
+    // Ocultamos el div del mensaje con transición
     const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
     if (mensajeLocalizacion) {
-        mensajeLocalizacion.style.display = 'none';
+        mensajeLocalizacion.classList.remove('visible');
+        // Esperamos a que termine la transición para ocultar completamente
+        setTimeout(() => {
+            mensajeLocalizacion.style.display = 'none';
+        }, 300); // 300ms = 0.3s (mismo tiempo que la transición)
     }
 
-    // Configuramos las opciones para forzar una solicitud fresca de ubicación
     const options = {
-        enableHighAccuracy: true,    // Esto pide la mejor precisión posible (GPS)
-        maximumAge: 0,              // No usar ubicaciones en caché
-        timeout: 5000               // Tiempo razonable de espera
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 5000
     };
 
-    // Solicitamos la ubicación, esto activará el diálogo nativo del navegador
     navigator.geolocation.getCurrentPosition(
-        // Función de éxito - se ejecuta si el usuario permite y el GPS está activo
         function(position) {
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
             console.log('Ubicación obtenida:', latitude, longitude);
         },
-        // Función de error - se ejecuta si hay algún problema
         function(error) {
-            // El navegador mostrará automáticamente su diálogo nativo aquí
             switch(error.code) {
                 case error.PERMISSION_DENIED:
-                    // El navegador mostrará su propio diálogo de permisos
                     console.log('Necesitamos acceso a tu ubicación');
                     break;
                 case error.POSITION_UNAVAILABLE:
-                    // El navegador pedirá activar el GPS
                     console.log('Por favor, activa tu GPS');
                     break;
                 case error.TIMEOUT:
-                    // Se agotó el tiempo de espera
                     console.log('Tiempo de espera agotado');
                     break;
             }
@@ -626,6 +641,17 @@
         options
     );
   }
+
+// Función para mostrar el mensaje
+function mostrarMensajeLocalizacion() {
+    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+    if (mensajeLocalizacion) {
+        mensajeLocalizacion.style.display = 'block';
+        // Forzamos un reflow
+        mensajeLocalizacion.offsetHeight;
+        mensajeLocalizacion.classList.add('visible');
+    }
+}
 
   function menu_right(){
     var icon_width = jQuery('.header-icon').width();
