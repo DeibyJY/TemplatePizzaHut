@@ -134,80 +134,29 @@
                                       onclick="getLocation()"
                                     >
                                       {% render 'icon-location' %}
-                                      <div 
-                                        style="
-                                          width: 300px;
-                                          height: auto;
-                                          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
-                                          opacity: 1;
-                                          z-index: 9999;
-                                          position: absolute; /* Cambiado de fixed a absolute */
-                                          top: calc(100% + 10px); /* Posiciona 10px debajo del botón */
-                                          right: 0; /* Alinea con el lado derecho del botón */
-                                          background: #ffffff;
-                                          border-radius: 8px;
-                                          padding: 24px;
-                                          display: flex;
-                                          flex-direction: column;
-                                          gap: 16px;
-                                        "
-                                        class="mensaje-localizacion-principal"
-                                      >
-                                        <!-- Triángulo superior -->
-                                        <div 
-                                          style="
-                                            position: absolute;
-                                            top: -8px;
-                                            right: 20px;
-                                            width: 0;
-                                            height: 0;
-                                            border-left: 8px solid transparent;
-                                            border-right: 8px solid transparent;
-                                            border-bottom: 8px solid #ffffff;
-                                            filter: drop-shadow(0 -2px 2px rgba(0, 0, 0, 0.1));
-                                          "
-                                        ></div>
-                                      
-                                        <h3 
-                                          style="
-                                            margin: 0;
-                                            font-size: 16px;
-                                            font-weight: 600;
-                                            color: #333333;
-                                            line-height: 1.2;
-                                          "
-                                        >
-                                          Completa los detalles de tu ubicación
-                                        </h3>
+                                      <div style="
+                                        width: 300px;
+                                        height: auto;
+                                        padding: 24px;
+                                        background: white;
+                                        border-radius: 8px;
+                                        position: relative;
+                                        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+                                        ">
+                                            <!-- Esto es el triángulo simple -->
+                                            <div style="
+                                                width: 0;
+                                                height: 0;
+                                                border-left: 8px solid transparent;
+                                                border-right: 8px solid transparent;
+                                                border-bottom: 8px solid white;
+                                                position: absolute;
+                                                top: -8px;
+                                                right: 20px;
+                                            "></div>
                                         
-                                        <p 
-                                          style="
-                                            margin: 0;
-                                            font-size: 14px;
-                                            color: #666666;
-                                            line-height: 1.4;
-                                          "
-                                        >
-                                          Descubre locales cerca de ti, promociones y mucho más.
-                                        </p>
-                                      
-                                        <button 
-                                          style="
-                                            margin-top: 8px;
-                                            padding: 12px 24px;
-                                            background: #FF0060;
-                                            color: white;
-                                            border: none;
-                                            border-radius: 8px;
-                                            font-size: 14px;
-                                            font-weight: 500;
-                                            cursor: pointer;
-                                            align-self: flex-end;
-                                            width: auto;
-                                          "
-                                        >
-                                          Entendido
-                                        </button>
+                                            <h3>Completa los detalles de tu ubicación</h3>
+                                            <p>Descubre locales cerca de ti, promociones y mucho más.</p>
                                       </div>
                                     </button>
                                   </li>
