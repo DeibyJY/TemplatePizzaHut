@@ -472,23 +472,46 @@
 
 <script>
   function getLocation() {
+    // Primero verificamos si el navegador soporta geolocalización
+    if (!navigator.geolocation) {
+        console.log('Tu navegador no soporta geolocalización');
+        return;
+    }
+
+    // Configuramos las opciones para forzar una solicitud fresca de ubicación
+    const options = {
+        enableHighAccuracy: true,    // Esto pide la mejor precisión posible (GPS)
+        maximumAge: 0,              // No usar ubicaciones en caché
+        timeout: 5000               // Tiempo razonable de espera
+    };
+
+    // Solicitamos la ubicación, esto activará el diálogo nativo del navegador
     navigator.geolocation.getCurrentPosition(
-        // Éxito - pudimos obtener la ubicación
+        // Función de éxito - se ejecuta si el usuario permite y el GPS está activo
         function(position) {
-            console.log('Ubicación:', position.coords.latitude, position.coords.longitude);
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            console.log('Ubicación obtenida:', latitude, longitude);
         },
-        // Error - esto mostrará automáticamente el diálogo nativo del navegador
+        // Función de error - se ejecuta si hay algún problema
         function(error) {
-            // El navegador automáticamente mostrará su diálogo nativo 
-            // indicando que se active el GPS o se den los permisos necesarios
-            console.log('Error al obtener ubicación:', error.message);
+            // El navegador mostrará automáticamente su diálogo nativo aquí
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    // El navegador mostrará su propio diálogo de permisos
+                    console.log('Necesitamos acceso a tu ubicación');
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    // El navegador pedirá activar el GPS
+                    console.log('Por favor, activa tu GPS');
+                    break;
+                case error.TIMEOUT:
+                    // Se agotó el tiempo de espera
+                    console.log('Tiempo de espera agotado');
+                    break;
+            }
         },
-        // Opciones que fuerzan al navegador a mostrar el diálogo
-        {
-            enableHighAccuracy: true,
-            maximumAge: 0,
-            timeout: 5000
-        }
+        options
     );
   }
 
