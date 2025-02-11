@@ -472,32 +472,24 @@
 
 <script>
   function getLocation() {
-    // Primero verificamos el estado actual del permiso de geolocalización
-    navigator.permissions.query({name: 'geolocation'}).then(function(permissionStatus) {
-        // permissionStatus.state puede ser 'granted', 'denied', o 'prompt'
-        console.log('Estado del permiso:', permissionStatus.state);
-        
-        // Nos suscribimos a cambios en el estado del permiso
-        permissionStatus.onchange = function() {
-            console.log('Permiso cambiado a:', this.state);
-        };
-        
-        // Si el permiso está denegado o no se ha solicitado aún
-        if (permissionStatus.state === 'denied' || permissionStatus.state === 'prompt') {
-            // Esto provocará que el navegador muestre su diálogo nativo de permisos
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    // Si acepta, obtenemos las coordenadas
-                    console.log('Ubicación:', position.coords.latitude, position.coords.longitude);
-                },
-                function(error) {
-                    // Si deniega, el navegador mostrará automáticamente
-                    // el diálogo para ir a la configuración
-                    console.log('Se denegó el acceso a la ubicación');
-                }
-            );
+    navigator.geolocation.getCurrentPosition(
+        // Éxito - pudimos obtener la ubicación
+        function(position) {
+            console.log('Ubicación:', position.coords.latitude, position.coords.longitude);
+        },
+        // Error - esto mostrará automáticamente el diálogo nativo del navegador
+        function(error) {
+            // El navegador automáticamente mostrará su diálogo nativo 
+            // indicando que se active el GPS o se den los permisos necesarios
+            console.log('Error al obtener ubicación:', error.message);
+        },
+        // Opciones que fuerzan al navegador a mostrar el diálogo
+        {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: 5000
         }
-    });
+    );
   }
 
   function menu_right(){
