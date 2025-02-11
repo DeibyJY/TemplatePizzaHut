@@ -127,7 +127,9 @@
                                     </li>
                                   {% endif %}
                                   <li>
-                                    <button class="custom-buttton-icon-location">
+                                    <button class="custom-buttton-icon-location" 
+                                      onclick="getLocation()"
+                                    >
                                       {% render 'icon-location' %}
                                     </button>
                                   </li>
@@ -469,6 +471,45 @@
 </script>
 
 <script>
+  function getLocation() {
+    // Primero verificamos si el navegador soporta geolocalización
+    if (navigator.geolocation) {
+        // Solicitamos la ubicación
+        navigator.geolocation.getCurrentPosition(
+            // Función que se ejecuta si el usuario acepta compartir su ubicación
+            function(position) {
+                // Extraemos latitud y longitud
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                
+                // Mostramos en consola las coordenadas
+                console.log('Ubicación obtenida:');
+                console.log('Latitud:', latitude);
+                console.log('Longitud:', longitude);
+            },
+            // Función que se ejecuta si hay un error o el usuario niega el permiso
+            function(error) {
+                switch(error.code) {
+                    case error.PERMISSION_DENIED:
+                        console.log('El usuario denegó el permiso de ubicación');
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        console.log('La información de ubicación no está disponible');
+                        break;
+                    case error.TIMEOUT:
+                        console.log('Se agotó el tiempo para obtener la ubicación');
+                        break;
+                    default:
+                        console.log('Ocurrió un error desconocido al obtener la ubicación');
+                        break;
+                }
+            }
+        );
+    } else {
+        console.log('La geolocalización no es soportada por este navegador');
+    }
+  }
+
   function menu_right(){
     var icon_width = jQuery('.header-icon').width();
     jQuery('.menu-main-div, .icon-main-div').css('--icon-width', icon_width + 'px');
