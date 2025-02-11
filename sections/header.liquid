@@ -11,7 +11,10 @@
     endif
 -%}
 <{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}" {% else %}div{% endif %} class="header-wrapper" data-hide-on-scroll={{ section.settings.hide_scroll }}>
-    <header class="header header-nav-plain{{header_transparent}} {% if section.settings.menu != blank %} header--has-menu{% endif %}{% if section.settings.enable_parallax %} enable_parallax{% endif %} {% if section.settings.transparent_header != blank %}transparent-header {% endif %}" style="--icon-mobile-spacing: {{ section.settings.header_icon_mobile_spacing | append: 'px' }};">
+  {% comment %} READ : AQUI MODIFIQUE   {% endcomment %}
+  <header 
+      style="position: fixed;"
+      class="header header-nav-plain{{header_transparent}} {% if section.settings.menu != blank %} header--has-menu{% endif %}{% if section.settings.enable_parallax %} enable_parallax{% endif %} {% if section.settings.transparent_header != blank %}transparent-header {% endif %}" style="--icon-mobile-spacing: {{ section.settings.header_icon_mobile_spacing | append: 'px' }};">
         <div class="wrapper-header-main">
             <div class="container">
                 <div class="header-desktop">
@@ -133,15 +136,61 @@
                                       {% render 'icon-location' %}
                                       <div 
                                         style="
-                                            width: 300px;
-                                            height: 300px;
-                                            box-shadow: 0 3px 7px #0003;
-                                            opacity: 1;
-                                            z-index: 9999;
-                                            position: fixed;
-                                            background: var(--bg-white);
+                                          width: 300px;
+                                          height: auto;
+                                          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
+                                          opacity: 1;
+                                          z-index: 9999;
+                                          position: fixed;
+                                          background: #ffffff;
+                                          border-radius: 8px;
+                                          padding: 24px;
+                                          display: flex;
+                                          flex-direction: column;
+                                          gap: 16px;
                                         "
-                                        class="mensaje-localizacion-principal"></div>
+                                        class="mensaje-localizacion-principal"
+                                      >
+                                        <h3 
+                                          style="
+                                            margin: 0;
+                                            font-size: 16px;
+                                            font-weight: 600;
+                                            color: #333333;
+                                            line-height: 1.2;
+                                          "
+                                        >
+                                          Completa los detalles de tu ubicación
+                                        </h3>
+                                        
+                                        <p 
+                                          style="
+                                            margin: 0;
+                                            font-size: 14px;
+                                            color: #666666;
+                                            line-height: 1.4;
+                                          "
+                                        >
+                                          Descubre locales cerca de ti, promociones y mucho más.
+                                        </p>
+                                      
+                                        <button 
+                                          style="
+                                            margin-top: 8px;
+                                            padding: 12px 24px;
+                                            background: #FF0060;
+                                            color: white;
+                                            border: none;
+                                            border-radius: 8px;
+                                            font-size: 14px;
+                                            font-weight: 500;
+                                            cursor: pointer;
+                                            align-self: flex-end;
+                                          "
+                                        >
+                                          Entendido
+                                        </button>
+                                      </div>
                                     </button>
                                   </li>
                                     {% comment %} <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset cart-icon-bubble"{% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
