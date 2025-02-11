@@ -1,3 +1,8 @@
+.custom-buttton-icon-location  {
+    background: transparent;
+    border: 0;
+}
+
 
 .header-icon > ul > li > button.custom-buttton-icon-location svg  {
     max-height: 16px;
