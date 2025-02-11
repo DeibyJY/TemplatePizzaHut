@@ -1,8 +1,13 @@
 .custom-buttton-icon-location {
     transition: all 400ms ease !important;
+    display: inline-block !important;
 }
 
 .custom-buttton-icon-location svg path {
+    max-height: 16px;
+    max-width: 16px;
+    width: 100%;
+    display: inline-block;
     stroke: #ffffff !important; 
     fill: #ffffff !important; 
 }
