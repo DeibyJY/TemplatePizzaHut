@@ -131,69 +131,50 @@
                                       onclick="getLocation()"
                                     >
                                       {% render 'icon-location' %}
+                                      <!-- Panel de ubicación similar a Pizza Hut -->
                                       <div class="mensaje-localizacion-principal"
                                         style="
-                                          /* Posicionamiento del panel */
-                                          position: absolute;
-                                          top: 100%;
+                                          /* Posicionamiento */
+                                          position: fixed;
+                                          top: 85px;  /* Ajusta esta altura según tu header */
+                                          left: 0;
                                           right: 0;
-                                          margin-top: 10px;
                                           
-                                          /* Dimensiones */
-                                          width: 300px;
-                                          min-height: 200px;
-                                          
-                                          /* Estilos visuales */
+                                          /* Dimensiones y color */
+                                          width: 100%;
+                                          min-height: 60px;
                                           background: var(--bg-white, #ffffff);
-                                          border-radius: 8px;
-                                          box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
                                           
-                                          /* Capa y visibilidad */
-                                          z-index: 9999;
+                                          /* Sombra y borde */
+                                          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                                          border-bottom: 1px solid #eee;
+                                          
+                                          /* Layout interno */
                                           display: none;
+                                          padding: 15px 20px;
                                           
-                                          /* Contenido interno */
-                                          padding: 20px;
-                                          text-align: left;
-                                          
-                                          /* Asegura que el panel no se salga de la pantalla en móviles */
-                                          max-width: calc(100vw - 40px);
-                                          
-                                          /* Animación suave */
-                                          transition: opacity 0.2s ease-in-out;
+                                          /* Aseguramos que está por encima de otros elementos */
+                                          z-index: 9999;
                                         "
                                       >
-                                        <h3 style="
-                                          margin: 0 0 10px 0;
-                                          font-size: 16px;
-                                          font-weight: 600;
+                                        <!-- Contenido del panel -->
+                                        <div style="
+                                          max-width: 1200px;
+                                          margin: 0 auto;
+                                          display: flex;
+                                          align-items: center;
+                                          justify-content: space-between;
                                         ">
-                                          Completa los detalles de tu ubicación
-                                        </h3>
-                                        
-                                        <p style="
-                                          margin: 0;
-                                          font-size: 14px;
-                                          color: #666;
-                                        ">
-                                          Descubre locales cerca de ti, promociones y mucho más.
-                                        </p>
-                                        
-                                        <button onclick="this.parentElement.style.display='none'" 
-                                          style="
-                                            display: block;
-                                            width: 100%;
-                                            padding: 10px;
-                                            margin-top: 15px;
-                                            background: #0066cc;
-                                            color: white;
-                                            border: none;
-                                            border-radius: 4px;
-                                            cursor: pointer;
-                                          "
-                                        >
-                                          Entendido
-                                        </button>
+                                          <div>Completa tu ubicación para ver restaurantes cercanos</div>
+                                          <button onclick="this.parentElement.parentElement.style.display='none'"
+                                            style="
+                                              background: none;
+                                              border: none;
+                                              cursor: pointer;
+                                              padding: 5px;
+                                            "
+                                          >×</button>
+                                        </div>
                                       </div>
                                     </button>
                                   </li>
