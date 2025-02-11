@@ -128,8 +128,9 @@
                                   {% endif %}
 
                                   <li>
-                                    {% render 'icon-location' %}
-
+                                    <a href="{{ pages['wishlist'].url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
+                                      {% render 'icon-location' %}
+                                  </a>
                                     {% comment %} <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset cart-icon-bubble"{% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
                                         {% render 'icon-cart-03' %}
                                         <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
@@ -140,7 +141,6 @@
                                         </div>
                                     </a> {% endcomment %}
                                   </li>
-
                               </ul>
                             </div>
                         </div>
