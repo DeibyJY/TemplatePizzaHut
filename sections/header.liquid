@@ -573,7 +573,7 @@
     white-space: normal !important;
     display: inline-block;
     text-transform: uppercase;
-    color: #333;
+    color: #333333;
     font-weight: 600;
     text-decoration: underline;
     font-size: 14px;
@@ -603,8 +603,13 @@
   /* Luego, aplicamos la animación al SVG */
   .contenido-detalle-mensaje svg {
     display: block;
-    margin: 5px auto;
+    margin: 4px auto;
     animation: pulse 2s ease-in-out infinite;
+  }
+
+  .contenido-detalle-mensaje svg path {
+    stroke: #333333 !important;
+    fill: #333333 !important;
   }
 </style>
 
