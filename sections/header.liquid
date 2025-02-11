@@ -131,54 +131,17 @@
                                       onclick="getLocation()"
                                     >
                                       {% render 'icon-location' %}
-                                      <!-- Panel de ubicación similar a Pizza Hut -->
-                                      <div class="mensaje-localizacion-principal"
+                                      <div 
                                         style="
-                                          /* Posicionamiento del panel */
-                                          position: absolute;
-                                          top: calc(100% + 10px);  /* Se posiciona debajo del botón con un espacio de 10px */
-                                          right: 0;
-                                    
-                                          /* Dimensiones */
-                                          width: 300px;
-                                          height: auto;
-                                          min-height: 100px;
-                                    
-                                          /* Apariencia visual */
-                                          background: var(--bg-white);
-                                          border-radius: 8px;
-                                          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
-                                          
-                                          /* Layout interno */
-                                          padding: 20px;
-                                    
-                                          /* Aseguramos que aparezca por encima de otros elementos */
-                                          z-index: 9999;
-                                    
-                                          /* Estilos de texto */
-                                          text-align: left;
+                                            width: 300px;
+                                            height: 300px;
+                                            box-shadow: 0 3px 7px #0003;
+                                            opacity: 1;
+                                            z-index: 9999;
+                                            position: fixed;
+                                            background: var(--bg-white);
                                         "
-                                      >
-                                        <!-- Header del panel -->
-                                        <h3 style="
-                                          margin: 0 0 12px 0;
-                                          font-size: 16px;
-                                          font-weight: 500;
-                                          color: var(--text-color, #333);
-                                        ">
-                                          Completa los detalles de tu ubicación
-                                        </h3>
-                                    
-                                        <!-- Texto descriptivo -->
-                                        <p style="
-                                          margin: 0;
-                                          font-size: 14px;
-                                          color: var(--text-secondary, #666);
-                                          line-height: 1.4;
-                                        ">
-                                          Descubre locales cerca de ti, promociones y mucho más.
-                                        </p>
-                                      </div>
+                                        class="mensaje-localizacion-principal"></div>
                                     </button>
                                   </li>
                                     {% comment %} <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset cart-icon-bubble"{% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
