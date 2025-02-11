@@ -1,17 +1,10 @@
 .custom-buttton-icon-location {
     transition: all 400ms ease !important;
-    display: inline-block !important;
 }
 
-.custom-buttton-icon-location svg {
-    max-height: 16px;
-    max-width: 16px;
-    width: 100%;
-    display: inline-block;
+.custom-buttton-icon-location svg path {
     stroke: #ffffff !important; 
-    fill: #ffffff !important; /* Color del contorno - ajusta el código de color según necesites */
-    /* O si tu icono usa relleno en lugar de contorno: */
-    /* fill: #000000; */
+    fill: #ffffff !important; 
 }
 
 .search-modal {
