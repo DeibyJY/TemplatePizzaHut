@@ -146,10 +146,7 @@
                                             top: 9.3%;
                                             right: 1%;
                                             border-radius: 4px;
-                                            display: flex;
-                                            -webkit-box-pack: justify;
-                                            justify-content: space-between;
-                                            flex-direction: column;
+                                            
                                         "
                                         class="mensaje-localizacion-principal">
                                         <!-- Esto es el triángulo simple -->
@@ -160,13 +157,57 @@
                                             border-right: 8px solid transparent;
                                             border-bottom: 8px solid white;
                                             position: absolute;
-                                            top: -8px;
+                                            top: -7px;
                                             right: 20px;
                                         "></div>
                                         <!-- Contenido detalle mensaje -->
                                         <div 
-                                          s
-                                          class="contenido-detalle-mensaje"></div>
+                                          style="
+                                            display: flex;
+                                            -webkit-box-pack: justify;
+                                            justify-content: space-between;
+                                            flex-direction: column;
+                                          "
+                                          class="contenido-detalle-mensaje">
+                                          <h3 style="
+                                              margin: 0 0 8px 0;
+                                              font-size: 16px;
+                                              font-weight: 600;
+                                              color: #333;
+                                              text-transform: uppercase;
+                                              letter-spacing: 0.5px;
+                                          ">
+                                            Completa los detalles de tu ubicación
+                                          </h3>
+                                          <p style="
+                                              margin: 0;
+                                              font-size: 14px;
+                                              color: #666;
+                                              line-height: 1.4;
+                                          ">
+                                            Descubre locales cerca de ti, promociones y mucho más.
+                                          </p>
+                                          <button style="
+                                            display: flex;
+                                            -webkit-box-align: center;
+                                            align-items: center;
+                                            -webkit-box-pack: center;
+                                            justify-content: center;
+                                            box-sizing: border-box;
+                                            cursor: pointer;
+                                            width: 100%;
+                                            height: 100%;
+                                            border: 0px solid transparent;
+                                            border-radius: 4px;
+                                            padding-left: 8px;
+                                            padding-right: 8px;
+                                            color: rgb(16, 4, 35);
+                                            transition: 0.1s;
+                                            background-color: rgba(16, 4, 35, 0);
+                                        ">
+                                          Entendido
+                                        </button>
+                                        </div>
                                       </div>
                                     </button>
                                   </li>
