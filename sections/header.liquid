@@ -131,7 +131,7 @@
                                   {% endif %}
                                   <li>
                                     <button class="custom-buttton-icon-location" style="position: relative;"
-                                      onclick="getLocation()"
+                                      
                                     >
                                       {% render 'icon-location' %}
                                       <div 
@@ -189,6 +189,7 @@
                                             Descubre locales cerca de ti, promociones y mucho más.
                                           </p>
                                           <a
+                                            onclick="getLocation()"
                                             style="
                                             font-weight: 600;
                                             font-size: 14px;
@@ -581,6 +582,12 @@
     if (!navigator.geolocation) {
         console.log('Tu navegador no soporta geolocalización');
         return;
+    }
+
+    // Ocultamos el div del mensaje
+    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+    if (mensajeLocalizacion) {
+        mensajeLocalizacion.style.display = 'none';
     }
 
     // Configuramos las opciones para forzar una solicitud fresca de ubicación
