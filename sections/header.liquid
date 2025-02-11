@@ -522,21 +522,16 @@
   }
   
   .mensaje-localizacion-principal {
-    cursor: default;
-    width: 300px;
-    height: auto;
-    box-shadow: 0 3px 7px #0003;
-    z-index: 9999;
+    width: 280px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
     position: fixed;
-    background: var(--bg-white);
-    top: 13%;
-    right: 2%;
-    border-radius: 4px;
-    padding: 16px;
+    top: 50px;
+    right: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    text-align: center;
     transition: all 0.3s ease;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-20px);
   }
   
   .mensaje-triangulo {
@@ -546,7 +541,7 @@
     border-right: 8px solid transparent;
     border-bottom: 8px solid white;
     position: absolute;
-    top: -7px;
+    top: -8px;
     right: 10px;
   }
   
@@ -567,25 +562,19 @@
   }
   
   .mensaje-descripcion {
-    margin: 0;
     font-size: 14px;
     color: #666;
-    line-height: 1.4;
+    margin-bottom: 15px;
   }
   
   .mensaje-boton {
-    font-weight: 600;
-    font-size: 14px;
-    line-height: 20px;
-    text-decoration: underline;
-    visibility: visible;
-    white-space: pre;
-    padding-top: 6px;
-    font-family: var(--font-heading-family);
-    font-style: var(--font-heading-style);
+    display: inline-block;
     text-transform: uppercase;
-    color: #333333;
-    letter-spacing: 0.5px;
+    color: #333;
+    font-weight: 600;
+    text-decoration: underline;
+    font-size: 14px;
+    cursor: pointer;
   }
   
   /* Clase para mostrar el mensaje con animación */
