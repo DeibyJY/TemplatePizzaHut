@@ -134,29 +134,28 @@
                                       onclick="getLocation()"
                                     >
                                       {% render 'icon-location' %}
-                                      <div style="
-                                        width: 300px;
-                                        height: auto;
-                                        padding: 24px;
-                                        background: white;
-                                        border-radius: 8px;
-                                        position: relative;
-                                        box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
-                                        ">
-                                            <!-- Esto es el triángulo simple -->
-                                            <div style="
-                                                width: 0;
-                                                height: 0;
-                                                border-left: 8px solid transparent;
-                                                border-right: 8px solid transparent;
-                                                border-bottom: 8px solid white;
-                                                position: absolute;
-                                                top: -8px;
-                                                right: 20px;
-                                            "></div>
-                                        
-                                            <h3>Completa los detalles de tu ubicación</h3>
-                                            <p>Descubre locales cerca de ti, promociones y mucho más.</p>
+                                      <div 
+                                        style="
+                                            width: 300px;
+                                            height: 300px;
+                                            box-shadow: 0 3px 7px #0003;
+                                            opacity: 1;
+                                            z-index: 9999;
+                                             position: relative;
+                                            background: var(--bg-white);
+                                        "
+                                        class="mensaje-localizacion-principal">
+                                        <!-- Esto es el triángulo simple -->
+                                        <div style="
+                                            width: 0;
+                                            height: 0;
+                                            border-left: 8px solid transparent;
+                                            border-right: 8px solid transparent;
+                                            border-bottom: 8px solid white;
+                                            position: absolute;
+                                            top: -8px;
+                                            right: 20px;
+                                        "></div>
                                       </div>
                                     </button>
                                   </li>
