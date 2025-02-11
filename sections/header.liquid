@@ -472,41 +472,35 @@
 
 <script>
   function getLocation() {
-    // Primero verificamos si el navegador soporta geolocalización
     if (navigator.geolocation) {
-        // Solicitamos la ubicación
+        // Solicitamos la ubicación usando las opciones que fuerzan un nuevo prompt
+        const options = {
+            enableHighAccuracy: true,
+            maximumAge: 0  // Esto fuerza una nueva solicitud cada vez
+        };
+
         navigator.geolocation.getCurrentPosition(
-            // Función que se ejecuta si el usuario acepta compartir su ubicación
+            // Si acepta
             function(position) {
-                // Extraemos latitud y longitud
                 const latitude = position.coords.latitude;
                 const longitude = position.coords.longitude;
-                
-                // Mostramos en consola las coordenadas
-                console.log('Ubicación obtenida:');
-                console.log('Latitud:', latitude);
-                console.log('Longitud:', longitude);
+                console.log('Ubicación obtenida:', latitude, longitude);
             },
-            // Función que se ejecuta si hay un error o el usuario niega el permiso
+            // Si deniega o hay error
             function(error) {
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        console.log('El usuario denegó el permiso de ubicación');
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        console.log('La información de ubicación no está disponible');
-                        break;
-                    case error.TIMEOUT:
-                        console.log('Se agotó el tiempo para obtener la ubicación');
-                        break;
-                    default:
-                        console.log('Ocurrió un error desconocido al obtener la ubicación');
-                        break;
+                if (error.code === error.PERMISSION_DENIED) {
+                    // Esto mostrará el diálogo nativo del navegador para habilitar la ubicación
+                    navigator.permissions.query({ name: 'geolocation' }).then(function(result) {
+                        if (result.state === 'denied') {
+                            // El navegador mostrará automáticamente su diálogo nativo 
+                            // sugiriendo al usuario que active los permisos
+                            navigator.geolocation.getCurrentPosition(() => {}, () => {});
+                        }
+                    });
                 }
-            }
+            },
+            options
         );
-    } else {
-        console.log('La geolocalización no es soportada por este navegador');
     }
   }
 
