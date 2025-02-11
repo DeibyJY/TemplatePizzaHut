@@ -134,47 +134,50 @@
                                       <!-- Panel de ubicación similar a Pizza Hut -->
                                       <div class="mensaje-localizacion-principal"
                                         style="
-                                          /* Posicionamiento */
-                                          position: fixed;
-                                          top: 85px;  /* Ajusta esta altura según tu header */
-                                          left: 0;
+                                          /* Posicionamiento del panel */
+                                          position: absolute;
+                                          top: calc(100% + 10px);  /* Se posiciona debajo del botón con un espacio de 10px */
                                           right: 0;
-                                          
-                                          /* Dimensiones y color */
-                                          width: 100%;
-                                          min-height: 60px;
-                                          background: var(--bg-white, #ffffff);
-                                          
-                                          /* Sombra y borde */
-                                          box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-                                          border-bottom: 1px solid #eee;
+                                    
+                                          /* Dimensiones */
+                                          width: 300px;
+                                          height: auto;
+                                          min-height: 100px;
+                                    
+                                          /* Apariencia visual */
+                                          background: var(--bg-white);
+                                          border-radius: 8px;
+                                          box-shadow: 0 3px 7px rgba(0, 0, 0, 0.2);
                                           
                                           /* Layout interno */
-                                          display: none;
-                                          padding: 15px 20px;
-                                          
-                                          /* Aseguramos que está por encima de otros elementos */
+                                          padding: 20px;
+                                    
+                                          /* Aseguramos que aparezca por encima de otros elementos */
                                           z-index: 9999;
+                                    
+                                          /* Estilos de texto */
+                                          text-align: left;
                                         "
                                       >
-                                        <!-- Contenido del panel -->
-                                        <div style="
-                                          max-width: 1200px;
-                                          margin: 0 auto;
-                                          display: flex;
-                                          align-items: center;
-                                          justify-content: space-between;
+                                        <!-- Header del panel -->
+                                        <h3 style="
+                                          margin: 0 0 12px 0;
+                                          font-size: 16px;
+                                          font-weight: 500;
+                                          color: var(--text-color, #333);
                                         ">
-                                          <div>Completa tu ubicación para ver restaurantes cercanos</div>
-                                          <button onclick="this.parentElement.parentElement.style.display='none'"
-                                            style="
-                                              background: none;
-                                              border: none;
-                                              cursor: pointer;
-                                              padding: 5px;
-                                            "
-                                          >×</button>
-                                        </div>
+                                          Completa los detalles de tu ubicación
+                                        </h3>
+                                    
+                                        <!-- Texto descriptivo -->
+                                        <p style="
+                                          margin: 0;
+                                          font-size: 14px;
+                                          color: var(--text-secondary, #666);
+                                          line-height: 1.4;
+                                        ">
+                                          Descubre locales cerca de ti, promociones y mucho más.
+                                        </p>
                                       </div>
                                     </button>
                                   </li>
