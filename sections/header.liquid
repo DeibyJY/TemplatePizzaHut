@@ -661,10 +661,9 @@
                   font-size: var(--title-font-size);
                   line-height: 1.2;
                   color: var(--title-color-title);
-                  padding-top: var(--title-top-spacing);
-                  padding-bottom: var(--title-bottom-spacing);
                   text-transform: var(--title-text-transform);
                   font-weight: var(--title-font-weight);
+                  margin-bottom: 12px !important;
                 }
 
                 .description-text {
@@ -678,13 +677,12 @@
                 .logo-superior {
                     max-width: 200px;
                     height: auto;
-                    margin-bottom: 20px;
+                    margin-bottom: 10px;
                 }
 
                 .logo-inferior {
                     max-width: 150px;
                     height: auto;
-                    margin-top: 20px;
                 }
 
                 .select-location {
@@ -692,7 +690,7 @@
                     flex-direction: column;
                     padding: 20px;
                     background-color: white;
-                    height: 87%;
+                    height: auto !important;
                     justify-content: center;
                     align-items: center;
                     text-align: center;
@@ -747,7 +745,7 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    padding: 20px;
+                    padding: 10px;
                     background-color: #f8f8f8;
                     height: 17%;
                     border-top: 1px solid #ccc;
@@ -833,33 +831,6 @@
         // Añadir el overlay y los estilos al body
         $('body').append(styles + overlayHTML);
 
-        // Inicializar el efecto del cursor y eventos
-        const backgroundOverlay = document.querySelector('.background-overlay-custom');
-        const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
-
-        // Función para actualizar la posición del cursor
-        function setCursorPosition(clientX, clientY) {
-            requestAnimationFrame(() => {
-                backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
-                backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
-            });
-        }
-
-        // Eventos del cursor
-        backgroundOverlay.addEventListener('mouseenter', (e) => {
-            backgroundCursorWrapper.classList.add('enlarge-cursor');
-            setCursorPosition(e.clientX, e.clientY);
-        });
-
-        backgroundOverlay.addEventListener('mouseleave', (e) => {
-            backgroundCursorWrapper.classList.remove('enlarge-cursor');
-            setCursorPosition(e.clientX, e.clientY);
-        });
-
-        backgroundOverlay.addEventListener('mousemove', (e) => {
-            setCursorPosition(e.clientX, e.clientY);
-        });
-
         // Función para cerrar el overlay
         function closeOverlay() {
             $('.background-overlay-custom').css({
@@ -873,21 +844,20 @@
             }, 300);
         }
 
+        // Cerrar al hacer clic fuera del modal
+        $(document).on('click', '.background-overlay-custom', function(e) {
+            if ($(e.target).closest('.window-solicitud-ubicacion').length === 0) {
+                closeOverlay();
+            }
+        });
+
         // Eventos de los botones
-        $('.btn-cancel, .close-btn').on('click', closeOverlay);
+        $('.btn-cancel').on('click', closeOverlay);
         
         $('.btn-confirm').on('click', () => {
             if (!navigator.geolocation) {
                 console.log('Tu navegador no soporta geolocalización');
                 return;
-            }
-
-            const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-            if (mensajeLocalizacion) {
-                mensajeLocalizacion.classList.remove('visible');
-                setTimeout(() => {
-                    mensajeLocalizacion.style.display = 'none';
-                }, 300);
             }
 
             navigator.geolocation.getCurrentPosition(
