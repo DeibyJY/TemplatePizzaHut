@@ -143,7 +143,7 @@
                                           <p class="mensaje-descripcion">
                                             Descubre locales cerca de ti, promociones y mucho más.
                                           </p>
-                                          <a onclick="checkAndGetLocation()" class="mensaje-boton">
+                                          <a onclick="handleEntendidoClick()" class="mensaje-boton">
                                             Entendido
                                           </a>
                                         </div>
@@ -613,6 +613,7 @@
 </style>
 
 <script>
+
   function getLocation() {
     var $body = $('body');
     $body.addClass('quick-view-show-custom');
@@ -901,11 +902,31 @@
     }
   }
 
-  function checkAndGetLocation() {
-    const hasPermission = localStorage.getItem('locationPermissionGranted');
-    if (hasPermission !== 'true') {
-        getLocation();
-    }
+  function checkLocationMessage() {
+      document.addEventListener('DOMContentLoaded', function() {
+          const hasPermission = localStorage.getItem('locationPermissionGranted');
+          
+          if (hasPermission === 'true') {
+              // Si ya dio permiso, ocultar el mensaje del header
+              const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+              if (mensajeLocalizacion) {
+                  mensajeLocalizacion.classList.remove('visible');
+                  mensajeLocalizacion.style.display = 'none';
+              }
+          }
+      });
+
+      // Para el botón "Entendido" del primer mensaje
+      function handleEntendidoClick() {
+          localStorage.setItem('locationPermissionGranted', 'true');
+          const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+          if (mensajeLocalizacion) {
+              mensajeLocalizacion.classList.remove('visible');
+              mensajeLocalizacion.style.display = 'none';
+          }
+          // Aquí llamamos a la segunda función que muestra el modal
+          getLocation();
+      }
   }
 
   {% comment %} HOLA MUNDO {% endcomment %}
