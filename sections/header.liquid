@@ -617,34 +617,33 @@
     var $body = $('body');
     $body.addClass('quick-view-show-custom');
 
-    // Crear y añadir el background overlay
     if (!document.querySelector('.background-overlay-custom')) {
         const overlayHTML = `
-          <div class="background-overlay-custom">
-              <div class="background-cursor-wrapper">
-                  <div class="background-cursor-wrapper_outer">
-                      <div class="background-cursor-wrapper_inner">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
-                              <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
-                                  <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
-                                  <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
-                              </g>
-                          </svg>
-                      </div>
-                  </div>
-              </div>
-              <div class="window-solicitud-ubicacion">
-                  <div class="select-location">
-                    <img src="{{ 'logoPizzaHut.png' | asset_url }}" alt="Logo Superior" class="logo-superior">
-                    <p class="welcome-text">PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.</p>
-                    <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Logo Inferior" class="logo-inferior">              
-                 </div>
-                  <div class="options-buttons-location">
-                      <button class="btn-cancel">Cancelar</button>
-                      <button class="btn-confirm">Confirmar</button>
-                  </div>
-              </div>
-          </div>
+            <div class="background-overlay-custom">
+                <div class="background-cursor-wrapper">
+                    <div class="background-cursor-wrapper_outer">
+                        <div class="background-cursor-wrapper_inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+                                <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
+                                    <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
+                                    <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="window-solicitud-ubicacion">
+                    <div class="select-location">
+                        <img src="{{ 'logoPizzaHut.png' | asset_url }}" alt="Logo Superior" class="logo-superior">
+                        <p class="welcome-text">PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.</p>
+                        <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Logo Inferior" class="logo-inferior">              
+                    </div>
+                    <div class="options-buttons-location">
+                        <button class="btn-cancel">CANCELAR</button>
+                        <button class="btn-confirm">CONFIRMAR</button>
+                    </div>
+                </div>
+            </div>
         `;
 
         const styles = `
@@ -652,85 +651,41 @@
                 @font-face {
                     font-family: 'PizzaHutFont';
                     src: url('BebasNeue-Bold.woff2') format('woff2'),
-                        url('BebasNeue-Bold.woff') format('woff');
+                         url('BebasNeue-Bold.woff') format('woff');
                     font-weight: bold;
                     font-style: normal;
                 }
 
-                .welcome-text {
-                  font-size: var(--title-font-size);
-                  line-height: 1.2;
-                  color: var(--title-color-title);
-                  text-transform: var(--title-text-transform);
-                  font-weight: var(--title-font-weight);
-                  margin-bottom: 12px !important;
-                }
-
-                .description-text {
-                    font-size: var(--title-qc-font-size);
-                    color: var(--title-qc-color);
-                    text-transform: var(--title-qc-text-transform);
-                    font-weight: var(--title-qc-font-weight);
-                    margin-top: 20px;
-                }
-
-                .logo-superior {
-                    max-width: 200px;
-                    height: auto;
-                    margin-bottom: 10px;
-                }
-
-                .logo-inferior {
-                    max-width: 150px;
-                    height: auto;
-                }
-
-                .select-location {
-                    display: flex;
-                    flex-direction: column;
-                    padding: 20px;
-                    background-color: white;
-                    height: auto !important;
-                    justify-content: center;
-                    align-items: center;
-                    text-align: center;
-                }
-
                 .background-overlay-custom {
                     position: fixed;
-                    background-color: #232323cc;
+                    background-color: rgba(35, 35, 35, 0.8);
                     top: 0;
                     left: 0;
                     bottom: 0;
                     right: 0;
-                    cursor: none;
                     z-index: 999;
                     opacity: 0;
-                    pointer-events: none;
+                    cursor: none;
+                    pointer-events: all;
                     transition: opacity var(--duration-long) ease;
                     display: flex !important;
                     align-items: center;
                     justify-content: center;
                 }
-                
+
                 .window-solicitud-ubicacion {
                     width: 50vw;
-                    height: auto !important;
+                    height: auto;
+                    min-height: 400px;
+                    max-height: 67vh;
                     background-color: white;
                     border-radius: 0px;
                     overflow: hidden;
                     display: flex;
                     flex-direction: column;
-                }
-
-                .header-info-location {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 20px;
-                    background-color: #f8f8f8;
-                    height: 13%;
-                    border-bottom: 1px solid #ccc;
+                    cursor: default;
+                    position: relative;
+                    z-index: 1000;
                 }
 
                 .select-location {
@@ -738,23 +693,47 @@
                     flex-direction: column;
                     padding: 20px;
                     background-color: white;
-                    height: 83%;
+                    height: auto;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                }
+
+                .logo-superior {
+                    max-width: 200px;
+                    height: auto;
+                    margin-bottom: 20px;
+                }
+
+                .logo-inferior {
+                    max-width: 150px;
+                    height: auto;
+                    margin-top: 20px;
+                }
+
+                .welcome-text {
+                    font-size: var(--title-font-size);
+                    line-height: 1.2;
+                    color: var(--title-color-title);
+                    text-transform: var(--title-text-transform);
+                    font-weight: var(--title-font-weight);
+                    margin-bottom: 12px !important;
                 }
 
                 .options-buttons-location {
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    padding: 10px;
+                    padding: 20px;
                     background-color: #f8f8f8;
-                    height: 17%;
+                    height: auto;
                     border-top: 1px solid #ccc;
                     gap: 20px;
                 }
 
                 .background-cursor-wrapper {
                     position: fixed;
-                    z-index: 1000;
+                    z-index: 998;
                     pointer-events: none;
                     transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
                     transition: transform .1s ease-out;
@@ -831,6 +810,28 @@
         // Añadir el overlay y los estilos al body
         $('body').append(styles + overlayHTML);
 
+        // Inicializar el efecto del cursor y eventos
+        const backgroundOverlay = document.querySelector('.background-overlay-custom');
+        const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
+
+        // Función para actualizar la posición del cursor
+        function setCursorPosition(clientX, clientY) {
+            requestAnimationFrame(() => {
+                backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+                backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+            });
+        }
+
+        // Eventos del cursor solo para el overlay
+        $('.background-overlay-custom').on('mousemove', function(e) {
+            if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+                setCursorPosition(e.clientX, e.clientY);
+                backgroundCursorWrapper.classList.add('enlarge-cursor');
+            } else {
+                backgroundCursorWrapper.classList.remove('enlarge-cursor');
+            }
+        });
+
         // Función para cerrar el overlay
         function closeOverlay() {
             $('.background-overlay-custom').css({
@@ -845,8 +846,8 @@
         }
 
         // Cerrar al hacer clic fuera del modal
-        $(document).on('click', '.background-overlay-custom', function(e) {
-            if ($(e.target).closest('.window-solicitud-ubicacion').length === 0) {
+        $('.background-overlay-custom').on('click', function(e) {
+            if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
                 closeOverlay();
             }
         });
