@@ -13,7 +13,7 @@
 <{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}" {% else %}div{% endif %} class="header-wrapper" data-hide-on-scroll={{ section.settings.hide_scroll }}>
   {% comment %} READ : AQUI MODIFIQUE   {% endcomment %}
   <header 
-      style="position: fixed;"
+      style="position: fixed; width: 100% !important;"
       class="header header-nav-plain{{header_transparent}} {% if section.settings.menu != blank %} header--has-menu{% endif %}{% if section.settings.enable_parallax %} enable_parallax{% endif %} {% if section.settings.transparent_header != blank %}transparent-header {% endif %}" style="--icon-mobile-spacing: {{ section.settings.header_icon_mobile_spacing | append: 'px' }};">
         <div class="wrapper-header-main">
             <div class="container">
@@ -526,10 +526,10 @@
     width: 280px;
     padding: 20px;
     background: white;
-    border-radius: 8px;
+    border-radius: 4px;
     position: fixed;
     top: 65px;
-    right: 27px;
+    right: 25.7px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
     text-align: center;
     transition: all 0.3s ease;
