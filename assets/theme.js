@@ -3356,6 +3356,7 @@
             });
             
             $('.background-overlay').off('click.closeQuickView').on('click.closeQuickView', e => {
+                console.log('Genero el background-overlay');
                 if ($body.hasClass('quick-view-show') &&
                        !$body.hasClass('cart-sidebar-show') && 
                        !$body.hasClass('ask-an-expert-show') && 
