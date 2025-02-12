@@ -641,7 +641,7 @@
                   
                   .window-solicitud-ubicacion {
                       width: 50vw;
-                      height: 70vh;
+                      height: 85vh;
                       background-color: white;
                       border-radius: 8px;
                       overflow: hidden;
@@ -656,14 +656,14 @@
                       padding: 20px;
                       background-color: #f8f8f8;
                       border-bottom: 1px solid #ccc;
-                      height: 15%;
+                      height: 13%;
                   }
 
                   .select-location {
                       display: flex;
                       padding: 20px;
                       background-color: white;
-                      height: 70%;
+                      height: 74%;
                   }
 
                   .options-buttons-location {
@@ -672,7 +672,7 @@
                       align-items: center;
                       padding: 20px;
                       background-color: #f8f8f8;
-                      height: 15%;
+                      height: 13%;
                       border-top: 1px solid #ccc;
                   }
 
@@ -702,6 +702,97 @@
                       align-items: center;
                       justify-content: center;
                   }
+
+                   /* ... otros estilos ... */
+
+                  .options-buttons-location {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      padding: 20px;
+                      background-color: #f8f8f8;
+                      height: 15%;
+                      border-top: 1px solid #ccc;
+                      gap: 20px;
+                  }
+
+                  .btn-cancel {
+                      --bin-color: #232323;
+                      --bin-bg-color: #ffffff;
+                      --bin-border-color: #acacac;
+                      --bin-color-hover: #ffffff;
+                      --bin-bg-color-hover: #232323;
+                      --bin-border-color-hover: #232323;
+                      
+                      flex: 1;
+                      padding: 15px 25px;
+                      border: 1px solid var(--bin-border-color);
+                      background-color: var(--bin-bg-color);
+                      color: var(--bin-color);
+                      cursor: pointer;
+                      transition: all 0.3s ease;
+                      font-weight: 500;
+                      border-radius: 4px;
+                  }
+
+                  .btn-cancel:hover {
+                      background-color: var(--bin-bg-color-hover);
+                      color: var(--bin-color-hover);
+                      border-color: var(--bin-border-color-hover);
+                  }
+
+                  .btn-confirm {
+                      --bin-color: #ffffff;
+                      --bin-bg-color: #232323;
+                      --bin-border-color: #232323;
+                      --bin-color-hover: #232323;
+                      --bin-bg-color-hover: #ffffff;
+                      --bin-border-color-hover: #232323;
+                      
+                      flex: 1;
+                      padding: 15px 25px;
+                      border: 1px solid var(--bin-border-color);
+                      background-color: var(--bin-bg-color);
+                      color: var(--bin-color);
+                      cursor: pointer;
+                      transition: all 0.3s ease;
+                      font-weight: 500;
+                      border-radius: 4px;
+                  }
+
+                  .btn-confirm:hover {
+                      background-color: var(--bin-bg-color-hover);
+                      color: var(--bin-color-hover);
+                      border-color: var(--bin-border-color-hover);
+                  }
+
+                  .header-info-location {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      padding: 20px;
+                      background-color: #f8f8f8;
+                      height: 15%;
+                      border-bottom: 1px solid #ccc;
+                  }
+
+                  .header-info-location p {
+                      font-size: 18px;
+                      font-weight: 500;
+                      margin: 0;
+                  }
+
+                  .header-info-location button {
+                      background: none;
+                      border: none;
+                      cursor: pointer;
+                      padding: 5px;
+                  }
+
+                  .header-info-location button svg {
+                      width: 20px;
+                      height: 20px;
+                  }
               </style>
           `;
 
@@ -721,9 +812,20 @@
                       </div>
                   </div>
                   <div class="window-solicitud-ubicacion">
-                      <div class="header-info-location"></div>
-                      <div class="select-location"></div>
-                      <div class="options-buttons-location"></div>
+                    <div class="header-info-location">
+                        <p>Ingrese su dirección</p>
+                        <button class="close-btn">
+                            {% render 'icon-close' %}
+                        </button>
+                    </div>
+                    <div class="select-location">
+                        <div class="message-location"></div>
+                        <div class="mapa-google"></div>
+                    </div>
+                    <div class="options-buttons-location">
+                        <button class="btn-cancel">Cancelar</button>
+                        <button class="btn-confirm">Confirmar</button>
+                    </div>
                   </div>
               </div>
           `;
