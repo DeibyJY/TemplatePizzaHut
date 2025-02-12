@@ -643,7 +643,7 @@
                       width: 50vw;
                       height: 85vh;
                       background-color: white;
-                      border-radius: 8px;
+                      border-radius: 0px;
                       overflow: hidden;
                       display: flex;
                       flex-direction: column;
@@ -725,14 +725,23 @@
                       --bin-border-color-hover: #232323;
                       
                       flex: 1;
-                      padding: 15px 25px;
-                      border: 1px solid var(--bin-border-color);
                       background-color: var(--bin-bg-color);
-                      color: var(--bin-color);
+                      font-family: var(--font-button-family);
+                      font-size: var(--font-button-size);
+                      font-weight: var(--font-button-weight);
+                      line-height: var(--button-line-height);
+                      color: var(--button-color);
+                      border: var(--button-border-width) solid;
+                      padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
+                      text-transform: var(--button-text-transform);
+                      text-decoration: none;
+                      letter-spacing: var(--button-letter-spacing);
+                      position: relative;
                       cursor: pointer;
-                      transition: all 0.3s ease;
-                      font-weight: 500;
-                      border-radius: 4px;
+                      transition: all 400ms ease;
+                      display: inline-flex;
+                      justify-content: center;
+                      border-radius: var(--button-border-radius);
                   }
 
                   .btn-cancel:hover {
@@ -757,11 +766,9 @@
                       line-height: var(--button-line-height);
                       color: var(--button-color);
                       border: var(--button-border-width) solid;
-                      border-color: var(--button-border-color);
                       padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
                       text-transform: var(--button-text-transform);
                       text-decoration: none;
-                      display: inline-block;
                       letter-spacing: var(--button-letter-spacing);
                       position: relative;
                       cursor: pointer;
