@@ -758,6 +758,25 @@
                       transition: all 0.3s ease;
                       font-weight: 500;
                       border-radius: 4px;
+                      font-family: var(--font-button-family);
+                      font-size: var(--font-button-size);
+                      font-weight: var(--font-button-weight);
+                      line-height: var(--button-line-height);
+                      color: var(--button-color);
+                      border: var(--button-border-width) solid;
+                      background-color: var(--button-bg-color);
+                      border-color: var(--button-border-color);
+                      padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
+                      text-transform: var(--button-text-transform);
+                      text-decoration: none;
+                      display: inline-block;
+                      letter-spacing: var(--button-letter-spacing);
+                      position: relative;
+                      cursor: pointer;
+                      transition: all 400ms ease;
+                      display: inline-flex;
+                      justify-content: center;
+                      border-radius: var(--button-border-radius);
                   }
 
                   .btn-confirm:hover {
@@ -813,7 +832,15 @@
                   </div>
                   <div class="window-solicitud-ubicacion">
                     <div class="header-info-location">
-                        <p>Ingrese su dirección</p>
+                        <p
+                          style="
+                            font-size: var(--title-qc-font-size);
+                            color: var(--title-qc-color);
+                            text-transform: var(--title-qc-text-transform);
+                            font-weight: var(--title-qc-font-weight);
+                            padding-bottom: 15px;
+                          "
+                        >Indique su dirección</p>
                         <button class="close-btn">
                             {% render 'icon-close' %}
                         </button>
