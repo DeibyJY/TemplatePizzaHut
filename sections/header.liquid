@@ -614,7 +614,7 @@
 
 <script>
   function getLocation() {
-    var $body = $('body'),
+    var $body = $('body');
     $body.addClass('quick-view-show');
 
     if (!navigator.geolocation) {
@@ -661,16 +661,16 @@
     );
   }
 
-// Función para mostrar el mensaje
-function mostrarMensajeLocalizacion() {
-    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-    if (mensajeLocalizacion) {
-        mensajeLocalizacion.style.display = 'block';
-        // Forzamos un reflow
-        mensajeLocalizacion.offsetHeight;
-        mensajeLocalizacion.classList.add('visible');
-    }
-}
+  // Función para mostrar el mensaje
+  function mostrarMensajeLocalizacion() {
+      const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+      if (mensajeLocalizacion) {
+          mensajeLocalizacion.style.display = 'block';
+          // Forzamos un reflow
+          mensajeLocalizacion.offsetHeight;
+          mensajeLocalizacion.classList.add('visible');
+      }
+  }
 
   function menu_right(){
     var icon_width = jQuery('.header-icon').width();
