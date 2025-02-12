@@ -614,6 +614,8 @@
 
 <script>
   function getLocation() {
+    $body.addClass('quick-view-show');
+
     if (!navigator.geolocation) {
         console.log('Tu navegador no soporta geolocalización');
         return;
