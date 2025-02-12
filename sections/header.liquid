@@ -650,35 +650,45 @@
         // Añadir los estilos
         const styles = `
             <style>
-              .welcome-text {
-                          margin: 0px;
-                          font-weight: 400;
-                          font-family: 'Brixton_Lead', 'Open Sans', Helvetica, Arial, sans-serif;
-                          font-size: 54px;
-                          text-decoration: none;
-                          line-height: 56px;
-                          text-transform: uppercase;
-                          color: rgb(35, 31, 32);
-                      }
+                @font-face {
+                    font-family: 'PizzaHutFont';
+                    src: url('BebasNeue-Bold.woff2') format('woff2'),
+                        url('BebasNeue-Bold.woff') format('woff');
+                    font-weight: bold;
+                    font-style: normal;
+                }
 
-                      .description-text {
-                          font-size: var(--title-qc-font-size);
-                          color: var(--title-qc-color);
-                          text-transform: var(--title-qc-text-transform);
-                          font-weight: var(--title-qc-font-weight);
-                          margin-top: 20px;
-                      }
+                /* Y modifica la clase welcome-text así: */
+                .welcome-text {
+                    margin: 0;
+                    font-family: 'PizzaHutFont', Arial, sans-serif;
+                    font-size: 64px;
+                    font-weight: 700;
+                    line-height: 1;
+                    text-transform: uppercase;
+                    color: #000;
+                    letter-spacing: -1px;
+                    text-align: center;
+                }
 
-                      .select-location {
-                          display: flex;
-                          flex-direction: column;
-                          padding: 20px;
-                          background-color: white;
-                          height: 74%;
-                          justify-content: center;
-                          align-items: center;
-                          text-align: center;
-                      }
+                .description-text {
+                    font-size: var(--title-qc-font-size);
+                    color: var(--title-qc-color);
+                    text-transform: var(--title-qc-text-transform);
+                    font-weight: var(--title-qc-font-weight);
+                    margin-top: 20px;
+                }
+
+                .select-location {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 20px;
+                    background-color: white;
+                    height: 74%;
+                    justify-content: center;
+                    align-items: center;
+                    text-align: center;
+                }
 
                 .background-overlay-custom {
                     position: fixed;
