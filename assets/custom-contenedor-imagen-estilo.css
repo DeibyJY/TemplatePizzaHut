@@ -1,0 +1,8 @@
+@font-face {
+  font-family: "Brixton_Lead";
+  src: url("brixton-lead.woff2") format("woff2"),
+    url("brixton-lead.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap; /* Esto mejora el rendimiento de carga */
+}
