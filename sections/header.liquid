@@ -615,7 +615,37 @@
 <script>
   function getLocation() {
     var $body = $('body');
-    $body.addClass('quick-view-show');
+
+    // Crear y añadir el background overlay si no existe
+    if (!document.querySelector('.background-overlay-custom')) {
+        const backGroundOverlayCustom = `
+            <div class="background-overlay-custom" 
+                 style="
+                    position: fixed;
+                    background-color: #232323cc;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    cursor: pointer;
+                    z-index: 999;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity var(--duration-long) ease;
+                    display: block !important;
+                 ">
+            </div>
+        `;
+        $('body').append(backGroundOverlayCustom);
+        
+        // Dar tiempo al DOM para procesar y luego mostrar con opacidad
+        setTimeout(() => {
+            $('.background-overlay-custom').css({
+                'opacity': '1',
+                'pointer-events': 'all'
+            });
+        }, 10);
+    }
 
     if (!navigator.geolocation) {
         console.log('Tu navegador no soporta geolocalización');
@@ -626,10 +656,9 @@
     const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
     if (mensajeLocalizacion) {
         mensajeLocalizacion.classList.remove('visible');
-        // Esperamos a que termine la transición para ocultar completamente
         setTimeout(() => {
             mensajeLocalizacion.style.display = 'none';
-        }, 300); // 300ms = 0.3s (mismo tiempo que la transición)
+        }, 300);
     }
 
     const options = {
@@ -659,17 +688,6 @@
         },
         options
     );
-  }
-
-  // Función para mostrar el mensaje
-  function mostrarMensajeLocalizacion() {
-      const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-      if (mensajeLocalizacion) {
-          mensajeLocalizacion.style.display = 'block';
-          // Forzamos un reflow
-          mensajeLocalizacion.offsetHeight;
-          mensajeLocalizacion.classList.add('visible');
-      }
   }
 
   function menu_right(){
