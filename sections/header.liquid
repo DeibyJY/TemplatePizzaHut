@@ -705,59 +705,75 @@
 
                    /* ... otros estilos ... */
 
- .options-buttons-location {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            gap: 20px;
-        }
+                  .options-buttons-location {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      padding: 20px;
+                      background-color: #f8f8f8;
+                      height: 15%;
+                      border-top: 1px solid #ccc;
+                      gap: 20px;
+                  }
 
-        .btn-cancel {
-            --button-color: #ffffff;
-            --button-bg-color: #232323;
-            --button-border-color: #232323;
-            
-            flex: 1;
-            min-width: 150px;
-            padding: 15px 25px;
-            background-color: var(--button-bg-color);
-            color: var(--button-color);
-            border: 1px solid var(--button-border-color);
-            font-weight: 500;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+                  .btn-cancel {
+                      --bin-color: #232323;
+                      --bin-bg-color: #ffffff;
+                      --bin-border-color: #acacac;
+                      --bin-color-hover: #ffffff;
+                      --bin-bg-color-hover: #232323;
+                      --bin-border-color-hover: #232323;
+                      
+                      flex: 1;
+                      padding: 15px 25px;
+                      border: 1px solid var(--bin-border-color);
+                      background-color: var(--bin-bg-color);
+                      color: var(--bin-color);
+                      cursor: pointer;
+                      transition: all 0.3s ease;
+                      font-weight: 500;
+                      border-radius: 4px;
+                  }
 
-        .btn-cancel:hover {
-            background-color: #ffffff;
-            color: #232323;
-            border-color: #232323;
-        }
+                  .btn-cancel:hover {
+                      background-color: var(--bin-bg-color-hover);
+                      color: var(--bin-color-hover);
+                      border-color: var(--bin-border-color-hover);
+                  }
 
-        .btn-confirm {
-            --button-color: #232323;
-            --button-bg-color: #ffffff;
-            --button-border-color: #232323;
-            
-            flex: 1;
-            min-width: 150px;
-            padding: 15px 25px;
-            background-color: var(--button-bg-color);
-            color: var(--button-color);
-            border: 1px solid var(--button-border-color);
-            font-weight: 500;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+                  .btn-confirm {
+                      --bin-color: #ffffff;
+                      --bin-bg-color: #232323;
+                      --bin-border-color: #232323;
+                      --bin-color-hover: #232323;
+                      --bin-bg-color-hover: #ffffff;
+                      --bin-border-color-hover: #232323;
+                      
+                      flex: 1;
+                      background-color: var(--bin-bg-color);
+                      font-family: var(--font-button-family);
+                      font-size: var(--font-button-size);
+                      font-weight: var(--font-button-weight);
+                      line-height: var(--button-line-height);
+                      color: var(--button-color);
+                      border: var(--button-border-width) solid;
+                      padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
+                      text-transform: var(--button-text-transform);
+                      text-decoration: none;
+                      letter-spacing: var(--button-letter-spacing);
+                      position: relative;
+                      cursor: pointer;
+                      transition: all 400ms ease;
+                      display: inline-flex;
+                      justify-content: center;
+                      border-radius: var(--button-border-radius);
+                  }
 
-        .btn-confirm:hover {
-            background-color: #232323;
-            color: #ffffff;
-            border-color: #232323;
-        }
+                  .btn-confirm:hover {
+                      background-color: var(--bin-bg-color-hover);
+                      color: var(--bin-color-hover);
+                      border-color: var(--bin-border-color-hover);
+                  }
 
                   .header-info-location {
                       display: flex;
