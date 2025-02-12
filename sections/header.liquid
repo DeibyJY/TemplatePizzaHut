@@ -614,74 +614,182 @@
 
 <script>
   function getLocation() {
-    var $body = $('body');
+      var $body = $('body');
+      $body.addClass('quick-view-show-custom');
 
-    // Crear y añadir el background overlay si no existe
-    if (!document.querySelector('.background-overlay-custom')) {
-        const backGroundOverlayCustom = `
-            <div class="background-overlay-custom" 
-                 style="
-                  position: fixed;
-                  background-color: #232323cc;
-                  top: 0;
-                  left: 0;
-                  bottom: 0;
-                  right: 0;
-                  cursor: pointer;
-                  z-index: 999;
-                  opacity: 0;
-                  pointer-events: none;
-                  transition: opacity var(--duration-long) ease;
-                  display: block !important;
-                  pointer-events: all;
-                 ">
-            </div>
-        `;
-        $('body').append(backGroundOverlayCustom);
-    }
+      // Crear y añadir el background overlay con el cursor personalizado
+      if (!document.querySelector('.background-overlay-custom')) {
+          const backGroundOverlayCustom = `
+              <div class="background-overlay-custom">
+                  <div class="background-cursor-wrapper">
+                      <div class="background-cursor-wrapper_outer">
+                          <div class="background-cursor-wrapper_inner">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+                                  <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
+                                      <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
+                                      <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
+                                  </g>
+                              </svg>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          `;
+          
+          // Añadir estilos CSS necesarios
+          const styles = `
+              <style>
+                  .background-overlay-custom {
+                      position: fixed;
+                      background-color: #232323cc;
+                      top: 0;
+                      left: 0;
+                      bottom: 0;
+                      right: 0;
+                      cursor: none;
+                      z-index: 999;
+                      opacity: 0;
+                      pointer-events: none;
+                      transition: opacity var(--duration-long) ease;
+                      display: block !important;
+                  }
+                  
+                  .background-cursor-wrapper {
+                      position: fixed;
+                      z-index: 999;
+                      pointer-events: none;
+                      transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
+                      transition: transform .1s ease-out;
+                  }
+                  
+                  .background-cursor-wrapper_outer {
+                      transition: transform .15s ease-out;
+                  }
+                  
+                  .background-cursor-wrapper.enlarge-cursor .background-cursor-wrapper_outer {
+                      transform: scale(1.5);
+                  }
+                  
+                  .background-cursor-wrapper_inner {
+                      width: 40px;
+                      height: 40px;
+                      border-radius: 50%;
+                      background: rgba(255,255,255,.1);
+                      display: flex;
+                      align-items: center;
+                      justify-content: center;
+                  }
+              </style>
+          `;
 
-    if (!navigator.geolocation) {
-        console.log('Tu navegador no soporta geolocalización');
-        return;
-    }
+          // Añadir el overlay y los estilos al body
+          $('body').append(styles + backGroundOverlayCustom);
+          
+          // Inicializar el efecto del cursor
+          initBackgroundOverlayHoverEffect();
 
-    // Ocultamos el div del mensaje con transición
-    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-    if (mensajeLocalizacion) {
-        mensajeLocalizacion.classList.remove('visible');
-        setTimeout(() => {
-            mensajeLocalizacion.style.display = 'none';
-        }, 300);
-    }
+          // Mostrar el overlay con transición
+          setTimeout(() => {
+              $('.background-overlay-custom').css({
+                  'opacity': '1',
+                  'pointer-events': 'all'
+              });
+          }, 10);
+      }
 
-    const options = {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 5000
-    };
+      // Función para inicializar el efecto hover del cursor
+      function initBackgroundOverlayHoverEffect() {
+          const backgroundOverlay = document.querySelector('.background-overlay-custom');
+          const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
 
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            console.log('Ubicación obtenida:', latitude, longitude);
-        },
-        function(error) {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    console.log('Necesitamos acceso a tu ubicación');
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    console.log('Por favor, activa tu GPS');
-                    break;
-                case error.TIMEOUT:
-                    console.log('Tiempo de espera agotado');
-                    break;
-            }
-        },
-        options
-    );
-    {% comment %} HOL AMUNDO  {% endcomment %}
+          const enlargeCursor = () => {
+              backgroundCursorWrapper.classList.add('enlarge-cursor');
+          };
+
+          const dwindleCursor = () => {
+              backgroundCursorWrapper.classList.remove('enlarge-cursor');
+          };
+
+          const setCursorPosition = (clientX, clientY) => {
+              requestAnimationFrame(() => {
+                  backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+                  backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+              });
+          };
+
+          const handleMouseMove = (e) => {
+              setCursorPosition(e.clientX, e.clientY);
+          };
+
+          const handleMouseEnter = (e) => {
+              setCursorPosition(e.clientX, e.clientY);
+              enlargeCursor();
+          };
+
+          const handleMouseLeave = (e) => {
+              setCursorPosition(e.clientX, e.clientY);
+              dwindleCursor();
+          };
+
+          // Agregar eventos del cursor
+          backgroundOverlay.addEventListener('mouseenter', handleMouseEnter);
+          backgroundOverlay.addEventListener('mouseleave', handleMouseLeave);
+          backgroundOverlay.addEventListener('mousemove', handleMouseMove);
+          backgroundOverlay.addEventListener('click', () => {
+              dwindleCursor();
+              $('.background-overlay-custom').css({
+                  'opacity': '0',
+                  'pointer-events': 'none'
+              });
+              $body.removeClass('quick-view-show-custom');
+              
+              setTimeout(() => {
+                  $('.background-overlay-custom').remove();
+              }, 300);
+          });
+      }
+
+      // Resto del código de geolocalización...
+      if (!navigator.geolocation) {
+          console.log('Tu navegador no soporta geolocalización');
+          return;
+      }
+
+      const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+      if (mensajeLocalizacion) {
+          mensajeLocalizacion.classList.remove('visible');
+          setTimeout(() => {
+              mensajeLocalizacion.style.display = 'none';
+          }, 300);
+      }
+
+      const options = {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 5000
+      };
+
+      navigator.geolocation.getCurrentPosition(
+          function(position) {
+              const latitude = position.coords.latitude;
+              const longitude = position.coords.longitude;
+              console.log('Ubicación obtenida:', latitude, longitude);
+          },
+          function(error) {
+              switch(error.code) {
+                  case error.PERMISSION_DENIED:
+                      console.log('Necesitamos acceso a tu ubicación');
+                      break;
+                  case error.POSITION_UNAVAILABLE:
+                      console.log('Por favor, activa tu GPS');
+                      break;
+                  case error.TIMEOUT:
+                      console.log('Tiempo de espera agotado');
+                      break;
+              }
+          },
+          options
+      );
   }
 
   function menu_right(){
