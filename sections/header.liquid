@@ -619,66 +619,7 @@
 
       // Crear y añadir el background overlay con el cursor personalizado
       if (!document.querySelector('.background-overlay-custom')) {
-          const backGroundOverlayCustom = `
-              <div 
-                style="
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
-                class="background-overlay-custom">
-                  <div class="background-cursor-wrapper">
-                      <div class="background-cursor-wrapper_outer">
-                          <div class="background-cursor-wrapper_inner">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
-                                  <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
-                                      <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
-                                      <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
-                                  </g>
-                              </svg>
-                          </div>
-                      </div>
-                  </div>
-                  <div style="width: 50vw; height: 70vh; background-color: white;" class="window-solicitud-ubicacion">
-                    <div 
-                      style="
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        padding: 20px 10px;
-                        background-color : chocolate;
-                        border-bottom: 1px solid #ccc;
-                        width: 100%;
-                        height: 15%;
-                      "
-                    class="header-info-location"></div>
-                    <div 
-                      style="
-                        display: flex;
-                        padding-x: 10px ;
-                        background-color : blue;
-                        border-bottom: 1px solid #ccc;
-                        width: 100%;
-                        height: 70%;
-                      "
-                    class="select-location">
-                    </div>
-                    <div 
-                    style="
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                      padding: 20px 10px;
-                      background-color : chocolate;
-                      width: 100%;
-                      height: 15%;
-                    "
-                    class="options-buttons-location"></div>
-                  </di>    
-              </div>
-          `;
-          
-          // Añadir estilos CSS necesarios
+          // Primero, vamos a separar los estilos en el bloque de CSS
           const styles = `
               <style>
                   .background-overlay-custom {
@@ -693,12 +634,52 @@
                       opacity: 0;
                       pointer-events: none;
                       transition: opacity var(--duration-long) ease;
-                      display: block !important;
+                      display: flex !important;
+                      align-items: center;
+                      justify-content: center;
                   }
                   
+                  .window-solicitud-ubicacion {
+                      width: 50vw;
+                      height: 70vh;
+                      background-color: white;
+                      border-radius: 8px;
+                      overflow: hidden;
+                      display: flex;
+                      flex-direction: column;
+                  }
+
+                  .header-info-location {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      padding: 20px;
+                      background-color: #f8f8f8;
+                      border-bottom: 1px solid #ccc;
+                      height: 15%;
+                  }
+
+                  .select-location {
+                      display: flex;
+                      padding: 20px;
+                      background-color: white;
+                      height: 70%;
+                  }
+
+                  .options-buttons-location {
+                      display: flex;
+                      justify-content: space-between;
+                      align-items: center;
+                      padding: 20px;
+                      background-color: #f8f8f8;
+                      height: 15%;
+                      border-top: 1px solid #ccc;
+                  }
+
+                  /* Estilos del cursor existentes... */
                   .background-cursor-wrapper {
                       position: fixed;
-                      z-index: 999;
+                      z-index: 1000;
                       pointer-events: none;
                       transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
                       transition: transform .1s ease-out;
@@ -722,6 +703,29 @@
                       justify-content: center;
                   }
               </style>
+          `;
+
+          // Y luego el HTML sin estilos inline
+          const backGroundOverlayCustom = `
+              <div class="background-overlay-custom">
+                  <div class="background-cursor-wrapper">
+                      <div class="background-cursor-wrapper_outer">
+                          <div class="background-cursor-wrapper_inner">
+                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+                                  <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
+                                      <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
+                                      <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
+                                  </g>
+                              </svg>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="window-solicitud-ubicacion">
+                      <div class="header-info-location"></div>
+                      <div class="select-location"></div>
+                      <div class="options-buttons-location"></div>
+                  </div>
+              </div>
           `;
 
           // Añadir el overlay y los estilos al body
