@@ -621,30 +621,23 @@
         const backGroundOverlayCustom = `
             <div class="background-overlay-custom" 
                  style="
-                    position: fixed;
-                    background-color: #232323cc;
-                    top: 0;
-                    left: 0;
-                    bottom: 0;
-                    right: 0;
-                    cursor: pointer;
-                    z-index: 999;
-                    opacity: 0;
-                    pointer-events: none;
-                    transition: opacity var(--duration-long) ease;
-                    display: block !important;
+                  position: fixed;
+                  background-color: #232323cc;
+                  top: 0;
+                  left: 0;
+                  bottom: 0;
+                  right: 0;
+                  cursor: pointer;
+                  z-index: 999;
+                  opacity: 0;
+                  pointer-events: none;
+                  transition: opacity var(--duration-long) ease;
+                  display: block !important;
+                  pointer-events: all;
                  ">
             </div>
         `;
         $('body').append(backGroundOverlayCustom);
-        
-        // Dar tiempo al DOM para procesar y luego mostrar con opacidad
-        setTimeout(() => {
-            $('.background-overlay-custom').css({
-                'opacity': '1',
-                'pointer-events': 'all'
-            });
-        }, 10);
     }
 
     if (!navigator.geolocation) {
