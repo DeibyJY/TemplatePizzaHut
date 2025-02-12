@@ -614,355 +614,275 @@
 
 <script>
   function getLocation() {
-      var $body = $('body');
-      $body.addClass('quick-view-show-custom');
+    var $body = $('body');
+    $body.addClass('quick-view-show-custom');
 
-      // Crear y añadir el background overlay con el cursor personalizado
-      if (!document.querySelector('.background-overlay-custom')) {
-          // Primero, vamos a separar los estilos en el bloque de CSS
-          const styles = `
-              <style>
-                  .background-overlay-custom {
-                      position: fixed;
-                      background-color: #232323cc;
-                      top: 0;
-                      left: 0;
-                      bottom: 0;
-                      right: 0;
-                      cursor: none;
-                      z-index: 999;
-                      opacity: 0;
-                      pointer-events: none;
-                      transition: opacity var(--duration-long) ease;
-                      display: flex !important;
-                      align-items: center;
-                      justify-content: center;
-                  }
-                  
-                  .window-solicitud-ubicacion {
-                      width: 50vw;
-                      height: 85vh;
-                      background-color: white;
-                      border-radius: 0px;
-                      overflow: hidden;
-                      display: flex;
-                      flex-direction: column;
-                  }
-
-                  .header-info-location {
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                      padding: 20px;
-                      background-color: #f8f8f8;
-                      border-bottom: 1px solid #ccc;
-                      height: 13%;
-                  }
-
-                  .select-location {
-                      display: flex;
-                      padding: 20px;
-                      background-color: white;
-                      height: 74%;
-                  }
-
-                  .options-buttons-location {
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                      padding: 20px;
-                      background-color: #f8f8f8;
-                      height: 13%;
-                      border-top: 1px solid #ccc;
-                  }
-
-                  /* Estilos del cursor existentes... */
-                  .background-cursor-wrapper {
-                      position: fixed;
-                      z-index: 1000;
-                      pointer-events: none;
-                      transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
-                      transition: transform .1s ease-out;
-                  }
-                  
-                  .background-cursor-wrapper_outer {
-                      transition: transform .15s ease-out;
-                  }
-                  
-                  .background-cursor-wrapper.enlarge-cursor .background-cursor-wrapper_outer {
-                      transform: scale(1.5);
-                  }
-                  
-                  .background-cursor-wrapper_inner {
-                      width: 40px;
-                      height: 40px;
-                      border-radius: 50%;
-                      background: rgba(255,255,255,.1);
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                  }
-
-                   /* ... otros estilos ... */
-
-                  .options-buttons-location {
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                      padding: 20px;
-                      background-color: #f8f8f8;
-                      height: 15%;
-                      border-top: 1px solid #ccc;
-                      gap: 20px;
-                  }
-
-                  .btn-cancel {
-                      --bin-color: #232323;
-                      --bin-bg-color: #ffffff;
-                      --bin-border-color: #acacac;
-                      --bin-color-hover: #ffffff;
-                      --bin-bg-color-hover: #232323;
-                      --bin-border-color-hover: #232323;
-                      
-                      flex: 1;
-                      background-color: var(--bin-bg-color);
-                      font-family: var(--font-button-family);
-                      font-size: var(--font-button-size);
-                      font-weight: var(--font-button-weight);
-                      line-height: var(--button-line-height);
-                      color: var(--button-color);
-                      border: var(--button-border-width) solid;
-                      padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
-                      text-transform: var(--button-text-transform);
-                      text-decoration: none;
-                      letter-spacing: var(--button-letter-spacing);
-                      position: relative;
-                      cursor: pointer;
-                      transition: all 400ms ease;
-                      display: inline-flex;
-                      justify-content: center;
-                      border-radius: var(--button-border-radius);
-                  }
-
-                  .btn-cancel:hover {
-                      background-color: var(--bin-bg-color-hover);
-                      color: var(--bin-color-hover);
-                      border-color: var(--bin-border-color-hover);
-                  }
-
-                  .btn-confirm {
-                      --bin-color: #ffffff;
-                      --bin-bg-color: #232323;
-                      --bin-border-color: #232323;
-                      --bin-color-hover: #232323;
-                      --bin-bg-color-hover: #ffffff;
-                      --bin-border-color-hover: #232323;
-                      
-                      flex: 1;
-                      background-color: var(--bin-bg-color);
-                      font-family: var(--font-button-family);
-                      font-size: var(--font-button-size);
-                      font-weight: var(--font-button-weight);
-                      line-height: var(--button-line-height);
-                      color: var(--button-color);
-                      border: var(--button-border-width) solid;
-                      padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
-                      text-transform: var(--button-text-transform);
-                      text-decoration: none;
-                      letter-spacing: var(--button-letter-spacing);
-                      position: relative;
-                      cursor: pointer;
-                      transition: all 400ms ease;
-                      display: inline-flex;
-                      justify-content: center;
-                      border-radius: var(--button-border-radius);
-                  }
-
-                  .btn-confirm:hover {
-                      background-color: var(--bin-bg-color-hover);
-                      color: var(--bin-color-hover);
-                      border-color: var(--bin-border-color-hover);
-                  }
-
-                  .header-info-location {
-                      display: flex;
-                      justify-content: space-between;
-                      align-items: center;
-                      padding: 20px;
-                      background-color: #f8f8f8;
-                      height: 15%;
-                      border-bottom: 1px solid #ccc;
-                  }
-
-                  .header-info-location p {
-                      font-size: 18px;
-                      font-weight: 500;
-                      margin: 0;
-                  }
-
-                  .header-info-location button {
-                      background: none;
-                      border: none;
-                      cursor: pointer;
-                      padding: 5px;
-                  }
-
-                  .header-info-location button svg {
-                      width: 20px;
-                      height: 20px;
-                  }
-              </style>
-          `;
-
-          // Y luego el HTML sin estilos inline
-          const backGroundOverlayCustom = `
-              <div class="background-overlay-custom">
-                  <div class="background-cursor-wrapper">
-                      <div class="background-cursor-wrapper_outer">
-                          <div class="background-cursor-wrapper_inner">
-                              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
-                                  <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
-                                      <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
-                                      <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
-                                  </g>
-                              </svg>
-                          </div>
-                      </div>
-                  </div>
-                  <div class="window-solicitud-ubicacion">
+    // Crear y añadir el background overlay
+    if (!document.querySelector('.background-overlay-custom')) {
+        const overlayHTML = `
+            <div class="background-overlay-custom">
+                <div class="background-cursor-wrapper">
+                    <div class="background-cursor-wrapper_outer">
+                        <div class="background-cursor-wrapper_inner">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+                                <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
+                                    <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
+                                    <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="window-solicitud-ubicacion">
                     <div class="header-info-location">
-                        <p
-                          style="
-                            font-size: var(--title-qc-font-size);
-                            color: var(--title-qc-color);
-                            text-transform: var(--title-qc-text-transform);
-                            font-weight: var(--title-qc-font-weight);
-                          "
-                        >Indique su dirección</p>
+                        <p>Indique su dirección</p>
                         <button class="close-btn">
                             {% render 'icon-close' %}
                         </button>
                     </div>
                     <div class="select-location">
-                        <div class="message-location"></div>
-                        <div class="mapa-google"></div>
+                        <p>BIENVENIDO A PIZZA HUT</p>
+                        <p>Acepta dar el permiso de utilizar su ubicación para ver productos, stocks y ofertas a la sucursal más cercana</p>
                     </div>
                     <div class="options-buttons-location">
                         <button class="btn-cancel">Cancelar</button>
                         <button class="btn-confirm">Confirmar</button>
                     </div>
-                  </div>
-              </div>
-          `;
+                </div>
+            </div>
+        `;
 
-          // Añadir el overlay y los estilos al body
-          $('body').append(styles + backGroundOverlayCustom);
-          
-          // Inicializar el efecto del cursor
-          initBackgroundOverlayHoverEffect();
+        // Añadir los estilos
+        const styles = `
+            <style>
+                .background-overlay-custom {
+                    position: fixed;
+                    background-color: #232323cc;
+                    top: 0;
+                    left: 0;
+                    bottom: 0;
+                    right: 0;
+                    cursor: none;
+                    z-index: 999;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity var(--duration-long) ease;
+                    display: flex !important;
+                    align-items: center;
+                    justify-content: center;
+                }
+                
+                .window-solicitud-ubicacion {
+                    width: 50vw;
+                    height: 85vh;
+                    background-color: white;
+                    border-radius: 0px;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                }
 
-          // Mostrar el overlay con transición
-          setTimeout(() => {
-              $('.background-overlay-custom').css({
-                  'opacity': '1',
-                  'pointer-events': 'all'
-              });
-          }, 10);
-      }
+                .header-info-location {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px;
+                    background-color: #f8f8f8;
+                    height: 13%;
+                    border-bottom: 1px solid #ccc;
+                }
 
-      // Función para inicializar el efecto hover del cursor
-      function initBackgroundOverlayHoverEffect() {
-          const backgroundOverlay = document.querySelector('.background-overlay-custom');
-          const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
+                .select-location {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 20px;
+                    background-color: white;
+                    height: 74%;
+                }
 
-          const enlargeCursor = () => {
-              backgroundCursorWrapper.classList.add('enlarge-cursor');
-          };
+                .options-buttons-location {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 20px;
+                    background-color: #f8f8f8;
+                    height: 13%;
+                    border-top: 1px solid #ccc;
+                    gap: 20px;
+                }
 
-          const dwindleCursor = () => {
-              backgroundCursorWrapper.classList.remove('enlarge-cursor');
-          };
+                .background-cursor-wrapper {
+                    position: fixed;
+                    z-index: 1000;
+                    pointer-events: none;
+                    transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
+                    transition: transform .1s ease-out;
+                }
 
-          const setCursorPosition = (clientX, clientY) => {
-              requestAnimationFrame(() => {
-                  backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
-                  backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
-              });
-          };
+                .background-cursor-wrapper_outer {
+                    transition: transform .15s ease-out;
+                }
 
-          const handleMouseMove = (e) => {
-              setCursorPosition(e.clientX, e.clientY);
-          };
+                .background-cursor-wrapper.enlarge-cursor .background-cursor-wrapper_outer {
+                    transform: scale(1.5);
+                }
 
-          const handleMouseEnter = (e) => {
-              setCursorPosition(e.clientX, e.clientY);
-              enlargeCursor();
-          };
+                .background-cursor-wrapper_inner {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,.1);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
 
-          const handleMouseLeave = (e) => {
-              setCursorPosition(e.clientX, e.clientY);
-              dwindleCursor();
-          };
+                .btn-cancel, .btn-confirm {
+                    flex: 1;
+                    font-family: var(--font-button-family);
+                    font-size: var(--font-button-size);
+                    font-weight: var(--font-button-weight);
+                    line-height: var(--button-line-height);
+                    border: var(--button-border-width) solid;
+                    padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
+                    text-transform: var(--button-text-transform);
+                    letter-spacing: var(--button-letter-spacing);
+                    position: relative;
+                    cursor: pointer;
+                    transition: all 400ms ease;
+                    display: inline-flex;
+                    justify-content: center;
+                    border-radius: var(--button-border-radius);
+                }
 
-          // Agregar eventos del cursor
-          backgroundOverlay.addEventListener('mouseenter', handleMouseEnter);
-          backgroundOverlay.addEventListener('mouseleave', handleMouseLeave);
-          backgroundOverlay.addEventListener('mousemove', handleMouseMove);
-          backgroundOverlay.addEventListener('click', () => {
-              dwindleCursor();
-              $('.background-overlay-custom').css({
-                  'opacity': '0',
-                  'pointer-events': 'none'
-              });
-              $body.removeClass('quick-view-show-custom');
-              
-              setTimeout(() => {
-                  $('.background-overlay-custom').remove();
-              }, 300);
-          });
-      }
+                .btn-cancel {
+                    --bin-color: #232323;
+                    --bin-bg-color: #ffffff;
+                    --bin-border-color: #acacac;
+                    --bin-color-hover: #ffffff;
+                    --bin-bg-color-hover: #232323;
+                    --bin-border-color-hover: #232323;
+                    background-color: var(--bin-bg-color);
+                    color: var(--bin-color);
+                    border-color: var(--bin-border-color);
+                }
 
-      // Resto del código de geolocalización...
-      if (!navigator.geolocation) {
-          console.log('Tu navegador no soporta geolocalización');
-          return;
-      }
+                .btn-confirm {
+                    --bin-color: #ffffff;
+                    --bin-bg-color: #232323;
+                    --bin-border-color: #232323;
+                    --bin-color-hover: #232323;
+                    --bin-bg-color-hover: #ffffff;
+                    --bin-border-color-hover: #232323;
+                    background-color: var(--bin-bg-color);
+                    color: var(--bin-color);
+                    border-color: var(--bin-border-color);
+                }
 
-      const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-      if (mensajeLocalizacion) {
-          mensajeLocalizacion.classList.remove('visible');
-          setTimeout(() => {
-              mensajeLocalizacion.style.display = 'none';
-          }, 300);
-      }
+                .btn-cancel:hover, .btn-confirm:hover {
+                    background-color: var(--bin-bg-color-hover);
+                    color: var(--bin-color-hover);
+                    border-color: var(--bin-border-color-hover);
+                }
+            </style>
+        `;
 
-      const options = {
-          enableHighAccuracy: true,
-          maximumAge: 0,
-          timeout: 5000
-      };
+        // Añadir el overlay y los estilos al body
+        $('body').append(styles + overlayHTML);
 
-      navigator.geolocation.getCurrentPosition(
-          function(position) {
-              const latitude = position.coords.latitude;
-              const longitude = position.coords.longitude;
-              console.log('Ubicación obtenida:', latitude, longitude);
-          },
-          function(error) {
-              switch(error.code) {
-                  case error.PERMISSION_DENIED:
-                      console.log('Necesitamos acceso a tu ubicación');
-                      break;
-                  case error.POSITION_UNAVAILABLE:
-                      console.log('Por favor, activa tu GPS');
-                      break;
-                  case error.TIMEOUT:
-                      console.log('Tiempo de espera agotado');
-                      break;
-              }
-          },
-          options
-      );
+        // Inicializar el efecto del cursor y eventos
+        const backgroundOverlay = document.querySelector('.background-overlay-custom');
+        const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
+
+        // Función para actualizar la posición del cursor
+        function setCursorPosition(clientX, clientY) {
+            requestAnimationFrame(() => {
+                backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+                backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+            });
+        }
+
+        // Eventos del cursor
+        backgroundOverlay.addEventListener('mouseenter', (e) => {
+            backgroundCursorWrapper.classList.add('enlarge-cursor');
+            setCursorPosition(e.clientX, e.clientY);
+        });
+
+        backgroundOverlay.addEventListener('mouseleave', (e) => {
+            backgroundCursorWrapper.classList.remove('enlarge-cursor');
+            setCursorPosition(e.clientX, e.clientY);
+        });
+
+        backgroundOverlay.addEventListener('mousemove', (e) => {
+            setCursorPosition(e.clientX, e.clientY);
+        });
+
+        // Función para cerrar el overlay
+        function closeOverlay() {
+            $('.background-overlay-custom').css({
+                'opacity': '0',
+                'pointer-events': 'none'
+            });
+            $body.removeClass('quick-view-show-custom');
+            
+            setTimeout(() => {
+                $('.background-overlay-custom').remove();
+            }, 300);
+        }
+
+        // Eventos de los botones
+        $('.btn-cancel, .close-btn').on('click', closeOverlay);
+        
+        $('.btn-confirm').on('click', () => {
+            if (!navigator.geolocation) {
+                console.log('Tu navegador no soporta geolocalización');
+                return;
+            }
+
+            const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+            if (mensajeLocalizacion) {
+                mensajeLocalizacion.classList.remove('visible');
+                setTimeout(() => {
+                    mensajeLocalizacion.style.display = 'none';
+                }, 300);
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    console.log('Ubicación obtenida:', latitude, longitude);
+                    closeOverlay();
+                },
+                (error) => {
+                    switch(error.code) {
+                        case error.PERMISSION_DENIED:
+                            console.log('Necesitamos acceso a tu ubicación');
+                            break;
+                        case error.POSITION_UNAVAILABLE:
+                            console.log('Por favor, activa tu GPS');
+                            break;
+                        case error.TIMEOUT:
+                            console.log('Tiempo de espera agotado');
+                            break;
+                    }
+                },
+                {
+                    enableHighAccuracy: true,
+                    maximumAge: 0,
+                    timeout: 5000
+                }
+            );
+        });
+
+        // Mostrar el overlay con transición
+        setTimeout(() => {
+            $('.background-overlay-custom').css({
+                'opacity': '1',
+                'pointer-events': 'all'
+            });
+        }, 10);
+    }
   }
 
   function menu_right(){
