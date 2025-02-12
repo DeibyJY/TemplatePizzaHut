@@ -143,7 +143,7 @@
                                           <p class="mensaje-descripcion">
                                             Descubre locales cerca de ti, promociones y mucho más.
                                           </p>
-                                          <a onclick="handleEntendidoClick()" class="mensaje-boton">
+                                          <a onclick="handleLocationPermission()" class="mensaje-boton">
                                             Entendido
                                           </a>
                                         </div>
@@ -613,6 +613,18 @@
 </style>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+      const hasPermission = localStorage.getItem('locationPermissionGranted');
+      
+      if (hasPermission === 'true') {
+          // Si ya dio permiso, ocultar el mensaje del header
+          const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+          if (mensajeLocalizacion) {
+              mensajeLocalizacion.classList.remove('visible');
+              mensajeLocalizacion.style.display = 'none';
+          }
+      }
+  });
 
   function getLocation() {
     var $body = $('body');
@@ -902,31 +914,64 @@
     }
   }
 
-  function checkLocationMessage() {
-      document.addEventListener('DOMContentLoaded', function() {
-          const hasPermission = localStorage.getItem('locationPermissionGranted');
-          
-          if (hasPermission === 'true') {
-              // Si ya dio permiso, ocultar el mensaje del header
-              const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-              if (mensajeLocalizacion) {
-                  mensajeLocalizacion.classList.remove('visible');
-                  mensajeLocalizacion.style.display = 'none';
-              }
-          }
-      });
+  function handleLocationPermission() {
+    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+    
+    // Verificar si ya tiene permiso guardado
+    if (localStorage.getItem('locationPermissionGranted') === 'true') {
+        if (mensajeLocalizacion) {
+            mensajeLocalizacion.classList.remove('visible');
+            mensajeLocalizacion.style.display = 'none';
+        }
+        return;
+    }
 
-      // Para el botón "Entendido" del primer mensaje
-      function handleEntendidoClick() {
-          localStorage.setItem('locationPermissionGranted', 'true');
-          const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-          if (mensajeLocalizacion) {
-              mensajeLocalizacion.classList.remove('visible');
-              mensajeLocalizacion.style.display = 'none';
-          }
-          // Aquí llamamos a la segunda función que muestra el modal
-          getLocation();
-      }
+    // Si no hay permiso previo, solicitar ubicación
+    if (!navigator.geolocation) {
+        console.log('Tu navegador no soporta geolocalización');
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            // Obtener las coordenadas
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            // Guardar en localStorage
+            localStorage.setItem('locationPermissionGranted', 'true');
+            
+            // Guardar las coordenadas también si las necesitas después
+            localStorage.setItem('userLatitude', latitude);
+            localStorage.setItem('userLongitude', longitude);
+            
+            // Ocultar el mensaje
+            if (mensajeLocalizacion) {
+                mensajeLocalizacion.classList.remove('visible');
+                mensajeLocalizacion.style.display = 'none';
+            }
+            
+            console.log('Ubicación guardada:', latitude, longitude);
+        },
+        (error) => {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log('Necesitamos acceso a tu ubicación');
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log('Por favor, activa tu GPS');
+                    break;
+                case error.TIMEOUT:
+                    console.log('Tiempo de espera agotado');
+                    break;
+            }
+        },
+        {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: 5000
+        }
+    );
   }
 
   {% comment %} HOLA MUNDO {% endcomment %}
