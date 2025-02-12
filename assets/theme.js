@@ -3369,7 +3369,6 @@
                 }
             });
         },
-
         updateContentQuickView: function(handle){
             var popup = $('[data-quick-view-popup]'),
                 popupContent = popup.find('.scoder-popup-content');
@@ -3467,7 +3466,8 @@
                 }
             });
         },
-            initAskAnExpert: function () {
+        
+        initAskAnExpert: function () {
                 $doc.on("click", "[data-open-ask-an-expert]", (event) => {
                   event.preventDefault();
                   event.stopPropagation();
