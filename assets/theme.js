@@ -3319,7 +3319,7 @@
         },
 
         initQuickView: function(){
-            console.log('initQuickView');
+            console.log('Se ejecuto el initQuickView');
             let checkLoadQV = true;
 
             $doc.on('click', '[data-open-quick-view-popup]', (event) => {
