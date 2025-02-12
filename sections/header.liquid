@@ -611,7 +611,6 @@
     fill: #333333 !important;
   }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
 
 <script>
   function getLocation() {
@@ -621,7 +620,7 @@
     // Crear y añadir el background overlay
     if (!document.querySelector('.background-overlay-custom')) {
         const overlayHTML = `
-            <div class="background-overlay-custom">
+          <div class="background-overlay-custom">
               <div class="background-cursor-wrapper">
                   <div class="background-cursor-wrapper_outer">
                       <div class="background-cursor-wrapper_inner">
@@ -634,15 +633,18 @@
                       </div>
                   </div>
               </div>
-            <div class="window-solicitud-ubicacion">
-              <div class="select-location">
-                  <p class="welcome-text">Permítanos acceder a su ubicación para mostrarle ofertas y productos de su sucursal más cercana.</p>              
+              <div class="window-solicitud-ubicacion">
+                  <div class="select-location">
+                      <img src="${window.Shopify.routes.root}files/logoPizzaHut.png" alt="Logo Superior" class="logo-superior">
+                      <p class="welcome-text">Permítanos acceder a su ubicación para mostrarle ofertas y productos de su sucursal más cercana.</p>
+                      <img src="${window.Shopify.routes.root}files/Logo-footer.svg" alt="Logo Inferior" class="logo-inferior">              
+                  </div>
+                  <div class="options-buttons-location">
+                      <button class="btn-cancel">Cancelar</button>
+                      <button class="btn-confirm">Confirmar</button>
+                  </div>
               </div>
-              <div class="options-buttons-location">
-                  <button class="btn-cancel">Cancelar</button>
-                  <button class="btn-confirm">Confirmar</button>
-              </div>
-            </div>
+          </div>
         `;
 
         const styles = `
@@ -670,6 +672,18 @@
                     color: var(--title-qc-color);
                     text-transform: var(--title-qc-text-transform);
                     font-weight: var(--title-qc-font-weight);
+                    margin-top: 20px;
+                }
+
+                .logo-superior {
+                    max-width: 200px;
+                    height: auto;
+                    margin-bottom: 20px;
+                }
+
+                .logo-inferior {
+                    max-width: 150px;
+                    height: auto;
                     margin-top: 20px;
                 }
 
