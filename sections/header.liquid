@@ -143,7 +143,7 @@
                                           <p class="mensaje-descripcion">
                                             Descubre locales cerca de ti, promociones y mucho más.
                                           </p>
-                                          <a onclick="getLocation()" class="mensaje-boton">
+                                          <a onclick="checkAndGetLocation()" class="mensaje-boton">
                                             Entendido
                                           </a>
                                         </div>
@@ -325,7 +325,7 @@
           "
           class="mensaje-localizacion-principal"></div> {% endcomment %}
       </div>
-    </header>
+  </header>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>
 
 {% javascript %}
@@ -864,6 +864,10 @@
                     const latitude = position.coords.latitude;
                     const longitude = position.coords.longitude;
                     console.log('Ubicación obtenida:', latitude, longitude);
+                    // Guardar en localStorage que el usuario ya dio permiso
+                    localStorage.setItem('locationPermissionGranted', 'true');
+                    // Ocultar el mensaje principal
+                    $('.mensaje-localizacion-principal').removeClass('visible').hide();
                     closeOverlay();
                 },
                 (error) => {
@@ -894,6 +898,13 @@
                 'pointer-events': 'all'
             });
         }, 10);
+    }
+  }
+
+  function checkAndGetLocation() {
+    const hasPermission = localStorage.getItem('locationPermissionGranted');
+    if (hasPermission !== 'true') {
+        getLocation();
     }
   }
 

@@ -1231,10 +1231,7 @@
    };
   }
 
-
  function initMap(tipo) {
-
-
    const modalElement = document.getElementById("modalNuevaDireccion");
    const modal = new bootstrap.Modal(modalElement);
    modal.hide();
@@ -1773,7 +1770,7 @@
 
     function MetodoEntregaInicio(){
        var cities = {{settings.citysConfig }};
-       {% comment %} const city = '{{ customer.default_address.city }}'; {% endcomment %}
+       {% comment %} const city = '{{ customer.default_address.city }}'; {% endcomment %}modal-content
        const city = 'Santa Cruz';
        const cityData = cities.find(item => item.city === city);
        ocultarMetodoDeEntrega(!cityData.metodoEntrega); 
