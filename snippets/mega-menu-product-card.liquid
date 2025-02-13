@@ -206,6 +206,7 @@
             <a
               class="button button-ATC"
               data-action="shop-now"
+              onclick="return confirm('¿Quieres continuar?')"
               {% if product_card_product.url != blank %}
                 href="{{ product_card_product.url | within: collection }}"
               {% else %}
@@ -220,34 +221,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  // Este código debe ir en un archivo JS separado, no en el template
-  document.addEventListener('DOMContentLoaded', () => {
-    // Delegación de eventos para manejar todos los clicks en el documento
-    document.body.addEventListener('click', (event) => {
-      // Verificar si el click fue en un botón Shop Now
-      if (event.target.matches('.button-ATC')) {
-        // Prevenir la acción por defecto
-        event.preventDefault();
-        event.stopPropagation();
-
-        // Obtener el formulario padre
-        const form = event.target.closest('form');
-
-        // Obtener la URL del producto
-        const urlProducto = event.target.getAttribute('href');
-
-        if (!urlProducto) return;
-
-        // Mostrar el diálogo de confirmación
-        const confirmar = confirm('¿Quieres continuar?');
-
-        if (confirmar) {
-          // Si el usuario confirma, navegar a la URL del producto
-          window.location.href = urlProducto;
-        }
-      }
-    });
-  });
-</script>
