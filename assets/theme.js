@@ -75,6 +75,7 @@
             this.initVideoPopup();
             this.initDynamicBrowserTabTitle();
             this.initWarningPopup();
+            this.initProductCardConfirmation(); 
 
             // Quick View Product
             if (document.querySelector('[data-open-quick-view-popup]') != null) {
@@ -179,7 +180,29 @@
             loadScript.src = name;
             document.body.appendChild(loadScript);
         },
-
+        initProductCardConfirmation: function() {
+            const handleCardMediaLinks = () => {
+                const links = document.querySelectorAll('.card-media');
+                
+                links.forEach(link => {
+                    $(link).off('click.cardConfirmation').on('click.cardConfirmation', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        const targetUrl = $(this).attr('href');
+                        if (confirm('¿Quieres continuar?')) {
+                            window.location.href = targetUrl;
+                        }
+                        return false;
+                    });
+                });
+            };
+    
+            handleCardMediaLinks();
+    
+            // Para manejar elementos cargados dinámicamente
+            $doc.on('shopify:section:load', handleCardMediaLinks);
+        },
         buildStyleSheet: function(name, $this) {
             if (name == '') return;
             const loadStyleSheet = document.createElement("link");
