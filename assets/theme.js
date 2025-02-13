@@ -3959,7 +3959,7 @@
             };
 
             // Función para mostrar la ventana modal
-            const showLocationModal = (hrefDestino) => {
+            const showLocationModal = (event, handle) => {
                 var $body = $('body');
                 $body.addClass('quick-view-show-custom');
 
