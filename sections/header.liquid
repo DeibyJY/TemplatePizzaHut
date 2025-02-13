@@ -619,71 +619,70 @@
 </style>
 
 <script>
-  // Al inicio de tu archivo principal (theme.js o similar)
-  window.theme = window.theme || {};
-  theme.location = {
-      state: ''  // Inicializamos vacío
-  };
+  // Primero, inicializar la variable global al principio del archivo
+  window.estadoUbicacion = window.estadoUbicacion || '';
 
   function confirmacionEstadoUbicacion(){
-      const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-      
-      function updateStateAndHide() {
-          if (mensajeLocalizacion) {
-              mensajeLocalizacion.classList.remove('visible');
-              mensajeLocalizacion.style.display = 'none';
-          }
-          theme.location.state = 'acepto';
-      }
+    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+    
+    // Función para ocultar mensaje y actualizar estado
+    function updateStateAndHide() {
+        if (mensajeLocalizacion) {
+            mensajeLocalizacion.classList.remove('visible');
+            mensajeLocalizacion.style.display = 'none';
+        }
+        window.estadoUbicacion = 'acepto';
+    }
 
-      // Verificar estado actual
-      if (theme.location.state === 'acepto') {
-          if (mensajeLocalizacion) {
-              mensajeLocalizacion.classList.remove('visible');
-              mensajeLocalizacion.style.display = 'none';
-          }
-          return;
-      }
+    // Verificar si ya tiene permiso guardado
+    if (window.estadoUbicacion === 'acepto') {
+        if (mensajeLocalizacion) {
+            mensajeLocalizacion.classList.remove('visible');
+            mensajeLocalizacion.style.display = 'none';
+        }
+        return;
+    }
 
-      navigator.geolocation.getCurrentPosition(
-          (position) => {
-              const latitude = position.coords.latitude;
-              const longitude = position.coords.longitude;
-              
-              localStorage.setItem('userLatitude', latitude);
-              localStorage.setItem('userLongitude', longitude);
-              
-              updateStateAndHide();
-              console.log('Ubicación guardada:', latitude, longitude);
-          },
-          (error) => {
-              console.log('Error en geolocalización:', error.code);
-              updateStateAndHide();
-              
-              switch(error.code) {
-                  case error.PERMISSION_DENIED:
-                      console.log('Necesitamos acceso a tu ubicación');
-                      break;
-                  case error.POSITION_UNAVAILABLE:
-                      console.log('Por favor, activa tu GPS');
-                      break;
-                  case error.TIMEOUT:
-                      console.log('Tiempo de espera agotado');
-                      break;
-              }
-          },
-          {
-              enableHighAccuracy: true,
-              maximumAge: 0,
-              timeout: 5000
-          }
-      );
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            // Obtener las coordenadas
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            // Guardar las coordenadas
+            localStorage.setItem('userLatitude', latitude);
+            localStorage.setItem('userLongitude', longitude);
+            
+            updateStateAndHide();
+            console.log('Ubicación guardada:', latitude, longitude);
+        },
+        (error) => {
+            console.log('Error en geolocalización:', error.code);
+            // Aún en caso de error, actualizar estado y ocultar mensaje
+            updateStateAndHide();
+            
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log('Necesitamos acceso a tu ubicación');
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log('Por favor, activa tu GPS');
+                    break;
+                case error.TIMEOUT:
+                    console.log('Tiempo de espera agotado');
+                    break;
+            }
+        },
+        {
+            enableHighAccuracy: true,
+            maximumAge: 0,
+            timeout: 5000
+        }
+    );
   }
 
   document.addEventListener('DOMContentLoaded', function() {
-      const hasPermission = localStorage.getItem('locationPermissionGranted');
-      
-      if (hasPermission === 'true') {
+      if (window.estadoUbicacion === 'acepto') {
           // Si ya dio permiso, ocultar el mensaje del header
           const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
           if (mensajeLocalizacion) {
