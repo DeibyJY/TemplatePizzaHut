@@ -3919,6 +3919,7 @@
             let checkLoadQV = true;
 
             $doc.on('click', '[data-open-quick-view-popup]', (event) => {
+                console.log('Se hizo click para poder abrir el : data-open-quick-view-popup');
                 event.preventDefault();
                 event.stopPropagation();
 
