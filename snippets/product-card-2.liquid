@@ -342,11 +342,11 @@
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     document.body.addEventListener('click', function (e) {
-      let target = e.target.closest('a[data-confirm-navigation]');
+      let target = e.target.closest('.card-media');
       if (target) {
         e.preventDefault();
         if (confirm('¿Quieres continuar?')) {
-          window.location.href = target.getAttribute('data-product-url');
+          window.location.href = target.getAttribute('href');
         }
       }
     });
