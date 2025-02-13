@@ -205,6 +205,7 @@
           >
             <a
               class="button button-ATC"
+              data-action="shop-now"
               {% if product_card_product.url != blank %}
                 href="{{ product_card_product.url | within: collection }}"
               {% else %}
@@ -221,27 +222,32 @@
 </div>
 
 <script>
-  // Event listener para los botones "Shop Now" en las tarjetas de producto
+  // Este código debe ir en un archivo JS separado, no en el template
   document.addEventListener('DOMContentLoaded', () => {
-    // Seleccionamos todos los botones de "Shop Now"
-    const botonesShopNow = document.querySelectorAll('.button-ATC');
-
-    botonesShopNow.forEach((boton) => {
-      boton.addEventListener('click', (event) => {
-        // Prevenimos la acción por defecto
+    // Delegación de eventos para manejar todos los clicks en el documento
+    document.body.addEventListener('click', (event) => {
+      // Verificar si el click fue en un botón Shop Now
+      if (event.target.matches('.button-ATC')) {
+        // Prevenir la acción por defecto
         event.preventDefault();
+        event.stopPropagation();
 
-        // Guardamos la URL del producto
-        const urlProducto = boton.getAttribute('href');
+        // Obtener el formulario padre
+        const form = event.target.closest('form');
 
-        // Mostramos el diálogo de confirmación
+        // Obtener la URL del producto
+        const urlProducto = event.target.getAttribute('href');
+
+        if (!urlProducto) return;
+
+        // Mostrar el diálogo de confirmación
         const confirmar = confirm('¿Quieres continuar?');
 
-        if (confirmar && urlProducto) {
-          // Si el usuario confirma y hay una URL válida, redirigimos
+        if (confirmar) {
+          // Si el usuario confirma, navegar a la URL del producto
           window.location.href = urlProducto;
         }
-      });
+      }
     });
   });
 </script>
