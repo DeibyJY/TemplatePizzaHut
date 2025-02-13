@@ -4192,8 +4192,8 @@
                             const longitude = position.coords.longitude;
                             saveLocation(latitude, longitude);
                             closeOverlay();
-                            // Navegamos al destino original después de guardar la ubicación
-                            window.location.href = hrefDestino;
+                            // Proceder con la apertura del QuickView después de guardar la ubicación
+                            proceedWithQuickView(event, handle);
                         },
                         (error) => {
                             console.log('Error al obtener la ubicación:', error.code);
