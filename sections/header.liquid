@@ -13,6 +13,7 @@
 <{% if section.settings.sticky_header_type != 'none' %}sticky-header data-sticky-type="{{ section.settings.sticky_header_type }}" {% else %}div{% endif %} class="header-wrapper" data-hide-on-scroll={{ section.settings.hide_scroll }}>
   {% comment %} READ : AQUI MODIFIQUE   {% endcomment %}
   <header 
+    style="position: fixed; width: 100% !important;"
       class="header header-nav-plain{{header_transparent}} {% if section.settings.menu != blank %} header--has-menu{% endif %}{% if section.settings.enable_parallax %} enable_parallax{% endif %} {% if section.settings.transparent_header != blank %}transparent-header {% endif %}" style="--icon-mobile-spacing: {{ section.settings.header_icon_mobile_spacing | append: 'px' }};">
         <div class="wrapper-header-main">
             <div class="container">
@@ -143,7 +144,7 @@
                                           <p class="mensaje-descripcion">
                                             Descubre locales cerca de ti, promociones y mucho más.
                                           </p>
-                                          <a onclick="handleLocationPermission()" class="mensaje-boton">
+                                          <a onclick="confirmacionEstadoUbicacion()" class="mensaje-boton">
                                             Entendido
                                           </a>
                                         </div>
@@ -298,7 +299,8 @@
                 </div>
             </div>
         </div>
-        {% comment %} <div class="share-button__fallback">
+        {% comment %} 
+         <div class="share-button__fallback">
           <div class="share-header">
               <h2 class="share-title"><span>{{ 'general.share.share' | t }}</span></h2>
               <button type="button" class="share-button__close" aria-label="{{ 'general.common.close' | t }}">{% render 'icon-close' %}<span>{{ 'general.common.close' | t }}</span></button>
@@ -314,7 +316,8 @@
               </div>
               <span id="ShareMessage-{{ product.id }}" class="share-button__message hidden" role="status" aria-hidden="true">{{ 'general.share.success_message' | t }}</span>
                       <div class="share_toolbox clearfix"><label class="form-label">{{ 'general.share.share' | t }}</label> {% render 'social_share_icon' %}</div>
-        </div> {% endcomment %}
+        </div> 
+        {% endcomment %}
         {% comment %} <div 
           style="
               width: 300px;
@@ -325,7 +328,8 @@
               position: fixed;
               background: var(--bg-white);
           "
-          class="mensaje-localizacion-principal"></div> {% endcomment %}
+          class="mensaje-localizacion-principal"></div> 
+        {% endcomment %}
       </div>
   </header>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header{% else %}div{% endif %}>
@@ -615,6 +619,62 @@
 </style>
 
 <script>
+  function confirmacionEstadoUbicacion(){
+    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+
+    // Verificar si ya tiene permiso guardado
+    if (window.estadoUbicacion == '') {
+      if (mensajeLocalizacion) {
+          mensajeLocalizacion.classList.remove('visible');
+          mensajeLocalizacion.style.display = 'none';
+      }
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+          // Obtener las coordenadas
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          
+          // Crear la variable global
+          window.estadoUbicacion = 'acepto';
+          
+          // Guardar las coordenadas también si las necesitas después
+          localStorage.setItem('userLatitude', latitude);
+          localStorage.setItem('userLongitude', longitude);
+          
+          // Ocultar el mensaje
+          if (mensajeLocalizacion) {
+              mensajeLocalizacion.classList.remove('visible');
+              mensajeLocalizacion.style.display = 'none';
+          }
+          
+          console.log('Ubicación guardada:', latitude, longitude);
+      },
+      (error) => {
+          switch(error.code) {
+              case error.PERMISSION_DENIED:
+                  console.log('Necesitamos acceso a tu ubicación');
+                  break;
+              case error.POSITION_UNAVAILABLE:
+                  console.log('Por favor, activa tu GPS');
+                  break;
+              case error.TIMEOUT:
+                  console.log('Tiempo de espera agotado');
+                  break;
+          }
+      },
+      {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 5000
+      }
+    );
+
+
+  }
+
   document.addEventListener('DOMContentLoaded', function() {
       const hasPermission = localStorage.getItem('locationPermissionGranted');
       
