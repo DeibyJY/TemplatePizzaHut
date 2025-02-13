@@ -205,7 +205,6 @@
           >
             <a
               class="button button-ATC"
-              data-action="shop-now"
               onclick="return confirm('¿Quieres continuar?')"
               {% if product_card_product.url != blank %}
                 href="{{ product_card_product.url | within: collection }}"
