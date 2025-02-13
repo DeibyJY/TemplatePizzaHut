@@ -762,6 +762,7 @@
     }
   });
 
+  // FUNCION AUXILIAR QUE SE USARA DESPUES
   function getLocation() {
     var $body = $('body');
     $body.addClass('quick-view-show-custom');
@@ -1050,67 +1051,6 @@
     }
   }
 
-  function handleLocationPermission() {
-    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-    
-    // Verificar si ya tiene permiso guardado
-    if (localStorage.getItem('locationPermissionGranted') === 'true') {
-        if (mensajeLocalizacion) {
-            mensajeLocalizacion.classList.remove('visible');
-            mensajeLocalizacion.style.display = 'none';
-        }
-        return;
-    }
-
-    // Si no hay permiso previo, solicitar ubicación
-    if (!navigator.geolocation) {
-        console.log('Tu navegador no soporta geolocalización');
-        return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-        (position) => {
-            // Obtener las coordenadas
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            
-            // Guardar en localStorage
-            localStorage.setItem('locationPermissionGranted', 'true');
-            
-            // Guardar las coordenadas también si las necesitas después
-            localStorage.setItem('userLatitude', latitude);
-            localStorage.setItem('userLongitude', longitude);
-            
-            // Ocultar el mensaje
-            if (mensajeLocalizacion) {
-                mensajeLocalizacion.classList.remove('visible');
-                mensajeLocalizacion.style.display = 'none';
-            }
-            
-            console.log('Ubicación guardada:', latitude, longitude);
-        },
-        (error) => {
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    console.log('Necesitamos acceso a tu ubicación');
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    console.log('Por favor, activa tu GPS');
-                    break;
-                case error.TIMEOUT:
-                    console.log('Tiempo de espera agotado');
-                    break;
-            }
-        },
-        {
-            enableHighAccuracy: true,
-            maximumAge: 0,
-            timeout: 5000
-        }
-    );
-  }
-
-  {% comment %} HOLA MUNDO {% endcomment %}
   function menu_right(){
     var icon_width = jQuery('.header-icon').width();
     jQuery('.menu-main-div, .icon-main-div').css('--icon-width', icon_width + 'px');
