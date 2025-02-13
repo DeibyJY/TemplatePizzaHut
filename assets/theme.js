@@ -180,30 +180,6 @@
             loadScript.src = name;
             document.body.appendChild(loadScript);
         },
-        // Funcion captura el click etiqueta  <a></a> del Home a ir a un producto en especifico 
-        // initProductCardConfirmation: function() {
-        //     const handleCardMediaLinks = () => {
-        //         const links = document.querySelectorAll('.card-media');
-                
-        //         links.forEach(link => {
-        //             $(link).off('click.cardConfirmation').on('click.cardConfirmation', function(e) {
-        //                 e.preventDefault();
-        //                 e.stopPropagation();
-                        
-        //                 const targetUrl = $(this).attr('href');
-        //                 if (confirm('¿Quieres continuar?')) {
-        //                     window.location.href = targetUrl;
-        //                 }
-        //                 return false;
-        //             });
-        //         });
-        //     };
-    
-        //     handleCardMediaLinks();
-    
-        //     // Para manejar elementos cargados dinámicamente
-        //     $doc.on('shopify:section:load', handleCardMediaLinks);
-        // },
         initProductCardConfirmation: function() {
             // Constantes para localStorage
             const STORAGE_KEYS = {
@@ -226,13 +202,6 @@
         
                 const styles = `
                     <style>
-                        @font-face {
-                            font-family: 'PizzaHutFont';
-                            src: url('BebasNeue-Bold.woff2') format('woff2'),
-                                 url('BebasNeue-Bold.woff') format('woff');
-                            font-weight: bold;
-                            font-style: normal;
-                        }
                         .background-overlay-custom {
                             position: fixed;
                             background-color: rgba(35, 35, 35, 0.8);
@@ -384,9 +353,9 @@
                         </div>
                         <div class="window-solicitud-ubicacion">
                             <div class="select-location">
-                                <img src="{{ 'logoPizzaHut.png' | asset_url }}" alt="Logo Superior" class="logo-superior">
+                                <img src="${window.SHOP_ASSETS.logoPizzaHut}" alt="Logo Superior" class="logo-superior">
                                 <p class="welcome-text">PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.</p>
-                                <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Logo Inferior" class="logo-inferior">              
+                                <img src="${window.SHOP_ASSETS.logoFooter}" alt="Logo Inferior" class="logo-inferior">              
                             </div>
                             <div class="options-buttons-location">
                                 <button class="btn-cancel">CANCELAR</button>
@@ -490,6 +459,31 @@
                 });
             });
         },
+        // Funcion captura el click etiqueta  <a></a> del Home a ir a un producto en especifico 
+        // initProductCardConfirmation: function() {
+        //     const handleCardMediaLinks = () => {
+        //         const links = document.querySelectorAll('.card-media');
+                
+        //         links.forEach(link => {
+        //             $(link).off('click.cardConfirmation').on('click.cardConfirmation', function(e) {
+        //                 e.preventDefault();
+        //                 e.stopPropagation();
+                        
+        //                 const targetUrl = $(this).attr('href');
+        //                 if (confirm('¿Quieres continuar?')) {
+        //                     window.location.href = targetUrl;
+        //                 }
+        //                 return false;
+        //             });
+        //         });
+        //     };
+    
+        //     handleCardMediaLinks();
+    
+        //     // Para manejar elementos cargados dinámicamente
+        //     $doc.on('shopify:section:load', handleCardMediaLinks);
+        // },
+
         buildStyleSheet: function(name, $this) {
             if (name == '') return;
             const loadStyleSheet = document.createElement("link");
