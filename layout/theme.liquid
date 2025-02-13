@@ -61,6 +61,11 @@
     {% render 'global-script' %}
 
     <script>
+      window.SHOP_ASSETS = {
+        logoPizzaHut: "{{ 'logoPizzaHut.png' | asset_url }}",
+        logoFooter: "{{ 'Logo-footer.svg' | asset_url }}",
+      };
+
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
     </script>
 
