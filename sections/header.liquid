@@ -619,80 +619,92 @@
 </style>
 
 <script>
-  // Primero, inicializar la variable global al principio del archivo
-  window.estadoUbicacion = window.estadoUbicacion || '';
+  // Variable global para el estado de la ubicación
+  window.estadoUbicacion = '';
 
-  function confirmacionEstadoUbicacion(){
+  function checkLocationMessage() {
+    console.log('Verificando estado de ubicación');
+    if (window.estadoUbicacion === 'acepto') {
+      console.log('Ubicación ya aceptada');
+      const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+      if (mensajeLocalizacion) {
+        mensajeLocalizacion.classList.remove('visible');
+        mensajeLocalizacion.style.display = 'none';
+      }
+    }
+  }
+
+  function confirmacionEstadoUbicacion() {
     const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-    
-    // Función para ocultar mensaje y actualizar estado
-    function updateStateAndHide() {
-        if (mensajeLocalizacion) {
-            mensajeLocalizacion.classList.remove('visible');
-            mensajeLocalizacion.style.display = 'none';
-        }
-        window.estadoUbicacion = 'acepto';
+
+    // Si ya aceptó, ocultamos el mensaje
+    if (window.estadoUbicacion === 'acepto') {
+      if (mensajeLocalizacion) {
+        mensajeLocalizacion.classList.remove('visible');
+        mensajeLocalizacion.style.display = 'none';
+      }
+      return;
     }
 
-    // Verificar si ya tiene permiso guardado
-    if (window.estadoUbicacion === 'acepto') {
-        if (mensajeLocalizacion) {
-            mensajeLocalizacion.classList.remove('visible');
-            mensajeLocalizacion.style.display = 'none';
-        }
-        return;
+    // Función para actualizar estado y ocultar mensaje
+    function updateStateAndHide() {
+      if (mensajeLocalizacion) {
+        mensajeLocalizacion.classList.remove('visible');
+        mensajeLocalizacion.style.display = 'none';
+      }
+      window.estadoUbicacion = 'acepto';
+    }
+
+    // Verificar geolocalización
+    if (!navigator.geolocation) {
+      console.warn('La geolocalización no está soportada en este navegador');
+      updateStateAndHide();
+      return;
     }
 
     navigator.geolocation.getCurrentPosition(
-        (position) => {
-            // Obtener las coordenadas
-            const latitude = position.coords.latitude;
-            const longitude = position.coords.longitude;
-            
-            // Guardar las coordenadas
-            localStorage.setItem('userLatitude', latitude);
-            localStorage.setItem('userLongitude', longitude);
-            
-            updateStateAndHide();
-            console.log('Ubicación guardada:', latitude, longitude);
-        },
-        (error) => {
-            console.log('Error en geolocalización:', error.code);
-            // Aún en caso de error, actualizar estado y ocultar mensaje
-            updateStateAndHide();
-            
-            switch(error.code) {
-                case error.PERMISSION_DENIED:
-                    console.log('Necesitamos acceso a tu ubicación');
-                    break;
-                case error.POSITION_UNAVAILABLE:
-                    console.log('Por favor, activa tu GPS');
-                    break;
-                case error.TIMEOUT:
-                    console.log('Tiempo de espera agotado');
-                    break;
-            }
-        },
-        {
-            enableHighAccuracy: true,
-            maximumAge: 0,
-            timeout: 5000
+      (position) => {
+        // Guardamos las coordenadas en variables globales
+        window.userLatitude = position.coords.latitude;
+        window.userLongitude = position.coords.longitude;
+        
+        updateStateAndHide();
+        console.log('Ubicación guardada:', window.userLatitude, window.userLongitude);
+      },
+      (error) => {
+        console.log('Error en geolocalización:', error.code);
+        updateStateAndHide();
+        
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            console.log('Necesitamos acceso a tu ubicación');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            console.log('Por favor, activa tu GPS');
+            break;
+          case error.TIMEOUT:
+            console.log('Tiempo de espera agotado');
+            break;
         }
+      },
+      {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+        timeout: 5000
+      }
     );
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-      console.log('Entro  aun addEventListener');
-      if (window.estadoUbicacion === 'acepto') {
-          console.log('Si acepto la ubicaicon ');
-          // Si ya dio permiso, ocultar el mensaje del header
-          const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-          if (mensajeLocalizacion) {
-              mensajeLocalizacion.classList.remove('visible');
-              mensajeLocalizacion.style.display = 'none';
-          }
-      }
-  });
+  // Ejecutar inmediatamente si el DOM ya está cargado
+  if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    checkLocationMessage();
+  } else {
+    // Si no está cargado, esperar al evento DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', checkLocationMessage);
+  }
+
+  // También podemos verificar periódicamente el estado
+  setInterval(checkLocationMessage, 1000);
 
   function getLocation() {
     var $body = $('body');
