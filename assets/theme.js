@@ -180,11 +180,304 @@
             loadScript.src = name;
             document.body.appendChild(loadScript);
         },
+        // initProductCardConfirmation: function() {
+        //     // Constantes para localStorage
+        //     const STORAGE_KEYS = {
+        //         latitud: 'userLatitude',
+        //         longitud: 'userLongitude'
+        //     };
+        
+        //     // Función para guardar ubicación
+        //     const saveLocation = (lat, lon) => {
+        //         localStorage.setItem(STORAGE_KEYS.latitud, lat.toString());
+        //         localStorage.setItem(STORAGE_KEYS.longitud, lon.toString());
+        //     };
+        
+        //     // Función para mostrar la ventana modal
+        //     const showLocationModal = () => {
+        //         var $body = $('body');
+        //         $body.addClass('quick-view-show-custom');
+        
+        //         if (document.querySelector('.background-overlay-custom')) return;
+        
+        //         const styles = `
+        //             <style>
+        //                 .background-overlay-custom {
+        //                     position: fixed;
+        //                     background-color: rgba(35, 35, 35, 0.8);
+        //                     top: 0;
+        //                     left: 0;
+        //                     bottom: 0;
+        //                     right: 0;
+        //                     z-index: 999;
+        //                     opacity: 0;
+        //                     cursor: none;
+        //                     pointer-events: all;
+        //                     transition: opacity var(--duration-long) ease;
+        //                     display: flex !important;
+        //                     align-items: center;
+        //                     justify-content: center;
+        //                 }
+        //                 .window-solicitud-ubicacion {
+        //                     width: 50vw;
+        //                     height: auto !important;
+        //                     background-color: white;
+        //                     border-radius: 0px;
+        //                     overflow: hidden;
+        //                     display: flex;
+        //                     flex-direction: column;
+        //                     cursor: default;
+        //                     position: relative;
+        //                     z-index: 1000;
+        //                 }
+        //                 .select-location {
+        //                     display: flex;
+        //                     flex-direction: column;
+        //                     padding: 20px;
+        //                     background-color: white;
+        //                     height: auto;
+        //                     justify-content: center;
+        //                     align-items: center;
+        //                     text-align: center;
+        //                 }
+        //                 .logo-superior {
+        //                     max-width: 200px;
+        //                     height: auto;
+        //                     margin-bottom: 20px;
+        //                 }
+        //                 .logo-inferior {
+        //                     max-width: 150px;
+        //                     height: auto;
+        //                     margin-top: 20px;
+        //                 }
+        //                 .welcome-text {
+        //                     font-size: 30px;
+        //                     line-height: 1.2;
+        //                     color: #121619;
+        //                     text-transform: uppercase;
+        //                     font-weight: 700;
+        //                     margin-bottom: 12px !important;
+        //                 }
+        //                 .options-buttons-location {
+        //                     display: flex;
+        //                     justify-content: space-between;
+        //                     align-items: center;
+        //                     padding: 10px !important;
+        //                     background-color: #f8f8f8;
+        //                     height: auto;
+        //                     border-top: 1px solid #ccc;
+        //                     gap: 20px;
+        //                 }
+        //                 .background-cursor-wrapper {
+        //                     position: fixed;
+        //                     z-index: 998;
+        //                     pointer-events: none;
+        //                     transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
+        //                     transition: transform .1s ease-out;
+        //                 }
+        //                 .background-cursor-wrapper_outer {
+        //                     transition: transform .15s ease-out;
+        //                 }
+        //                 .background-cursor-wrapper.enlarge-cursor .background-cursor-wrapper_outer {
+        //                     transform: scale(1.5);
+        //                 }
+        //                 .background-cursor-wrapper_inner {
+        //                     width: 40px;
+        //                     height: 40px;
+        //                     border-radius: 50%;
+        //                     background: rgba(255,255,255,.1);
+        //                     display: flex;
+        //                     align-items: center;
+        //                     justify-content: center;
+        //                 }
+        //                 .btn-cancel, .btn-confirm {
+        //                     flex: 1;
+        //                     font-family: var(--font-button-family);
+        //                     font-size: var(--font-button-size);
+        //                     font-weight: var(--font-button-weight);
+        //                     line-height: var(--button-line-height);
+        //                     border: var(--button-border-width) solid;
+        //                     padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
+        //                     text-transform: var(--button-text-transform);
+        //                     letter-spacing: var(--button-letter-spacing);
+        //                     position: relative;
+        //                     cursor: pointer;
+        //                     transition: all 400ms ease;
+        //                     display: inline-flex;
+        //                     justify-content: center;
+        //                     border-radius: var(--button-border-radius);
+        //                 }
+        //                 .btn-cancel {
+        //                     --bin-color: #232323;
+        //                     --bin-bg-color: #ffffff;
+        //                     --bin-border-color: #acacac;
+        //                     --bin-color-hover: #ffffff;
+        //                     --bin-bg-color-hover: #232323;
+        //                     --bin-border-color-hover: #232323;
+        //                     background-color: var(--bin-bg-color);
+        //                     color: var(--bin-color);
+        //                     border-color: var(--bin-border-color);
+        //                 }
+        //                 .btn-confirm {
+        //                     --bin-color: #ffffff;
+        //                     --bin-bg-color: #232323;
+        //                     --bin-border-color: #232323;
+        //                     --bin-color-hover: #232323;
+        //                     --bin-bg-color-hover: #ffffff;
+        //                     --bin-border-color-hover: #232323;
+        //                     background-color: var(--bin-bg-color);
+        //                     color: var(--bin-color);
+        //                     border-color: var(--bin-border-color);
+        //                 }
+        //                 .btn-cancel:hover, .btn-confirm:hover {
+        //                     background-color: var(--bin-bg-color-hover);
+        //                     color: var(--bin-color-hover);
+        //                     border-color: var(--bin-border-color-hover);
+        //                 }
+        //             </style>
+        //         `;
+        
+        //         const overlayHTML = `
+        //             <div class="background-overlay-custom">
+        //                 <div class="background-cursor-wrapper">
+        //                     <div class="background-cursor-wrapper_outer">
+        //                         <div class="background-cursor-wrapper_inner">
+        //                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+        //                                 <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
+        //                                     <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
+        //                                     <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
+        //                                 </g>
+        //                             </svg>
+        //                         </div>
+        //                     </div>
+        //                 </div>
+        //                 <div class="window-solicitud-ubicacion">
+        //                     <div class="select-location">
+        //                         <img src="${window.SHOP_ASSETS.logoPizzaHut}" alt="Logo Superior" class="logo-superior">
+        //                         <p class="welcome-text">PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.</p>
+        //                         <img src="${window.SHOP_ASSETS.logoFooter}" alt="Logo Inferior" class="logo-inferior">              
+        //                     </div>
+        //                     <div class="options-buttons-location">
+        //                         <button class="btn-cancel">CANCELAR</button>
+        //                         <button class="btn-confirm">CONFIRMAR</button>
+        //                     </div>
+        //                 </div>
+        //             </div>
+        //         `;
+        
+        //         // Añadir el overlay y los estilos al body
+        //         $('body').append(styles + overlayHTML);
+        
+        //         // Inicializar el efecto del cursor y eventos
+        //         const backgroundOverlay = document.querySelector('.background-overlay-custom');
+        //         const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
+        
+        //         // Función para actualizar la posición del cursor
+        //         function setCursorPosition(clientX, clientY) {
+        //             requestAnimationFrame(() => {
+        //                 backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+        //                 backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+        //             });
+        //         }
+        
+        //         // Eventos del cursor solo para el overlay
+        //         $('.background-overlay-custom').on('mousemove', function(e) {
+        //             if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+        //                 setCursorPosition(e.clientX, e.clientY);
+        //                 backgroundCursorWrapper.classList.add('enlarge-cursor');
+        //             } else {
+        //                 backgroundCursorWrapper.classList.remove('enlarge-cursor');
+        //             }
+        //         });
+        
+        //         // Función para cerrar el overlay
+        //         function closeOverlay() {
+        //             $('.background-overlay-custom').css({
+        //                 'opacity': '0',
+        //                 'pointer-events': 'none'
+        //             });
+        //             $body.removeClass('quick-view-show-custom');
+                    
+        //             setTimeout(() => {
+        //                 $('.background-overlay-custom').remove();
+        //             }, 300);
+        //         }
+        
+        //         // Cerrar al hacer clic fuera del modal
+        //         $('.background-overlay-custom').on('click', function(e) {
+        //             if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+        //                 closeOverlay();
+        //             }
+        //         });
+        
+        //         // Eventos de los botones
+        //         $('.btn-cancel').on('click', closeOverlay);
+                
+        //         $('.btn-confirm').on('click', () => {
+        //             if (!navigator.geolocation) {
+        //                 console.log('Tu navegador no soporta geolocalización');
+        //                 closeOverlay();
+        //                 return;
+        //             }
+        
+        //             navigator.geolocation.getCurrentPosition(
+        //                 (position) => {
+        //                     const latitude = position.coords.latitude;
+        //                     const longitude = position.coords.longitude;
+        //                     saveLocation(latitude, longitude);
+        //                     closeOverlay();
+        //                 },
+        //                 (error) => {
+        //                     console.log('Error al obtener la ubicación:', error.code);
+        //                     closeOverlay();
+        //                 },
+        //                 {
+        //                     enableHighAccuracy: true,
+        //                     maximumAge: 0,
+        //                     timeout: 5000
+        //                 }
+        //             );
+        //         });
+        
+        //         // Mostrar el overlay con transición
+        //         setTimeout(() => {
+        //             $('.background-overlay-custom').css({
+        //                 'opacity': '1',
+        //                 'pointer-events': 'all'
+        //             });
+        //         }, 10);
+        //     };
+        
+        //     // Evento para los enlaces de productos
+        //     const links = document.querySelectorAll('.card-media');
+        //     links.forEach(link => {
+        //         $(link).off('click.cardConfirmation').on('click.cardConfirmation', function(e) {
+        //             e.preventDefault();
+        //             e.stopPropagation();
+        //             showLocationModal();
+        //             return false;
+        //         });
+        //     });
+        // },
+
         initProductCardConfirmation: function() {
             // Constantes para localStorage
             const STORAGE_KEYS = {
                 latitud: 'userLatitude',
                 longitud: 'userLongitude'
+            };
+        
+            // Función para obtener ubicación guardada
+            const getStoredLocation = () => {
+                const lat = localStorage.getItem(STORAGE_KEYS.latitud);
+                const lon = localStorage.getItem(STORAGE_KEYS.longitud);
+                
+                if (!lat || !lon) return null;
+                
+                return {
+                    latitude: parseFloat(lat),
+                    longitude: parseFloat(lon)
+                };
             };
         
             // Función para guardar ubicación
@@ -193,150 +486,158 @@
                 localStorage.setItem(STORAGE_KEYS.longitud, lon.toString());
             };
         
+            // Función para navegar a la página del producto
+            const navigateToProduct = (linkElement) => {
+                const href = linkElement.getAttribute('href');
+                if (href) {
+                    window.location.href = href;
+                }
+            };
+        
             // Función para mostrar la ventana modal
-            const showLocationModal = () => {
+            const showLocationModal = (linkElement) => {
                 var $body = $('body');
                 $body.addClass('quick-view-show-custom');
         
                 if (document.querySelector('.background-overlay-custom')) return;
         
                 const styles = `
-                    <style>
-                        .background-overlay-custom {
-                            position: fixed;
-                            background-color: rgba(35, 35, 35, 0.8);
-                            top: 0;
-                            left: 0;
-                            bottom: 0;
-                            right: 0;
-                            z-index: 999;
-                            opacity: 0;
-                            cursor: none;
-                            pointer-events: all;
-                            transition: opacity var(--duration-long) ease;
-                            display: flex !important;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                        .window-solicitud-ubicacion {
-                            width: 50vw;
-                            height: auto !important;
-                            background-color: white;
-                            border-radius: 0px;
-                            overflow: hidden;
-                            display: flex;
-                            flex-direction: column;
-                            cursor: default;
-                            position: relative;
-                            z-index: 1000;
-                        }
-                        .select-location {
-                            display: flex;
-                            flex-direction: column;
-                            padding: 20px;
-                            background-color: white;
-                            height: auto;
-                            justify-content: center;
-                            align-items: center;
-                            text-align: center;
-                        }
-                        .logo-superior {
-                            max-width: 200px;
-                            height: auto;
-                            margin-bottom: 20px;
-                        }
-                        .logo-inferior {
-                            max-width: 150px;
-                            height: auto;
-                            margin-top: 20px;
-                        }
-                        .welcome-text {
-                            font-size: 30px;
-                            line-height: 1.2;
-                            color: #121619;
-                            text-transform: uppercase;
-                            font-weight: 700;
-                            margin-bottom: 12px !important;
-                        }
-                        .options-buttons-location {
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            padding: 10px !important;
-                            background-color: #f8f8f8;
-                            height: auto;
-                            border-top: 1px solid #ccc;
-                            gap: 20px;
-                        }
-                        .background-cursor-wrapper {
-                            position: fixed;
-                            z-index: 998;
-                            pointer-events: none;
-                            transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
-                            transition: transform .1s ease-out;
-                        }
-                        .background-cursor-wrapper_outer {
-                            transition: transform .15s ease-out;
-                        }
-                        .background-cursor-wrapper.enlarge-cursor .background-cursor-wrapper_outer {
-                            transform: scale(1.5);
-                        }
-                        .background-cursor-wrapper_inner {
-                            width: 40px;
-                            height: 40px;
-                            border-radius: 50%;
-                            background: rgba(255,255,255,.1);
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                        .btn-cancel, .btn-confirm {
-                            flex: 1;
-                            font-family: var(--font-button-family);
-                            font-size: var(--font-button-size);
-                            font-weight: var(--font-button-weight);
-                            line-height: var(--button-line-height);
-                            border: var(--button-border-width) solid;
-                            padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
-                            text-transform: var(--button-text-transform);
-                            letter-spacing: var(--button-letter-spacing);
-                            position: relative;
-                            cursor: pointer;
-                            transition: all 400ms ease;
-                            display: inline-flex;
-                            justify-content: center;
-                            border-radius: var(--button-border-radius);
-                        }
-                        .btn-cancel {
-                            --bin-color: #232323;
-                            --bin-bg-color: #ffffff;
-                            --bin-border-color: #acacac;
-                            --bin-color-hover: #ffffff;
-                            --bin-bg-color-hover: #232323;
-                            --bin-border-color-hover: #232323;
-                            background-color: var(--bin-bg-color);
-                            color: var(--bin-color);
-                            border-color: var(--bin-border-color);
-                        }
-                        .btn-confirm {
-                            --bin-color: #ffffff;
-                            --bin-bg-color: #232323;
-                            --bin-border-color: #232323;
-                            --bin-color-hover: #232323;
-                            --bin-bg-color-hover: #ffffff;
-                            --bin-border-color-hover: #232323;
-                            background-color: var(--bin-bg-color);
-                            color: var(--bin-color);
-                            border-color: var(--bin-border-color);
-                        }
-                        .btn-cancel:hover, .btn-confirm:hover {
-                            background-color: var(--bin-bg-color-hover);
-                            color: var(--bin-color-hover);
-                            border-color: var(--bin-border-color-hover);
-                        }
-                    </style>
+                <style>
+                    .background-overlay-custom {
+                        position: fixed;
+                        background-color: rgba(35, 35, 35, 0.8);
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: 0;
+                        z-index: 999;
+                        opacity: 0;
+                        cursor: none;
+                        pointer-events: all;
+                        transition: opacity var(--duration-long) ease;
+                        display: flex !important;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .window-solicitud-ubicacion {
+                        width: 50vw;
+                        height: auto !important;
+                        background-color: white;
+                        border-radius: 0px;
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+                        cursor: default;
+                        position: relative;
+                        z-index: 1000;
+                    }
+                    .select-location {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 20px;
+                        background-color: white;
+                        height: auto;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                    }
+                    .logo-superior {
+                        max-width: 200px;
+                        height: auto;
+                        margin-bottom: 20px;
+                    }
+                    .logo-inferior {
+                        max-width: 150px;
+                        height: auto;
+                        margin-top: 20px;
+                    }
+                    .welcome-text {
+                        font-size: 30px;
+                        line-height: 1.2;
+                        color: #121619;
+                        text-transform: uppercase;
+                        font-weight: 700;
+                        margin-bottom: 12px !important;
+                    }
+                    .options-buttons-location {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 10px !important;
+                        background-color: #f8f8f8;
+                        height: auto;
+                        border-top: 1px solid #ccc;
+                        gap: 20px;
+                    }
+                    .background-cursor-wrapper {
+                        position: fixed;
+                        z-index: 998;
+                        pointer-events: none;
+                        transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
+                        transition: transform .1s ease-out;
+                    }
+                    .background-cursor-wrapper_outer {
+                        transition: transform .15s ease-out;
+                    }
+                    .background-cursor-wrapper.enlarge-cursor .background-cursor-wrapper_outer {
+                        transform: scale(1.5);
+                    }
+                    .background-cursor-wrapper_inner {
+                        width: 40px;
+                        height: 40px;
+                        border-radius: 50%;
+                        background: rgba(255,255,255,.1);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .btn-cancel, .btn-confirm {
+                        flex: 1;
+                        font-family: var(--font-button-family);
+                        font-size: var(--font-button-size);
+                        font-weight: var(--font-button-weight);
+                        line-height: var(--button-line-height);
+                        border: var(--button-border-width) solid;
+                        padding: var(--button-top-bottom-padding) var(--button-left-right-padding);
+                        text-transform: var(--button-text-transform);
+                        letter-spacing: var(--button-letter-spacing);
+                        position: relative;
+                        cursor: pointer;
+                        transition: all 400ms ease;
+                        display: inline-flex;
+                        justify-content: center;
+                        border-radius: var(--button-border-radius);
+                    }
+                    .btn-cancel {
+                        --bin-color: #232323;
+                        --bin-bg-color: #ffffff;
+                        --bin-border-color: #acacac;
+                        --bin-color-hover: #ffffff;
+                        --bin-bg-color-hover: #232323;
+                        --bin-border-color-hover: #232323;
+                        background-color: var(--bin-bg-color);
+                        color: var(--bin-color);
+                        border-color: var(--bin-border-color);
+                    }
+                    .btn-confirm {
+                        --bin-color: #ffffff;
+                        --bin-bg-color: #232323;
+                        --bin-border-color: #232323;
+                        --bin-color-hover: #232323;
+                        --bin-bg-color-hover: #ffffff;
+                        --bin-border-color-hover: #232323;
+                        background-color: var(--bin-bg-color);
+                        color: var(--bin-color);
+                        border-color: var(--bin-border-color);
+                    }
+                    .btn-cancel:hover, .btn-confirm:hover {
+                        background-color: var(--bin-bg-color-hover);
+                        color: var(--bin-color-hover);
+                        border-color: var(--bin-border-color-hover);
+                    }
+                </style>
                 `;
-        
+    
                 const overlayHTML = `
                     <div class="background-overlay-custom">
                         <div class="background-cursor-wrapper">
@@ -364,55 +665,56 @@
                         </div>
                     </div>
                 `;
-        
+
                 // Añadir el overlay y los estilos al body
-                $('body').append(styles + overlayHTML);
-        
-                // Inicializar el efecto del cursor y eventos
-                const backgroundOverlay = document.querySelector('.background-overlay-custom');
-                const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
-        
-                // Función para actualizar la posición del cursor
-                function setCursorPosition(clientX, clientY) {
-                    requestAnimationFrame(() => {
-                        backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
-                        backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
-                    });
-                }
-        
-                // Eventos del cursor solo para el overlay
-                $('.background-overlay-custom').on('mousemove', function(e) {
-                    if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
-                        setCursorPosition(e.clientX, e.clientY);
-                        backgroundCursorWrapper.classList.add('enlarge-cursor');
-                    } else {
-                        backgroundCursorWrapper.classList.remove('enlarge-cursor');
-                    }
-                });
-        
-                // Función para cerrar el overlay
-                function closeOverlay() {
-                    $('.background-overlay-custom').css({
-                        'opacity': '0',
-                        'pointer-events': 'none'
-                    });
-                    $body.removeClass('quick-view-show-custom');
-                    
-                    setTimeout(() => {
-                        $('.background-overlay-custom').remove();
-                    }, 300);
-                }
-        
-                // Cerrar al hacer clic fuera del modal
-                $('.background-overlay-custom').on('click', function(e) {
-                    if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
-                        closeOverlay();
-                    }
-                });
-        
-                // Eventos de los botones
-                $('.btn-cancel').on('click', closeOverlay);
-                
+                 $('body').append(styles + overlayHTML);
+
+                 // Inicializar el efecto del cursor y eventos
+                 const backgroundOverlay = document.querySelector('.background-overlay-custom');
+                 const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
+
+                 // Función para actualizar la posición del cursor
+                 function setCursorPosition(clientX, clientY) {
+                     requestAnimationFrame(() => {
+                         backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+                         backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+                     });
+                 }
+
+                 // Eventos del cursor solo para el overlay
+                 $('.background-overlay-custom').on('mousemove', function(e) {
+                     if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+                         setCursorPosition(e.clientX, e.clientY);
+                         backgroundCursorWrapper.classList.add('enlarge-cursor');
+                     } else {
+                         backgroundCursorWrapper.classList.remove('enlarge-cursor');
+                     }
+                 });
+
+                 // Función para cerrar el overlay
+                 function closeOverlay() {
+                     $('.background-overlay-custom').css({
+                         'opacity': '0',
+                         'pointer-events': 'none'
+                     });
+                     $body.removeClass('quick-view-show-custom');
+              
+                     setTimeout(() => {
+                         $('.background-overlay-custom').remove();
+                     }, 300);
+                 }
+
+                 // Cerrar al hacer clic fuera del modal
+                 $('.background-overlay-custom').on('click', function(e) {
+                     if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+                         closeOverlay();
+                     }
+                 });
+
+                 // Eventos de los botones
+                 $('.btn-cancel').on('click', closeOverlay);
+
+                // Modificar el evento del botón confirmar
                 $('.btn-confirm').on('click', () => {
                     if (!navigator.geolocation) {
                         console.log('Tu navegador no soporta geolocalización');
@@ -426,6 +728,8 @@
                             const longitude = position.coords.longitude;
                             saveLocation(latitude, longitude);
                             closeOverlay();
+                            // Navegar a la página del producto después de guardar la ubicación
+                            navigateToProduct(linkElement);
                         },
                         (error) => {
                             console.log('Error al obtener la ubicación:', error.code);
@@ -438,14 +742,6 @@
                         }
                     );
                 });
-        
-                // Mostrar el overlay con transición
-                setTimeout(() => {
-                    $('.background-overlay-custom').css({
-                        'opacity': '1',
-                        'pointer-events': 'all'
-                    });
-                }, 10);
             };
         
             // Evento para los enlaces de productos
@@ -454,7 +750,18 @@
                 $(link).off('click.cardConfirmation').on('click.cardConfirmation', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    showLocationModal();
+                    
+                    // Verificar si ya tenemos la ubicación guardada
+                    const storedLocation = getStoredLocation();
+                    
+                    if (storedLocation) {
+                        // Si ya tenemos la ubicación, navegamos directamente
+                        navigateToProduct(this);
+                    } else {
+                        // Si no tenemos la ubicación, mostramos el modal
+                        showLocationModal(this);
+                    }
+                    
                     return false;
                 });
             });
