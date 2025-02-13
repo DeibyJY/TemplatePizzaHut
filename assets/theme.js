@@ -466,32 +466,18 @@
                 latitud: 'userLatitude',
                 longitud: 'userLongitude'
             };
-        
-            // Función para obtener ubicación guardada
-            const getStoredLocation = () => {
+
+            // Función para verificar si existe ubicación guardada
+            const hasStoredLocation = () => {
                 const lat = localStorage.getItem(STORAGE_KEYS.latitud);
                 const lon = localStorage.getItem(STORAGE_KEYS.longitud);
-                
-                if (!lat || !lon) return null;
-                
-                return {
-                    latitude: parseFloat(lat),
-                    longitude: parseFloat(lon)
-                };
+                return !!(lat && lon); // Retorna true solo si ambos valores existen
             };
-        
+
             // Función para guardar ubicación
             const saveLocation = (lat, lon) => {
                 localStorage.setItem(STORAGE_KEYS.latitud, lat.toString());
                 localStorage.setItem(STORAGE_KEYS.longitud, lon.toString());
-            };
-        
-            // Función para navegar a la página del producto
-            const navigateToProduct = (linkElement) => {
-                const href = linkElement.getAttribute('href');
-                if (href) {
-                    window.location.href = href;
-                }
             };
         
             // Función para mostrar la ventana modal
@@ -748,21 +734,14 @@
             const links = document.querySelectorAll('.card-media');
             links.forEach(link => {
                 $(link).off('click.cardConfirmation').on('click.cardConfirmation', function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    
-                    // Verificar si ya tenemos la ubicación guardada
-                    const storedLocation = getStoredLocation();
-                    
-                    if (storedLocation) {
-                        // Si ya tenemos la ubicación, navegamos directamente
-                        navigateToProduct(this);
-                    } else {
-                        // Si no tenemos la ubicación, mostramos el modal
-                        showLocationModal(this);
+                    // Solo interferimos si NO hay ubicación guardada
+                    if (!hasStoredLocation()) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        showLocationModal();
+                        return false;
                     }
-                    
-                    return false;
+                    // Si hay ubicación guardada, no hacemos nada y dejamos que el enlace funcione normalmente
                 });
             });
         },
@@ -790,7 +769,6 @@
         //     // Para manejar elementos cargados dinámicamente
         //     $doc.on('shopify:section:load', handleCardMediaLinks);
         // },
-
         buildStyleSheet: function(name, $this) {
             if (name == '') return;
             const loadStyleSheet = document.createElement("link");
