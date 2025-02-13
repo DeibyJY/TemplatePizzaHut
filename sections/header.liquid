@@ -618,13 +618,12 @@
   }
 </style>
 
-<script>  
+<script>
   // Definimos las claves que usaremos para guardar en localStorage
   const CLAVES_ALMACENAMIENTO = {
     latitud: 'userLatitude',
     longitud: 'userLongitude'
   };
-
 
   // Función para ocultar el mensaje de solicitud de ubicación
   function ocultarMensajeUbicacion() {
@@ -633,14 +632,6 @@
       mensajeLocalizacion.style.display = 'none';
     }
   }
-
-  // Función para mostrar el mensaje de solicitud de ubicación
-  function mostrarMensajeUbicacion() {
-    const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
-    if (mensajeLocalizacion) {
-      mensajeLocalizacion.style.display = 'block';
-    }
-}
 
   // Función para guardar la ubicación en localStorage
   function guardarUbicacion(latitud, longitud) {
@@ -653,24 +644,33 @@
     const latitud = localStorage.getItem(CLAVES_ALMACENAMIENTO.latitud);
     const longitud = localStorage.getItem(CLAVES_ALMACENAMIENTO.longitud);
     
+    // Si no hay ubicación guardada, retornamos null
     if (!latitud || !longitud) return null;
     
+    // Convertimos los valores a números y los retornamos
     return {
       latitud: parseFloat(latitud),
       longitud: parseFloat(longitud)
     };
   }
 
-  // Función para calcular la distancia entre dos puntos
+  // Función para calcular la distancia entre dos puntos usando la fórmula de Haversine
   function calcularDistancia(lat1, lon1, lat2, lon2) {
+    // Radio de la Tierra en kilómetros
     const radioTierra = 6371;
+    
+    // Convertimos las diferencias de coordenadas a radianes
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
+    
+    // Fórmula de Haversine
     const a = 
       Math.sin(dLat/2) * Math.sin(dLat/2) +
       Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
       Math.sin(dLon/2) * Math.sin(dLon/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    
+    // Retornamos la distancia en kilómetros
     return radioTierra * c;
   }
 
@@ -679,25 +679,31 @@
     // Verificamos si el navegador soporta geolocalización
     if (!navigator.geolocation) {
       console.warn('Tu navegador no soporta geolocalización');
+      ocultarMensajeUbicacion();
       return;
     }
 
+    // Solicitamos la ubicación actual
     navigator.geolocation.getCurrentPosition(
       // Callback de éxito
       (position) => {
+        // Obtenemos la ubicación actual
         const ubicacionActual = {
           latitud: position.coords.latitude,
           longitud: position.coords.longitude
         };
         
+        // Obtenemos la ubicación guardada
         const ubicacionGuardada = obtenerUbicacionGuardada();
         
+        // Si no hay ubicación guardada, guardamos la actual
         if (!ubicacionGuardada) {
           guardarUbicacion(ubicacionActual.latitud, ubicacionActual.longitud);
           ocultarMensajeUbicacion();
           return;
         }
         
+        // Calculamos la distancia entre la ubicación actual y la guardada
         const distancia = calcularDistancia(
           ubicacionActual.latitud,
           ubicacionActual.longitud,
@@ -705,61 +711,54 @@
           ubicacionGuardada.longitud
         );
         
+        // Si la distancia es mayor a 1 km, actualizamos la ubicación
         if (distancia > 1) {
           guardarUbicacion(ubicacionActual.latitud, ubicacionActual.longitud);
         }
         
+        // Ocultamos el mensaje en cualquier caso
         ocultarMensajeUbicacion();
       },
       // Callback de error
       (error) => {
         console.log('Error al obtener la ubicación:', error.code);
+        ocultarMensajeUbicacion();
         
+        // Manejamos los diferentes tipos de error
         switch(error.code) {
           case error.PERMISSION_DENIED:
-            // Si el usuario denegó el permiso, mantenemos el mensaje visible
             console.log('El usuario denegó el permiso de ubicación');
-            mostrarMensajeUbicacion();
             break;
           case error.POSITION_UNAVAILABLE:
             console.log('La ubicación no está disponible');
-            // También mantenemos visible el mensaje para reintentar
-            mostrarMensajeUbicacion();
             break;
           case error.TIMEOUT:
             console.log('Se agotó el tiempo de espera');
-            // En caso de timeout, también permitimos reintentar
-            mostrarMensajeUbicacion();
             break;
         }
       },
+      // Opciones de geolocalización
       {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-        timeout: 5000
+        enableHighAccuracy: true, // Alta precisión
+        maximumAge: 0,           // No usar cache
+        timeout: 5000            // Timeout de 5 segundos
       }
     );
   }
 
-  // Cuando se carga la página
+  // Inicializamos cuando se carga la página
   document.addEventListener('DOMContentLoaded', () => {
+    // Verificamos si hay una ubicación guardada
     const ubicacionGuardada = obtenerUbicacionGuardada();
     
+    // Mostramos u ocultamos el mensaje según corresponda
     if (!ubicacionGuardada) {
-      mostrarMensajeUbicacion();
+      const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
+      if (mensajeLocalizacion) {
+        mensajeLocalizacion.style.display = 'block';
+      }
     } else {
       ocultarMensajeUbicacion();
-    }
-  });
-
-  // Agregar evento click al botón "ENTENDIDO"
-  document.addEventListener('DOMContentLoaded', () => {
-    const botonEntendido = document.querySelector('.mensaje-localizacion-principal button');
-    if (botonEntendido) {
-      botonEntendido.addEventListener('click', () => {
-        // Cada vez que se hace clic en el botón, volvemos a solicitar el permiso
-        confirmacionEstadoUbicacion();
-      });
     }
   });
 
