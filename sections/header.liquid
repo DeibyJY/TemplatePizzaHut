@@ -682,7 +682,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function() {
+      console.log('Entro  aun addEventListener');
       if (window.estadoUbicacion === 'acepto') {
+          console.log('Si acepto la ubicaicon ');
           // Si ya dio permiso, ocultar el mensaje del header
           const mensajeLocalizacion = document.querySelector('.mensaje-localizacion-principal');
           if (mensajeLocalizacion) {
