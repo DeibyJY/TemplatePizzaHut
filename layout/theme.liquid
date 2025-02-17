@@ -302,35 +302,35 @@
 
       async function getProductosSucursal(locationId) {
         const query = `
-query GetInventoryLevels($locationId: ID!) {
-        location(id: $locationId) {
-          id
-          name
-          inventoryLevels(first: 100) {
-            edges {
-              node {
-                id
-                quantities(names: ["available"]) {
-                  name
-                  quantity
-                }
-                item {
+        query GetInventoryLevels($locationId: ID!) {
+                location(id: $locationId) {
                   id
-                  tracked
-                  sku
-                  variant {
-                    id
-                    product {
-                      id
-                      title
+                  name
+                  inventoryLevels(first: 100) {
+                    edges {
+                      node {
+                        id
+                        quantities(names: ["available"]) {
+                          name
+                          quantity
+                        }
+                        item {
+                          id
+                          tracked
+                          sku
+                          variant {
+                            id
+                            product {
+                              id
+                              title
+                            }
+                          }
+                        }
+                      }
                     }
                   }
                 }
               }
-            }
-          }
-        }
-      }
       `;
 
         try {
