@@ -302,40 +302,37 @@
 
       async function getProductosSucursal(locationId) {
         const query = `
-        query getInventoryByLocation {
-          location(id: "${locationId}") {
-            id
-            name
-            inventoryLevels(first: 100) {
-              edges {
-                node {
+query GetInventoryLevels($locationId: ID!) {
+        location(id: $locationId) {
+          id
+          name
+          inventoryLevels(first: 100) {
+            edges {
+              node {
+                id
+                quantities(names: ["available"]) {
+                  name
+                  quantity
+                }
+                item {
                   id
-                  item {
+                  tracked
+                  sku
+                  variant {
                     id
-                    tracked
-                    sku
-                    variant {
+                    product {
                       id
-                      product {
-                        id
-                        title
-                      }
+                      title
                     }
-                  }
-                  # Probablemente uno de estos campos contenga la cantidad disponible
-                  available
-                  quantities {
-                    available
-                    onHand
-                    committed
                   }
                 }
               }
             }
           }
         }
+      }
       `;
-      
+
         try {
           const response = await fetch('https://pizza-hut-bo.myshopify.com/admin/api/2025-01/graphql.json', {
             method: 'POST',
