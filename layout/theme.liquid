@@ -309,6 +309,7 @@
               inventoryLevels(first: 100) {
                 edges {
                   node {
+                    quantity
                     item {
                       variant {
                         id
@@ -316,13 +317,6 @@
                           id
                           title
                           description
-                          images(first: 1) {
-                            edges {
-                              node {
-                                url
-                              }
-                            }
-                          }
                           priceRange {
                             minVariantPrice {
                               amount
@@ -438,8 +432,6 @@
 
         sucursales.forEach((sucursal) => {
           const idFormateado = sucursal.id.split('/').pop();
-          console.log('idFormateado : ', idFormateado);
-          console.log('original id', sucursal.id )
 
           if(sucursal.nombre == designada.nombre){
             itemSucursal += `
