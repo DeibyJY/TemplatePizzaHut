@@ -244,17 +244,14 @@
         const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
         
         const query = `
-          {
-            locations(first: 10) {
+          query {
+            locations(first: 250) {
               edges {
                 node {
                   id
                   name
                   address {
                     formatted
-                    address1
-                    city
-                    country
                   }
                 }
               }
