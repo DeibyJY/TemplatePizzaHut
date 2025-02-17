@@ -122,7 +122,7 @@
     <section class="coleccion-productos">
       <h2>Sucursales</h2>
       <div class="sucursales-tienda">
-        {% for location in shop.locations %}
+        {% for location in shop.metafields.locations %}
           <div class="sucursal-item">
             <h3>{{ location.name }}</h3>
             <p>{{ location.address1 }}</p>
