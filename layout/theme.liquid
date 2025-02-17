@@ -193,7 +193,9 @@
           const data = JSON.parse(localData);
           const { latitud, longitud } = data;
           const coordenadas = `${latitud}, ${longitud}`;
-          console.log(coordenadas);
+          const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
+          console.log('Bodega más cercana:', bodegaCercana.nombre);
+          console.log('Distancia:', bodegaCercana.distancia.toFixed(2), 'km');
         } else {
           // Verificamos si el navegador soporta geolocalización
           console.log('No hay datos en el local storage');
@@ -215,6 +217,54 @@
             console.log('Ubicación guardada en el local storage');
           });
         }
+      }
+
+      // Función para convertir string de coordenadas a objeto {lat, lng}
+      function parseCoordinates(coordString) {
+        const [lat, lng] = coordString.split(',').map((num) => parseFloat(num.trim()));
+        return { lat, lng };
+      }
+
+      // Función para calcular el centro de un polígono
+      function calculatePolygonCenter(coordinates) {
+        const points = coordinates.map((coord) => parseCoordinates(coord));
+        const lat = points.reduce((sum, point) => sum + point.lat, 0) / points.length;
+        const lng = points.reduce((sum, point) => sum + point.lng, 0) / points.length;
+        return { lat, lng };
+      }
+
+      // Función para calcular la distancia entre dos puntos usando la fórmula de Haversine
+      function calculateDistance(point1, point2) {
+        const R = 6371; // Radio de la Tierra en kilómetros
+        const dLat = ((point2.lat - point1.lat) * Math.PI) / 180;
+        const dLon = ((point2.lng - point1.lng) * Math.PI) / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos((point1.lat * Math.PI) / 180) *
+            Math.cos((point2.lat * Math.PI) / 180) *
+            Math.sin(dLon / 2) *
+            Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c; // Distancia en kilómetros
+      }
+
+      // Función principal para encontrar la bodega más cercana
+      function encontrarBodegaMasCercana(ubicacionUsuario, bodegas) {
+        // Convertir la ubicación del usuario a objeto {lat, lng}
+        const userPoint = parseCoordinates(ubicacionUsuario);
+
+        // Calcular distancias a cada bodega
+        const distancias = bodegas.map((bodega) => {
+          const centro = calculatePolygonCenter(bodega.coodenadas);
+          const distancia = calculateDistance(userPoint, centro);
+          return {
+            ...bodega,
+            distancia,
+          };
+        });
+
+        // Encontrar la bodega más cercana
+        return distancias.reduce((nearest, current) => (current.distancia < nearest.distancia ? current : nearest));
       }
     </script>
   </body>
