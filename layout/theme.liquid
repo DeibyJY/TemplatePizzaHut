@@ -297,6 +297,8 @@
 
       // Función para verificar el localStorage y manejar el overlay
       function verificarLocalStorage() {
+        var $body = $('body');
+        $body.addClass('quick-view-show-custom');
         const backgroundOverlay = document.querySelector('.background-overlay-custom');
 
         if (localStorage.getItem('cliente-coodenadas')) {
