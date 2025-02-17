@@ -391,6 +391,7 @@
               console.log('Distancia:', bodegaCercana.distancia.toFixed(2), 'km');
               dibujarSucursales(sucursales, bodegaCercana);
               dibujarProductoSucursal(bodegaCercana.id);
+              console.log('Bodega más cercana:', bodegaCercana.id);
             } catch (error) {
               console.error('Error al procesar datos del localStorage:', error);
               localStorage.removeItem('cliente-coordenadas');
@@ -414,6 +415,7 @@
                 const coordenadas = `${ubicacionActual.latitud}, ${ubicacionActual.longitud}`;
                 const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
                 dibujarSucursales(sucursales, bodegaCercana);
+                console.log('Bodega más cercana:', bodegaCercana.id);
                 dibujarProductoSucursal(bodegaCercana.id);
                 localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
                 console.log('Ubicación guardada en el local storage');
