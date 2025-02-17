@@ -61,6 +61,15 @@
         border-radius: 5px;
         cursor: pointer;
       }
+
+      .coleccion-productos {
+        background-color: #f0f0f0;
+        color: #333;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        height: 50vh;
+      }
     </style>
   </head>
   <body>
@@ -77,14 +86,14 @@
 
     <!-- Este elemento es REQUERIDO por Shopify -->
     <main role="main">
-      {% comment %} {{ content_for_layout }} {% endcomment %}
+      {{ content_for_layout }}
     </main>
-
-    {% comment %} FOOTER {% endcomment %}
-    <footer>FOOTER</footer>
 
     {% comment %} Colecciones {% endcomment %}
     <section class="coleccion-productos"></section>
+
+    {% comment %} FOOTER {% endcomment %}
+    <footer>FOOTER</footer>
 
     {% comment %} BACKGROUND OVERLAY {% endcomment %}
     {% comment %}
