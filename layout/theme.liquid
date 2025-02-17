@@ -390,8 +390,6 @@
               console.log('Bodega más cercana:', bodegaCercana.nombre);
               console.log('Distancia:', bodegaCercana.distancia.toFixed(2), 'km');
               dibujarSucursales(sucursales, bodegaCercana);
-              dibujarProductoSucursal(bodegaCercana.id);
-              console.log('Bodega más cercana:', bodegaCercana.id);
             } catch (error) {
               console.error('Error al procesar datos del localStorage:', error);
               localStorage.removeItem('cliente-coordenadas');
@@ -416,7 +414,6 @@
                 const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
                 dibujarSucursales(sucursales, bodegaCercana);
                 console.log('Bodega más cercana:', bodegaCercana.id);
-                dibujarProductoSucursal(bodegaCercana.id);
                 localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
                 console.log('Ubicación guardada en el local storage');
               },
@@ -432,8 +429,6 @@
       }
 
       function dibujarSucursales(sucursales,designada){
-        {% comment %} console.log('sucursales : ', sucursales); {% endcomment %}
-        {% comment %} console.log('designada : ', designada); {% endcomment %}
         const sucursalesTienda = document.querySelector('.sucursales-tienda');
         let itemSucursal = ``;
 
@@ -441,6 +436,8 @@
           const idFormateado = sucursal.id.split('/').pop();
 
           if(sucursal.nombre == designada.nombre){
+            dibujarProductoSucursal(sucursal.id);
+
             itemSucursal += `
             <div class="sucursal-item-seleccionada">
               <h3>${idFormateado}</h3>
@@ -460,12 +457,12 @@
         });
 
         sucursalesTienda.innerHTML = itemSucursal;
+        
       }
 
       async function dibujarProductoSucursal(idSucursal){
         const contenedorTrabajo = document.querySelector('.productos-items');
         const productosSucursal = await getProductosSucursal(idSucursal);
-
         let itemSucursal = ``;
 
         productosSucursal.forEach((producto) => {
