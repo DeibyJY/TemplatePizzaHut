@@ -335,12 +335,14 @@
               longitud: position.coords.longitude,
             };
 
-            const coordenadas = `${latitud}, ${longitud}`;
+            const coordenadas = `${ubicacionActual.latitud}, ${ubicacionActual.longitud}`;
             const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
             dibujarSucursales(sucursales,bodegaCercana);
             // Guardamos la ubicación en el local storag
             localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
             console.log('Ubicación guardada en el local storage');
+          },(error) => {
+            console.error('Error obteniendo geolocalización:', error);
           });
         }
       }
@@ -351,7 +353,7 @@
 
         sucursales.forEach((sucursal) => {
 
-          if(sucursal.name == designada.nombre){
+          if(sucursal.nombre == designada.nombre){
             itemSucursal += `
             <div class="sucursal-item-seleccionada">
               <h3>${sucursal.id}</h3>
