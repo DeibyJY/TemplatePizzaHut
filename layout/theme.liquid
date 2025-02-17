@@ -56,7 +56,6 @@
         align-items: center;
         justify-content: center;
       }
-
       .window-solicitud-ubicacion {
         width: 50vw;
         height: auto !important;
@@ -79,7 +78,6 @@
         align-items: center;
         text-align: center;
       }
-
       .logo-superior {
         max-width: 200px;
         height: auto;
@@ -114,8 +112,6 @@
         pointer-events: none;
         transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
         transition: transform 0.1s ease-out;
-        top: 0;
-        left: 0;
       }
       .background-cursor-wrapper_outer {
         transition: transform 0.15s ease-out;
@@ -191,7 +187,7 @@
 
     <!-- Este elemento es REQUERIDO por Shopify -->
     <main role="main">
-      {% comment %} {{ content_for_layout }} {% endcomment %}
+      {{ content_for_layout }}
     </main>
 
     {% comment %} FOOTER {% endcomment %}
@@ -312,79 +308,86 @@
           backgroundOverlay.style.opacity = '1';
           backgroundOverlay.style.pointerEvents = 'all';
 
-          // Manejamos el cursor personalizado
-          setupCursor(backgroundOverlay);
+            // Inicializar el efecto del cursor y eventos
+            const backgroundOverlay = document.querySelector('.background-overlay-custom');
+            const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
 
-          // Manejamos los botones del overlay
-          const btnConfirm = document.querySelector('.btn-confirm');
-          const btnCancel = document.querySelector('.btn-cancel');
-
-          btnConfirm.addEventListener('click', async () => {
-            try {
-              // Solicitar la ubicación
-              const position = await obtenerUbicacion();
-              const coords = `${position.coords.latitude}, ${position.coords.longitude}`;
-
-              // Guardar en localStorage
-              localStorage.setItem('cliente-coodenadas', coords);
-
-              // Ocultar overlay con transición
-              backgroundOverlay.style.opacity = '0';
-              backgroundOverlay.style.pointerEvents = 'none';
-            } catch (error) {
-              console.error('Error al obtener ubicación:', error);
-              alert('No se pudo obtener la ubicación');
+            // Función para actualizar la posición del cursor
+            function setCursorPosition(clientX, clientY) {
+                requestAnimationFrame(() => {
+                    backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+                    backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+                });
             }
-          });
 
-          btnCancel.addEventListener('click', () => {
-            // Ocultar overlay con transición
-            backgroundOverlay.style.opacity = '0';
-            backgroundOverlay.style.pointerEvents = 'none';
-          });
-        }
-      }
+            // Eventos del cursor solo para el overlay
+            $('.background-overlay-custom').on('mousemove', function (e) {
+                if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+                    setCursorPosition(e.clientX, e.clientY);
+                    backgroundCursorWrapper.classList.add('enlarge-cursor');
+                } else {
+                    backgroundCursorWrapper.classList.remove('enlarge-cursor');
+                }
+            });
 
-      // Función para manejar el cursor personalizado
-      function setupCursor(overlay) {
-        const cursor = document.querySelector('.background-cursor-wrapper');
+            // Función para cerrar el overlay
+            function closeOverlay() {
+                $('.background-overlay-custom').css({
+                    'opacity': '0',
+                    'pointer-events': 'none'
+                });
+                $body.removeClass('quick-view-show-custom');
 
-        function setCursorPosition(clientX, clientY) {
-          requestAnimationFrame(() => {
-            cursor.style.setProperty('--translate-x', `${clientX}`);
-            cursor.style.setProperty('--translate-y', `${clientY}`);
-          });
-        }
-
-        overlay.addEventListener('mousemove', (e) => {
-          if (!e.target.closest('.window-solicitud-ubicacion')) {
-            if (cursor) {
-              setCursorPosition(e.clientX, e.clientY);
-              cursor.classList.add('enlarge-cursor');
+                setTimeout(() => {
+                    $('.background-overlay-custom').remove();
+                }, 300);
             }
-          } else {
-            if (cursor) {
-              cursor.classList.remove('enlarge-cursor');
-            }
-          }
-        });
 
-        // También necesitamos manejar cuando el mouse sale del overlay
-        overlay.addEventListener('mouseleave', () => {
-          if (cursor) {
-            cursor.classList.remove('enlarge-cursor');
-          }
-        });
-      }
-      // Función para obtener la ubicación
-      function obtenerUbicacion() {
-        return new Promise((resolve, reject) => {
-          if (!navigator.geolocation) {
-            reject(new Error('Geolocalización no está soportada'));
-          }
+            // Cerrar al hacer clic fuera del modal
+            $('.background-overlay-custom').on('click', function (e) {
+                if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+                    closeOverlay();
+                }
+            });
 
-          navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
+            // Eventos de los botones
+            $('.btn-cancel').on('click', closeOverlay);
+
+            $('.btn-confirm').on('click', () => {
+                if (!navigator.geolocation) {
+                    console.log('Tu navegador no soporta geolocalización');
+                    closeOverlay();
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        saveLocation(latitude, longitude);
+                        closeOverlay();
+                        // Navegamos al destino original después de guardar la ubicación
+                        window.location.href = hrefDestino;
+                    },
+                    (error) => {
+                        console.log('Error al obtener la ubicación:', error.code);
+                        closeOverlay();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        maximumAge: 0,
+                        timeout: 5000
+                    }
+                );
+            });
+
+            // Mostrar el overlay con transición
+            setTimeout(() => {
+                $('.background-overlay-custom').css({
+                    'opacity': '1',
+                    'pointer-events': 'all'
+                });
+            }, 10);
       }
 
       // Inicializar cuando el DOM esté listo
