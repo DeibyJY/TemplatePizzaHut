@@ -87,33 +87,35 @@
     <section class="coleccion-productos"></section>
 
     {% comment %} BACKGROUND OVERLAY {% endcomment %}
-    <div class="background-overlay-custom">
-      <div class="background-cursor-wrapper">
-        <div class="background-cursor-wrapper_outer">
-          <div class="background-cursor-wrapper_inner">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
-              <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
-                  <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
-                  <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
-              </g>
-            </svg>
+    {% comment %}
+      <div class="background-overlay-custom">
+        <div class="background-cursor-wrapper">
+          <div class="background-cursor-wrapper_outer">
+            <div class="background-cursor-wrapper_inner">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+                <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
+                    <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
+                    <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="window-solicitud-ubicacion">
+          <div class="select-location">
+            <img src="{{ 'logoPizzaHut.png' | asset_url }}" alt="Logo Superior" class="logo-superior">
+            <p class="welcome-text">
+              PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.
+            </p>
+            <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Logo Inferior" class="logo-inferior">
+          </div>
+          <div class="options-buttons-location">
+            <button class="btn-cancel">CANCELAR</button>
+            <button class="btn-confirm">CONFIRMAR</button>
           </div>
         </div>
       </div>
-      <div class="window-solicitud-ubicacion">
-        <div class="select-location">
-          <img src="{{ 'logoPizzaHut.png' | asset_url }}" alt="Logo Superior" class="logo-superior">
-          <p class="welcome-text">
-            PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.
-          </p>
-          <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Logo Inferior" class="logo-inferior">
-        </div>
-        <div class="options-buttons-location">
-          <button class="btn-cancel">CANCELAR</button>
-          <button class="btn-confirm">CONFIRMAR</button>
-        </div>
-      </div>
-    </div>
+    {% endcomment %}
 
     <!-- Scripts -->
     <script>
@@ -210,6 +212,7 @@
 
             // Guardamos la ubicación en el local storage
             localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
+            console.log('Ubicación guardada en el local storage');
           });
         }
       }
