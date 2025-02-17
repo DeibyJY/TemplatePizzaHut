@@ -142,7 +142,9 @@
       <h2>Sucursales</h2>
       <div class="sucursales-tienda"></div>
       <h2>Coleccion de Productos</h2>
-      <div class="productos-items"></div>
+      <div class="productos-items">
+        <ul class="productos-lista"></ul>
+      </div>
     </section>
 
     {% comment %} FOOTER {% endcomment %}
@@ -301,9 +303,11 @@
       }
 
       async function getProductosSucursal(locationId) {
+        {% comment %} location(id: "gid://shopify/Location/103470498076") { {% endcomment %}
+
         const query = `
           query {
-            location(id: "gid://shopify/Location/103470498076") {
+            location(id: "${locationId}") {
               id
               name
               inventoryLevels(first: 100) {
@@ -358,7 +362,7 @@
         }
       }
       
-      (async function() {
+       (async function() {
         try {
           {% comment %} const sucursales = await getSucursales();
           console.log(sucursales); {% endcomment %}
@@ -386,6 +390,7 @@
               console.log('Bodega más cercana:', bodegaCercana.nombre);
               console.log('Distancia:', bodegaCercana.distancia.toFixed(2), 'km');
               dibujarSucursales(sucursales, bodegaCercana);
+              dibujarProductoSucursal(bodegaCercana.id);
             } catch (error) {
               console.error('Error al procesar datos del localStorage:', error);
               localStorage.removeItem('cliente-coordenadas');
@@ -409,7 +414,7 @@
                 const coordenadas = `${ubicacionActual.latitud}, ${ubicacionActual.longitud}`;
                 const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
                 dibujarSucursales(sucursales, bodegaCercana);
-                
+                dibujarProductoSucursal(bodegaCercana.id);
                 localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
                 console.log('Ubicación guardada en el local storage');
               },
@@ -425,8 +430,8 @@
       }
 
       function dibujarSucursales(sucursales,designada){
-        console.log('sucursales : ', sucursales);
-        console.log('designada : ', designada);
+        {% comment %} console.log('sucursales : ', sucursales); {% endcomment %}
+        {% comment %} console.log('designada : ', designada); {% endcomment %}
         const sucursalesTienda = document.querySelector('.sucursales-tienda');
         let itemSucursal = ``;
 
@@ -455,7 +460,25 @@
         sucursalesTienda.innerHTML = itemSucursal;
       }
 
-      function dibujarProductoSucursal(idSucursal){
+      async function dibujarProductoSucursal(idSucursal){
+        const contenedorTrabajo = document.querySelector('.productos-items');
+        const productosSucursal = await getProductosSucursal(idSucursal);
+
+        let itemSucursal = ``;
+
+        productosSucursal.forEach((producto) => {
+          itemSucursal += `
+            <li class="producto-item">
+              <div class="producto-info">
+                <span class="producto-nombre">${producto.nombre}</span>
+                <span class="producto-stock">Stock: ${producto.stock}</span>
+                <small class="producto-id">ID: ${producto.id}</small>
+              </div>
+            </li>
+          `;
+        });
+
+        contenedorTrabajo.innerHTML = itemSucursal;
       }
 
       // Función para convertir string de coordenadas a objeto {lat, lng}
