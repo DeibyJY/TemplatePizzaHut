@@ -280,13 +280,14 @@
         }
       }
 
-      // Ejemplo de uso
-      try {
-        const sucursales = await getSucursales();
-        console.log(sucursales);
-      } catch (error) {
-        console.error('Error:', error);
-      }
+      (async function() {
+        try {
+          const sucursales = await getSucursales();
+          console.log(sucursales);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      })();
 
       function verificarLocalSotrage() {
         const localData = localStorage.getItem('cliente-coordenadas');
