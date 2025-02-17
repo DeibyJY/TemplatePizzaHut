@@ -114,6 +114,8 @@
         pointer-events: none;
         transform: translate(calc(var(--translate-x, 0) * 1px - 50%), calc(var(--translate-y, 0) * 1px - 50%));
         transition: transform 0.1s ease-out;
+        top: 0;
+        left: 0;
       }
       .background-cursor-wrapper_outer {
         transition: transform 0.15s ease-out;
@@ -347,26 +349,33 @@
       function setupCursor(overlay) {
         const cursor = document.querySelector('.background-cursor-wrapper');
 
-        // Función para actualizar la posición del cursor usando requestAnimationFrame
         function setCursorPosition(clientX, clientY) {
           requestAnimationFrame(() => {
-            cursor.style.setProperty('--translate-y', clientY);
-            cursor.style.setProperty('--translate-x', clientX);
+            cursor.style.setProperty('--translate-x', `${clientX}`);
+            cursor.style.setProperty('--translate-y', `${clientY}`);
           });
         }
 
-        // Manejar el movimiento del cursor solo en el overlay
         overlay.addEventListener('mousemove', (e) => {
-          // Si el mouse está fuera de la ventana de solicitud
           if (!e.target.closest('.window-solicitud-ubicacion')) {
-            setCursorPosition(e.clientX, e.clientY);
-            cursor.classList.add('enlarge-cursor');
+            if (cursor) {
+              setCursorPosition(e.clientX, e.clientY);
+              cursor.classList.add('enlarge-cursor');
+            }
           } else {
+            if (cursor) {
+              cursor.classList.remove('enlarge-cursor');
+            }
+          }
+        });
+
+        // También necesitamos manejar cuando el mouse sale del overlay
+        overlay.addEventListener('mouseleave', () => {
+          if (cursor) {
             cursor.classList.remove('enlarge-cursor');
           }
         });
       }
-
       // Función para obtener la ubicación
       function obtenerUbicacion() {
         return new Promise((resolve, reject) => {
