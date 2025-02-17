@@ -61,11 +61,204 @@
     {% comment %} Colecciones {% endcomment %}
     <section class="coleccion-productos"></section>
 
+    {% comment %} BACKGROUND OVERLAY {% endcomment %}
+    <div class="background-overlay-custom">
+      <div class="background-cursor-wrapper">
+        <div class="background-cursor-wrapper_outer">
+          <div class="background-cursor-wrapper_inner">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
+              <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
+                  <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
+                  <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="window-solicitud-ubicacion">
+        <div class="select-location">
+          <img src="${window.SHOP_ASSETS.logoPizzaHut}" alt="Logo Superior" class="logo-superior">
+          <p class="welcome-text">
+            PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.
+          </p>
+          <img src="${window.SHOP_ASSETS.logoFooter}" alt="Logo Inferior" class="logo-inferior">
+        </div>
+        <div class="options-buttons-location">
+          <button class="btn-cancel">CANCELAR</button>
+          <button class="btn-confirm">CONFIRMAR</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Scripts -->
     <script>
+      window.SHOP_ASSETS = {
+        logoPizzaHut: "{{ 'logoPizzaHut.png' | asset_url }}",
+        logoFooter: "{{ 'Logo-footer.svg' | asset_url }}",
+      };
+
+      function verificarLocalStorage() {
+        const backgroundOverlay = document.querySelector('.background-overlay-custom');
+
+        if (localStorage.getItem('cliente-coodenadas')) {
+          const coodenadas = localStorage.getItem('cliente-coodenadas');
+          console.log('coodenadas', coodenadas);
+          // Si existen coordenadas, ocultamos el overlay
+          backgroundOverlay.style.display = 'none';
+
+          // Inicializar el efecto del cursor y eventos
+          const backgroundOverlay = document.querySelector('.background-overlay-custom');
+          const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
+
+          // Función para actualizar la posición del cursor
+          function setCursorPosition(clientX, clientY) {
+            requestAnimationFrame(() => {
+              backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+              backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+            });
+          }
+
+          // Eventos del cursor solo para el overlay
+          $('.background-overlay-custom').on('mousemove', function (e) {
+            if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+              setCursorPosition(e.clientX, e.clientY);
+              backgroundCursorWrapper.classList.add('enlarge-cursor');
+            } else {
+              backgroundCursorWrapper.classList.remove('enlarge-cursor');
+            }
+          });
+
+          // Función para cerrar el overlay
+          function closeOverlay() {
+            $('.background-overlay-custom').css({
+              opacity: '0',
+              'pointer-events': 'none',
+            });
+            $body.removeClass('quick-view-show-custom');
+
+            setTimeout(() => {
+              $('.background-overlay-custom').remove();
+            }, 300);
+          }
+
+          // Cerrar al hacer clic fuera del modal
+          $('.background-overlay-custom').on('click', function (e) {
+            if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+              closeOverlay();
+            }
+          });
+
+          // Eventos de los botones
+          $('.btn-cancel').on('click', closeOverlay);
+
+          $('.btn-confirm').on('click', () => {
+            if (!navigator.geolocation) {
+              console.log('Tu navegador no soporta geolocalización');
+              closeOverlay();
+              return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                saveLocation(latitude, longitude);
+                closeOverlay();
+                // Navegamos al destino original después de guardar la ubicación
+                window.location.href = hrefDestino;
+              },
+              (error) => {
+                console.log('Error al obtener la ubicación:', error.code);
+                closeOverlay();
+              },
+              {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+                timeout: 5000,
+              }
+            );
+          });
+
+          // Mostrar el overlay con transición
+          setTimeout(() => {
+            $('.background-overlay-custom').css({
+              opacity: '1',
+              'pointer-events': 'all',
+            });
+          }, 10);
+        } else {
+          // Si no existen coordenadas, mostramos el overlay
+          backgroundOverlay.style.display = 'block';
+          console.log('No hay coodenadas');
+        }
+      }
+
+      const bodega = [
+        {
+          id: 1,
+          nombre: 'BANZER 3ER ANILLO',
+          direccion: 'Tercer Anillo Externo',
+          telefono: '78452415',
+          coodenadas: [
+            '-17.757619811485124, -63.178738886607285',
+            '-17.75765499316851, -63.17862806006227',
+            '-17.75774159514593, -63.178656476818574',
+            '-17.757703707122307, -63.178764461706834',
+          ],
+        },
+        {
+          id: 2,
+          nombre: 'BANZER KM 8.5',
+          direccion: '8R2Q+2XH',
+          telefono: '78452415',
+          coodenadas: [
+            '-17.700010201209256, -63.160219543801524',
+            '-17.70001425690541, -63.16001091439781',
+            '-17.70028399322846, -63.160006655825235',
+            '-17.700277909382375, -63.160228058799945',
+          ],
+        },
+        {
+          id: 3,
+          nombre: 'LAS PALMAS',
+          direccion: 'Doble vía La Guardia',
+          telefono: '78452415',
+          coodenadas: [
+            '-17.807739639953184, -63.204363371533816',
+            '-17.807879040104435, -63.20423452558605',
+            '-17.808018440776213, -63.20440046307397',
+            '-17.80788833388888, -63.20452930894428',
+          ],
+        },
+        {
+          id: 4,
+          nombre: 'SAN MARTIN',
+          direccion: 'Av. San Martin 2200',
+          telefono: '78452415',
+          coodenadas: [
+            '-17.758879666207005, -63.19948013726218',
+            '-17.75874037624734, -63.199261908736986',
+            '-17.758939362008405, -63.19914118651445',
+            '-17.759078652124288, -63.19935941519224',
+          ],
+        },
+        {
+          id: 5,
+          nombre: 'SANTOS DUMONT',
+          direccion: 'Av Santos Dumont 3228',
+          telefono: '78452415',
+          coodenadas: [
+            '-17.820341605927634, -63.184337508678894',
+            '-17.820367373101746, -63.1842179677349',
+            '-17.820558480382306, -63.184245033386134',
+            '-17.82054559681319, -63.18436682994885',
+          ],
+        },
+      ];
+
       // Aquí puedes agregar tu JavaScript
       document.addEventListener('DOMContentLoaded', function () {
-        // Tu código JS aquí
+        verificarLocalStorage();
       });
     </script>
   </body>
