@@ -370,7 +370,7 @@
           {% comment %} const sucursales = await getSucursales();
           console.log(sucursales); {% endcomment %}
           
-          const locationId = "gid://shopify/Location/123456789";
+          const locationId = "gid://shopify/Location/103470498076";
           const inventario = await getProductosSucursal(locationId);
           console.log(inventario);
           
@@ -440,6 +440,8 @@
 
         sucursales.forEach((sucursal) => {
           const idFormateado = sucursal.id.split('/').pop();
+          console.log('idFormateado : ', idFormateado);
+          console.log('original id': sucursal.id )
 
           if(sucursal.nombre == designada.nombre){
             itemSucursal += `
