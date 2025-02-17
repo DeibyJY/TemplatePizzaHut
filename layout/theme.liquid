@@ -324,6 +324,8 @@
             direccion: edge.node.address.formatted
           }));
 
+          console.log('Sucursales :',sucursalesSimplificadas);
+
           return sucursalesSimplificadas;
 
         } catch (error) {
@@ -383,6 +385,8 @@
                 nombre: edge.node.item.variant.product.title,
                 stock: edge.node.quantities[0].quantity
             }));
+
+            console.log('Porductos Sucursal Desiganada',productos);
     
             return productos;
     
@@ -392,7 +396,7 @@
         }
       }
       
-       (async function() {
+       {% comment %} (async function() {
         try {
           {% comment %} const sucursales = await getSucursales();
           console.log(sucursales); {% endcomment %}
@@ -404,7 +408,7 @@
         } catch (error) {
           console.error('Error:', error);
         }
-      })();
+      })(); {% endcomment %}
 
       async function verificarLocalStorage() {
         try {
@@ -419,6 +423,7 @@
               const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
               console.log('Bodega más cercana:', bodegaCercana.nombre);
               console.log('Distancia:', bodegaCercana.distancia.toFixed(2), 'km');
+              console.log('coordenadas :',coordenadas);
               dibujarSucursales(sucursales, bodegaCercana);
             } catch (error) {
               console.error('Error al procesar datos del localStorage:', error);
@@ -444,6 +449,7 @@
                 const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
                 dibujarSucursales(sucursales, bodegaCercana);
                 console.log('Bodega más cercana:', bodegaCercana.id);
+                console.log('coordenadas :',coordenadas);
                 localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
                 console.log('Ubicación guardada en el local storage');
               },
