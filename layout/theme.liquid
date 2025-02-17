@@ -214,11 +214,11 @@
       </div>
       <div class="window-solicitud-ubicacion">
         <div class="select-location">
-          <img src="${window.SHOP_ASSETS.logoPizzaHut}" alt="Logo Superior" class="logo-superior">
+          <img src="{{ 'logoPizzaHut.png' | asset_url }}" alt="Logo Superior" class="logo-superior">
           <p class="welcome-text">
             PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.
           </p>
-          <img src="${window.SHOP_ASSETS.logoFooter}" alt="Logo Inferior" class="logo-inferior">
+          <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Logo Inferior" class="logo-inferior">
         </div>
         <div class="options-buttons-location">
           <button class="btn-cancel">CANCELAR</button>
@@ -379,6 +379,7 @@
       // Inicializar cuando el DOM esté listo
       document.addEventListener('DOMContentLoaded', function () {
         verificarLocalStorage();
+        console.log('hOLA MUNDO');
       });
     </script>
   </body>
