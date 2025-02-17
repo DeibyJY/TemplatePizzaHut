@@ -92,12 +92,30 @@
       .sucursal-item {
         background-color: #fff;
         color: #333;
-        padding: 5px;
+        padding: 15px;
         display: flex;
         flex-direction: column;
         text-align: center;
-        border-radius: 5px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+
+      .sucursal-item-seleccionada {
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        border-radius: 8px;
+        border-color: #da1a32;
+        box-shadow: 0 4px 12px rgba(218, 26, 50, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
       }
     </style>
   </head>
@@ -115,21 +133,13 @@
 
     <!-- Este elemento es REQUERID por Shopify -->
     <main role="main">
-      {% comment %} {{ content_for_layout }} {% endcomment %}
+      {{ content_for_layout }}
     </main>
 
     {% comment %} Coleccioness {% endcomment %}
     <section class="coleccion-productos">
       <h2>Sucursales</h2>
-      <div class="sucursales-tienda">
-        {% for location in shop.metafields.locations %}
-          <div class="sucursal-item">
-            <h3>{{ location.name }}</h3>
-            <p>{{ location.address1 }}</p>
-            <p>{{ location.phone }}</p>
-          </div>
-        {% endfor %}
-      </div>
+      <div class="sucursales-tienda"></div>
       <h2>Coleccion de Productos</h2>
       <div class="productos-items"></div>
     </section>
@@ -235,13 +245,14 @@
         },
       ];
 
+      const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
+
       window.SHOP_ASSETS = {
         logoPizzaHut: "{{ 'logoPizzaHut.png' | asset_url }}",
         logoFooter: "{{ 'Logo-footer.svg' | asset_url }}",
       };
 
       async function getSucursales() {
-        const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
         
         const query = `
           query {
@@ -270,11 +281,22 @@
           });
       
           const data = await response.json();
-          return data;
+
+          const sucursalesSimplificadas = data.data.locations.edges.map(edge => ({
+            id: edge.node.id,
+            nombre: edge.node.name,
+            direccion: edge.node.address.formatted
+          }));
+
+          return sucursalesSimplificadas;
+
         } catch (error) {
           console.error('Error al obtener sucursales:', error);
           throw error;
         }
+      }
+
+      async function getProductosSucursal(sucursalId) {
       }
 
       (async function() {
@@ -286,8 +308,9 @@
         }
       })();
 
-      function verificarLocalSotrage() {
+      async function verificarLocalSotrage() {
         const localData = localStorage.getItem('cliente-coordenadas');
+        const sucursales = await getSucursales();
         if (localData) {
           const data = JSON.parse(localData);
           const { latitud, longitud } = data;
@@ -295,6 +318,7 @@
           const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
           console.log('Bodega más cercana:', bodegaCercana.nombre);
           console.log('Distancia:', bodegaCercana.distancia.toFixed(2), 'km');
+          {% comment %} dibujarSucursales() {% endcomment %}
         } else {
           // Verificamos si el navegador soporta geolocalización
           console.log('No hay datos en el local storage');
@@ -316,6 +340,33 @@
             console.log('Ubicación guardada en el local storage');
           });
         }
+      }
+
+      function dibujarSucursales(sucursales,designada){
+        const sucursalesTienda = document.querySelector('.sucursales-tienda');
+        let itemSucursal = ``;
+
+        sucursales.forEach((sucursal) => {
+          if(sucursal.name == designada.nombre){
+            itemSucursal += `
+            <div class="sucursal-item-seleccionada">
+              <h3>${sucursal.name}</h3>
+              <p>${sucursal.}</p>
+              <p>${sucursal.telefono}</p>
+            </div>
+          `;
+          }else{
+            itemSucursal += `
+            <div class="sucursal-item">
+              <h3>${sucursal.name}</h3>
+              <p>${sucursal.}</p>
+              <p>${sucursal.telefono}</p>
+            </div>
+          `;
+          }
+        });
+
+        sucursalesTienda.innerHTML = itemSucursal;
       }
 
       // Función para convertir string de coordenadas a objeto {lat, lng}
