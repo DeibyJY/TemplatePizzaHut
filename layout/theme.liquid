@@ -90,6 +90,8 @@
       }
 
       .sucursal-item {
+        height: 200px;
+        width: 200px;
         background-color: #fff;
         color: #333;
         padding: 15px;
@@ -361,7 +363,7 @@
             <div class="sucursal-item-seleccionada">
               <h3>${sucursal.id}</h3>
               <p>${sucursal.nombre}</p>
-              <p>${sucursal.direccion}</p>
+              <p>${sucursal.direccion[0]}</p>
             </div>
           `;
           }else{
@@ -369,7 +371,7 @@
             <div class="sucursal-item">
               <h3>${sucursal.id}</h3>
               <p>${sucursal.nombre}</p>
-              <p>${sucursal.direccion}</p>
+              <p>${sucursal.direccion[0]}</p>
             </div>
           `;
           }
