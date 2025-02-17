@@ -310,86 +310,87 @@
           backgroundOverlay.style.opacity = '1';
           backgroundOverlay.style.pointerEvents = 'all';
 
-            // Inicializar el efecto del cursor y eventos
-            const backgroundOverlay = document.querySelector('.background-overlay-custom');
-            const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
+          // Inicializar el efecto del cursor y eventos
+          const backgroundOverlay = document.querySelector('.background-overlay-custom');
+          const backgroundCursorWrapper = backgroundOverlay.querySelector('.background-cursor-wrapper');
 
-            // Función para actualizar la posición del cursor
-            function setCursorPosition(clientX, clientY) {
-                requestAnimationFrame(() => {
-                    backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
-                    backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
-                });
+          // Función para actualizar la posición del cursor
+          function setCursorPosition(clientX, clientY) {
+            requestAnimationFrame(() => {
+              backgroundCursorWrapper.style.setProperty('--translate-y', clientY);
+              backgroundCursorWrapper.style.setProperty('--translate-x', clientX);
+            });
+          }
+
+          // Eventos del cursor solo para el overlay
+          $('.background-overlay-custom').on('mousemove', function (e) {
+            if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+              setCursorPosition(e.clientX, e.clientY);
+              backgroundCursorWrapper.classList.add('enlarge-cursor');
+            } else {
+              backgroundCursorWrapper.classList.remove('enlarge-cursor');
             }
+          });
 
-            // Eventos del cursor solo para el overlay
-            $('.background-overlay-custom').on('mousemove', function (e) {
-                if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
-                    setCursorPosition(e.clientX, e.clientY);
-                    backgroundCursorWrapper.classList.add('enlarge-cursor');
-                } else {
-                    backgroundCursorWrapper.classList.remove('enlarge-cursor');
-                }
+          // Función para cerrar el overlay
+          function closeOverlay() {
+            $('.background-overlay-custom').css({
+              opacity: '0',
+              'pointer-events': 'none',
             });
+            $body.removeClass('quick-view-show-custom');
 
-            // Función para cerrar el overlay
-            function closeOverlay() {
-                $('.background-overlay-custom').css({
-                    'opacity': '0',
-                    'pointer-events': 'none'
-                });
-                $body.removeClass('quick-view-show-custom');
-
-                setTimeout(() => {
-                    $('.background-overlay-custom').remove();
-                }, 300);
-            }
-
-            // Cerrar al hacer clic fuera del modal
-            $('.background-overlay-custom').on('click', function (e) {
-                if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
-                    closeOverlay();
-                }
-            });
-
-            // Eventos de los botones
-            $('.btn-cancel').on('click', closeOverlay);
-
-            $('.btn-confirm').on('click', () => {
-                if (!navigator.geolocation) {
-                    console.log('Tu navegador no soporta geolocalización');
-                    closeOverlay();
-                    return;
-                }
-
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        saveLocation(latitude, longitude);
-                        closeOverlay();
-                        // Navegamos al destino original después de guardar la ubicación
-                        window.location.href = hrefDestino;
-                    },
-                    (error) => {
-                        console.log('Error al obtener la ubicación:', error.code);
-                        closeOverlay();
-                    },
-                    {
-                        enableHighAccuracy: true,
-                        maximumAge: 0,
-                        timeout: 5000
-                    }
-                );
-            });
-
-            // Mostrar el overlay con transición
             setTimeout(() => {
-                $('.background-overlay-custom').css({
-                    'opacity': '1',
-                    'pointer-events': 'all'
-                });
-            }, 10);
+              $('.background-overlay-custom').remove();
+            }, 300);
+          }
+
+          // Cerrar al hacer clic fuera del modal
+          $('.background-overlay-custom').on('click', function (e) {
+            if (!$(e.target).closest('.window-solicitud-ubicacion').length) {
+              closeOverlay();
+            }
+          });
+
+          // Eventos de los botones
+          $('.btn-cancel').on('click', closeOverlay);
+
+          $('.btn-confirm').on('click', () => {
+            if (!navigator.geolocation) {
+              console.log('Tu navegador no soporta geolocalización');
+              closeOverlay();
+              return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                saveLocation(latitude, longitude);
+                closeOverlay();
+                // Navegamos al destino original después de guardar la ubicación
+                window.location.href = hrefDestino;
+              },
+              (error) => {
+                console.log('Error al obtener la ubicación:', error.code);
+                closeOverlay();
+              },
+              {
+                enableHighAccuracy: true,
+                maximumAge: 0,
+                timeout: 5000,
+              }
+            );
+          });
+
+          // Mostrar el overlay con transición
+          setTimeout(() => {
+            $('.background-overlay-custom').css({
+              opacity: '1',
+              'pointer-events': 'all',
+            });
+          }, 10);
+        }
       }
 
       // Inicializar cuando el DOM esté listo
