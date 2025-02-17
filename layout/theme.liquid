@@ -347,21 +347,23 @@
       function setupCursor(overlay) {
         const cursor = document.querySelector('.background-cursor-wrapper');
 
+        // Función para actualizar la posición del cursor usando requestAnimationFrame
+        function setCursorPosition(clientX, clientY) {
+          requestAnimationFrame(() => {
+            cursor.style.setProperty('--translate-y', clientY);
+            cursor.style.setProperty('--translate-x', clientX);
+          });
+        }
+
+        // Manejar el movimiento del cursor solo en el overlay
         overlay.addEventListener('mousemove', (e) => {
-          cursor.style.setProperty('--translate-x', `${e.clientX}`);
-          cursor.style.setProperty('--translate-y', `${e.clientY}`);
-        });
-
-        // Añadir efecto de hover para los botones
-        const buttons = overlay.querySelectorAll('button');
-        buttons.forEach((button) => {
-          button.addEventListener('mouseenter', () => {
+          // Si el mouse está fuera de la ventana de solicitud
+          if (!e.target.closest('.window-solicitud-ubicacion')) {
+            setCursorPosition(e.clientX, e.clientY);
             cursor.classList.add('enlarge-cursor');
-          });
-
-          button.addEventListener('mouseleave', () => {
+          } else {
             cursor.classList.remove('enlarge-cursor');
-          });
+          }
         });
       }
 
