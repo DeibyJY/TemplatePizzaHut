@@ -191,8 +191,8 @@
         const localData = localStorage.getItem('cliente-coordenadas');
         if (localData) {
           const data = JSON.parse(localData);
-          const { lat, lng } = data;
-          const coordenadas = `${lat}, ${lng}`;
+          const { latitud, longitud } = data;
+          const coordenadas = `${latitud}, ${longitud}`;
           console.log(coordenadas);
         } else {
           // Verificamos si el navegador soporta geolocalización
