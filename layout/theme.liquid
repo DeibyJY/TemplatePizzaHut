@@ -348,8 +348,8 @@
         const cursor = document.querySelector('.background-cursor-wrapper');
 
         overlay.addEventListener('mousemove', (e) => {
-          cursor.style.setProperty('--translate-x', e.clientX);
-          cursor.style.setProperty('--translate-y', e.clientY);
+          cursor.style.setProperty('--translate-x', `${e.clientX}`);
+          cursor.style.setProperty('--translate-y', `${e.clientY}`);
         });
 
         // Añadir efecto de hover para los botones
