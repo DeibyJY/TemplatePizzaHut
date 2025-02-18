@@ -712,6 +712,8 @@
               lng: position.coords.longitude
             };
 
+            console.log('Ubicación del usuario:', usuarioLocalizacion);
+
             // Crear mapa centrado en la ubicación del usuario
             const map = new google.maps.Map(elementoMapa, {
               center: usuarioLocalizacion,
@@ -779,7 +781,7 @@
 
             // 3. Marcador arrastrable para que el usuario elija una ubicación
             dragMarker = new google.maps.Marker({
-              position: userLocation,
+              position: usuarioLocalizacion,
               map: map,
               draggable: true,
               animation: google.maps.Animation.BOUNCE,
