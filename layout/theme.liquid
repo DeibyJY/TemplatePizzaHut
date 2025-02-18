@@ -741,16 +741,7 @@
               zIndex: 2
             });
 
-            // Infowindow para la ubicación del usuario
-            const userInfoWindow = new google.maps.InfoWindow({
-              content: '<div style="font-weight:bold;text-align:center;">Tu ubicación actual</div>'
-            });
-
-            userMarker.addListener('click', () => {
-              userInfoWindow.open(map, userMarker);
-            });
-
-             // 2. Marcadores de las pizzerías con imagen personalizada
+             // Marcadores de las pizzerías con imagen personalizada
             const pizzaIcon = {
               url: "{{ 'logo-pizza-map.png' | asset_url }}",
               scaledSize: new google.maps.Size(40, 40),
@@ -796,21 +787,6 @@
               },
               zIndex: 3
             });
-
-            // Detener la animación después de 3 segundos
-            setTimeout(() => {
-              dragMarker.setAnimation(null);
-            }, 3000);
-
-            const dragInfoWindow = new google.maps.InfoWindow({
-              content: '<div style="text-align:center;">Arrastrame para seleccionar ubicación</div>'
-            });
-
-            // Mostrar infoWindow inicial
-            dragInfoWindow.open(map, dragMarker);
-            setTimeout(() => {
-              dragInfoWindow.close();
-            }, 4000);
             
             // Eventos para el marcador arrastrable
             dragMarker.addListener('dragstart', () => {
@@ -819,23 +795,10 @@
             
             dragMarker.addListener('dragend', () => {
               const position = dragMarker.getPosition();
-              const lat = position.lat();
               const lng = position.lng();
               
               console.log('Nueva ubicación seleccionada:', { lat, lng });
               
-              dragInfoWindow.setContent(`
-                <div style="text-align:center;padding:5px;">
-                  <strong>Ubicación seleccionada</strong><br>
-                  Lat: ${lat.toFixed(6)}<br>
-                  Lng: ${lng.toFixed(6)}
-                </div>
-              `);
-              
-              dragInfoWindow.open(map, dragMarker);
-              
-              // Guardar coordenadas en una variable global o localStorage si lo deseas
-              {% comment %} window.selectedLocation = { lat, lng }; {% endcomment %}
             });
 
           }, (error) => {
