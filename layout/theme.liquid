@@ -458,71 +458,21 @@
           "
           class="modal-body"
         >
-          <div
-            style="
-              background-color: white;
-              width: 100%;
-              border: 1px solid #ddd;
-              box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-              font-family: Arial, sans-serif;
-              position: relative;
-            "
-            class="contenedor-opciones-seleccion"
-          >
-            <!-- Cabecera del dropdown (siempre visible) -->
-            <div
-              id="cabecera-desplegable"
-              style="
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 15px;
-                cursor: pointer;
-              "
-              onclick="alternarDesplegable()"
-            >
-              <span id="opcion-seleccionada" style="font-weight: bold;">A DOMICILIO</span>
-              <span id="flecha-desplegable" style="color: #666;">▼</span>
+          <div class="contenedor-desplegable">
+            <div class="cabecera" id="cabecera-desplegable">
+              <span id="texto-seleccionado">A DOMICILIO</span>
+              <span id="flecha">▼</span>
             </div>
 
-            <!-- Opciones del dropdown (inicialmente ocultas) -->
-            <div
-              id="opciones-desplegable"
-              style="
-                width: 100%;
-                display: none;
-                position: absolute;
-                left: 0;
-                top: 100%;
-                background-color: white;
-                z-index: 10;
-                border-top: 1px solid #f0f0f0;
-                box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
-              "
-            >
-              <!-- Opción: PEDIDO PARA RECOGER EN LOCAL -->
-              <div
-                class="opcion-desplegable"
-                style="
-                  padding: 15px;
-                  border-bottom: 1px solid #f0f0f0;
-                  cursor: pointer;
-                "
-                onclick="seleccionarOpcion('PEDIDO PARA RECOGER EN LOCAL')"
-              >
+            <div class="opciones" id="lista-opciones">
+              <div class="opcion" data-valor="PEDIDO PARA RECOGER EN LOCAL">
                 PEDIDO PARA RECOGER EN LOCAL
+                <span class="indicador">✓</span>
               </div>
 
-              <!-- Opción: A DOMICILIO -->
-              <div
-                class="opcion-desplegable"
-                style="
-                  padding: 15px;
-                  cursor: pointer;
-                "
-                onclick="seleccionarOpcion('A DOMICILIO')"
-              >
+              <div class="opcion seleccionada" data-valor="A DOMICILIO">
                 A DOMICILIO
+                <span class="indicador">✓</span>
               </div>
             </div>
           </div>
