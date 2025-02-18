@@ -347,20 +347,36 @@
         "
         class="modal-solicitud-ubicacion"
       >
+        <!-- Header con flexbox correctamente ajustado -->
         <div
           style="
-            background-color : rgba(35,31,32,1);
-            display : flex;
-            align-items : center;
-            padding: 0px 16px;
+            background-color: rgba(35,31,32,1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
             width: 100%;
-            height: 12%;
+            height: 80px;
+            border-bottom: 5px solid blue;
           "
           class="modal-head"
         >
-          <button>
+          <button
+            style="
+              background: transparent;
+              border: none;
+              color: white;
+              font-size: 24px;
+              position: absolute;
+              left: 20px;
+              top: 50%;
+              transform: translateY(-50%);
+              cursor: pointer;
+            "
+          >
             {% render 'icon-close' %}
           </button>
+
           <img
             src="{{ 'Logo-footer.svg' | asset_url }}"
             alt="Pizza Hut"
@@ -370,8 +386,6 @@
               background-color: white;
               border-radius: 50%;
               padding: 5px;
-              margin: 0 auto;
-              display: block;
             "
           >
         </div>
