@@ -714,7 +714,7 @@
 
             // Crear mapa centrado en la ubicación del usuario
             const map = new google.maps.Map(elementoMapa, {
-              center: userLocation,
+              center: usuarioLocalizacion,
               zoom: 13,
               mapTypeControl: true,
               fullscreenControl: true,
@@ -725,7 +725,7 @@
 
             // 1. Marcador de ubicación del usuario (estándar)
             userMarker = new google.maps.Marker({
-              position: userLocation,
+              position: usuarioLocalizacion,
               map: map,
               title: 'Tu ubicación actual',
               icon: {
