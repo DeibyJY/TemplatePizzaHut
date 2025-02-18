@@ -773,15 +773,14 @@
             
             // Eventos para el marcador arrastrable
             dragMarker.addListener('dragstart', () => {
-              dragInfoWindow.close();
             });
             
             dragMarker.addListener('dragend', () => {
               const position = dragMarker.getPosition();
+              const lat = position.lat(); 
               const lng = position.lng();
               
               console.log('Nueva ubicación seleccionada:', { lat, lng });
-              
             });
 
           }, (error) => {
