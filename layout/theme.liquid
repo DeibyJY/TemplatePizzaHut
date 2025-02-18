@@ -725,22 +725,6 @@
               mapTypeId: google.maps.MapTypeId.ROADMAP,
             });
 
-            // 1. Marcador de ubicación del usuario (estándar)
-            userMarker = new google.maps.Marker({
-              position: usuarioLocalizacion,
-              map: map,
-              title: 'Tu ubicación actual',
-              icon: {
-                path: google.maps.SymbolPath.CIRCLE,
-                scale: 10,
-                fillColor: '#4285F4',
-                fillOpacity: 1,
-                strokeColor: '#FFFFFF',
-                strokeWeight: 2
-              },
-              zIndex: 2
-            });
-
              // Marcadores de las pizzerías con imagen personalizada
             const pizzaIcon = {
               url: "{{ 'logo-pizza-map.png' | asset_url }}",
@@ -775,7 +759,6 @@
               position: usuarioLocalizacion,
               map: map,
               draggable: true,
-              animation: google.maps.Animation.BOUNCE,
               title: 'Arrastrame para seleccionar ubicación',
               icon: {
                 path: google.maps.SymbolPath.MARKER,
