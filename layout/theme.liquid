@@ -183,7 +183,7 @@
 
         .modal-solicitud-ubicacion {
           background-color: #fff;
-          padding: 20px;
+          {% comment %} padding: 20px; {% endcomment %}
           border-radius: 2px;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
           width: 50%;
@@ -361,7 +361,18 @@
           <button>
             {% render 'icon-close' %}
           </button>
-          <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Pizza Hut" style="width: 100px; height: 100px;">
+          <img
+            src="{{ 'Logo-footer.svg' | asset_url }}"
+            alt="Pizza Hut"
+            style="
+              width: 50px;
+              height: 50px;
+              background-color: white;
+              border-radius: 50%;
+              padding: 5px;
+              z-index: 1;
+            "
+          >
         </div>
         <div
           style="
@@ -379,7 +390,7 @@
               background-color : blue;
               display : flex;
               width: 100%;
-              height: 15%;
+              height: 12%;
             "
             class="container-select-options"
           ></div>
@@ -388,7 +399,7 @@
               background-color : red;
               display : flex;
               width: 100%;
-              height: 85%;
+              height: 88%;
             "
             class="informacion-select-sucursal"
           >
