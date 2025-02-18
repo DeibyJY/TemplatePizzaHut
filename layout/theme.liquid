@@ -261,12 +261,12 @@
     {% comment %} BANNER {% endcomment %}
     <div class="banner-custom">
       <p>BANNER</p>
-      <button onclick="verificarLocalStorage()">ACCEDER UBICACION</button>
+      <button onclick="seleccionarNuevaSucursal()">OTRA SUCURSAL</button>
     </div>
 
     <!-- Este elemento es REQUERID por Shopify -->
     <main role="main">
-      {% comment %} {{ content_for_layout }} {% endcomment %}
+      {{ content_for_layout }}
     </main>
 
     {% comment %} Coleccioness {% endcomment %}
@@ -333,14 +333,16 @@
           <div class="body-mapa"></div>
         </div>
         <div class="footer-modal">
-          <button>Ubicacion Actual</button>
-          <button>Confirmar Punto</button>
+          <button onclick="dibujarParaCliente()">Ubicacion Actual</button>
+          <button onclick="dibujarParaCliente()">Confirmar Punto</button>
         </div>
       </div>
     </div>
 
     <!-- Scripts -->
     <script>
+
+      let ubicacionCliente = null;
 
       const bodega = [
         {
@@ -575,10 +577,10 @@
       
                 const coordenadas = `${ubicacionActual.latitud}, ${ubicacionActual.longitud}`;
                 const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
+                localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
                 dibujarSucursales(sucursales, bodegaCercana);
                 console.log('Bodega más cercana:', bodegaCercana.id);
                 console.log('coordenadas :',coordenadas);
-                localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
                 console.log('Ubicación guardada en el local storage');
               },
               (error) => {
@@ -706,12 +708,13 @@
 
         if(navigator.geolocation){
           navigator.geolocation.getCurrentPosition((position) => {
-
+            
             const usuarioLocalizacion = {
               lat: position.coords.latitude,
               lng: position.coords.longitude
             };
 
+            ubicacionCliente = usuarioLocalizacion;
             console.log('Ubicación del usuario:', usuarioLocalizacion);
 
             // Crear mapa centrado en la ubicación del usuario
@@ -781,10 +784,12 @@
               const lng = position.lng();
               
               console.log('Nueva ubicación seleccionada:', { lat, lng });
+              ubicacionCliente = { lat, lng };
             });
 
           }, (error) => {
             console.error('Error al obtener la ubicación:', error);
+            alert('Necesitamos acceso a tu ubicación');
           });
         
         }else{
@@ -796,8 +801,21 @@
           mensaje1.style.display = 'none';
           mensaje2.style.display = 'flex';
 
-
         }
+      }
+
+      function dibujarParaCliente(){
+        const coordenadas = `${ubicacionCliente.lat}, ${ubicacionCliente.lng}`;
+        const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
+        
+        // Ocultar el modal
+        const modal = document.querySelector('.background-overlay');
+        modal.style.display = 'none';
+      }
+
+      function seleccionarNuevaSucursal(){
+        const modal = document.querySelector('.background-overlay');
+        modal.style.display = 'flex';
       }
 
       document.addEventListener('DOMContentLoaded', function() {
