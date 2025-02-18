@@ -804,9 +804,12 @@
         }
       }
 
-      function dibujarParaCliente(){
+      async function dibujarParaCliente(){
+        const sucursales = await getSucursales();
         const coordenadas = `${ubicacionCliente.lat}, ${ubicacionCliente.lng}`;
         const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
+        dibujarSucursales(sucursales, bodegaCercana);
+
         
         // Ocultar el modal
         const modal = document.querySelector('.background-overlay');
