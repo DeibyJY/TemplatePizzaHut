@@ -430,6 +430,7 @@
               top: 50%;
               transform: translateY(-50%);
               cursor: pointer;
+              fill: white;
             "
           >
             {% render 'icon-close' %}
@@ -458,8 +459,16 @@
           "
           class="modal-body"
         >
-          <div class="contenedor-desplegable">
-            <div class="cabecera" id="cabecera-desplegable">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: stretch;
+              height: 12%;
+            "
+            class="contenedor-desplegable"
+          >
+            <div class="cabecera" id="cabecera-desplegable" style="width: 100%;">
               <span id="texto-seleccionado">A DOMICILIO</span>
               <span id="flecha">▼</span>
             </div>
@@ -478,7 +487,6 @@
           </div>
           <div
             style="
-              background-color : red;
               display : flex;
               width: 100%;
               height: 88%;
@@ -493,7 +501,20 @@
                 height: 100%;
               "
               class="informacion-left"
-            ></div>
+            >
+              <div
+                style="
+                  padding: 5px;
+                  border-bottom: 1px solid #333;
+                "
+                class="texto-base"
+              >
+                Tiendas ubicadas
+              </div>
+              <div class="lista-sucursales">
+                <div class="item-sucursal"></div>
+              </div>
+            </div>
             <div
               style="
                 background-color : yellow;
