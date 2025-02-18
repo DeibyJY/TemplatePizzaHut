@@ -250,6 +250,65 @@
           transform: translateY(-2px);
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
+
+      .contenedor-desplegable {
+        background-color: white;
+        width: 100%;
+        border: 1px solid #ddd;
+        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        font-family: Arial, sans-serif;
+        position: relative;
+      }
+
+      .cabecera {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        cursor: pointer;
+      }
+
+      .opciones {
+        width: 100%;
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 100%;
+        background-color: white;
+        z-index: 10;
+        border-top: 1px solid #f0f0f0;
+        box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+      }
+
+      .opcion {
+        padding: 15px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .opcion:first-child {
+        border-bottom: 1px solid #f0f0f0;
+      }
+
+      .opcion:hover {
+        background-color: #f5f5f5;
+      }
+
+      .seleccionada {
+        background-color: #f0f0f0;
+        border-left: 3px solid #cc0000;
+      }
+
+      .indicador {
+        color: #cc0000;
+        font-weight: bold;
+        visibility: hidden;
+      }
+
+      .seleccionada .indicador {
+        visibility: visible;
+      }
     </style>
   </head>
   <body>
@@ -1016,6 +1075,47 @@
 
       document.addEventListener('DOMContentLoaded', function() {
         initMap();
+      });
+
+      // Referencias a elementos DOM
+      const cabecera = document.getElementById('cabecera-desplegable');
+      const opciones = document.getElementById('lista-opciones');
+      const flecha = document.getElementById('flecha');
+      const textoSeleccionado = document.getElementById('texto-seleccionado');
+      const elementosOpciones = document.querySelectorAll('.opcion');
+      
+      // Alternar visibilidad del dropdown
+      cabecera.addEventListener('click', () => {
+        const estaVisible = opciones.style.display === 'block';
+        opciones.style.display = estaVisible ? 'none' : 'block';
+        flecha.textContent = estaVisible ? '▼' : '▲';
+      });
+      
+      // Manejar selección de opciones
+      elementosOpciones.forEach(opcion => {
+        opcion.addEventListener('click', () => {
+          // Actualizar texto seleccionado
+          const valor = opcion.getAttribute('data-valor');
+          textoSeleccionado.textContent = valor;
+          
+          // Actualizar estilos
+          elementosOpciones.forEach(el => {
+            el.classList.remove('seleccionada');
+          });
+          opcion.classList.add('seleccionada');
+          
+          // Cerrar dropdown
+          opciones.style.display = 'none';
+          flecha.textContent = '▼';
+        });
+      });
+      
+      // Cerrar al hacer clic fuera
+      document.addEventListener('click', (evento) => {
+        if (!evento.target.closest('.contenedor-desplegable')) {
+          opciones.style.display = 'none';
+          flecha.textContent = '▼';
+        }
       });
     </script>
   </body>
