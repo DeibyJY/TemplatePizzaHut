@@ -722,7 +722,12 @@
               fullscreenControl: true,
               streetViewControl: true,
               zoomControl: true,
-              mapTypeId: google.maps.MapTypeId.ROADMAP
+              mapTypeId: google.maps.MapTypeId.ROADMAP,
+              // Esta es la línea clave para mostrar el botón de "Mi ubicación"
+              navigationControl: true,
+              // Y esta es la opción específica para el botón de ubicación
+              myLocationButton: true,
+              myLocationEnabled: true
             });
 
             // 1. Marcador de ubicación del usuario (estándar)
