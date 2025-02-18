@@ -266,7 +266,7 @@
 
     <!-- Este elemento es REQUERIDA por Shopify -->
     <main role="main">
-      {% comment %} {{ content_for_layout }} {% endcomment %}
+      {{ content_for_layout }}
     </main>
 
     {% comment %} Coleccioness {% endcomment %}
@@ -314,27 +314,103 @@
     {% endcomment %}
 
     <div class="background-overlay">
-      <div class="modal-solicitud-ubicacion">
-        <div class="head-modal">
-          <span>¿Dónde te encuentras?</span>
-          <button style="border: none; background-color: transparent; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;">
+      {% comment %}
+        <div class="modal-solicitud-ubicacion">
+          <div class="head-modal">
+            <span>¿Dónde te encuentras?</span>
+            <button style="border: none; background-color: transparent; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;">
+              {% render 'icon-close' %}
+            </button>
+          </div>
+          <div class="body-modal">
+            <div class="body-mensaje-1">
+              <span>Tu ubicacion en el mapa</span>
+              <button>Ver</button>
+            </div>
+            <div style="display: none;" class="body-mensaje-2">
+              <span>Habilita tu ubicacion</span>
+              <button>Icono</button>
+            </div>
+            <div class="body-mapa"></div>
+          </div>
+          <div class="footer-modal">
+            <button onclick="dibujarParaCliente()">Ubicacion Actual</button>
+            <button onclick="dibujarParaCliente()">Confirmar Punto</button>
+          </div>
+        </div>
+      {% endcomment %}
+      <div
+        style="
+          border-radius: 15px;
+          width: 70vw;
+          height: 80vh;
+        "
+        class="modal-solicitud-ubicacion"
+      >
+        <div
+          style="
+            background-color : rgba(35,31,32,1);
+            display : flex;
+            align-items : center;
+            padding: 0px 16px;
+            width: 100%;
+            height: 12%;
+          "
+          class="modal-head"
+        >
+          <button>
             {% render 'icon-close' %}
           </button>
+          <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Pizza Hut" style="width: 100px; height: 100px;">
         </div>
-        <div class="body-modal">
-          <div class="body-mensaje-1">
-            <span>Tu ubicacion en el mapa</span>
-            <button>Ver</button>
+        <div
+          style="
+            background-color : rgba(35,31,32,1);
+            display : flex;
+            flex-direction : column;
+            align-items : center;
+            width: 100%;
+            height: 88%;
+          "
+          class="modal-body"
+        >
+          <div
+            style="
+              background-color : blue;
+              display : flex;
+              width: 100%;
+              height: 15%;
+            "
+            class="container-select-options"
+          ></div>
+          <div
+            style="
+              background-color : red;
+              display : flex;
+              width: 100%;
+              height: 85%;
+            "
+            class="informacion-select-sucursal"
+          >
+            <div
+              style="
+                background-color : green;
+                display : flex;
+                width: 35%;
+                height: 100%;
+              "
+              class="informacion-left"
+            ></div>
+            <div
+              style="
+                background-color : yellow;
+                display : flex;
+                width: 65%;
+                height: 100%;
+              "
+              class="informacion-right"
+            ></div>
           </div>
-          <div style="display: none;" class="body-mensaje-2">
-            <span>Habilita tu ubicacion</span>
-            <button>Icono</button>
-          </div>
-          <div class="body-mapa"></div>
-        </div>
-        <div class="footer-modal">
-          <button onclick="dibujarParaCliente()">Ubicacion Actual</button>
-          <button onclick="dibujarParaCliente()">Confirmar Punto</button>
         </div>
       </div>
     </div>
