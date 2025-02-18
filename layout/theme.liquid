@@ -186,7 +186,7 @@
           padding: 20px;
           border-radius: 2px;
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-          width: 70%;
+          width: 50%;
           height: auto;
         }
 
@@ -199,9 +199,9 @@
         .body-modal{
           display: flex;
           flex-direction: column;
-          gap: 10px;
           padding: 10px;
           border-top: 1px solid #333;
+          padding-bottom: 10px;
         }
 
         .body-mensaje-2,
@@ -224,7 +224,7 @@
           justify-content: center;
           gap: 20px;
           align-items: center;
-          padding: 10px;
+          padding-top: 10px;
           border-top: 1px solid #333;
         }
 
@@ -689,6 +689,168 @@
 
         // Encontrar la bodega más cercana
         return distancias.reduce((nearest, current) => (current.distancia < nearest.distancia ? current : nearest));
+      }
+
+      // Inicializacion del Mapa
+      function initMap(){
+        const elementoMapa = document.querySelector('.body-mapa');
+        const pizzaLocations = [
+          { lat: -17.757619, lng: -63.178738, name: 'BANZER 3ER ANILLO' },
+          { lat: -17.700010, lng: -63.160219, name: 'BANZER KM 8.5' },
+          { lat: -17.807739, lng: -63.204363, name: 'LAS PALMAS' },
+          { lat: -17.758879, lng: -63.199480, name: 'SAN MARTIN' },
+          { lat: -17.820341, lng: -63.184337, name: 'SANTOS DUMONT' }
+        ];
+        let userMarker; // Marcador del usuario
+        let dragMarker; // Marcador arrastrable
+
+        if(navigator.geolocation){
+          navigator.geolocation.getCurrentPosition((position) => {
+
+            const usuarioLocalizacion = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+
+            // Crear mapa centrado en la ubicación del usuario
+            const map = new google.maps.Map(elementoMapa, {
+              center: userLocation,
+              zoom: 13,
+              mapTypeControl: true,
+              fullscreenControl: true,
+              streetViewControl: true,
+              zoomControl: true,
+              mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            // 1. Marcador de ubicación del usuario (estándar)
+            userMarker = new google.maps.Marker({
+              position: userLocation,
+              map: map,
+              title: 'Tu ubicación actual',
+              icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                scale: 10,
+                fillColor: '#4285F4',
+                fillOpacity: 1,
+                strokeColor: '#FFFFFF',
+                strokeWeight: 2
+              },
+              zIndex: 2
+            });
+
+            // Infowindow para la ubicación del usuario
+            const userInfoWindow = new google.maps.InfoWindow({
+              content: '<div style="font-weight:bold;text-align:center;">Tu ubicación actual</div>'
+            });
+
+            userMarker.addListener('click', () => {
+              userInfoWindow.open(map, userMarker);
+            });
+
+             // 2. Marcadores de las pizzerías con imagen personalizada
+            const pizzaIcon = {
+              url: "{{ 'logo-pizza-map.png' | asset_url }}",
+              scaledSize: new google.maps.Size(40, 40),
+              origin: new google.maps.Point(0, 0),
+              anchor: new google.maps.Point(20, 40)
+            };
+
+            pizzaLocations.forEach(location => {
+              const marker = new google.maps.Marker({
+                position: { lat: location.lat, lng: location.lng },
+                map: map,
+                title: location.name,
+                icon: pizzaIcon,
+                animation: google.maps.Animation.DROP
+              });
+              
+              const infoWindow = new google.maps.InfoWindow({
+                content: `<div style="text-align:center;padding:5px;">
+                          <strong>${location.name}</strong><br>
+                          <small>Pizza Hut</small>
+                         </div>`
+              });
+              
+              marker.addListener('click', () => {
+                infoWindow.open(map, marker);
+              });
+            });
+
+            // 3. Marcador arrastrable para que el usuario elija una ubicación
+            dragMarker = new google.maps.Marker({
+              position: userLocation,
+              map: map,
+              draggable: true,
+              animation: google.maps.Animation.BOUNCE,
+              title: 'Arrastrame para seleccionar ubicación',
+              icon: {
+                path: google.maps.SymbolPath.MARKER,
+                fillColor: '#FF0000',
+                fillOpacity: 1,
+                strokeWeight: 2,
+                strokeColor: '#FFFFFF',
+                scale: 12
+              },
+              zIndex: 3
+            });
+
+            // Detener la animación después de 3 segundos
+            setTimeout(() => {
+              dragMarker.setAnimation(null);
+            }, 3000);
+
+            const dragInfoWindow = new google.maps.InfoWindow({
+              content: '<div style="text-align:center;">Arrastrame para seleccionar ubicación</div>'
+            });
+
+            // Mostrar infoWindow inicial
+            dragInfoWindow.open(map, dragMarker);
+            setTimeout(() => {
+              dragInfoWindow.close();
+            }, 4000);
+            
+            // Eventos para el marcador arrastrable
+            dragMarker.addListener('dragstart', () => {
+              dragInfoWindow.close();
+            });
+            
+            dragMarker.addListener('dragend', () => {
+              const position = dragMarker.getPosition();
+              const lat = position.lat();
+              const lng = position.lng();
+              
+              console.log('Nueva ubicación seleccionada:', { lat, lng });
+              
+              dragInfoWindow.setContent(`
+                <div style="text-align:center;padding:5px;">
+                  <strong>Ubicación seleccionada</strong><br>
+                  Lat: ${lat.toFixed(6)}<br>
+                  Lng: ${lng.toFixed(6)}
+                </div>
+              `);
+              
+              dragInfoWindow.open(map, dragMarker);
+              
+              // Guardar coordenadas en una variable global o localStorage si lo deseas
+              {% comment %} window.selectedLocation = { lat, lng }; {% endcomment %}
+            });
+
+          }, (error) => {
+            console.error('Error al obtener la ubicación:', error);
+          });
+        
+        }else{
+          // Mensaje del navegador al cliente
+          const mensaje1 = document.querySelector('.body-mensaje-1');
+          const mensaje2 = document.querySelector('.body-mensaje-2');
+
+          // Ocultar mensaje 1 y quitarle el style none al mensaje 2
+          mensaje1.style.display = 'none';
+          mensaje2.style.display = 'flex';
+
+
+        }
       }
     </script>
   </body>
