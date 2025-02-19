@@ -325,7 +325,7 @@
 
     <!-- Este elemento es REQUERIDA por Shopify -->
     <main role="main">
-      {% comment %} {{ content_for_layout }} {% endcomment %}
+      {{ content_for_layout }}
     </main>
 
     {% comment %} Coleccioness {% endcomment %}
@@ -521,7 +521,7 @@
                   padding: 10px;
                   overflow-y: auto;
                   height: 100%;
-                  width: 90%;
+                  width: 100%;
                 "
                 class="lista-sucursales"
               >
@@ -529,29 +529,59 @@
                   style="
                     width: 100%;
                     height: 100px;
-                    background-color: #f0f0f0;
-                    border-radius: 8px;
+                    background-color: rgba(255,255,255,1);
+                    border-radius: 5px;
                     padding: 10px;
                     display: flex;
                     flex-direction: column;
                     text-align: center;
                     border: 2px solid transparent;
                     cursor: pointer;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    box-shadow: 2px 4px 20px 0px rgba(0,0,0,0.1);
                   "
                   class="item-sucursal"
                 >
-                  <span>SANTA CRUZ</span>
-                  <span>LAS PALMAS</span>
+                  <h4
+                    style="
+                      font-family: SharpSansDispNo1-Bold;
+                      font-weight: 700;
+                      font-size: 20px;
+                      line-height: 26px;
+                      letter-spacing: normal;
+                      text-transform: uppercase;
+                      text-decoration: none;
+                      font-synthesis: none;
+                      color: rgba(35,31,32,1);
+                    "
+                  >
+                    SANTA CRUZ
+                  </h4>
+                  <span
+                    style="
+                      font-family: SharpSansDispNo1-Bold;
+                      font-weight: 400;
+                      font-size: 20px;
+                      line-height: 26px;
+                      letter-spacing: normal;
+                      text-transform: uppercase;
+                      text-decoration: none;
+                      font-synthesis: none;
+                      color: #da1a32;
+                    "
+                    >1.32 KM</span
+                  >
                   <div
                     style="
                       display: flex;
                       gap: 10px;
                     "
                     class="detalle-sucursal"
-                  ></div>
+                  >
+                    {% render 'icon-ping-location' %}
+                    <span>Av. San Martin 2200, Santa de la Sierra, Bolivia</span>
+                  </div>
                   <div></div>
-                  <div></div>
+                  <div style="">{% render 'icon-close' %}</div>
                   <div></div>
                   <div></div>
                   <div></div>
