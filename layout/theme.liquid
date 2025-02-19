@@ -7,7 +7,14 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap"
+      rel="stylesheet"
+    >
+    <link
+      href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    >
 
     <script
       defer
@@ -23,7 +30,9 @@
       }
 
       :root {
-        --font-family-base: 'League Gothic', sans-serif;
+        --font-family-pri: 'League Gothic', sans-serif;
+        --font-family-secu: "Montserrat", serif;
+
 
         /* Variables de colores */
         --color-primario: #da1a32;
@@ -56,8 +65,7 @@
       }
 
       body {
-        {% comment %} font-family: Arial, sans-serif; {% endcomment %}
-        {% comment %} font-family: var(--font-family-base); {% endcomment %}
+        font-family: var(--font-family-secu);
       }
 
       header {
@@ -453,7 +461,7 @@
       }
 
       .item-sucursal h4 {
-        font-family: var(--font-family-base);
+        font-family: var(--font-family-pri);
         font-weight: 700;
         font-size: var(--tamano-texto-grande);
         line-height: var(--altura-linea);
@@ -465,7 +473,7 @@
       }
 
       .item-sucursal span[style*="color: #da1a32"] {
-        font-family: var(--font-family-base);
+        font-family: var(--font-family-pri);
         font-weight: 700;
         font-size: var(--tamano-texto-grande);
         line-height: var(--altura-linea);
@@ -504,7 +512,7 @@
 
       /* Clase específica para la distancia */
       .etiqueta-nombre-sucursal {
-        font-family: var(--font-family-base);
+        font-family: var(--font-family-pri);
         font-weight: 700;
         font-size: var(--tamano-texto-grande);
         line-height: var(--altura-linea);
@@ -1119,7 +1127,7 @@
               <div style="display: flex; flex-direction: column; gap: 8.5px;">
                 <div class="detalle-sucursal">
                   {% render 'icon-ping-location' %}
-                  <span>${sucursal.direccion} - ${distancia.toFixed(2)} KM</span>
+                  <span>${distancia.toFixed(2)} KM - ${sucursal.direccion}</span>
                 </div>
                 <div class="detalle-sucursal">
                   {% render 'icon-audifonos' %}
