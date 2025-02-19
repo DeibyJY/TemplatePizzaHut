@@ -613,13 +613,13 @@
             </div>
 
             <div class="opciones" id="lista-opciones">
-              <div class="opcion seleccionada" data-valor="PEDIDO PARA RECOGER EN LOCAL">
-                PEDIDO PARA RECOGER EN LOCAL
+              <div class="opcion" data-valor="A DOMICILIO">
+                A DOMICILIO
                 <span class="indicador">✓</span>
               </div>
 
-              <div class="opcion" data-valor="A DOMICILIO">
-                A DOMICILIO
+              <div class="opcion seleccionada" data-valor="PEDIDO PARA RECOGER EN LOCAL">
+                PEDIDO PARA RECOGER EN LOCAL
                 <span class="indicador">✓</span>
               </div>
             </div>
@@ -667,63 +667,43 @@
         {
           id: 1,
           nombre: 'BANZER 3ER ANILLO',
-          direccion: 'Tercer Anillo Externo',
+          direccion: 'Tercer Anillo Externo, Santa de la Sierra, Bolivia.',
           telefono: '78452415',
-          coodenadas: [
-            '-17.757619811485124, -63.178738886607285',
-            '-17.75765499316851, -63.17862806006227',
-            '-17.75774159514593, -63.178656476818574',
-            '-17.757703707122307, -63.178764461706834',
-          ],
+          coordenada: "-17.75768002673047, -63.17869697129874",
+          horario: "De Lunes a Viernes de 8:00 a 23:00"
         },
         {
           id: 2,
           nombre: 'BANZER KM 8.5',
-          direccion: '8R2Q+2XH',
+          direccion: '8R2Q+2XH, Santa de la Sierra, Bolivia.',
           telefono: '78452415',
-          coodenadas: [
-            '-17.700010201209256, -63.160219543801524',
-            '-17.70001425690541, -63.16001091439781',
-            '-17.70028399322846, -63.160006655825235',
-            '-17.700277909382375, -63.160228058799945',
-          ],
+          coordenada: "-17.70014659018138, -63.16011629320613",
+          horario: "Lun-Vie: 08:00-23:00, Sáb-Dom: 09:00-22:00"
         },
         {
           id: 3,
           nombre: 'LAS PALMAS',
-          direccion: 'Doble vía La Guardia',
+          direccion: 'Doble vía La Guardia, Santa de la Sierra, Bolivia.',
           telefono: '78452415',
-          coodenadas: [
-            '-17.807739639953184, -63.204363371533816',
-            '-17.807879040104435, -63.20423452558605',
-            '-17.808018440776213, -63.20440046307397',
-            '-17.80788833388888, -63.20452930894428',
-          ],
+          coordenada: "-17.80788136368068, -63.20438191728453",
+          horario: "L-V 8:00-23:00, Fines de semana 9:00-22:00"
         },
         {
           id: 4,
           nombre: 'SAN MARTIN',
-          direccion: 'Av. San Martin 2200',
+          direccion: 'Av. San Martin 2200, Santa de la Sierra, Bolivia.',
           telefono: '78452415',
-          coodenadas: [
-            '-17.758879666207005, -63.19948013726218',
-            '-17.75874037624734, -63.199261908736986',
-            '-17.758939362008405, -63.19914118651445',
-            '-17.759078652124288, -63.19935941519224',
-          ],
+          coordenada: "-17.75890951414676, -63.19931066192647",
+          horario: "Atención: 8:00-23:00 (L-V) y 9:00-22:00 (S-D)"
         },
         {
           id: 5,
           nombre: 'SANTOS DUMONT',
-          direccion: 'Av Santos Dumont 3228',
+          direccion: 'Av Santos Dumont 3228, Santa de la Sierra, Bolivia.',
           telefono: '78452415',
-          coodenadas: [
-            '-17.820341605927634, -63.184337508678894',
-            '-17.820367373101746, -63.1842179677349',
-            '-17.820558480382306, -63.184245033386134',
-            '-17.82054559681319, -63.18436682994885',
-          ],
-        },
+          coordenada: "-17.82045326405622, -63.18429183493720",
+          horario: "Horario: 8 AM - 11 PM entre semana, 9 AM - 10 PM fines de semana"
+        }
       ];
 
       const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
@@ -841,20 +821,6 @@
             throw error;
         }
       }
-      
-      {% comment %} (async function() {
-        try {
-          {% comment %} const sucursales = await getSucursales();
-          console.log(sucursales); {% endcomment %}
-          {% comment %} asdsa {% endcomment %}
-          const locationId = "gid://shopify/Location/103470498076";
-          const inventario = await getProductosSucursal(locationId);
-          console.log(inventario);
-          
-        } catch (error) {
-          console.error('Error:', error);
-        }
-      })(); {% endcomment %}
 
       async function verificarLocalStorage() {
         try {
@@ -1134,7 +1100,44 @@
         // cuando el usuario selecciona una opción
         console.log('Opción seleccionada:', opcion);
       }
+
+      function crearOpcionesSeleccionSucursal(){
+        const contenedorBase = document.querySelector('.lista-sucursales');
+        let contenido = ``;
+
+        bodega.forEach((sucursal) => {
+          const dataUbicacion = sucursal.coordenada.split(',');
+          const latitud = parseFloat(dataUbicacion[0]);
+          const longitud = parseFloat(dataUbicacion[1]);
+          const distancia = calculateDistance(ubicacionCliente, { lat: latitud, lng: longitud });
+
+          contenido +=`
+            <div class="item-sucursal">
+              <h4>${sucursal.nombre}</h4>
+              <span class="distancia-kilometros">${distancia} KM</span>
+              <div style="display: flex; flex-direction: column; gap: 8.5px;">
+                <div class="detalle-sucursal">
+                  {% render 'icon-ping-location' %}
+                  <span>${sucursal.direccion}</span>
+                </div>
+                <div class="detalle-sucursal">
+                  {% render 'icon-audifonos' %}
+                  <span>+591 ${sucursal.telefono}</span>
+                </div>
+                <div class="detalle-sucursal">
+                  {% render 'icon-reloj' %}
+                  <span>${sucursal.horario}</span>
+                </div>
+                <button>Ver Productos</button>
+              </div>
+            </div>
+          `;
+        });
+
+        contenedorBase.innerHTML = contenido;
+      }
       
+
       // Cerrar dropdown si se hace clic fuera de él
       document.addEventListener('click', function(evento) {
         const contenedor = document.querySelector('.contenedor-opciones-seleccion');
@@ -1146,7 +1149,7 @@
 
       document.addEventListener('DOMContentLoaded', function() {
         initMap();
-        
+        crearOpcionesSeleccionSucursal();
       });
 
       // Referencias a elementos DOM
