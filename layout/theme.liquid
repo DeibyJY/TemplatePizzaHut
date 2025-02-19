@@ -1114,6 +1114,7 @@
         console.log('Opción seleccionada:', opcion);
       }
 
+      // Funcion para crear las opciones de seleccion de sucursal
       function crearOpcionesSeleccionSucursal(){
         const contenedorBase = document.querySelector('.lista-sucursales');
         let contenido = ``;
@@ -1127,7 +1128,7 @@
           contenido +=`
             <div class="item-sucursal">
               <h4>${sucursal.nombre}</h4>
-              <span class="distancia-kilometros">${distancia} KM</span>
+              <span class="distancia-kilometros">${distancia.toFixed(2)} KM</span>
               <div style="display: flex; flex-direction: column; gap: 8.5px;">
                 <div class="detalle-sucursal">
                   {% render 'icon-ping-location' %}
