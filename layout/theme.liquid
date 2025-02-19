@@ -57,7 +57,7 @@
 
       body {
         {% comment %} font-family: Arial, sans-serif; {% endcomment %}
-        font-family: var(--font-family-base);
+        {% comment %} font-family: var(--font-family-base); {% endcomment %}
       }
 
       header {
@@ -465,7 +465,7 @@
       }
 
       .item-sucursal span[style*="color: #da1a32"] {
-        font-family: var(--fuente-principal);
+        font-family: var(--font-family-base);
         font-weight: 700;
         font-size: var(--tamano-texto-grande);
         line-height: var(--altura-linea);
