@@ -1009,9 +1009,16 @@
           zoom: 13,
           mapTypeControl: true,
           fullscreenControl: true,
-          streetViewControl: true,
+          streetViewControl: false, 
           zoomControl: true,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
+          styles: [
+            {
+              featureType: "poi",
+              elementType: "labels",
+              stylers: [{ visibility: "off" }]
+            }
+          ]
         });
         
         // Marcadores de las pizzerías con imagen personalizada
