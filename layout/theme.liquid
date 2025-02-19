@@ -309,220 +309,6 @@
       .seleccionada .indicador {
         visibility: visible;
       }
-
-
-      :root {
-        /* Variables de colores */
-        --color-primario: #da1a32;
-        --color-negro: rgba(35, 31, 32, 1);
-        --color-blanco: #ffffff;
-        --color-sombra: rgba(0, 0, 0, 0.1);
-        --color-borde-claro: rgba(0, 0, 0, 0.12);
-
-        /* Variables de tipografía */
-        --fuente-principal: 'SharpSansDispNo1-Bold', sans-serif;
-        --tamano-texto-grande: 20px;
-        --tamano-texto-normal: 16px;
-        --altura-linea: 26px;
-
-        /* Variables de espaciado */
-        --espaciado-pequeno: 5px;
-        --espaciado-base: 10px;
-        --espaciado-medio: 15px;
-        --espaciado-grande: 20px;
-
-        /* Variables de bordes y radios */
-        --radio-pequeno: 5px;
-        --radio-medio: 15px;
-        --radio-circular: 50%;
-      }
-
-      /* Estilos generales */
-      .modal-ubicacion {
-        border-radius: var(--radio-medio);
-        width: 80vw;
-        height: 90vh;
-      }
-
-      /* Cabecera del modal */
-      .cabecera-modal {
-        background-color: var(--color-negro);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        width: 100%;
-        padding: var(--espaciado-pequeno) 0;
-        height: 11%;
-      }
-
-      .boton-cerrar {
-        background: transparent;
-        border: none;
-        color: var(--color-blanco);
-        position: absolute;
-        left: var(--espaciado-base);
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        fill: var(--color-blanco);
-      }
-
-      .logo-cabecera {
-        width: 40px;
-        height: 40px;
-        background-color: var(--color-blanco);
-        border-radius: var(--radio-circular);
-        padding: 3.5px;
-      }
-
-      /* Cuerpo del modal */
-      .cuerpo-modal {
-        background-color: var(--color-negro);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        height: 89%;
-      }
-
-      /* Selector de tipo de entrega */
-      .contenedor-selector {
-        display: flex;
-        align-items: center;
-        justify-content: stretch;
-        height: 12%;
-        width: 100%;
-      }
-
-      .cabecera-selector {
-        width: 100%;
-      }
-
-      .texto-seleccionado {
-        /* Los estilos específicos se mantienen del original */
-      }
-
-      .flecha-selector {
-        /* Los estilos específicos se mantienen del original */
-      }
-
-      .opciones-selector {
-        /* Los estilos específicos se mantienen del original */
-      }
-
-      .opcion-entrega {
-        /* Los estilos específicos se mantienen del original */
-      }
-
-      .indicador-seleccion {
-        /* Los estilos específicos se mantienen del original */
-      }
-
-      /* Contenedor de información */
-      .contenedor-informacion {
-        display: flex;
-        width: 100%;
-        height: 88%;
-      }
-
-      /* Panel izquierdo */
-      .panel-izquierdo {
-        display: flex;
-        flex-direction: column;
-        width: 40%;
-        height: 100%;
-        background-color: var(--color-blanco);
-      }
-
-      .titulo-panel {
-        padding: var(--espaciado-base);
-        border-bottom: 1px solid var(--color-borde-claro);
-        width: 100%;
-        height: 10%;
-        display: flex;
-        align-items: center;
-      }
-
-      .lista-tiendas {
-        display: flex;
-        flex-direction: column;
-        gap: var(--espaciado-base);
-        padding: var(--espaciado-base);
-        overflow-y: auto;
-        height: 100%;
-        width: 100%;
-      }
-
-      /* Tarjeta de sucursal */
-      .tarjeta-sucursal {
-        width: 100%;
-        background-color: var(--color-blanco);
-        border-radius: var(--radio-pequeno);
-        padding: var(--espaciado-base);
-        display: flex;
-        flex-direction: column;
-        border: 2px solid transparent;
-        cursor: pointer;
-        box-shadow: 2px 4px var(--espaciado-grande) 0 var(--color-sombra);
-      }
-
-      .nombre-sucursal {
-        font-family: var(--fuente-principal);
-        font-weight: 700;
-        font-size: var(--tamano-texto-grande);
-        line-height: var(--altura-linea);
-        letter-spacing: normal;
-        text-transform: uppercase;
-        text-decoration: none;
-        font-synthesis: none;
-        color: var(--color-negro);
-      }
-
-      .distancia-sucursal {
-        font-family: var(--fuente-principal);
-        font-weight: 700;
-        font-size: var(--tamano-texto-grande);
-        line-height: var(--altura-linea);
-        letter-spacing: normal;
-        text-transform: uppercase;
-        text-decoration: none;
-        font-synthesis: none;
-        color: var(--color-primario);
-        margin-bottom: var(--espaciado-base);
-      }
-
-      .detalles-sucursal {
-        display: flex;
-        flex-direction: column;
-        gap: 8.5px;
-      }
-
-      .linea-detalle {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-      }
-
-      .boton-ver-productos {
-        border-radius: var(--radio-pequeno);
-        background-color: var(--color-primario);
-        color: var(--color-blanco);
-        border: 1px solid var(--color-primario);
-        width: 100%;
-        padding: var(--espaciado-pequeno) var(--espaciado-base);
-        cursor: pointer;
-        font-weight: 600;
-        margin-top: var(--espaciado-pequeno);
-      }
-
-      /* Panel derecho (mapa) */
-      .panel-derecho {
-        display: flex;
-        width: 60%;
-        height: 100%;
-        background-color: #f5f5f5; /* Un color más apropiado que el amarillo */
-      }
     </style>
   </head>
   <body>
@@ -612,70 +398,238 @@
           </div>
         </div>
       {% endcomment %}
-      <!-- Modal de selección de ubicación -->
-      <div class="modal-ubicacion">
-        <!-- Cabecera del modal -->
-        <div class="cabecera-modal">
-          <button class="boton-cerrar">
+      <div
+        style="
+          border-radius: 15px;
+          width: 80vw;
+          height: 90vh;
+        "
+        class="modal-solicitud-ubicacion"
+      >
+        <!-- Header con flexbox correctamente ajustado -->
+        <div
+          style="
+            background-color: rgba(35,31,32,1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            padding: 5px 0px;
+            height: 11%;
+          "
+          class="modal-head"
+        >
+          <button
+            style="
+              background: transparent;
+              border: none;
+              color: white;
+              position: absolute;
+              left: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              cursor: pointer;
+              fill: white;
+            "
+          >
             {% render 'icon-close' %}
           </button>
-          <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Pizza Hut" class="logo-cabecera">
-        </div>
 
-        <!-- Cuerpo del modal -->
-        <div class="cuerpo-modal">
-          <!-- Selector de tipo de entrega -->
-          <div class="contenedor-selector">
-            <div class="cabecera-selector" id="cabecera-desplegable">
+          <img
+            src="{{ 'Logo-footer.svg' | asset_url }}"
+            alt="Pizza Hut"
+            style="
+              width: 40px;
+              height: 40px;
+              background-color: white;
+              border-radius: 50%;
+              padding: 3.5px;
+            "
+          >
+        </div>
+        <div
+          style="
+            background-color : rgba(35,31,32,1);
+            display : flex;
+            flex-direction : column;
+            align-items : center;
+            width: 100%;
+            height: 89%;
+          "
+          class="modal-body"
+        >
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: stretch;
+              height: 12%;
+            "
+            class="contenedor-desplegable"
+          >
+            <div class="cabecera" id="cabecera-desplegable" style="width: 100%;">
               <span id="texto-seleccionado">A DOMICILIO</span>
               <span id="flecha">▼</span>
             </div>
 
-            <div class="opciones-selector" id="lista-opciones">
-              <div class="opcion-entrega" data-valor="PEDIDO PARA RECOGER EN LOCAL">
+            <div class="opciones" id="lista-opciones">
+              <div class="opcion" data-valor="PEDIDO PARA RECOGER EN LOCAL">
                 PEDIDO PARA RECOGER EN LOCAL
-                <span class="indicador-seleccion">✓</span>
+                <span class="indicador">✓</span>
               </div>
-              <div class="opcion-entrega seleccionada" data-valor="A DOMICILIO">
+
+              <div class="opcion seleccionada" data-valor="A DOMICILIO">
                 A DOMICILIO
-                <span class="indicador-seleccion">✓</span>
+                <span class="indicador">✓</span>
               </div>
             </div>
           </div>
-
-          <!-- Contenedor de información -->
-          <div class="contenedor-informacion">
-            <!-- Panel izquierdo - Lista de tiendas -->
-            <div class="panel-izquierdo">
-              <div class="titulo-panel">Tiendas ubicadas</div>
-              <div class="lista-tiendas">
-                <div class="tarjeta-sucursal">
-                  <h4 class="nombre-sucursal">SANTA CRUZ</h4>
-                  <span class="distancia-sucursal">1.32 KM</span>
-                  <div class="detalles-sucursal">
-                    <div class="linea-detalle">
+          <div
+            style="
+              display : flex;
+              width: 100%;
+              height: 88%;
+            "
+            class="informacion-select-sucursal"
+          >
+            <div
+              style="
+                display : flex;
+                flex-direction: column;
+                width: 40%;
+                height: 100%;
+                background-color: #fff;
+              "
+              class="informacion-left"
+            >
+              <div
+                style="
+                  padding: 10px;
+                  border-bottom: 1px solid #0000001F;
+                  width: 100%;
+                  height: 10%;
+                  display: flex;
+                  align-items: center;
+                "
+                class="texto-base"
+              >
+                Tiendas ubicadas
+              </div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+                  padding: 10px;
+                  overflow-y: auto;
+                  height: 100%;
+                  width: 100%;
+                "
+                class="lista-sucursales"
+              >
+                <div
+                  style="
+                    width: 100%;
+                    background-color: rgba(255,255,255,1);
+                    border-radius: 5px;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    border: 2px solid transparent;
+                    cursor: pointer;
+                    box-shadow: 2px 4px 20px 0px rgba(0,0,0,0.1);
+                  "
+                  class="item-sucursal"
+                >
+                  <h4
+                    style="
+                      font-family: SharpSansDispNo1-Bold;
+                      font-weight: 700;
+                      font-size: 20px;
+                      line-height: 26px;
+                      letter-spacing: normal;
+                      text-transform: uppercase;
+                      text-decoration: none;
+                      font-synthesis: none;
+                      color: rgba(35,31,32,1);
+                    "
+                  >
+                    SANTA CRUZ
+                  </h4>
+                  <span
+                    style="
+                      font-family: SharpSansDispNo1-Bold;
+                      font-weight: 700;
+                      font-size: 20px;
+                      line-height: 26px;
+                      letter-spacing: normal;
+                      text-transform: uppercase;
+                      text-decoration: none;
+                      font-synthesis: none;
+                      color: #da1a32;
+                      margin-bottom: 10px;
+                    "
+                    >1.32 KM</span
+                  >
+                  <div style="display: flex; flex-direction: column; gap: 8.5px;">
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 7px;
+                      "
+                      class="detalle-sucursal"
+                    >
                       {% render 'icon-ping-location' %}
                       <span>Av. San Martin 2200, Santa de la Sierra, Bolivia</span>
                     </div>
-                    <div class="linea-detalle">
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 7px;
+                      "
+                      class="detalle-sucursal"
+                    >
                       {% render 'icon-audifonos' %}
                       <span>+591 78452415</span>
                     </div>
-                    <div class="linea-detalle">
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 7px;
+                      "
+                      class="detalle-sucursal"
+                    >
                       {% render 'icon-reloj' %}
                       <span>De Lunes a Viernes de 8:00 a 23:00</span>
                     </div>
-                    <button class="boton-ver-productos">Ver Productos</button>
+                    <button
+                      style="
+                        border-radius: 5px;
+                        background-color: rgba(218, 26, 50, 1);
+                        color: rgba(255, 255, 255, 1);
+                        border: rgba(218, 26, 50, 1);
+                        width: 100%;
+                      "
+                    >
+                      Ver Productos
+                    </button>
                   </div>
                 </div>
-                <!-- Aquí se pueden agregar más tarjetas de sucursales -->
               </div>
             </div>
-
-            <!-- Panel derecho - Mapa -->
-            <div class="panel-derecho">
-              <!-- Aquí iría el mapa -->
-            </div>
+            <div
+              style="
+                background-color : yellow;
+                display : flex;
+                width: 60%;
+                height: 100%;
+              "
+              class="informacion-right"
+            ></div>
           </div>
         </div>
       </div>
