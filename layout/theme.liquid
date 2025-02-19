@@ -12,236 +12,236 @@
 
     {{ content_for_header }}
     <style>
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        body {
-          font-family: Arial, sans-serif;
-        }
+      body {
+        font-family: Arial, sans-serif;
+      }
 
-        header {
-          background-color: #333;
-          color: #fff;
-          padding: 10px;
-          text-align: center;
-        }
+      header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+      }
 
-        footer {
-          background-color: #333;
-          color: #fff;
-          padding: 10px;
-          text-align: center;
-          bottom: 0;
-          width: 100%;
-        }
+      footer {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        bottom: 0;
+        width: 100%;
+      }
 
-        .banner-custom {
-          background-color: #f0f0f0;
-          color: #333;
-          padding: 10px;
-          text-align: center;
-          display: flex;
-          flex-direction: row;
-          gap: 10px;
-          justify-content: center;
-          align-items: center;
-          padding: auto;
-        }
+      .banner-custom {
+        background-color: #f0f0f0;
+        color: #333;
+        padding: 10px;
+        text-align: center;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+        padding: auto;
+      }
 
-        .banner-custom p {
-          margin: 0;
-          padding: 0;
-          font-size: 1.5rem;
-          font-weight: bold;
-        }
+      .banner-custom p {
+        margin: 0;
+        padding: 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
 
-        .banner-custom button {
-          background-color: #333;
-          color: #fff;
-          padding: 10px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-        }
+      .banner-custom button {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        .coleccion-productos {
-          background-color: #f0f0f0;
-          color: #333;
-          padding: 10px;
-          text-align: center;
-          width: 100%;
-          height: 80vh;
-          border-top: 1px solid #333;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          justify-content: flex-start;
-          align-items: center;
-        }
+      .coleccion-productos {
+        background-color: #f0f0f0;
+        color: #333;
+        padding: 10px;
+        text-align: center;
+        width: 100%;
+        height: 80vh;
+        border-top: 1px solid #333;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: flex-start;
+        align-items: center;
+      }
 
-        .sucursales-tienda {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          gap: 10px;
-          justify-content: center;
-          align-items: center;
-        }
+      .sucursales-tienda {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+      }
 
-        .sucursal-item {
-          height: auto;
-          width: 200px;
-          background-color: #fff;
-          color: #333;
-          padding: 15px;
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-          border-radius: 8px;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-          transition: all 0.3s ease;
-          cursor: pointer;
-          border: 2px solid transparent;
-        }
+      .sucursal-item {
+        height: auto;
+        width: 200px;
+        background-color: #fff;
+        color: #333;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
 
-        .sucursal-item-seleccionada {
-          height: auto;
-          width: 200px;
-          background-color: #333;
-          color: #fff;
-          padding: 15px;
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-          border-radius: 8px;
-          border-color: #da1a32;
-          box-shadow: 0 4px 12px rgba(218, 26, 50, 0.2);
-          transition: all 0.3s ease;
-          cursor: pointer;
-          border: 2px solid transparent;
-        }
-        .productos-items {
-          width: 100%;
-          overflow: auto;
-        }
-        .productos-lista {
-          list-style: none;
-          padding: 0;
-          margin: 20px;
-        }
-        .producto-item {
-          background: #f5f5f5;
-          padding: 10px;
-          margin-bottom: 10px;
-          border-radius: 4px;
-        }
-        .producto-info {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .producto-nombre {
-          font-weight: bold;
-        }
-        .producto-stock {
-          color: #666;
-        }
-        .producto-id {
-          color: #999;
-          font-size: 12px;
-        }
+      .sucursal-item-seleccionada {
+        height: auto;
+        width: 200px;
+        background-color: #333;
+        color: #fff;
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        border-radius: 8px;
+        border-color: #da1a32;
+        box-shadow: 0 4px 12px rgba(218, 26, 50, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        border: 2px solid transparent;
+      }
+      .productos-items {
+        width: 100%;
+        overflow: auto;
+      }
+      .productos-lista {
+        list-style: none;
+        padding: 0;
+        margin: 20px;
+      }
+      .producto-item {
+        background: #f5f5f5;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+      .producto-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .producto-nombre {
+        font-weight: bold;
+      }
+      .producto-stock {
+        color: #666;
+      }
+      .producto-id {
+        color: #999;
+        font-size: 12px;
+      }
 
-        .background-overlay button{
-          border: none;
-          background-color: transparent;
-          cursor: pointer;
-          padding: 8px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-        }
+      .background-overlay button{
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+      }
 
-        .background-overlay {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100vw;
-          height: 100vh;
-          background-color: rgba(0, 0, 0, 0.5);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-          overflow-y: hidden !important;
-          {% comment %} display: none; {% endcomment %}
-        }
+      .background-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        overflow-y: hidden !important;
+        {% comment %} display: none; {% endcomment %}
+      }
 
-        .modal-solicitud-ubicacion {
-          background-color: #fff;
-          {% comment %} padding: 20px; {% endcomment %}
-          border-radius: 2px;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-          width: 50%;
-          height: auto;
-        }
+      .modal-solicitud-ubicacion {
+        background-color: #fff;
+        {% comment %} padding: 20px; {% endcomment %}
+        border-radius: 2px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        width: 50%;
+        height: auto;
+      }
 
-        .head-modal {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
+      .head-modal {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
 
-        .body-modal{
-          display: flex;
-          flex-direction: column;
-          padding: 10px;
-          border-top: 1px solid #333;
-          padding-bottom: 10px;
-        }
+      .body-modal{
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+        border-top: 1px solid #333;
+        padding-bottom: 10px;
+      }
 
-        .body-mensaje-2,
-        .body-mensaje-1 {
-          display: flex;
-              flex-direction: row;
-              justify-content: start;
-              gap: 10px;
-              align-items: center;
-        }
+      .body-mensaje-2,
+      .body-mensaje-1 {
+        display: flex;
+            flex-direction: row;
+            justify-content: start;
+            gap: 10px;
+            align-items: center;
+      }
 
-        .body-mapa{
-          height: 300px;
-          width: 100%;
-          background-color: #f0f0f0;
-        }
+      .body-mapa{
+        height: 300px;
+        width: 100%;
+        background-color: #f0f0f0;
+      }
 
-        .footer-modal{
-          display: flex;
-          justify-content: center;
-          gap: 20px;
-          align-items: center;
-          padding-top: 10px;
-          border-top: 1px solid #333;
-        }
+      .footer-modal{
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        align-items: center;
+        padding-top: 10px;
+        border-top: 1px solid #333;
+      }
 
-        .footer-modal button {
-          width: auto;
-          background-color: #ffffff;
-          color: #1a1a1a;
-          padding: 12px 24px;
-          border: 2px solid #1a1a1a;
-          border-radius: 8px;
-          cursor: pointer;
-          font-weight: 600;
-          font-size: 14px;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          transition: all 0.3s ease;
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      .footer-modal button {
+        width: auto;
+        background-color: #ffffff;
+        color: #1a1a1a;
+        padding: 12px 24px;
+        border: 2px solid #1a1a1a;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       }
 
       .footer-modal button:hover {
@@ -251,12 +251,97 @@
           box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       }
 
+      :root {
+        /* Variables de colores */
+        --color-primario: #da1a32;
+        --color-rojo-seleccion: #cc0000;
+        --color-negro: rgba(35, 31, 32, 1);
+        --color-blanco: #ffffff;
+        --color-borde: #ddd;
+        --color-borde-claro: #f0f0f0;
+        --color-hover: #f5f5f5;
+        --color-seleccionado: #f0f0f0;
+        --color-sombra-suave: rgba(0, 0, 0, 0.1);
+
+        /* Variables de tipografía */
+        --fuente-principal: 'SharpSansDispNo1-Bold', sans-serif;
+        --fuente-secundaria: Arial, sans-serif;
+        --tamano-texto-grande: 20px;
+        --tamano-texto-normal: 16px;
+        --altura-linea: 26px;
+
+        /* Variables de espaciado */
+        --espaciado-pequeno: 5px;
+        --espaciado-base: 10px;
+        --espaciado-medio: 15px;
+        --espaciado-grande: 20px;
+
+        /* Variables de bordes y radios */
+        --radio-pequeno: 5px;
+        --radio-medio: 15px;
+        --radio-circular: 50%;
+      }
+
+      /* Estilos del modal */
+      .modal-solicitud-ubicacion {
+        border-radius: var(--radio-medio);
+        width: 80vw;
+        height: 90vh;
+      }
+
+      /* Cabecera del modal */
+      .modal-head {
+        background-color: var(--color-negro);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        width: 100%;
+        padding: var(--espaciado-pequeno) 0px;
+        height: 11%;
+      }
+
+      .modal-head button {
+        background: transparent;
+        border: none;
+        color: var(--color-blanco);
+        position: absolute;
+        left: var(--espaciado-base);
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        fill: var(--color-blanco);
+      }
+
+      .modal-head img {
+        width: 40px;
+        height: 40px;
+        background-color: var(--color-blanco);
+        border-radius: var(--radio-circular);
+        padding: 3.5px;
+      }
+
+      /* Cuerpo del modal */
+      .modal-body {
+        background-color: var(--color-negro);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        height: 89%;
+      }
+
+      /* MANTENER ESTILOS ORIGINALES DEL DESPLEGABLE */
       .contenedor-desplegable {
+        display: flex;
+        align-items: center;
+        justify-content: stretch;
+        height: 12%;
         background-color: white;
         width: 100%;
-        border: 1px solid #ddd;
-        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
-        font-family: Arial, sans-serif;
+        border: 1px solid var(--color-borde);
+        box-shadow: 0px 2px 5px var(--color-sombra-suave);
+        font-family: var(--fuente-secundaria);
         position: relative;
       }
 
@@ -264,8 +349,9 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 15px;
+        padding: var(--espaciado-medio);
         cursor: pointer;
+        width: 100%;
       }
 
       .opciones {
@@ -274,40 +360,151 @@
         position: absolute;
         left: 0;
         top: 100%;
-        background-color: white;
+        background-color: var(--color-blanco);
         z-index: 10;
-        border-top: 1px solid #f0f0f0;
-        box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+        border-top: 1px solid var(--color-borde-claro);
+        box-shadow: 0px 4px 8px var(--color-sombra-suave);
       }
 
       .opcion {
-        padding: 15px;
+        padding: var(--espaciado-medio);
         cursor: pointer;
         display: flex;
         justify-content: space-between;
       }
 
       .opcion:first-child {
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid var(--color-borde-claro);
       }
 
       .opcion:hover {
-        background-color: #f5f5f5;
+        background-color: var(--color-hover);
       }
 
       .seleccionada {
-        background-color: #f0f0f0;
-        border-left: 3px solid #cc0000;
+        background-color: var(--color-seleccionado);
+        border-left: 3px solid var(--color-rojo-seleccion);
       }
 
       .indicador {
-        color: #cc0000;
+        color: var(--color-rojo-seleccion);
         font-weight: bold;
         visibility: hidden;
       }
 
       .seleccionada .indicador {
         visibility: visible;
+      }
+
+      /* Contenedor principal de información */
+      .informacion-select-sucursal {
+        display: flex;
+        width: 100%;
+        height: 88%;
+      }
+
+      /* Panel izquierdo */
+      .informacion-left {
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+        height: 100%;
+        background-color: var(--color-blanco);
+      }
+
+      .texto-base {
+        padding: var(--espaciado-base);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        width: 100%;
+        height: 10%;
+        display: flex;
+        align-items: center;
+      }
+
+      .lista-sucursales {
+        display: flex;
+        flex-direction: column;
+        gap: var(--espaciado-base);
+        padding: var(--espaciado-base);
+        overflow-y: auto;
+        height: 100%;
+        width: 100%;
+      }
+
+      /* Tarjeta de sucursal */
+      .item-sucursal {
+        width: 100%;
+        background-color: var(--color-blanco);
+        border-radius: var(--radio-pequeno);
+        padding: var(--espaciado-base);
+        display: flex;
+        flex-direction: column;
+        border: 2px solid transparent;
+        cursor: pointer;
+        box-shadow: 2px 4px var(--espaciado-grande) 0px var(--color-sombra-suave);
+      }
+
+      .item-sucursal h4 {
+        font-family: var(--fuente-principal);
+        font-weight: 700;
+        font-size: var(--tamano-texto-grande);
+        line-height: var(--altura-linea);
+        letter-spacing: normal;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-synthesis: none;
+        color: var(--color-negro);
+      }
+
+      .item-sucursal span[style*="color: #da1a32"] {
+        font-family: var(--fuente-principal);
+        font-weight: 700;
+        font-size: var(--tamano-texto-grande);
+        line-height: var(--altura-linea);
+        letter-spacing: normal;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-synthesis: none;
+        color: var(--color-primario);
+        margin-bottom: var(--espaciado-base);
+      }
+
+      .detalle-sucursal {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .item-sucursal button {
+        border-radius: var(--radio-pequeno);
+        background-color: var(--color-primario);
+        color: var(--color-blanco);
+        border: 1px solid var(--color-primario);
+        width: 100%;
+        padding: var(--espaciado-pequeno) 0;
+        cursor: pointer;
+        margin-top: var(--espaciado-pequeno);
+      }
+
+      /* Panel derecho */
+      .informacion-right {
+        background-color: #f5f5f5; /* Cambiado de amarillo a un gris claro más apropiado */
+        display: flex;
+        width: 60%;
+        height: 100%;
+      }
+
+      /* Clase específica para la distancia */
+      .distancia-kilometros {
+        font-family: var(--fuente-principal);
+        font-weight: 400;
+        font-size: var(--tamano-texto-grande);
+        line-height: var(--altura-linea);
+        letter-spacing: normal;
+        text-transform: uppercase;
+        text-decoration: none;
+        font-synthesis: none;
+        color: var(--color-primario);
       }
     </style>
   </head>
@@ -398,77 +595,18 @@
           </div>
         </div>
       {% endcomment %}
-      <div
-        style="
-          border-radius: 15px;
-          width: 80vw;
-          height: 90vh;
-        "
-        class="modal-solicitud-ubicacion"
-      >
+      <div class="modal-solicitud-ubicacion">
         <!-- Header con flexbox correctamente ajustado -->
-        <div
-          style="
-            background-color: rgba(35,31,32,1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 100%;
-            padding: 5px 0px;
-            height: 11%;
-          "
-          class="modal-head"
-        >
-          <button
-            style="
-              background: transparent;
-              border: none;
-              color: white;
-              position: absolute;
-              left: 10px;
-              top: 50%;
-              transform: translateY(-50%);
-              cursor: pointer;
-              fill: white;
-            "
-          >
+        <div class="modal-head">
+          <button>
             {% render 'icon-close' %}
           </button>
-
-          <img
-            src="{{ 'Logo-footer.svg' | asset_url }}"
-            alt="Pizza Hut"
-            style="
-              width: 40px;
-              height: 40px;
-              background-color: white;
-              border-radius: 50%;
-              padding: 3.5px;
-            "
-          >
+          <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Pizza Hut">
         </div>
-        <div
-          style="
-            background-color : rgba(35,31,32,1);
-            display : flex;
-            flex-direction : column;
-            align-items : center;
-            width: 100%;
-            height: 89%;
-          "
-          class="modal-body"
-        >
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-content: stretch;
-              height: 12%;
-            "
-            class="contenedor-desplegable"
-          >
-            <div class="cabecera" id="cabecera-desplegable" style="width: 100%;">
+
+        <div class="modal-body">
+          <div class="contenedor-desplegable">
+            <div class="cabecera" id="cabecera-desplegable">
               <span id="texto-seleccionado">A DOMICILIO</span>
               <span id="flecha">▼</span>
             </div>
@@ -485,151 +623,36 @@
               </div>
             </div>
           </div>
-          <div
-            style="
-              display : flex;
-              width: 100%;
-              height: 88%;
-            "
-            class="informacion-select-sucursal"
-          >
-            <div
-              style="
-                display : flex;
-                flex-direction: column;
-                width: 40%;
-                height: 100%;
-                background-color: #fff;
-              "
-              class="informacion-left"
-            >
-              <div
-                style="
-                  padding: 10px;
-                  border-bottom: 1px solid #0000001F;
-                  width: 100%;
-                  height: 10%;
-                  display: flex;
-                  align-items: center;
-                "
-                class="texto-base"
-              >
-                Tiendas ubicadas
-              </div>
-              <div
-                style="
-                  display: flex;
-                  flex-direction: column;
-                  gap: 10px;
-                  padding: 10px;
-                  overflow-y: auto;
-                  height: 100%;
-                  width: 100%;
-                "
-                class="lista-sucursales"
-              >
-                <div
-                  style="
-                    width: 100%;
-                    background-color: rgba(255,255,255,1);
-                    border-radius: 5px;
-                    padding: 10px;
-                    display: flex;
-                    flex-direction: column;
-                    border: 2px solid transparent;
-                    cursor: pointer;
-                    box-shadow: 2px 4px 20px 0px rgba(0,0,0,0.1);
-                  "
-                  class="item-sucursal"
-                >
-                  <h4
-                    style="
-                      font-family: SharpSansDispNo1-Bold;
-                      font-weight: 700;
-                      font-size: 20px;
-                      line-height: 26px;
-                      letter-spacing: normal;
-                      text-transform: uppercase;
-                      text-decoration: none;
-                      font-synthesis: none;
-                      color: rgba(35,31,32,1);
-                    "
-                  >
-                    SANTA CRUZ
-                  </h4>
-                  <span
-                    style="
-                      font-family: SharpSansDispNo1-Bold;
-                      font-weight: 700;
-                      font-size: 20px;
-                      line-height: 26px;
-                      letter-spacing: normal;
-                      text-transform: uppercase;
-                      text-decoration: none;
-                      font-synthesis: none;
-                      color: #da1a32;
-                      margin-bottom: 10px;
-                    "
-                    >1.32 KM</span
-                  >
+
+          <div class="informacion-select-sucursal">
+            <div class="informacion-left">
+              <div class="texto-base">Tiendas ubicadas</div>
+              <div class="lista-sucursales">
+                <div class="item-sucursal">
+                  <h4>SANTA CRUZ</h4>
+                  <span class="distancia-kilometros">1.32 KM</span>
                   <div style="display: flex; flex-direction: column; gap: 8.5px;">
-                    <div
-                      style="
-                        display: flex;
-                        align-items: center;
-                        gap: 7px;
-                      "
-                      class="detalle-sucursal"
-                    >
+                    <div class="detalle-sucursal">
                       {% render 'icon-ping-location' %}
                       <span>Av. San Martin 2200, Santa de la Sierra, Bolivia</span>
                     </div>
-                    <div
-                      style="
-                        display: flex;
-                        align-items: center;
-                        gap: 7px;
-                      "
-                      class="detalle-sucursal"
-                    >
+                    <div class="detalle-sucursal">
                       {% render 'icon-audifonos' %}
                       <span>+591 78452415</span>
                     </div>
-                    <div
-                      style="
-                        display: flex;
-                        align-items: center;
-                        gap: 7px;
-                      "
-                      class="detalle-sucursal"
-                    >
+                    <div class="detalle-sucursal">
                       {% render 'icon-reloj' %}
                       <span>De Lunes a Viernes de 8:00 a 23:00</span>
                     </div>
-                    <button
-                      style="
-                        border-radius: 5px;
-                        background-color: rgba(218, 26, 50, 1);
-                        color: rgba(255, 255, 255, 1);
-                        border: rgba(218, 26, 50, 1);
-                        width: 100%;
-                      "
-                    >
-                      Ver Productos
-                    </button>
+                    <button>Ver Productos</button>
                   </div>
                 </div>
+                <!-- Aquí puedes agregar más sucursales siguiendo el mismo patrón -->
               </div>
             </div>
-            <div
-              style="
-                background-color : yellow;
-                display : flex;
-                width: 60%;
-                height: 100%;
-              "
-              class="informacion-right"
-            ></div>
+            <div class="informacion-right">
+              <!-- Aquí iría el mapa o contenido del panel derecho -->
+            </div>
           </div>
         </div>
       </div>
