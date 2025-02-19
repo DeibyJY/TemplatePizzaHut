@@ -613,12 +613,12 @@
             </div>
 
             <div class="opciones" id="lista-opciones">
-              <div class="opcion" data-valor="PEDIDO PARA RECOGER EN LOCAL">
+              <div class="opcion seleccionada" data-valor="PEDIDO PARA RECOGER EN LOCAL">
                 PEDIDO PARA RECOGER EN LOCAL
                 <span class="indicador">✓</span>
               </div>
 
-              <div class="opcion seleccionada" data-valor="A DOMICILIO">
+              <div class="opcion" data-valor="A DOMICILIO">
                 A DOMICILIO
                 <span class="indicador">✓</span>
               </div>
@@ -1181,6 +1181,7 @@
           flecha.textContent = '▼';
         });
       });
+      
       
       // Cerrar al hacer clic fuera
       document.addEventListener('click', (evento) => {
