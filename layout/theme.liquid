@@ -503,8 +503,8 @@
       }
 
       /* Clase específica para la distancia */
-      .distancia-kilometros {
-        font-family: var(--fuente-principal);
+      .etiqueta-nombre-sucursal {
+        font-family: var(--font-family-base);
         font-weight: 700;
         font-size: var(--tamano-texto-grande);
         line-height: var(--altura-linea);
@@ -636,28 +636,7 @@
           <div class="informacion-select-sucursal">
             <div class="informacion-left">
               <div class="texto-base">Tiendas ubicadas</div>
-              <div class="lista-sucursales">
-                <div class="item-sucursal">
-                  <h4>SANTA CRUZ</h4>
-                  <span class="distancia-kilometros">1.32 KM</span>
-                  <div style="display: flex; flex-direction: column; gap: 8.5px;">
-                    <div class="detalle-sucursal">
-                      {% render 'icon-ping-location' %}
-                      <span>Av. San Martin 2200, Santa de la Sierra, Bolivia</span>
-                    </div>
-                    <div class="detalle-sucursal">
-                      {% render 'icon-audifonos' %}
-                      <span>+591 78452415</span>
-                    </div>
-                    <div class="detalle-sucursal">
-                      {% render 'icon-reloj' %}
-                      <span>De Lunes a Viernes de 8:00 a 23:00</span>
-                    </div>
-                    <button>Ver Productos</button>
-                  </div>
-                </div>
-                <!-- Aquí puedes agregar más sucursales siguiendo el mismo patrón -->
-              </div>
+              <div class="lista-sucursales"></div>
             </div>
             <div class="informacion-right">
               <!-- Aquí iría el mapa o contenido del panel derecho -->
@@ -1135,12 +1114,12 @@
 
           contenido +=`
             <div class="item-sucursal">
-              <h4 >${sucursal.nombre}</h4>
-              <span class="distancia-kilometros">${distancia.toFixed(2)} KM</span>
+              <h4>Santa Cruz</h4>
+              <span class="etiqueta-nombre-sucursal">${sucursal.nombre}</span>
               <div style="display: flex; flex-direction: column; gap: 8.5px;">
                 <div class="detalle-sucursal">
                   {% render 'icon-ping-location' %}
-                  <span>${sucursal.direccion}</span>
+                  <span>${sucursal.direccion} - ${distancia.toFixed(2)} KM</span>
                 </div>
                 <div class="detalle-sucursal">
                   {% render 'icon-audifonos' %}
