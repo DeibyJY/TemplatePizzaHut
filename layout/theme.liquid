@@ -56,7 +56,8 @@
       }
 
       body {
-        font-family: Arial, sans-serif;
+        {% comment %} font-family: Arial, sans-serif; {% endcomment %}
+        font-family: var(--font-family-base);
       }
 
       header {
@@ -452,7 +453,7 @@
       }
 
       .item-sucursal h4 {
-        font-family: var(--fuente-principal);
+        font-family: var(--font-family-base);
         font-weight: 700;
         font-size: var(--tamano-texto-grande);
         line-height: var(--altura-linea);
