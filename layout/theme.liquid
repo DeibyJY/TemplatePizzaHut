@@ -976,8 +976,8 @@
       }
 
       // Inicializacion de selecciona de bodega
-      function initMap(){
-        let dragMarker; 
+      function initMap() {
+        let dragMarker;
         const elementoMapa = document.querySelector('.informacion-right');
         const pizzaLocations = [
           { lat: -17.757619, lng: -63.178738, name: 'BANZER 3ER ANILLO' },
@@ -986,30 +986,14 @@
           { lat: -17.758879, lng: -63.199480, name: 'SAN MARTIN' },
           { lat: -17.820341, lng: -63.184337, name: 'SANTOS DUMONT' }
         ];
-
-        if(navigator.geolocation){
-          navigator.geolocation.getCurrentPosition((position) => {
-            
-            const usuarioLocalizacion = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-
-            ubicacionCliente = usuarioLocalizacion;
-            console.log('Se puedo acceder a la ubicacion usuario :', usuarioLocalizacion);
-          }, (error) => {
-            console.error('Error al obtener la ubicación:', error);
-            alert('No se pudo obtener tu ubicación');
-          });
-        }
-
-        // Crear mapa centrado en la ubicación del usuario
+        
+        // Crear mapa con la ubicación por defecto primero
         const map = new google.maps.Map(elementoMapa, {
           center: ubicacionCliente,
           zoom: 13,
           mapTypeControl: true,
           fullscreenControl: true,
-          streetViewControl: false, 
+          streetViewControl: false,
           zoomControl: true,
           mapTypeId: google.maps.MapTypeId.ROADMAP,
           styles: [
@@ -1020,6 +1004,45 @@
             }
           ]
         });
+        
+        // Marcador arrastrable para que el usuario elija una ubicación
+        dragMarker = new google.maps.Marker({
+          position: ubicacionCliente,
+          map: map,
+          draggable: true,
+          title: 'Arrastrame para seleccionar ubicación',
+          icon: {
+            path: google.maps.SymbolPath.MARKER,
+            fillColor: '#FF0000',
+            fillOpacity: 1,
+            strokeWeight: 2,
+            strokeColor: '#FFFFFF',
+            scale: 12
+          },
+          zIndex: 3
+        });
+        
+        // Intentar obtener la ubicación del dispositivo
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition((position) => {
+            const usuarioLocalizacion = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            
+            // Actualizar la ubicación del cliente
+            ubicacionCliente = usuarioLocalizacion;
+            
+            // Centrar el mapa en la ubicación del usuario
+            map.setCenter(ubicacionCliente);
+            dragMarker.setPosition(ubicacionCliente);
+            
+            console.log('Se pudo acceder a la ubicación usuario:', ubicacionCliente);
+          }, (error) => {
+            console.error('Error al obtener la ubicación:', error);
+            // Ya tenemos el mapa centrado en la ubicación por defecto, no necesitamos hacer nada
+          });
+        }
         
         // Marcadores de las pizzerías con imagen personalizada
         const pizzaIcon = {
@@ -1040,26 +1063,9 @@
           });
         });
         
-        // Marcador arrastrable para que el usuario elija una ubicación
-        dragMarker = new google.maps.Marker({
-          position: ubicacionCliente,
-          map: map,
-          draggable: true,
-          title: 'Arrastrame para seleccionar ubicación',
-          icon: {
-            path: google.maps.SymbolPath.MARKER,
-            fillColor: '#FF0000',
-            fillOpacity: 1,
-            strokeWeight: 2,
-            strokeColor: '#FFFFFF',
-            scale: 12
-          },
-          zIndex: 3
-        });
-        
         dragMarker.addListener('dragend', () => {
           const position = dragMarker.getPosition();
-          const lat = position.lat(); 
+          const lat = position.lat();
           const lng = position.lng();
           
           console.log('Nueva ubicación seleccionada:', { lat, lng });
