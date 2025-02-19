@@ -1005,7 +1005,7 @@
 
         // Crear mapa centrado en la ubicación del usuario
         const map = new google.maps.Map(elementoMapa, {
-          center: usuarioLocalizacion,
+          center: ubicacionCliente,
           zoom: 13,
           mapTypeControl: true,
           fullscreenControl: true,
@@ -1035,7 +1035,7 @@
         
         // Marcador arrastrable para que el usuario elija una ubicación
         dragMarker = new google.maps.Marker({
-          position: usuarioLocalizacion,
+          position: ubicacionCliente,
           map: map,
           draggable: true,
           title: 'Arrastrame para seleccionar ubicación',
