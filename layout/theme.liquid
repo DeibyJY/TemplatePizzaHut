@@ -325,7 +325,7 @@
 
     <!-- Este elemento es REQUERIDA por Shopify -->
     <main role="main">
-      {{ content_for_layout }}
+      {% comment %} {{ content_for_layout }} {% endcomment %}
     </main>
 
     {% comment %} Coleccioness {% endcomment %}
@@ -495,31 +495,75 @@
           >
             <div
               style="
-                background-color : green;
                 display : flex;
-                width: 35%;
+                width: 40%;
                 height: 100%;
+                background-color: #fff;
               "
               class="informacion-left"
             >
               <div
                 style="
-                  padding: 5px;
-                  border-bottom: 1px solid #333;
+                  padding: 10px;
+                  border-bottom: 1px solid #0000001F;
+                  width: 100%;
+                  height: 10%;
                 "
                 class="texto-base"
               >
                 Tiendas ubicadas
               </div>
-              <div class="lista-sucursales">
-                <div class="item-sucursal"></div>
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  gap: 10px;
+                  padding: 10px;
+                  overflow-y: auto;
+                  height: 100%;
+                  width: 90%;
+                "
+                class="lista-sucursales"
+              >
+                <div
+                  style="
+                    width: 100%;
+                    height: 100px;
+                    background-color: #f0f0f0;
+                    border-radius: 8px;
+                    padding: 10px;
+                    display: flex;
+                    flex-direction: column;
+                    text-align: center;
+                    border: 2px solid transparent;
+                    cursor: pointer;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                  "
+                  class="item-sucursal"
+                >
+                  <span>SANTA CRUZ</span>
+                  <span>LAS PALMAS</span>
+                  <div
+                    style="
+                      display: flex;
+                      gap: 10px;
+                    "
+                    class="detalle-sucursal"
+                  ></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
               </div>
             </div>
             <div
               style="
                 background-color : yellow;
                 display : flex;
-                width: 65%;
+                width: 60%;
                 height: 100%;
               "
               class="informacion-right"
