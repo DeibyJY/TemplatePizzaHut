@@ -1,1212 +1,146 @@
 <!doctype html>
-<html lang="en">
+{%- liquid
+  if settings.list_iso_rtl != blank
+    assign locale_iso_code = request.locale.iso_code
+    assign arr_list_rtl = settings.list_iso_rtl | remove: ' ' | split: ','
+    if arr_list_rtl contains locale_iso_code
+      assign enable_iso_rtl = true
+    else
+      assign enable_iso_rtl = false
+    endif
+  endif
+-%}
+<html
+  class="no-js"
+  lang="{{ request.locale.iso_code }}"
+  {% if settings.enable_layout_rtl and enable_iso_rtl %}
+    dir="rtl"
+  {% endif %}
+>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-PVTN7BBB');
+    </script>
+    <!-- End Google Tag Manager -->
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-      href="https://fonts.googleapis.com/css2?family=League+Gothic&display=swap"
-      rel="stylesheet"
-    >
-    <link
-      href="https://fonts.googleapis.com/css2?family=League+Gothic&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    >
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
 
-    <script
-      defer
-      src="https://maps.googleapis.com/maps/api/js?key={{settings.keyGoogleMap}}&libraries=places"
-    ></script>
-
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="canonical" href="{{ canonical_url }}" canonical-shop-url="{{ shop.url }}/">
+    {%- if settings.favicon != blank -%}
+      <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+    {%- endif -%}
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    <title>
+      {{ page_title }}
+      {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+      {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+    </title>
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    {% render 'meta-tags' %}
     {{ content_for_header }}
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
 
-      :root {
-        --font-family-pri: 'League Gothic', sans-serif;
-        --font-family-secu: "Montserrat", serif;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 24px;
+    {% render 'variable' %}
+    {% render 'global-style' %}
+    {% render 'global-script' %}
 
+    <script>
+      window.SHOP_ASSETS = {
+        logoPizzaHut: "{{ 'logoPizzaHut.png' | asset_url }}",
+        logoFooter: "{{ 'Logo-footer.svg' | asset_url }}",
+      };
+      document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+    </script>
 
-        /* Variables de colores */
-        --color-primario: #da1a32;
-        --color-rojo-seleccion: #cc0000;
-        --color-negro: rgba(35, 31, 32, 1);
-        --color-blanco: #ffffff;
-        --color-borde: #ddd;
-        --color-borde-claro: #f0f0f0;
-        --color-hover: #f5f5f5;
-        --color-seleccionado: #f0f0f0;
-        --color-sombra-suave: rgba(0, 0, 0, 0.1);
+    {%- liquid
+      if settings.layout_header == 'custom_width'
+        assign layout_header = 'header-custom-width'
+      endif
 
-        /* Variables de tipografía */
-        --fuente-principal: 'SharpSansDispNo1-Bold', sans-serif;
-        --fuente-secundaria: Arial, sans-serif;
-        --tamano-texto-grande: 20px;
-        --tamano-texto-normal: 16px;
-        --altura-linea: 26px;
-
-        /* Variables de espaciado */
-        --espaciado-pequeno: 5px;
-        --espaciado-base: 10px;
-        --espaciado-medio: 15px;
-        --espaciado-grande: 20px;
-
-        /* Variables de bordes y radios */
-        --radio-pequeno: 5px;
-        --radio-medio: 15px;
-        --radio-circular: 50%;
-      }
-
-      body {
-        font-family: var(--font-family-secu);
-      }
-
-      header {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        text-align: center;
-      }
-
-      footer {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        text-align: center;
-        bottom: 0;
-        width: 100%;
-      }
-
-      .banner-custom {
-        background-color: #f0f0f0;
-        color: #333;
-        padding: 10px;
-        text-align: center;
-        display: flex;
-        flex-direction: row;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-        padding: auto;
-      }
-
-      .banner-custom p {
-        margin: 0;
-        padding: 0;
-        font-size: 1.5rem;
-        font-weight: bold;
-      }
-
-      .banner-custom button {
-        background-color: #333;
-        color: #fff;
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      .coleccion-productos {
-        background-color: #f0f0f0;
-        color: #333;
-        padding: 10px;
-        text-align: center;
-        width: 100%;
-        height: 80vh;
-        border-top: 1px solid #333;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        justify-content: flex-start;
-        align-items: center;
-      }
-
-      .sucursales-tienda {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .sucursal-item {
-        height: auto;
-        width: 200px;
-        background-color: #fff;
-        color: #333;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        cursor: pointer;
-        border: 2px solid transparent;
-      }
-
-      .sucursal-item-seleccionada {
-        height: auto;
-        width: 200px;
-        background-color: #333;
-        color: #fff;
-        padding: 15px;
-        display: flex;
-        flex-direction: column;
-        text-align: center;
-        border-radius: 8px;
-        border-color: #da1a32;
-        box-shadow: 0 4px 12px rgba(218, 26, 50, 0.2);
-        transition: all 0.3s ease;
-        cursor: pointer;
-        border: 2px solid transparent;
-      }
-      .productos-items {
-        width: 100%;
-        overflow: auto;
-      }
-      .productos-lista {
-        list-style: none;
-        padding: 0;
-        margin: 20px;
-      }
-      .producto-item {
-        background: #f5f5f5;
-        padding: 10px;
-        margin-bottom: 10px;
-        border-radius: 4px;
-      }
-      .producto-info {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .producto-nombre {
-        font-weight: bold;
-      }
-      .producto-stock {
-        color: #666;
-      }
-      .producto-id {
-        color: #999;
-        font-size: 12px;
-      }
-
-      .background-overlay button{
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        padding: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 40px;
-        height: 40px;
-      }
-
-      .background-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background-color: rgba(0, 0, 0, 0.5);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        overflow-y: hidden !important;
-        {% comment %} display: none; {% endcomment %}
-      }
-
-      .modal-solicitud-ubicacion {
-        background-color: #fff;
-        {% comment %} padding: 20px; {% endcomment %}
-        border-radius: 2px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        width: 50%;
-        height: auto;
-      }
-
-      .head-modal {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .body-modal{
-        display: flex;
-        flex-direction: column;
-        padding: 10px;
-        border-top: 1px solid #333;
-        padding-bottom: 10px;
-      }
-
-      .body-mensaje-2,
-      .body-mensaje-1 {
-        display: flex;
-            flex-direction: row;
-            justify-content: start;
-            gap: 10px;
-            align-items: center;
-      }
-
-      .body-mapa{
-        height: 300px;
-        width: 100%;
-        background-color: #f0f0f0;
-      }
-
-      .footer-modal{
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-        align-items: center;
-        padding-top: 10px;
-        border-top: 1px solid #333;
-      }
-
-      .footer-modal button {
-        width: auto;
-        background-color: #ffffff;
-        color: #1a1a1a;
-        padding: 12px 24px;
-        border: 2px solid #1a1a1a;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 14px;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        transition: all 0.3s ease;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-      }
-
-      .footer-modal button:hover {
-          background-color: #1a1a1a;
-          color: #ffffff;
-          transform: translateY(-2px);
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-
-
-      /* Estilos del modal */
-      .modal-solicitud-ubicacion {
-        border-radius: var(--radio-medio);
-        width: 80vw;
-        height: 95vh;
-      }
-
-      /* Cabecera del modal */
-      .modal-head {
-        background-color: var(--color-negro);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        width: 100%;
-        padding: var(--espaciado-pequeno) 0px;
-        height: 11%;
-      }
-
-      .modal-head button {
-        background: transparent;
-        border: none;
-        color: var(--color-blanco);
-        position: absolute;
-        left: var(--espaciado-base);
-        top: 50%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        fill: var(--color-blanco);
-      }
-
-      .modal-head img {
-        width: 40px;
-        height: 40px;
-        background-color: var(--color-blanco);
-        border-radius: var(--radio-circular);
-        padding: 3.5px;
-      }
-
-      /* Cuerpo del modal */
-      .modal-body {
-        background-color: var(--color-negro);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
-        height: 89%;
-      }
-
-      /* MANTENER ESTILOS ORIGINALES DEL DESPLEGABLE */
-      .contenedor-desplegable {
-        display: flex;
-        align-items: center;
-        justify-content: stretch;
-        height: 12%;
-        background-color: white;
-        width: 100%;
-        border: 1px solid var(--color-borde);
-        box-shadow: 0px 2px 5px var(--color-sombra-suave);
-        font-family: var(--fuente-secundaria);
-        position: relative;
-      }
-
-      .cabecera {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--espaciado-medio);
-        cursor: pointer;
-        width: 100%;
-      }
-
-      .opciones {
-        width: 100%;
-        display: none;
-        position: absolute;
-        left: 0;
-        top: 100%;
-        background-color: var(--color-blanco);
-        z-index: 10;
-        border-top: 1px solid var(--color-borde-claro);
-        box-shadow: 0px 4px 8px var(--color-sombra-suave);
-      }
-
-      .opcion {
-        padding: var(--espaciado-medio);
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-      }
-
-      .opcion:first-child {
-        border-bottom: 1px solid var(--color-borde-claro);
-      }
-
-      .opcion:hover {
-        background-color: var(--color-hover);
-      }
-
-      .seleccionada {
-        background-color: var(--color-seleccionado);
-        border-left: 3px solid var(--color-rojo-seleccion);
-      }
-
-      .indicador {
-        color: var(--color-rojo-seleccion);
-        font-weight: bold;
-        visibility: hidden;
-      }
-
-      .seleccionada .indicador {
-        visibility: visible;
-      }
-
-      /* Contenedor principal de información */
-      .informacion-select-sucursal {
-        display: flex;
-        width: 100%;
-        height: 88%;
-      }
-
-      /* Panel izquierdo */
-      .informacion-left {
-        display: flex;
-        flex-direction: column;
-        width: 40%;
-        height: 100%;
-        background-color: var(--color-blanco);
-      }
-
-      .texto-base {
-        padding: var(--espaciado-base);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-        width: 100%;
-        height: 10%;
-        display: flex;
-        align-items: center;
-      }
-
-      .lista-sucursales {
-        display: flex;
-        flex-direction: column;
-        gap: var(--espaciado-base);
-        padding: var(--espaciado-base);
-        overflow-y: auto;
-        height: 100%;
-        width: 100%;
-      }
-
-      /* Tarjeta de sucursal */
-      .item-sucursal {
-        width: 100%;
-        background-color: var(--color-blanco);
-        border-radius: var(--radio-pequeno);
-        padding: var(--espaciado-base);
-        display: flex;
-        flex-direction: column;
-        border: 2px solid transparent;
-        cursor: pointer;
-        box-shadow: 2px 4px var(--espaciado-grande) 0px var(--color-sombra-suave);
-      }
-
-      .item-sucursal h4 {
-        font-family: var(--font-family-pri);
-        font-weight: 400;
-        font-size: 32px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-        letter-spacing: -0.64px;
-        text-transform: uppercase;
-        color: #231F20;
-      }
-
-      .item-sucursal span[style*="color: #da1a32"] {
-        font-family: var(--font-family-pri);
-        font-weight: 700;
-        font-size: var(--tamano-texto-grande);
-        line-height: var(--altura-linea);
-        letter-spacing: normal;
-        text-transform: uppercase;
-        text-decoration: none;
-        font-synthesis: none;
-        color: var(--color-primario);
-        margin-bottom: var(--espaciado-base);
-      }
-
-      .detalle-sucursal {
-        display: flex;
-        align-items: center;
-        gap: 7px;
-      }
-
-      .item-sucursal button {
-        border-radius: var(--radio-pequeno);
-        background-color: var(--color-primario);
-        color: var(--color-blanco);
-        border: 1px solid var(--color-primario);
-        width: 100%;
-        padding: var(--espaciado-pequeno) 0;
-        cursor: pointer;
-        margin-top: var(--espaciado-pequeno);
-      }
-
-      /* Panel derecho */
-      .informacion-right {
-        background-color: #f5f5f5;
-        display: flex;
-        width: 60%;
-        height: 100%;
-      }
-
-      /* Clase específica para la distancia */
-      .etiqueta-nombre-sucursal {
-        font-family: var(--font-family-pri);
-        font-weight: 700;
-        font-size: var(--tamano-texto-grande);
-        line-height: var(--altura-linea);
-        letter-spacing: normal;
-        text-transform: uppercase;
-        text-decoration: none;
-        font-synthesis: none;
-        color: var(--color-primario);
-        margin-bottom: var(--espaciado-base);
-      }
-    </style>
+      if settings.quick_shop_type == '1'
+        assign quick_shop_type = 'quick_shop_option_2'
+      elsif settings.quick_shop_type == '2'
+        assign quick_shop_type = 'quick_shop_option_3'
+      endif
+    -%}
   </head>
-  <body>
-    {% comment %} HEADER  R {% endcomment %}
-    <header>
-      <p>HEADER</p>
-    </header>
 
-    {% comment %} BANNER {% endcomment %}
-    <div class="banner-custom">
-      <p>BANNER</p>
-      <button onclick="seleccionarNuevaSucursal()">OTRA SUCURSAL</button>
-    </div>
+  <body class="template-{{ request.page_type }} {{layout_header}} {{layout_body}} {{layout_footer}} {{style_dots}} {{style_text_size_varriant}} {{style_arrows}} {{product_card_layout}} {{ banner_animation }}{% if settings.enable_button_disable_arrows %} enable_button_disable_arrows{% endif %}{% if settings.display_text_color_title %} enable_text_color_title{% endif %}{% if settings.style_text_color_varriant == '02' %} style_2_text_color_varriant{% endif %}{% if settings.hide_compare_homepage %} hide_compare_homepage{% endif %} {{ quick_shop_type }}{% if settings.show_image_loading %} show_image_loading{% endif %}{% if settings.show_effect_close %} show_effect_close{% endif %}{% if settings.enable_layout_rtl and enable_iso_rtl %} layout_rtl{% endif %}">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-PVTN7BBB"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 
-    <!-- Este elemento es REQUERIDA por Shopify -->
-    <main role="main">
-      {% comment %} {{ content_for_layout }} {% endcomment %}
-    </main>
+    {% if settings.cursor_effect != blank %}
+      <div class="cursor"></div>
+      <div class="cursor2"></div>
+    {% endif %}
+    <div id="smooth-wrapper">
+      <div id="smooth-content" class="body-content-wrapper smooth-content-scroll">
+        <div style="width: 100%">
+          {% render 'wrapper-header' %}
 
-    {% comment %} Coleccioness {% endcomment %}
-    <section class="coleccion-productos">
-      <h2>Sucursales</h2>
-      <div class="sucursales-tienda"></div>
-      <h2>Coleccion de Productos</h2>
-      <div class="productos-items">
-        <ul class="productos-lista"></ul>
+          {% if settings.layout_body == 'boxed' %}
+            <div class="wrapper-hasbanner-adv">
+          {% endif %}
+          <main id="MainContent" class="wrapper-body content-for-layout focus-none" role="main" tabindex="-1">
+            {{ content_for_layout }}
+          </main>
+          {% if settings.layout_body == 'boxed' %}
+            </div>
+          {% endif %}
+
+          <div class="wrapper-footer">
+            {% render 'wrapper-footer' %}
+          </div>
+          {% section 'scoder-toolbar-mobile' %}
+
+          {% render 'global-script-2' %}
+        </div>
       </div>
-    </section>
+    </div>
+    {% render 'scoder-popup' %}
 
-    {% comment %} FOOTER {% endcomment %}
-    <footer>FOOTER</footer>
+    {%- if settings.use_custom_js -%}
+      {{ 'custom.js' | asset_url | script_tag }}
+    {%- endif -%}
 
-    {% comment %} BACKGROUND OVERLY {% endcomment %}
-    {% comment %}
-      <div class="background-overlay-custom">
+    <div class="background-overlay">
+      {% if settings.show_effect_close %}
         <div class="background-cursor-wrapper">
           <div class="background-cursor-wrapper_outer">
             <div class="background-cursor-wrapper_inner">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="20" height="20">
-                <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)">
-                    <line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/>
-                    <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/>
-                </g>
+                <g class="nc-icon-wrapper" fill="#ffffff" transform="translate(0.5, 0.5)"><line fill="none" stroke-width="6" x1="46" y1="2" x2="2" y2="46"/> <line fill="none" stroke-width="6" x1="46" y1="46" x2="2" y2="2"/></g>
               </svg>
             </div>
           </div>
         </div>
-        <div class="window-solicitud-ubicacion">
-          <div class="select-location">
-            <img src="{{ 'logoPizzaHut.png' | asset_url }}" alt="Logo Superior" class="logo-superior">
-            <p class="welcome-text">
-              PERMÍTANOS ACCEDER A SU UBICACIÓN PARA MOSTRARLE OFERTAS Y PRODUCTOS DE SU SUCURSAL MÁS CERCANA.
-            </p>
-            <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Logo Inferior" class="logo-inferior">
-          </div>
-          <div class="options-buttons-location">
-            <button class="btn-cancel">CANCELAR</button>
-            <button class="btn-confirm">CONFIRMAR</button>
-          </div>
-        </div>
-      </div>
-    {% endcomment %}
-
-    <div class="background-overlay">
-      {% comment %}
-        <div class="modal-solicitud-ubicacion">
-          <div class="head-modal">
-            <span>¿Dónde te encuentras?</span>
-            <button style="border: none; background-color: transparent; cursor: pointer; padding: 8px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px;">
-              {% render 'icon-close' %}
-            </button>
-          </div>
-          <div class="body-modal">
-            <div class="body-mensaje-1">
-              <span>Tu ubicacion en el mapa</span>
-              <button>Ver</button>
-            </div>
-            <div style="display: none;" class="body-mensaje-2">
-              <span>Habilita tu ubicacion</span>
-              <button>Icono</button>
-            </div>
-            <div class="body-mapa"></div>
-          </div>
-          <div class="footer-modal">
-            <button onclick="dibujarParaCliente()">Ubicacion Actual</button>
-            <button onclick="dibujarParaCliente()">Confirmar Punto</button>
-          </div>
-        </div>
-      {% endcomment %}
-      <div class="modal-solicitud-ubicacion">
-        <!-- Header con flexbox correctamente ajustado -->
-        <div class="modal-head">
-          <button>
-            {% render 'icon-close' %}
-          </button>
-          <img src="{{ 'Logo-footer.svg' | asset_url }}" alt="Pizza Hut">
-        </div>
-
-        <div class="modal-body">
-          <div class="contenedor-desplegable">
-            <div class="cabecera" id="cabecera-desplegable">
-              <span id="texto-seleccionado">PEDIDO PARA RECOGER EN LOCAL</span>
-              <span id="flecha">▼</span>
-            </div>
-
-            <div class="opciones" id="lista-opciones">
-              <div class="opcion" data-valor="A DOMICILIO">
-                A DOMICILIO
-                <span class="indicador">✓</span>
-              </div>
-
-              <div class="opcion seleccionada" data-valor="PEDIDO PARA RECOGER EN LOCAL">
-                PEDIDO PARA RECOGER EN LOCAL
-                <span class="indicador">✓</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="informacion-select-sucursal">
-            <div class="informacion-left">
-              <div class="texto-base">Tiendas ubicadas</div>
-              <div class="lista-sucursales"></div>
-            </div>
-            <div class="informacion-right">
-              <!-- Aquí iría el mapa o contenido del panel derecho -->
-            </div>
-          </div>
-        </div>
-      </div>
+      {% endif %}
     </div>
 
-    <!-- Scripts -->
-    <script>
-      let ubicacionCliente = {lat : -17.783315017953004, lng: -63.18214577296119};
-
-      const bodega = [
-        {
-          id: 1,
-          nombre: 'BANZER 3ER ANILLO',
-          direccion: 'Tercer Anillo Externo, Santa de la Sierra, Bolivia.',
-          telefono: '78452415',
-          coordenada: "-17.75768002673047, -63.17869697129874",
-          horario: "De Lunes a Viernes de 8:00 a 23:00"
-        },
-        {
-          id: 2,
-          nombre: 'BANZER KM 8.5',
-          direccion: '8R2Q+2XH, Santa de la Sierra, Bolivia.',
-          telefono: '78452415',
-          coordenada: "-17.70014659018138, -63.16011629320613",
-          horario: "Lun-Vie: 08:00-23:00, Sáb-Dom: 09:00-22:00"
-        },
-        {
-          id: 3,
-          nombre: 'LAS PALMAS',
-          direccion: 'Doble vía La Guardia, Santa de la Sierra, Bolivia.',
-          telefono: '78452415',
-          coordenada: "-17.80788136368068, -63.20438191728453",
-          horario: "L-V 8:00-23:00, Fines de semana 9:00-22:00"
-        },
-        {
-          id: 4,
-          nombre: 'SAN MARTIN',
-          direccion: 'Av. San Martin 2200, Santa de la Sierra, Bolivia.',
-          telefono: '78452415',
-          coordenada: "-17.75890951414676, -63.19931066192647",
-          horario: "Atención: 8:00-23:00 (L-V) y 9:00-22:00 (S-D)"
-        },
-        {
-          id: 5,
-          nombre: 'SANTOS DUMONT',
-          direccion: 'Av Santos Dumont 3228, Santa de la Sierra, Bolivia.',
-          telefono: '78452415',
-          coordenada: "-17.82045326405622, -63.18429183493720",
-          horario: "Horario: 8 AM - 11 PM entre semana, 9 AM - 10 PM fines de semana"
-        }
-      ];
-
-      const myTest = 'shpat_' + '45f4a7476152f4881d058f87ce063698';
-
-      // Funcion para traer todas las sucursales
-      async function getSucursales() {
-        
-        const query = `
-          query {
-            locations(first: 250) {
-              edges {
-                node {
-                  id
-                  name
-                  address {
-                    formatted
-                  }
-                }
-              }
-            }
-          }
-        `;
-      
-        try {
-          const response = await fetch('https://pizza-hut-bo.myshopify.com/admin/api/2025-01/graphql.json', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'X-Shopify-Access-Token': myTest
-            },
-            body: JSON.stringify({ query })
-          });
-      
-          const data = await response.json();
-
-          if (!data?.data?.locations?.edges) {
-            throw new Error('Formato de respuesta inválido');
-          }
-
-          const sucursalesSimplificadas = data.data.locations.edges.map(edge => ({
-            id: edge.node.id,
-            nombre: edge.node.name,
-            direccion: edge.node.address.formatted
-          }));
-
-          console.log('Sucursales :',sucursalesSimplificadas);
-
-          return sucursalesSimplificadas;
-
-        } catch (error) {
-          console.error('Error al obtener sucursales:', error);
-          throw error;
-        }
-      }
-
-      // Funcion para traer todos los productos de una sucursal
-      async function getProductosSucursal(locationId) {
-        {% comment %} location(id: "gid://shopify/Location/103470498076") { {% endcomment %}
-
-        const query = `
-          query {
-            location(id: "${locationId}") {
-              id
-              name
-              inventoryLevels(first: 100) {
-                edges {
-                  node {
-                    quantities(names: ["available"]) {
-                      quantity
-                    }
-                    item {
-                      variant {
-                        product {
-                          id
-                          title
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        `;
-    
-        try {
-            const response = await fetch('https://pizza-hut-bo.myshopify.com/admin/api/2025-01/graphql.json', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Access-Token': myTest
-                },
-                body: JSON.stringify({ query })
-            });
-    
-            if (!response.ok) {
-                throw new Error('Error en la respuesta de la API');
-            }
-    
-            const data = await response.json();
-            
-            // Transformar los datos al formato deseado
-            const productos = data.data.location.inventoryLevels.edges.map(edge => ({
-                id: edge.node.item.variant.product.id,
-                nombre: edge.node.item.variant.product.title,
-                stock: edge.node.quantities[0].quantity
-            }));
-
-            console.log('Porductos Sucursal Desiganada',productos);
-    
-            return productos;
-    
-        } catch (error) {
-            console.error('Error al obtener productos de la sucursal:', error);
-            throw error;
-        }
-      }
-
-      async function verificarLocalStorage() {
-        try {
-          const localData = localStorage.getItem('cliente-coordenadas');
-          const sucursales = await getSucursales();
-      
-          if (localData) {
-            try {
-              const data = JSON.parse(localData);
-              const { latitud, longitud } = data;
-              const coordenadas = `${latitud}, ${longitud}`;
-              const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
-              console.log('Bodega más cercana:', bodegaCercana.nombre);
-              console.log('Distancia:', bodegaCercana.distancia.toFixed(2), 'km');
-              console.log('coordenadas :',coordenadas);
-              dibujarSucursales(sucursales, bodegaCercana);
-            } catch (error) {
-              console.error('Error al procesar datos del localStorage:', error);
-              localStorage.removeItem('cliente-coordenadas');
-              // Reintentar sin datos en localStorage mucho
-              verificarLocalStorage();
-            }
-          } else {
-            console.log('No hay datos en el local storage');
-            if (!navigator.geolocation) {
-              console.warn('Tu navegador no soporta geolocalización');
-              return;
-            }
-      
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const ubicacionActual = {
-                  latitud: position.coords.latitude,
-                  longitud: position.coords.longitude,
-                };
-      
-                const coordenadas = `${ubicacionActual.latitud}, ${ubicacionActual.longitud}`;
-                const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
-                localStorage.setItem('cliente-coordenadas', JSON.stringify(ubicacionActual));
-                dibujarSucursales(sucursales, bodegaCercana);
-                console.log('Bodega más cercana:', bodegaCercana.id);
-                console.log('coordenadas :',coordenadas);
-                console.log('Ubicación guardada en el local storage');
-              },
-              (error) => {
-                console.error('Error obteniendo geolocalización:', error);
-                // Aquí podrías mostrar un mensaje al usuario o usar una ubicación por defecto
-              }
-            );
-          }
-        } catch (error) {
-          console.error('Error en verificarLocalStorage:', error);
-        }
-      }
-
-      function dibujarSucursales(sucursales,designada){
-        const sucursalesTienda = document.querySelector('.sucursales-tienda');
-        let itemSucursal = ``;
-
-        sucursales.forEach((sucursal) => {
-          const idFormateado = sucursal.id.split('/').pop();
-
-          if(sucursal.nombre == designada.nombre){
-            dibujarProductoSucursal(sucursal.id);
-
-            itemSucursal += `
-            <div class="sucursal-item-seleccionada">
-              <h3>${idFormateado}</h3>
-              <p>${sucursal.nombre}</p>
-              <p>${sucursal.direccion[0]}</p>
-            </div>
-          `;
-          }else{
-            itemSucursal += `
-            <div class="sucursal-item">
-              <h3>${idFormateado}</h3>
-              <p>${sucursal.nombre}</p>
-              <p>${sucursal.direccion[0]}</p>
-            </div>
-          `;
-          }
-        });
-
-        sucursalesTienda.innerHTML = itemSucursal;
-      }
-
-      async function dibujarProductoSucursal(idSucursal){
-        const contenedorTrabajo = document.querySelector('.productos-lista');
-        const productosSucursal = await getProductosSucursal(idSucursal);
-        let itemSucursal = ``;
-
-        productosSucursal.forEach((producto) => {
-          itemSucursal += `
-            <li class="producto-item">
-              <div class="producto-info">
-                <span class="producto-nombre">${producto.nombre}</span>
-                <span class="producto-stock">Stock: ${producto.stock}</span>
-                <small class="producto-id">ID: ${producto.id}</small>
-              </div>
-            </li>
-          `;
-        });
-
-        contenedorTrabajo.innerHTML = itemSucursal;
-      }
-
-      // Función para convertir string de coordenadas  objeto {lat, lng}
-      function parseCoordinates(coordString) {
-        const [lat, lng] = coordString.split(',').map((num) => parseFloat(num.trim()));
-        return { lat, lng };
-      }
-
-      // Función para calcular el centro de un polígono
-      function calculatePolygonCenter(coordinates) {
-        const points = coordinates.map((coord) => parseCoordinates(coord));
-        const lat = points.reduce((sum, point) => sum + point.lat, 0) / points.length;
-        const lng = points.reduce((sum, point) => sum + point.lng, 0) / points.length;
-        return { lat, lng };
-      }
-
-      // Función para calcular la distancia entre dos puntos usando la fórmula de Haversine
-      function calculateDistance(point1, point2) {
-        const R = 6371; // Radio de la Tierra en kilómetros
-        const dLat = ((point2.lat - point1.lat) * Math.PI) / 180;
-        const dLon = ((point2.lng - point1.lng) * Math.PI) / 180;
-        const a =
-          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-          Math.cos((point1.lat * Math.PI) / 180) *
-            Math.cos((point2.lat * Math.PI) / 180) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; // Distancia en kilómetros
-      }
-
-      // Función principal para encontrar la bodega más cercana
-      function encontrarBodegaMasCercana(ubicacionUsuario, bodegas) {
-        // Convertir la ubicación del usuario a objeto {lat, lng}
-        const userPoint = parseCoordinates(ubicacionUsuario);
-
-        // Calcular distancias a cada bodega
-        const distancias = bodegas.map((bodega) => {
-          const centro = calculatePolygonCenter(bodega.coodenadas);
-          const distancia = calculateDistance(userPoint, centro);
-          return {
-            ...bodega,
-            distancia,
-          };
-        });
-
-        // Encontrar la bodega más cercana
-        return distancias.reduce((nearest, current) => (current.distancia < nearest.distancia ? current : nearest));
-      }
-
-      // Inicializacion de selecciona de bodega
-      function initMap() {
-        let dragMarker;
-        const elementoMapa = document.querySelector('.informacion-right');
-        const pizzaLocations = [
-          { lat: -17.757619, lng: -63.178738, name: 'BANZER 3ER ANILLO' },
-          { lat: -17.700010, lng: -63.160219, name: 'BANZER KM 8.5' },
-          { lat: -17.807739, lng: -63.204363, name: 'LAS PALMAS' },
-          { lat: -17.758879, lng: -63.199480, name: 'SAN MARTIN' },
-          { lat: -17.820341, lng: -63.184337, name: 'SANTOS DUMONT' }
-        ];
-        
-        // Crear mapa con la ubicación por defecto primero
-        const map = new google.maps.Map(elementoMapa, {
-          center: ubicacionCliente,
-          zoom: 13,
-          mapTypeControl: true,
-          fullscreenControl: true,
-          streetViewControl: false,
-          zoomControl: true,
-          mapTypeId: google.maps.MapTypeId.ROADMAP,
-          styles: [
-            {
-              featureType: "poi",
-              elementType: "labels",
-              stylers: [{ visibility: "off" }]
-            }
-          ]
-        });
-        
-        // Marcador arrastrable para que el usuario elija una ubicación
-        dragMarker = new google.maps.Marker({
-          position: ubicacionCliente,
-          map: map,
-          draggable: true,
-          title: 'Arrastrame para seleccionar ubicación',
-          icon: {
-            path: google.maps.SymbolPath.MARKER,
-            fillColor: '#FF0000',
-            fillOpacity: 1,
-            strokeWeight: 2,
-            strokeColor: '#FFFFFF',
-            scale: 12
-          },
-          zIndex: 3
-        });
-        
-        // Intentar obtener la ubicación del dispositivo
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition((position) => {
-            const usuarioLocalizacion = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            
-            // Actualizar la ubicación del cliente
-            ubicacionCliente = usuarioLocalizacion;
-            
-            // Centrar el mapa en la ubicación del usuario
-            map.setCenter(ubicacionCliente);
-            dragMarker.setPosition(ubicacionCliente);
-            
-            console.log('Se pudo acceder a la ubicación usuario:', ubicacionCliente);
-          }, (error) => {
-            console.error('Error al obtener la ubicación:', error);
-            // Ya tenemos el mapa centrado en la ubicación por defecto, no necesitamos hacer nada
-          });
-        }
-        
-        // Marcadores de las pizzerías con imagen personalizada
-        const pizzaIcon = {
-          url: "{{ 'logo-pizza-map.png' | asset_url }}",
-          scaledSize: new google.maps.Size(40, 40),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(20, 40)
-        };
-        
-        // Crear marcadores para cada pizzería
-        pizzaLocations.forEach(location => {
-          const marker = new google.maps.Marker({
-            position: { lat: location.lat, lng: location.lng },
-            map: map,
-            title: location.name,
-            icon: pizzaIcon,
-            animation: google.maps.Animation.DROP
-          });
-        });
-        
-        dragMarker.addListener('dragend', () => {
-          const position = dragMarker.getPosition();
-          const lat = position.lat();
-          const lng = position.lng();
-          
-          console.log('Nueva ubicación seleccionada:', { lat, lng });
-          ubicacionCliente = { lat, lng };
-        });
-      }
-
-      async function dibujarParaCliente(){
-        const sucursales = await getSucursales();
-        const coordenadas = `${ubicacionCliente.lat}, ${ubicacionCliente.lng}`;
-        const bodegaCercana = encontrarBodegaMasCercana(coordenadas, bodega);
-        dibujarSucursales(sucursales, bodegaCercana);
-
-        
-        // Ocultar el modal
-        const modal = document.querySelector('.background-overlay');
-        modal.style.display = 'none';
-      }
-
-      function seleccionarNuevaSucursal(){
-        const modal = document.querySelector('.background-overlay');
-        modal.style.display = 'flex';
-      }
-
-      // Función para mostrar/ocultar las opciones
-      function alternarDesplegable() {
-        const opcionesDesplegable = document.getElementById('opciones-desplegable');
-        const flechaDesplegable = document.getElementById('flecha-desplegable');
-        
-        if (opcionesDesplegable.style.display === 'none') {
-          opcionesDesplegable.style.display = 'block';
-          flechaDesplegable.innerHTML = '▲';
-        } else {
-          opcionesDesplegable.style.display = 'none';
-          flechaDesplegable.innerHTML = '▼';
-        }
-      }
-      
-      // Función para seleccionar una opción
-      function seleccionarOpcion(opcion) {
-        document.getElementById('opcion-seleccionada').innerText = opcion;
-        alternarDesplegable(); // Ocultar el dropdown después de seleccionar
-        
-        // Puedes agregar aquí cualquier otra lógica que necesites
-        // cuando el usuario selecciona una opción
-        console.log('Opción seleccionada:', opcion);
-      }
-
-      // Funcion para crear las opciones de seleccion de sucursal
-      function crearOpcionesSeleccionSucursal(){
-        const contenedorBase = document.querySelector('.lista-sucursales');
-        let contenido = ``;
-
-        bodega.forEach((sucursal) => {
-          const dataUbicacion = sucursal.coordenada.split(',');
-          const latitud = parseFloat(dataUbicacion[0]);
-          const longitud = parseFloat(dataUbicacion[1]);
-          const distancia = calculateDistance(ubicacionCliente, { lat: latitud, lng: longitud });
-
-          contenido +=`
-            <div class="item-sucursal">
-              <h4>Santa Cruz</h4>
-              <span class="etiqueta-nombre-sucursal">${sucursal.nombre}</span>
-              <div style="display: flex; flex-direction: column; gap: 8.5px;">
-                <div class="detalle-sucursal">
-                  <div style="width: 24px; height: 24px;">{% render 'icon-location' %}</div>
-                  <span>${distancia.toFixed(2)} KM - ${sucursal.direccion}</span>
-                </div>
-                <div class="detalle-sucursal">
-                  {% render 'icon-audifonos' %}
-                  <span>+591 ${sucursal.telefono}</span>
-                </div>
-                <div class="detalle-sucursal">
-                  {% render 'icon-reloj' %}
-                  <span>${sucursal.horario}</span>
-                </div>
-                <button>Ver Productos</button>
-              </div>
-            </div>
-          `;
-        });
-
-        contenedorBase.innerHTML = contenido;
-      }
-      
-
-      // Cerrar dropdown si se hace clic fuera de él
-      document.addEventListener('click', function(evento) {
-        const contenedor = document.querySelector('.contenedor-opciones-seleccion');
-        if (!contenedor.contains(evento.target)) {
-          document.getElementById('opciones-desplegable').style.display = 'none';
-          document.getElementById('flecha-desplegable').innerHTML = '▼';
-        }
-      });
-
-      document.addEventListener('DOMContentLoaded', function() {
-        console.log('Iniciando el index');
-        initMap();
-        crearOpcionesSeleccionSucursal();
-      });
-
-      // Referencias a elementos DOM
-      const cabecera = document.getElementById('cabecera-desplegable');
-      const opciones = document.getElementById('lista-opciones');
-      const flecha = document.getElementById('flecha');
-      const textoSeleccionado = document.getElementById('texto-seleccionado');
-      const elementosOpciones = document.querySelectorAll('.opcion');
-      
-      // Alternar visibilidad del dropdownn
-      cabecera.addEventListener('click', () => {
-        const estaVisible = opciones.style.display === 'block';
-        opciones.style.display = estaVisible ? 'none' : 'block';
-        flecha.textContent = estaVisible ? '▼' : '▲';
-      });
-      
-      // Manejar selección de opciones
-      elementosOpciones.forEach(opcion => {
-        opcion.addEventListener('click', () => {
-          // Actualizar texto seleccionado
-          const valor = opcion.getAttribute('data-valor');
-          textoSeleccionado.textContent = valor;
-          
-          // Actualizar estilos
-          elementosOpciones.forEach(el => {
-            el.classList.remove('seleccionada');
-          });
-          opcion.classList.add('seleccionada');
-          
-          // Cerrar dropdown
-          opciones.style.display = 'none';
-          flecha.textContent = '▼';
-        });
-      });
-      
-      
-      // Cerrar al hacer clic fuera
-      document.addEventListener('click', (evento) => {
-        if (!evento.target.closest('.contenedor-desplegable')) {
-          opciones.style.display = 'none';
-          flecha.textContent = '▼';
-        }
-      });
-    </script>
+    {% render 'scoder-sidebar' %}
   </body>
 </html>
